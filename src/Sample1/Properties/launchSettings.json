@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Sample1": {
+      "commandName": "Project"
+    },
+    "newProfile1": {
+      "commandName": "Project",
+      "commandLineArgs": "verb1 verb2 --opt1 --opt2=abc --opt3=\\\"7 8\\\""
+    }
+  }
+}
