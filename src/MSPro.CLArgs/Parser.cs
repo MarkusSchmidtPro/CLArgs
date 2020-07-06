@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 
@@ -122,6 +124,31 @@ namespace MSPro.CLArgs
 
             _currentPos++; // skip last char (second string token)
             return string.Join("", chars);
+        }
+
+
+
+        private static IEnumerable<string> getArgsFromFile(string fileName)
+        {
+            // filepath starts after '@'
+            string filePath = Path.GetFullPath(fileName.Substring(1));
+            fileName = Path.GetFileName(filePath);
+
+            if (!File.Exists(filePath))
+            {
+                // try config directory
+                string currentDir = Path.GetDirectoryName(filePath);
+                Debug.Assert(currentDir != null, nameof(currentDir) + " != null");
+                string configDir = Path.Combine(currentDir, "Config");
+
+                filePath = Path.Combine(configDir, fileName);
+                if (!File.Exists(filePath))
+                    throw new FileNotFoundException("Cannot find config file", fileName);
+            }
+
+            string[] lines = File.ReadAllLines(filePath);
+            return lines.Select(line => line.Trim())
+                .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") && !trimmed.StartsWith("#"));
         }
     }
 }

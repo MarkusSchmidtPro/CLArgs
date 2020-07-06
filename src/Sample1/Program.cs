@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 
 
 namespace MSPro.CLArgs.Sample1
 {
+    /// <summary>
+    /// This is the simplest example to parse command-Line arguments.
+    /// </summary>
     internal class Program
     {
         private static void Main(string[] args)
