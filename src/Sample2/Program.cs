@@ -22,24 +22,37 @@ namespace MSPro.CLArgs.Sample2
 
         private static int Main(string[] args)
         {
-            AppReturnCode appResult;
+            // the result that the console app will return when it finishes
+            AppReturnCode appResult;    
 
-
+            // 
+            // Print some application information
+            //
             Console.WriteLine($"*** Start Application '{Assembly.GetExecutingAssembly().GetName().Name}' ***");
             Console.WriteLine($">>> ExecId={AppExecutionProperties.Get().ExecutionId}");
             Console.WriteLine(AssemblyInfo.ToString());
             Console.WriteLine("");
             Console.WriteLine("Parsing command-line arguments ...");
+            
+            //
+            // Parse command-line and run a command.
+            // 
             try
             {
                 Arguments arguments = CommandLine.Parse(args);
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 
-                // This is the applications functionality
-                ICommand c = new ThisAppFunctionality(arguments);
+                // Application's functionality is implemented in the
+                // form of a command. Both sample commands implement
+                // the same functionality. They use different
+                // ways to parse the command-line arguments, but the way
+                // how a command is beeing used is always the same - as shown here.
 
-                // Do not throw an AggregateException in case of parsing arguments fails,
-                // 
+                //ICommand c = new Command1.Command(arguments);
+                ICommand c = new Command1.Command(arguments);
+
+                // throwIf:false - Do not throw an AggregateException
+                // in case of parsing arguments fails,
                 // but print all errors on screen and terminate gracefully.
                 c.ValidateAndParseArguments(false);
                 if (!c.ValidationErrors.HasErrors())
@@ -52,8 +65,9 @@ namespace MSPro.CLArgs.Sample2
                     printValidationErrors(c.ValidationErrors);
                     appResult = AppReturnCode.ArgumentValidationFailed;
                 }
-
             }
+
+            #region Exception Handling
 
             catch (AggregateException ex)
             {
@@ -70,6 +84,8 @@ namespace MSPro.CLArgs.Sample2
                 Console.WriteLine(e);
                 appResult = AppReturnCode.AppException;
             }
+
+            #endregion 
 
             Console.WriteLine($"\nApp finished.");
             Console.WriteLine($"\nResult={appResult}");

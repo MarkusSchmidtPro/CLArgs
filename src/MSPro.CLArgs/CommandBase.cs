@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MSPro.CLArgs.ErrorHandling;
 
@@ -70,14 +71,25 @@ namespace MSPro.CLArgs
 
 
 
-        protected bool CheckMandatory(params string[] mandatoryArgumentNames)
+
+        // Ease of use for one argument name per argument.
+        protected bool CheckMandatory(params string[] mandatoryArgumentNames) 
+            => CheckMandatory( mandatoryArgumentNames.Select(
+                mandatoryArgumentName => new string[] {mandatoryArgumentName}).ToArray());
+
+
+
+        protected bool CheckMandatory(string[][] mandatoryArgumentNames)
         {
-            foreach (string argumentName in mandatoryArgumentNames)
+            // each argument can have any number of tags
+            // n Arguments with m tags
+            foreach (string[] tags in mandatoryArgumentNames)
             {
-                if (!this.Arguments.Options.ContainsKey(argumentName))
+                string argumentName = string.Join(",", tags);
+
+                if (!tags.Any(tag => this.Arguments.Options.ContainsKey(tag)))
                     this.ValidationErrors.AddError(argumentName, $"The mandatory command-line argument '{argumentName}' was not provided.");
             }
-
             return !this.ValidationErrors.HasErrors();
         }
 
