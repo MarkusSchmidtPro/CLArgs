@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using MSPro.CLArgs.Contract;
-using NLog;
 
 
 
@@ -11,32 +8,38 @@ namespace MSPro.CLArgs.Sample1
 {
     internal class Program
     {
-        private static readonly ILogger _log = LogManager.GetCurrentClassLogger();
-
-
-
-
-
         private static void Main(string[] args)
         {
-            _log.Info($"*** Start Application '{Assembly.GetExecutingAssembly().GetName().Name}' ***");
-            AppExecutionProperties.Get().StartDateUtc = DateTime.UtcNow;
-            _log.Info($">>> ExecId={AppExecutionProperties.Get().ExecutionId}");
-            _log.Debug(AssemblyInfo.ToString);
-
-            foreach (string s in args)
+            Console.WriteLine($"*** Start Application '{Assembly.GetExecutingAssembly().GetName().Name}' ***");
+            Console.WriteLine($">>> ExecId={AppExecutionProperties.Get().ExecutionId}");
+            Console.WriteLine(AssemblyInfo.ToString());
+            Console.WriteLine("");
+            Console.WriteLine("Parsing command-line arguments ...");
+            try
             {
-                _log.Info(s);
+                Arguments arguments = CommandLine.Parse(args);
+
+                Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
+
+                Console.WriteLine("\nVerbs:");
+                foreach (string verb in arguments.Verbs)
+                {
+                    Console.WriteLine($"\t{verb}");
+                }
+
+                Console.WriteLine("\nOptions:");
+                foreach (Option option in arguments.Options.Values)
+                {
+                    Console.WriteLine($"\t{option.Name}={option.Value}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
-            var keyValues = parseArguments(args);
-            foreach (KeyValuePair<string, string> kv in keyValues)
-            {
-                _log.Info($"{kv.Key}={kv.Value}");
-            }
+            Console.WriteLine("\nHit any key to continue...");
+            Console.ReadKey();
         }
-
-
-
     }
 }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 
 
-namespace MSPro.CLArgs.Contract
+namespace MSPro.CLArgs
 {
     /// <summary>
     ///     Application execution properties.
@@ -16,8 +16,9 @@ namespace MSPro.CLArgs.Contract
 
         private AppExecutionProperties()
         {
-            int d = (DateTime.UtcNow - new DateTime(2020, 2, 4)).Days;
-            int s = (int) DateTime.UtcNow.TimeOfDay.TotalSeconds;
+            this.StartDateUtc = DateTime.UtcNow;
+            int d = (this.StartDateUtc - new DateTime(2020, 2, 4)).Days;
+            int s = (int) this.StartDateUtc.TimeOfDay.TotalSeconds;
             this.ExecutionId = $"{d:0000}#{s:00000}";
             this.ProcessId = Process.GetCurrentProcess().Id;
         }
@@ -34,11 +35,12 @@ namespace MSPro.CLArgs.Contract
         public string ExecutionId { get; }
 
         public int ProcessId { get; }
-        public DateTime StartDateUtc { get; set; }
-        public static AppExecutionProperties Get()
-        {
-            if( _instance == null) _instance = new AppExecutionProperties();
-            return _instance;
-        }
+
+        public DateTime StartDateUtc { get; }
+
+
+
+        public static AppExecutionProperties Get() 
+            => _instance ?? (_instance = new AppExecutionProperties());
     }
 }

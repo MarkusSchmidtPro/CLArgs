@@ -3,8 +3,8 @@
  <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>MSPro.CLArgs.Sample1</AssemblyName>
-    <RootNamespace>MSPro.CLArgs.Sample1</RootNamespace>
+    <AssemblyName>MSPro.CRun</AssemblyName>
+    <RootNamespace>MSPro.CRun</RootNamespace>
     <!--  -->
     <Authors>Markus Schmidt</Authors>
     <Company>Markus Schmidt .PRO</Company>
@@ -13,7 +13,7 @@
     <!--  -->
     <Deterministic>false</Deterministic>
     <AssemblyVersion>1.0.*</AssemblyVersion>
-    <Version>1.0.2007.04</Version>
+    <Version>1.0.2007.06</Version>
     <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
@@ -26,6 +26,12 @@
      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
    </Content>
  </ItemGroup>
+
+  
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.7.2" />
+  </ItemGroup>
 
   
 
