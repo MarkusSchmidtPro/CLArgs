@@ -46,10 +46,10 @@ namespace MSPro.CLArgs.Sample2
                 // form of a command. Both sample commands implement
                 // the same functionality. They use different
                 // ways to parse the command-line arguments, but the way
-                // how a command is beeing used is always the same - as shown here.
+                // how a command is being used is always the same - as shown here.
 
                 //ICommand c = new Command1.Command(arguments);
-                ICommand c = new Command1.Command(arguments);
+                ICommand c = new Command2.Command(arguments);
 
                 // throwIf:false - Do not throw an AggregateException
                 // in case of parsing arguments fails,
