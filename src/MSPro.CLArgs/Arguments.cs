@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
-
 namespace MSPro.CLArgs
 {
     /// <summary>
@@ -13,14 +11,11 @@ namespace MSPro.CLArgs
     /// </remarks>
     public class Arguments
     {
-
-
-
         public Arguments(string commandLine)
         {
-            this.CommandLine = commandLine;
-            this.Verbs = new List<string>();
-            this.Options = new Dictionary<string, Option>();
+            CommandLine = commandLine;
+            Verbs = new List<string>();
+            Options = new Dictionary<string, Option>();
         }
 
         public string CommandLine { get; }
@@ -32,13 +27,6 @@ namespace MSPro.CLArgs
         /// </summary>
         public List<string> Verbs { get; }
 
-
-
-        public void AddOption(Option o)
-        {
-            Options[o.Name] = o;
-        }
-
         /// <summary>
         ///     A key-value list of all options provided in the command-line.
         /// </summary>
@@ -47,5 +35,11 @@ namespace MSPro.CLArgs
         ///     Conversion may happen later.
         /// </remarks>
         public Dictionary<string, Option> Options { get; }
+
+
+        public void AddOption(Option o)
+        {
+            Options[o.Name] = o;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MSPro.CLArgs.Sample3.Command2
 {
-    class CommandArgs
+    internal class CommandParameters
     {
         [CommandLineOption("Option 1",  new[] {"--opt1", "-o"}, Mandatory=true)]
         public bool Option1 { get; set; }

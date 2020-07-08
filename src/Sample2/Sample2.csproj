@@ -19,7 +19,7 @@
   </PropertyGroup>
 
  <ItemGroup>
-   <ProjectReference Include="..\..\..\..\..\..\..\..\..\vStudio\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+   <ProjectReference Include="..\MSPro.CLArgs\MSPro.CLArgs.csproj" />
  </ItemGroup>
 
 </Project>

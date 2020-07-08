@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSPro.CLArgs.Contract", "MS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSPro.CLArgs", "MSPro.CLArgs\MSPro.CLArgs.csproj", "{1DB85F98-CA63-44C7-98F9-ACA28D7A2C3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample2", "..\..\..\..\Users\Public\Documents\Sync\Daten\_gitHub\CLArgs\src\Sample2\Sample2.csproj", "{48A08806-C258-430F-8341-92575176D91D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample2", "Sample2\Sample2.csproj", "{48A08806-C258-430F-8341-92575176D91D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample3", "..\..\..\..\Users\Public\Documents\Sync\Daten\_gitHub\CLArgs\src\Sample3\Sample3.csproj", "{59ED8C14-F628-4FAE-9015-F729C5EBF96A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample3", "Sample3\Sample3.csproj", "{59ED8C14-F628-4FAE-9015-F729C5EBF96A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

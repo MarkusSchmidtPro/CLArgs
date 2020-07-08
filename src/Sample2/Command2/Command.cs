@@ -24,15 +24,15 @@ namespace MSPro.CLArgs.Sample2.Command2
 
 
 
-        IEnumerable<CommandLineOption> GetOptionDescriptors<TOption>()
-            => CustomAttributes.getSingle<CommandLineOption>(typeof(TOption)).Values;
+        IEnumerable<CommandLineOptionAttribute> GetOptionDescriptors<TOption>()
+            => CustomAttributes.getSingle<CommandLineOptionAttribute>(typeof(TOption)).Values;
 
 
 
         private void ValidateArguments<TArgs>()
         {
             // Get Option descriptors from class (attribute) definition.
-            IEnumerable<CommandLineOption> optionDescriptors = GetOptionDescriptors<TArgs>();  
+            IEnumerable<CommandLineOptionAttribute> optionDescriptors = GetOptionDescriptors<TArgs>();  
             ValidateArguments( new ArgsDescriptors(optionDescriptors));
         }
 

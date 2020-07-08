@@ -8,11 +8,11 @@ namespace MSPro.CLArgs
 {
     public class ArgsDescriptors
     {
-        public ArgsDescriptors(IEnumerable<CommandLineOption> optionDescriptors)
+        public ArgsDescriptors(IEnumerable<CommandLineOptionAttribute> optionDescriptors)
         {
             OptionDescriptors = optionDescriptors.ToList();
         }
-        public List<CommandLineOption> OptionDescriptors { get; set; }
+        public List<CommandLineOptionAttribute> OptionDescriptors { get; set; }
         public List<VerbDescriptor> VerbDescriptors { get; set; }
     }
 }
