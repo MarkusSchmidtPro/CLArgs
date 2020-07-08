@@ -54,7 +54,7 @@ namespace MSPro.CLArgs.Sample2
                 // throwIf:false - Do not throw an AggregateException
                 // in case of parsing arguments fails,
                 // but print all errors on screen and terminate gracefully.
-                c.ValidateAndParseArguments(false);
+                c.ValidateAndMapArguments(false);
                 if (!c.ValidationErrors.HasErrors())
                 {
                     c.Execute();

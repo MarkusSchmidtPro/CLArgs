@@ -54,8 +54,8 @@ namespace MSPro.CLArgs
 
 
 
-        /// <inheritdoc cref="ICommand.ValidateAndParseArguments" />
-        bool ICommand.ValidateAndParseArguments(bool throwIf)
+        /// <inheritdoc cref="ICommand.ValidateAndMapArguments" />
+        bool ICommand.ValidateAndMapArguments(bool throwIf)
         {
             OnValidate();
             if (throwIf && this.ValidationErrors.HasErrors())
@@ -67,8 +67,10 @@ namespace MSPro.CLArgs
 
 
 
-        void ICommand.Execute() => OnExecute();
-
+        void ICommand.Execute()
+        {
+            OnExecute();
+        }
 
 
 
