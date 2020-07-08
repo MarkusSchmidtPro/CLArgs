@@ -28,9 +28,6 @@ namespace MSPro.CLArgs.Sample3
 
                 Commander commander = new Commander();
                 commander.AddDefault(() => new Command.Command());
-
-                //string fullVerbs = string.Join('.', arguments.Verbs);
-
                 commander.GetDefault().Execute(arguments);
 
                 appResult = AppReturnCode.Success;

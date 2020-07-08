@@ -10,18 +10,18 @@ namespace MSPro.CLArgs
 {
     internal class Parser
     {
-        private readonly char[] _optionsTags;
-        private readonly char[] _optionValueTags;
+        private readonly char[] _optionNameIdentChars;
+        private readonly char[] _optionValueIdentChars;
 
 
         private int _currentPos;
 
 
 
-        public Parser(char[] optionsTags, char[] optionValueTags)
+        public Parser(char[] optionNameIdentChars, char[] optionValueIdentChars)
         {
-            _optionsTags = optionsTags;
-            _optionValueTags = optionValueTags;
+            _optionNameIdentChars = optionNameIdentChars;
+            _optionValueIdentChars = optionValueIdentChars;
         }
 
 
@@ -34,7 +34,7 @@ namespace MSPro.CLArgs
             {
                 char c = commandLineArguments[_currentPos];
                 if (c == ' ') { _currentPos++; }
-                else if (_optionsTags.Any(tag => c == tag))
+                else if (_optionNameIdentChars.Any(tag => c == tag))
                 {
                     arguments.AddOption(getOption(commandLineArguments));
                 }
@@ -65,16 +65,18 @@ namespace MSPro.CLArgs
 
 
 
-        private void skipBlanks(string arguments)
+        private void skipChars(string arguments, char[] skipChars)
         {
-            while (_currentPos < arguments.Length && arguments[_currentPos] == ' ') _currentPos++;
+            while (_currentPos < arguments.Length && skipChars.Any( sc=> sc== arguments[_currentPos])) _currentPos++;
         }
 
 
 
         private Option getOption(string arguments)
         {
-            Option option = new Option(readUntil(arguments, _optionValueTags));
+            // Name starts at first char that is not an optionsNameIdent
+            skipChars(arguments, _optionNameIdentChars);
+            Option option = new Option(readUntil(arguments, _optionValueIdentChars));
             if (arguments[_currentPos] != ' ')
             {
                 // an option value was provided
@@ -89,7 +91,7 @@ namespace MSPro.CLArgs
 
         private string getOptionValue(string arguments)
         {
-            skipBlanks(arguments);
+            skipChars(arguments, new [] {' '});
             char firstChar = arguments[_currentPos];
 
             return firstChar == '"' || firstChar == '\''

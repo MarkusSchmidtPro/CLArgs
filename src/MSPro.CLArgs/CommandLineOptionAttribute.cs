@@ -4,12 +4,18 @@
 
 namespace MSPro.CLArgs
 {
-    [AttributeUsage(AttributeTargets.Property)]
+  [AttributeUsage(AttributeTargets.Property)]
     public class CommandLineOptionAttribute : Attribute
     {
-        public CommandLineOptionAttribute(string name, string tag=null, string description=null, 
-            string defaultValue=null, 
-            bool mandatory=false) :
+        protected CommandLineOptionAttribute()
+        {
+        }
+
+
+
+        public CommandLineOptionAttribute(string name, string tag = null, string description = null,
+            string defaultValue = null,
+            bool mandatory = false) :
             this(tag, new[] {tag}, description, defaultValue, mandatory)
         {
             if (tag == null) tag = $"--{name}";
@@ -17,9 +23,9 @@ namespace MSPro.CLArgs
 
 
 
-        public CommandLineOptionAttribute(string name, string[] tags, string description=null, 
-            string defaultValue=null, 
-            bool mandatory=false)
+        public CommandLineOptionAttribute(string name, string[] tags, string description = null,
+            string defaultValue = null,
+            bool mandatory = false)
         {
             this.Name = name;
             this.Tags = tags;
