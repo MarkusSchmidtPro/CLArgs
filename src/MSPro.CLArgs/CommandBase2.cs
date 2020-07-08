@@ -8,6 +8,18 @@ namespace MSPro.CLArgs
 {
     public abstract class CommandBase2<TParameters> : ICommand2 where TParameters : class, new()
     {
+        private readonly Dictionary<Type, Func<Arguments, string, string, object>> _argumentMapperFunctions;
+
+        protected CommandBase2()
+        {
+            _argumentMapperFunctions = new Dictionary<Type, Func<Arguments, string, string, object>>
+            {
+                {typeof(string), toString},
+                {typeof(int), toInt},
+                {typeof(bool), toBool}
+            };
+        }
+
         /// <summary>
         ///     A dictionary containing all command-line properties.
         /// </summary>
@@ -16,35 +28,6 @@ namespace MSPro.CLArgs
         ///     The <c>key</c> contains the <see cref="PropertyInfo" />.
         /// </remarks>
         public Dictionary<PropertyInfo, CommandLineOptionAttribute> OptionProperties { get; set; }
-
-        //protected int ToInt(string optionName)
-        //{
-        //    if (!Arguments.Options.ContainsKey(optionName)) return 0;
-
-        //    if (!int.TryParse(Arguments.Options[optionName].Value, out var v))
-        //        ValidationErrors.AddError(optionName,
-        //            $"Cannot parse the value '{Arguments.Options[optionName].Value}' for Option '{optionName}' into an integer.");
-        //    return v;
-        //}
-
-
-        //protected bool ToBool(string optionName)
-        //{
-        //    if (!Arguments.Options.ContainsKey(optionName)) return false;
-
-        //    if (!bool.TryParse(Arguments.Options[optionName].Value, out var boolValue))
-        //    {
-        //        // boolean conversion failed, try int conversion on <>0
-        //        if (int.TryParse(Arguments.Options[optionName].Value, out var intValue))
-        //            // int conversion possible 
-        //            boolValue = intValue != 0;
-        //        else
-        //            ValidationErrors.AddError(optionName,
-        //                $"Cannot parse the value '{Arguments.Options[optionName].Value}' for Option '{optionName}' into an boolean.");
-        //    }
-
-        //    return boolValue;
-        //}
 
 
         /// <summary>
@@ -83,6 +66,23 @@ namespace MSPro.CLArgs
                 // Get Option descriptors from class (attribute) definition.
                 OptionProperties = CustomAttributes.getSingle<CommandLineOptionAttribute>(typeof(TParameters));
 
+            // populate non mandatory with default values
+            var optionalArguments = OptionProperties.Values
+                .Where(od => !od.Mandatory);
+
+            // each argument can have any number of tags
+            // n Arguments with m tags
+            foreach (var optionAttribute in optionalArguments)
+            {
+                var argumentName = string.Join(",", optionAttribute);
+
+                if (!optionAttribute.Tags.Any(tag => arguments.Options.ContainsKey(tag)))
+                {
+                    // not provided
+                    arguments.AddOption( new Option( optionAttribute.Tags[0], optionAttribute.Default ));
+                }
+            }
+
             checkMandatory(arguments);
             return !ValidationErrors.HasErrors();
         }
@@ -95,22 +95,28 @@ namespace MSPro.CLArgs
             {
                 var pi = commandLineProperty.Key;
                 var att = commandLineProperty.Value;
-                string argumentName = att.Name;
-                if (pi.PropertyType == typeof(int))
+                var argumentName = att.Name;
+
+                if (!_argumentMapperFunctions.ContainsKey(pi.PropertyType))
                 {
-                    pi.SetValue(result, toInt(arguments, argumentName));
+                    ValidationErrors.AddError(argumentName,
+                        $"No mapper found fpr type {pi.PropertyType} of property {pi.Name} ");
+                    continue;
                 }
-                else if (pi.PropertyType == typeof(bool))
-                {
-                    pi.SetValue(result, toBool(arguments, argumentName));
-                }
+
+                var mapFunc = _argumentMapperFunctions[pi.PropertyType];
+                pi.SetValue(result, mapFunc(arguments, argumentName, att.Default));
             }
 
             return result;
         }
 
 
-        int toInt(Arguments arguments, string optionName)
+        protected abstract void OnExecute(TParameters parameters);
+
+        #region Default Mappers
+
+        private object toInt(Arguments arguments, string optionName, string defaultValue)
         {
             if (!arguments.Options.ContainsKey(optionName)) return 0;
 
@@ -121,8 +127,14 @@ namespace MSPro.CLArgs
         }
 
 
+        private object toString(Arguments arguments, string optionName, string defaultValue)
+        {
+            if (!arguments.Options.ContainsKey(optionName)) return null;
+            return arguments.Options[optionName].Value;
+        }
 
-        bool toBool(Arguments arguments,string optionName)
+
+        private object toBool(Arguments arguments, string optionName, string defaultValue)
         {
             if (!arguments.Options.ContainsKey(optionName)) return false;
 
@@ -140,8 +152,7 @@ namespace MSPro.CLArgs
             return boolValue;
         }
 
-
-        protected abstract void OnExecute(TParameters parameters);
+        #endregion
 
 
         #region ICommand2

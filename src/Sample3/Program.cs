@@ -40,7 +40,6 @@ namespace MSPro.CLArgs.Sample3
             {
                 foreach (Exception iex in ex.InnerExceptions)
                 {
-                    Console.WriteLine($"ERROR {AppExecutionProperties.Get().ExecutionId} ERROR: {iex.Message}");
                     Console.WriteLine(iex);
                 }
 
