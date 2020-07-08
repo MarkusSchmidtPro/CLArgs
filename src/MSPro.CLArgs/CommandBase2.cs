@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MSPro.CLArgs.ErrorHandling;
 
@@ -9,6 +10,7 @@ namespace MSPro.CLArgs
     public abstract class CommandBase2<TCommandOptions> : ICommand2 where TCommandOptions : class, new()
     {
         protected abstract void OnExecute(TCommandOptions parameters);
+        protected virtual void OnResolveOptions(IEnumerable<string> unresolvedOptionNames, TCommandOptions targetInstance, ErrorDetailList errors){}
 
 
 
@@ -26,7 +28,7 @@ namespace MSPro.CLArgs
             if (!this.Errors.HasErrors())
             {
                 CommandLineOptionsConverter converter = new CommandLineOptionsConverter();
-                var commandOptions = converter.ToObject<TCommandOptions>(options);
+                var commandOptions = converter.ToObject<TCommandOptions>(options, OnResolveOptions);
                 
                 this.Errors.Add(converter.Errors);
                 if (!this.Errors.HasErrors())

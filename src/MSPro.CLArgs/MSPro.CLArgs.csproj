@@ -1,7 +1,43 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+      <AssemblyName>MSPro.CLArgs</AssemblyName>
+      <RootNamespace>MSPro.CLArgs</RootNamespace>
+      <Authors>Markus Schmidt</Authors>
+      <Company>Markus Schmidt (Pro)</Company>
+      <Product>Command Line Arguments</Product>
+      <Copyright>(c) copyright 2020, Markus Schmidt .PRO</Copyright>
+      <!--  -->
+      <Deterministic>false</Deterministic>
+      <AssemblyVersion>1.0.*</AssemblyVersion>
+      <Version>1.2007.08.02</Version>
+      <FileVersion>$(Version)</FileVersion>
+      <SignAssembly>false</SignAssembly>
+      <Description>Console application command-line support.</Description>
+      <PackageIcon>command-line.png</PackageIcon>
+    </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\vStudio\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CommandBase.cs" />
+    <Compile Remove="IArgDescriptorsProvider.cs" />
+    <Compile Remove="ICommand.cs" />
+    <Compile Remove="OptionDescriptor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Users\msc\Dropbox\Apps\icon\command-line.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

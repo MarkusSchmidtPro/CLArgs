@@ -27,8 +27,13 @@ namespace MSPro.CLArgs.Sample3
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 
                 Commander commander = new Commander();
-                commander.AddDefault(() => new Command.Command());
-                commander.GetDefault().Execute(arguments);
+                
+                commander.AddCommand("verb1", () => new Command.Command());
+                commander.GetInstance( arguments.Verbs[0]).Execute(arguments);
+
+                //commander.AddDefault(() => new Command.Command());
+                //commander.GetDefault().Execute(arguments);
+                
 
                 appResult = AppReturnCode.Success;
             }

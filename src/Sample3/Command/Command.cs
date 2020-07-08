@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using MSPro.CLArgs.ErrorHandling;
 
 
 
@@ -6,6 +8,14 @@ namespace MSPro.CLArgs.Sample3.Command
 {
     internal class Command : CommandBase2<CommandParameters>
     {
+        protected virtual void OnResolveOptions(IEnumerable<string> unresolvedOptionNames, CommandParameters targetInstance, ErrorDetailList errors)
+        {
+            foreach (string unresolvedOptionName in unresolvedOptionNames)
+            {
+                Console.WriteLine($"Unresolved Option: {unresolvedOptionName}");
+            }
+        }
+
         protected override void OnExecute(CommandParameters parameters)
         {
             Console.WriteLine(">>> Start Functionality");

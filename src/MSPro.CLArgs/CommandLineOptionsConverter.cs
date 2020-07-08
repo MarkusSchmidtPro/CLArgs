@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using MSPro.CLArgs.ErrorHandling;
 
 
+// Default value as type
+// Value resolver
+
 
 namespace MSPro.CLArgs
 {
@@ -25,50 +28,56 @@ namespace MSPro.CLArgs
 
 
 
-        public TCommandOptions ToObject<TCommandOptions>(CommandLineOptions commandLineOptions) where TCommandOptions : class, new()
+        public TCommandOptions ToObject<TCommandOptions>(CommandLineOptions commandLineOptions, OptionResolverAction<TCommandOptions> optionResolver=null) where TCommandOptions : class, new()
         {
-            var result = new TCommandOptions();
+            var targetInstance = new TCommandOptions();
+            List<string> unresolvedOptionNames= new List<string>();
 
             // 
             // Iterate through all properties of the target type
             //
-            foreach (var pi in typeof(TCommandOptions).GetProperties())
+            foreach (var targetPropertyInfo in typeof(TCommandOptions).GetProperties())
             {
                 // Need to find the related option-name for each property
-                // 1. Check if property has a CommandLineOptionAttribute,
+                // The option was created from the command-line.
+                // 1. Check if current Target-Property has a CommandLineOptionAttribute,
                 //      then the attribute's Name specifies the option's name.
-                // 2. Otherwise, the property-name will be used to look for a matching optionName.
+                // 2. Otherwise, the Property-Name will be used to look for a matching optionName.
 
-                var customAttributeOfType = pi.GetCustomAttributes(typeof(CommandLineOptionAttribute), true);
+                var allCustomAttributesOfType = targetPropertyInfo.GetCustomAttributes(typeof(CommandLineOptionAttribute), true);
                 CommandLineOptionAttribute firstCommandLineOptionAttribute
-                    = (CommandLineOptionAttribute) (customAttributeOfType.Length > 0 ? customAttributeOfType[0] : null);
+                    = (CommandLineOptionAttribute) (allCustomAttributesOfType.Length > 0 ? allCustomAttributesOfType[0] : null);
 
-                string optionName = firstCommandLineOptionAttribute != null ? firstCommandLineOptionAttribute.Name : pi.Name;
-                // Provided or default value
+                string optionName = firstCommandLineOptionAttribute != null ? firstCommandLineOptionAttribute.Name : targetPropertyInfo.Name;
+                // Provided or static default value
                 string optionValue = commandLineOptions.GetProvidedValue(optionName);
                 if (optionValue == null)
                 {
-                    this.Errors.AddError(optionName,
-                        $"Option {optionName} is missing from command-line and/or nor default value is specified." +
-                        $"Cannot satisfy mapping for target property {pi.DeclaringType.Name}.{optionName}.");
+                    //this.Errors.AddError(optionName,
+                    //    $"Option {optionName} is missing from command-line and/or nor default value is specified." +
+                    //    $"Cannot satisfy mapping for target property {targetPropertyInfo.DeclaringType.Name}.{optionName}.");
+                    unresolvedOptionNames.Add(optionName);
                     continue;
                 }
 
-                if (!this.Converters.ContainsKey(pi.PropertyType))
+                if (!this.Converters.ContainsKey(targetPropertyInfo.PropertyType))
                 {
                     this.Errors.AddError(optionName,
-                        $"No mapper found for type {pi.PropertyType} of property {pi.Name} ");
+                        $"No mapper found for type {targetPropertyInfo.PropertyType} of property {targetPropertyInfo.Name} ");
                     continue;
                 }
 
 
-                var mapFunc = this.Converters[pi.PropertyType];
-                pi.SetValue(result, mapFunc(optionName, optionValue));
+                var mapFunc = this.Converters[targetPropertyInfo.PropertyType];
+                targetPropertyInfo.SetValue(targetInstance, mapFunc(optionName, optionValue));
+
+                optionResolver?.Invoke(unresolvedOptionNames, targetInstance, Errors);
             }
 
-            return result;
+            return targetInstance;
         }
 
+        public delegate void OptionResolverAction<in TTarget>(IEnumerable<string> unresolvedOptionNames, TTarget targetInstance, ErrorDetailList errors);
 
 
         #region Default Converters
