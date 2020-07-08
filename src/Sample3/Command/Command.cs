@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace MSPro.CLArgs.Sample3.Command2
+
+
+namespace MSPro.CLArgs.Sample3.Command
 {
     internal class Command : CommandBase2<CommandParameters>
     {

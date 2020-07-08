@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
-using MSPro.CLArgs.Sample3.Command2;
 
 
 
@@ -26,8 +26,12 @@ namespace MSPro.CLArgs.Sample3
                 Arguments arguments = CommandLine.Parse(args);
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 
-                ICommand2 c = new Command();
-                c.Execute(arguments);
+                Commander commander = new Commander();
+                commander.AddDefault(() => new Command.Command());
+
+                //string fullVerbs = string.Join('.', arguments.Verbs);
+
+                commander.GetDefault().Execute(arguments);
 
                 appResult = AppReturnCode.Success;
             }

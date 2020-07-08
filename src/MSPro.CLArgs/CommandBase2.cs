@@ -38,7 +38,7 @@ namespace MSPro.CLArgs
         {
             var mandatoryArgumentNames = OptionProperties.Values
                 .Where(od => od.Mandatory)
-                .Select(od => od.Tags).ToArray();
+                .Select(od => od.Tags);
 
             // each argument can have any number of tags
             // n Arguments with m tags
