@@ -4,7 +4,7 @@ namespace MSPro.CLArgs
 {
     public interface ICommand2
     {
-        ErrorDetailList ValidationErrors { get; }
+        ErrorDetailList Errors { get; }
 
 
         void Execute(Arguments arguments, bool throwIf = true);

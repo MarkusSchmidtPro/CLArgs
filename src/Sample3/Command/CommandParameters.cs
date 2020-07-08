@@ -13,5 +13,10 @@
 
         [CommandLineOption("opt4", "opt4", Default = "abc123")]
         public string Option4 { get; set; }
+
+
+        // not provided via command-liine, no default
+        //[CommandLineOption("opt5", "opt5")]
+        //public string Option5 { get; set; }
     }
 }
