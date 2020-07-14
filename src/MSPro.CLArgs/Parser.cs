@@ -72,19 +72,19 @@ namespace MSPro.CLArgs
 
 
 
-        private Option getOption(string arguments)
+        private OptionTag getOption(string arguments)
         {
             // Name starts at first char that is not an optionsNameIdent
             skipChars(arguments, _optionNameIdentChars);
-            Option option = new Option(readUntil(arguments, _optionValueIdentChars));
+            OptionTag optionTag = new OptionTag(readUntil(arguments, _optionValueIdentChars));
             if (arguments[_currentPos] != ' ')
             {
                 // an option value was provided
                 _currentPos++; // skip found char (breaker: between name and value)
-                option.Value = getOptionValue(arguments);
+                optionTag.Value = getOptionValue(arguments);
             }
 
-            return option;
+            return optionTag;
         }
 
 

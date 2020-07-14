@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using MSPro.CLArgs.ErrorHandling;
+
 
 
 // Default value as type
 // Value resolver
 
 
+
 namespace MSPro.CLArgs
 {
     internal class CommandLineOptionsConverter
     {
+        public delegate void OptionResolverAction<in TTarget>(IEnumerable<string> unresolvedOptionNames, TTarget targetInstance, ErrorDetailList errors);
+
+
+
         public CommandLineOptionsConverter()
         {
             this.Converters = new Dictionary<Type, Func<string, string, object>>
@@ -28,13 +35,30 @@ namespace MSPro.CLArgs
 
 
 
-        public TCommandOptions ToObject<TCommandOptions>(CommandLineOptions commandLineOptions, OptionResolverAction<TCommandOptions> optionResolver=null) where TCommandOptions : class, new()
+        /// <summary>
+        ///     Convert the options provided in the command-line into an object.
+        /// </summary>
+        /// <typeparam name="TCommandOptions">The type of the object that is created and populated.</typeparam>
+        /// <param name="commandLineOptions">
+        ///     The options and their values as provided in the command-line and those who had a
+        ///     default value.
+        /// </param>
+        /// <param name="unresolvedProperties">
+        /// A list of properties which were not resolved - where there
+        /// was no value provided in the command-line. Only not <see cref="OptionDescriptorAttribute.Required"/>
+        /// options will be listed here, because required options must be in the command-line or they are listed
+        /// in the <see cref="Errors"/> list.
+        /// </param>
+        /// <returns></returns>
+        public TCommandOptions ToCommandParameters<TCommandOptions>(
+            CommandLineOptions commandLineOptions, out List<string> unresolvedProperties) where TCommandOptions : class, new()
         {
             var targetInstance = new TCommandOptions();
-            List<string> unresolvedOptionNames= new List<string>();
+            unresolvedProperties = new List<string>();
 
             // 
-            // Iterate through all properties of the target type
+            // Iterate through all properties of the target type 
+            //  which are decorated with a CommandLineOptionAttribute
             //
             foreach (var targetPropertyInfo in typeof(TCommandOptions).GetProperties())
             {
@@ -44,19 +68,19 @@ namespace MSPro.CLArgs
                 //      then the attribute's Name specifies the option's name.
                 // 2. Otherwise, the Property-Name will be used to look for a matching optionName.
 
-                var allCustomAttributesOfType = targetPropertyInfo.GetCustomAttributes(typeof(CommandLineOptionAttribute), true);
-                CommandLineOptionAttribute firstCommandLineOptionAttribute
-                    = (CommandLineOptionAttribute) (allCustomAttributesOfType.Length > 0 ? allCustomAttributesOfType[0] : null);
+                var allCustomAttributesOfType = targetPropertyInfo.GetCustomAttributes(typeof(OptionDescriptorAttribute), true);
+                OptionDescriptorAttribute firstOptionDescriptorAttribute
+                    = (OptionDescriptorAttribute) (allCustomAttributesOfType.Length > 0 ? allCustomAttributesOfType[0] : null);
+                if (firstOptionDescriptorAttribute == null) continue;
 
-                string optionName = firstCommandLineOptionAttribute != null ? firstCommandLineOptionAttribute.Name : targetPropertyInfo.Name;
-                // Provided or static default value
+                string optionName = firstOptionDescriptorAttribute.Name;
                 string optionValue = commandLineOptions.GetProvidedValue(optionName);
                 if (optionValue == null)
                 {
                     //this.Errors.AddError(optionName,
                     //    $"Option {optionName} is missing from command-line and/or nor default value is specified." +
                     //    $"Cannot satisfy mapping for target property {targetPropertyInfo.DeclaringType.Name}.{optionName}.");
-                    unresolvedOptionNames.Add(optionName);
+                    unresolvedProperties.Add(targetPropertyInfo.Name);
                     continue;
                 }
 
@@ -67,17 +91,13 @@ namespace MSPro.CLArgs
                     continue;
                 }
 
-
                 var mapFunc = this.Converters[targetPropertyInfo.PropertyType];
                 targetPropertyInfo.SetValue(targetInstance, mapFunc(optionName, optionValue));
-
-                optionResolver?.Invoke(unresolvedOptionNames, targetInstance, Errors);
             }
 
             return targetInstance;
         }
 
-        public delegate void OptionResolverAction<in TTarget>(IEnumerable<string> unresolvedOptionNames, TTarget targetInstance, ErrorDetailList errors);
 
 
         #region Default Converters

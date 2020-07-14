@@ -11,7 +11,7 @@
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2007.08.02</Version>
+      <Version>1.2007.10.00</Version>
       <FileVersion>$(Version)</FileVersion>
       <SignAssembly>false</SignAssembly>
       <Description>Console application command-line support.</Description>
@@ -23,21 +23,22 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\vStudio\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Public\Documents\Sync\Daten\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CommandBase.cs" />
-    <Compile Remove="IArgDescriptorsProvider.cs" />
-    <Compile Remove="ICommand.cs" />
-    <Compile Remove="OptionDescriptor.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\..\..\Users\msc\Dropbox\Apps\icon\command-line.png">
+    <Compile Remove="Images\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <None Remove="Images\**" />
+    <None Include=".\Images\command-line.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="IArgDescriptorsProvider.cs" />
+    <Compile Remove="OptionDescriptor.cs" />
   </ItemGroup>
 
 </Project>

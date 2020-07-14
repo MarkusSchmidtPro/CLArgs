@@ -30,9 +30,9 @@ namespace MSPro.CLArgs.Sample1
                 }
 
                 Console.WriteLine("\nOptions:");
-                foreach (Option option in arguments.Options.Values)
+                foreach (OptionTag option in arguments.Options.Values)
                 {
-                    Console.WriteLine($"\t{option.Name}={option.Value}");
+                    Console.WriteLine($"\t{option.Tag}={option.Value}");
                 }
             }
             catch (Exception e)

@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MSPro.CLArgs</name>
+    </assembly>
+    <members>
+        <member name="T:MSPro.CLArgs.AppExecutionProperties">
+            <summary>
+                Application execution properties.
+            </summary>
+        </member>
+        <member name="P:MSPro.CLArgs.AppExecutionProperties.ExecutionId">
+            <summary>
+                The Id of the current console runner process execution.
+            </summary>
+            <remarks>
+                It is vital for the application's behavior that this number is sequential (=sortable) - not random / not Guid.
+                Default implementation is $"{NoOfDaysSince_2020-04-02:0000}#{TotalSecondsToday:00000}"
+            </remarks>
+        </member>
+        <member name="T:MSPro.CLArgs.Arguments">
+            <summary>
+                The arguments as they were provided as a command-line.
+            </summary>
+            <remarks>
+                An <c>Argument</c> can be either a <see cref="P:MSPro.CLArgs.Arguments.Verbs" />
+                or an <see cref="T:MSPro.CLArgs.Option" />.
+            </remarks>
+        </member>
+        <member name="P:MSPro.CLArgs.Arguments.Verbs">
+            <summary>
+                The list of verbs in the sequence order
+                as they were provided in the command-line.
+            </summary>
+        </member>
+        <member name="P:MSPro.CLArgs.Arguments.Options">
+            <summary>
+                A key-value list of all options provided in the command-line.
+            </summary>
+            <remarks>
+                All option values are <c>strings</c> int he first instance.
+                Conversion may happen later.
+            </remarks>
+        </member>
+        <member name="F:MSPro.CLArgs.CommandLine.OptionValueTags">
+            <summary>
+                Get or set a list of characters that mark the end of an option's name,
+                and start the option's value.
+            </summary>
+        </member>
+        <member name="P:MSPro.CLArgs.CommandLine.OptionsTags">
+            <summary>
+                Get or set tags which identify an option.
+            </summary>
+            <remarks>
+                A command-line argument that starts with any of these character
+                is considered to be an <c>Option</c>.<br />
+                Default: '-', '/'
+            </remarks>
+            <seealso cref="T:MSPro.CLArgs.Option" />
+        </member>
+        <member name="M:MSPro.CLArgs.CommandLine.Parse(System.String[])">
+            <summary>
+                Parse the command-line arguments into a key-value list.
+            </summary>
+            <returns>
+                Command-line arguments as key-value list.
+                Key is the option's name and value is the provided value as a string.<br />
+            </returns>
+        </member>
+        <member name="M:MSPro.CLArgs.CommandLineOptions.checkMandatory">
+            <summary>
+                Check if all mandatory parameters are there.
+            </summary>
+        </member>
+        <member name="M:MSPro.CLArgs.CommandLineOptionsConverter.ToCommandParameters``1(MSPro.CLArgs.CommandLineOptions,System.Collections.Generic.List{System.String}@)">
+            <summary>
+                Convert the options provided in the command-line into an object.
+            </summary>
+            <typeparam name="TCommandOptions">The type of the object that is created and populated.</typeparam>
+            <param name="commandLineOptions">
+                The options and their values as provided in the command-line and those who had a
+                default value.
+            </param>
+            <param name="unresolvedProperties">
+            A list of properties which were not resolved - where there
+            was no value provided in the command-line. Only not <see cref="P:MSPro.CLArgs.CommandLineOptionAttribute.Required"/>
+            options will be listed here, because required options must be in the command-line or they are listed
+            in the <see cref="P:MSPro.CLArgs.CommandLineOptionsConverter.Errors"/> list.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="T:MSPro.CLArgs.Option">
+            <summary>
+                A command-line Option.
+            </summary>
+        </member>
+        <member name="M:MSPro.CLArgs.Option.#ctor(System.String,System.String)">
+            <summary>
+                Create a new options.
+            </summary>
+            <param name="name">The name of the option.</param>
+            <param name="value">
+                The value of the option.<br />
+                Default: <string> 'True'</string>
+            </param>
+        </member>
+    </members>
+</doc>

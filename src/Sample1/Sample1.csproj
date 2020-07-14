@@ -30,7 +30,6 @@
   
 
   <ItemGroup>
-    <ProjectReference Include="..\MSPro.CLArgs.Contract\MSPro.CLArgs.Contract.csproj" />
     <ProjectReference Include="..\MSPro.CLArgs\MSPro.CLArgs.csproj" />
   </ItemGroup>
 

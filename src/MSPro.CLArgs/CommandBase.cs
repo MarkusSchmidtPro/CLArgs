@@ -7,109 +7,52 @@ using MSPro.CLArgs.ErrorHandling;
 
 namespace MSPro.CLArgs
 {
-    public abstract class CommandBase : ICommand
+    /// <summary>
+    ///     Provides a convenient way to use command-line for most applications.
+    /// </summary>
+    /// <typeparam name="TCommandParameters">
+    ///     The type of the parameter object that is passed to the command.
+    /// </typeparam>
+    public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
     {
-        protected CommandBase(Arguments arguments)
+        protected abstract void OnExecute(TCommandParameters commandParameters);
+
+        protected virtual void OnResolveProperties(TCommandParameters commandParameters, List<string> unresolvedPropertyNames)
         {
-            this.Arguments = arguments;
-            this.ValidationErrors = new ErrorDetailList();
         }
 
-        
-        protected int ToInt(string optionName)
-        {
-            if (!Arguments.Options.ContainsKey(optionName)) return 0;
+        #region ICommand
 
-            if (!int.TryParse(Arguments.Options[optionName].Value, out int v))
-                ValidationErrors.AddError(optionName,
-                    $"Cannot parse the value '{Arguments.Options[optionName].Value}' for Option '{optionName}' into an integer.");
-            return v;
-        }    
-        
-        
-        protected bool ToBool(string optionName)
-        {
-            if (!Arguments.Options.ContainsKey(optionName)) return false;
+        public ErrorDetailList Errors { get; } = new ErrorDetailList();
 
-            if (!bool.TryParse(Arguments.Options[optionName].Value, out bool boolValue))
+        void ICommand.Execute(Arguments arguments, bool throwIf)
+        {
+            var options = CommandLineOptions.FromArguments<TCommandParameters>(arguments);
+
+            this.Errors.Add(options.Errors);
+            if (!this.Errors.HasErrors())
             {
-                // boolean conversion failed, try int conversion on <>0
-                if (int.TryParse(Arguments.Options[optionName].Value, out int intValue))
+                // Convert all known options
+                CommandLineOptionsConverter converter = new CommandLineOptionsConverter();
+                var commandParameters = converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
+
+                this.Errors.Add(converter.Errors);
+                if (!this.Errors.HasErrors())
                 {
-                    // int conversion possible 
-                    boolValue = intValue != 0;
-                }
-                else
-                {
-                    ValidationErrors.AddError(optionName,
-                        $"Cannot parse the value '{Arguments.Options[optionName].Value}' for Option '{optionName}' into an boolean.");
+                    OnResolveProperties(commandParameters, unresolvedProperties);
+                    if (!this.Errors.HasErrors())
+                    {
+                        OnExecute(commandParameters);
+                    }
                 }
             }
 
-            return boolValue;
+            if (!this.Errors.HasErrors() || !throwIf) return;
+
+            throw new AggregateException(this.Errors.Details.Select(
+                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
         }
 
-        public Arguments Arguments { get; }
-        public ErrorDetailList ValidationErrors { get; }
-
-
-
-        /// <inheritdoc cref="ICommand.ValidateAndMapArguments" />
-        bool ICommand.ValidateAndMapArguments(bool throwIf)
-        {
-            OnValidate();
-            if (throwIf && this.ValidationErrors.HasErrors())
-                throw new AggregateException(this.ValidationErrors.Details.Select(
-                    e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
-
-            return this.ValidationErrors.HasErrors();
-        }
-
-
-
-        void ICommand.Execute()
-        {
-            OnExecute();
-        }
-
-
-
-        // Ease of use for one argument name per argument.
-        protected bool CheckMandatory(params string[] mandatoryArgumentNames) 
-            => CheckMandatory( mandatoryArgumentNames.Select(
-                mandatoryArgumentName => new string[] {mandatoryArgumentName}).ToArray());
-
-
-
-        protected bool CheckMandatory(string[][] mandatoryArgumentNames)
-        {
-            // each argument can have any number of tags
-            // n Arguments with m tags
-            foreach (string[] tags in mandatoryArgumentNames)
-            {
-                string argumentName = string.Join(",", tags);
-
-                if (!tags.Any(tag => this.Arguments.Options.ContainsKey(tag)))
-                    this.ValidationErrors.AddError(argumentName, $"The mandatory command-line argument '{argumentName}' was not provided.");
-            }
-            return !this.ValidationErrors.HasErrors();
-        }
-
-
-
-        /// <summary>
-        ///     Validate and probably convert all command-lines arguments.
-        /// </summary>
-        /// <remarks>
-        ///     Make use of the <see cref="ValidationErrors" /> list
-        ///     in case of any validation error.
-        /// </remarks>
-        protected virtual void OnValidate()
-        {
-        }
-
-
-
-        protected abstract void OnExecute();
+        #endregion
     }
 }

@@ -5,9 +5,9 @@
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class CommandLineOptionAttribute : Attribute
+    public class OptionDescriptorAttribute : Attribute
     {
-        public CommandLineOptionAttribute(string name, string tag = null)
+        public OptionDescriptorAttribute(string name, string tag = null)
             //, string tag = null, string description = null,
             //string defaultValue = null,
             //bool mandatory = false) :
@@ -15,20 +15,20 @@ namespace MSPro.CLArgs
         {
             this.Name = name;
             this.Tags = new[] {tag ?? name};
-            this.Mandatory = false;
+            this.Required = false;
         }
 
 
 
-        public CommandLineOptionAttribute(string name, string[] tags, string description = null,
-            string defaultValue = null,
-            bool mandatory = false)
+        public OptionDescriptorAttribute(string name, string[] tags, 
+            bool required = false, object defaultValue = null,
+            string description = null)
         {
             this.Name = name;
             this.Tags = tags;
             this.Description = description;
             this.Default = defaultValue;
-            this.Mandatory = mandatory;
+            this.Required = required;
         }
 
 
@@ -36,7 +36,7 @@ namespace MSPro.CLArgs
         public string Name { get; set; }
         public string[] Tags { get; set; }
         public string Description { get; set; }
-        public string Default { get; set; }
-        public bool Mandatory { get; set; }
+        public object Default { get; set; }
+        public bool Required { get; set; }
     }
 }

@@ -16,7 +16,7 @@
         ///     is considered to be an <c>Option</c>.<br />
         ///     Default: '-', '/'
         /// </remarks>
-        /// <seealso cref="Option" />
+        /// <seealso cref="OptionTag" />
         public static char[] OptionsTags { get; set; } = {'-', '/'};
 
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SuperSimple": {
+      "commandName": "Project",
+      "commandLineArgs": "--fileName=\"myfile.csv\" --target=XML"
+    }
+  }
+}
