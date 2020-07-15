@@ -10,32 +10,88 @@ Getting arguments from a command-line can be complex. `CLArgs` takes this comple
 >
 > Let's reinvent the way how to build command-line apps.
 
-## Four levels of using it
+## Example
+
+`c:\ > YourApp --fileName="myfile.csv" --target=XML`
+
+
+```csharp
+class Program
+{
+    /// <summary>
+	/// 	Run your app: 
+    ///		parse command-line and execute your Command
+	/// </summary>
+    static void Main(string[] args)
+    {
+        Arguments arguments = CommandLine.Parse(args);
+        Console.WriteLine($"Command-Line: ''{arguments.CommandLine}''");
+        ICommand cmd = new MyConverter();
+        cmd.Execute(arguments);
+    }
+}
+
+
+/// <summary>
+/// Define your command's parameters - supported command-line arguments.
+/// </summary>
+class MyParams
+{
+    [CommandLineOption("fileName", Required = true)]
+    public string FileName { get; set; }
+
+    [CommandLineOption("target", Required = false, Default = "JSON")]
+    public string Target { get; set; }
+}
+
+
+/// <summary>
+/// 	Represents your application's functionality.
+/// </summary>
+/// <remarks>
+/// 	The command-line arguments have been turned into an object
+/// 	of type MyParams.
+/// <y/remarks>
+class MyConverter : CommandBase<MyParams>
+{
+    protected override void OnExecute(MyParams p)
+    {
+        Console.WriteLine(">>> Start Functionality");
+        Console.WriteLine($"fileName='{p.FileName}''");
+        Console.WriteLine($"target='{p.Target}''");
+        Console.WriteLine("<<< End Functionality");
+    }
+}
+```
+
+That is basically how you would eventually use `CLArgs` on a "low *Level 2*".
+
+## Four levels of using CLArgs
 
 There are four levels of using `CLArgs`
 
 ### Level 1 - Basic
 
-A bit more than just `string[] args`. 
+Level 1 is a bit more than just `string[] args`.  Simply parse your command-line into `Arguments` and work with *Verbs* and *Options*:
 
-Simply parse your command-line into `Arguments` and work with *Verbs* and *Options*:
-
-```
+```csharp
 c:\> YourApp --fileName="myfile.csv" --target=XML
 Arguments arguments = CommandLine.Parse(args);
 ```
 
+[More a about Level 1](doc/level1.md)
+
 ### Level 2 - Standard
 
-Parse the command-line into a typed object and pass it to your Command. A Command implements the functionality (as `void Main` would do).  However, Commands can be bound to *Verbs* so that one console app can support multiple functionalities.  
+Parse the command-line into a typed object and pass it to your Command (as shown in the code above). A Command represents the functionality (that is normally  `void Main`).  However, Commands can be bound to *Verbs* so that one console app can support multiple functionalities with different argument sets.
 
-The *Standard Level* supports (multiple) *Verbs* and *Options*, and it is probably the right choice for most of you. I am using `CLArgs` at this level. 
+The *Standard Level* supports (multiple) *Verbs* and *Options*, and it is probably the right choice for most of you. I am using `CLArgs` at this level. [More a about Level 2](doc/level2.md)
 
 > Most other command-line solutions I have seen, work between Level 1 and 2.
 
 ### Level 3 - Advanced
 
-All those who are still not happy with *Level 2*, who need more flexibility or who have other special requirements: a) let me know, what is missing and then enter b) Level 3. `CLArgs` has several hooks and /or extension points where you can integrate your code, and you can use the `CLArgs` classes and functions as you want it.
+All those who are still not happy with *Level 2*, who need more flexibility or who have other special requirements: a) let me know, what is missing and then enter b) Level 3. `CLArgs` has several hooks and /or extension points where you can integrate your code, and you can use the `CLArgs` classes and functions as you want it. [More a about Level 3](doc/level3.md)
 
 ### Level 4 - Expert
 

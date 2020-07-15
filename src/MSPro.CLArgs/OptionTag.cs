@@ -18,5 +18,7 @@
 
         public string Tag { get; }
         public string Value { get; set;  }
+
+        public override string ToString() => Value;
     }
 }
