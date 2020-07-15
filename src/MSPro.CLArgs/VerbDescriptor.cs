@@ -10,7 +10,7 @@
 
         public VerbDescriptor(string tag, string description)
         {
-            this.Tag = tag;
+            this.Tag         = tag;
             this.Description = description;
         }
 

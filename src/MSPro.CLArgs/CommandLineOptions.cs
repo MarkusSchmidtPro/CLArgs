@@ -101,7 +101,8 @@ namespace MSPro.CLArgs
 
 
 
-        public string GetProvidedValue(string optionName) => _optionsByName.ContainsKey(optionName) ? _optionsByName[optionName] : null;
+        public string GetProvidedValue(string optionName) =>
+            _optionsByName.ContainsKey(optionName) ? _optionsByName[optionName] : null;
 
 
 
@@ -111,7 +112,7 @@ namespace MSPro.CLArgs
         private void checkMandatory()
         {
             var mandatoryOptions = _optionDescriptors
-                .Where(od => od.Required);
+               .Where(od => od.Required);
 
             // each argument can have any number of tags
             // n Arguments with m tags
@@ -119,7 +120,7 @@ namespace MSPro.CLArgs
             {
                 if (null == GetProvidedValue(optionDescriptor.Name))
                     this.Errors.AddError(optionDescriptor.Name,
-                        $"The mandatory command-line argument '{optionDescriptor.Name}' was not provided.");
+                                         $"The mandatory command-line argument '{optionDescriptor.Name}' was not provided.");
             }
         }
     }

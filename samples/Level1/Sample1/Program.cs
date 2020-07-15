@@ -10,17 +10,17 @@ namespace Sample1
     ///     Represent your application and your functionality.
     /// </summary>
     /// <remarks>
-    ///    Use CLArgs to parse your command-line.
+    ///     Use CLArgs to parse your command-line.
     /// </remarks>
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Arguments arguments = CommandLine.Parse(args);
 
             //
             // Functionality: Display arguments
-            // 
+            // [1] = {string} "verb2" View
             Console.WriteLine(">>> Start Functionality");
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
 
@@ -30,11 +30,11 @@ namespace Sample1
                 Console.WriteLine($"Verb[{i}] = '{verb}'");
             }
 
-            foreach (KeyValuePair<string,OptionTag> option in arguments.Options)
+            foreach (KeyValuePair<string, OptionTag> option in arguments.Options)
             {
                 Console.WriteLine($"Options[{option.Key}] = '{option.Value}'");
             }
-            
+
             Console.WriteLine("<<< End Functionality");
         }
     }

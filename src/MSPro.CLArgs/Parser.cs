@@ -20,7 +20,7 @@ namespace MSPro.CLArgs
 
         public Parser(char[] optionNameIdentChars, char[] optionValueIdentChars)
         {
-            _optionNameIdentChars = optionNameIdentChars;
+            _optionNameIdentChars  = optionNameIdentChars;
             _optionValueIdentChars = optionValueIdentChars;
         }
 
@@ -33,7 +33,10 @@ namespace MSPro.CLArgs
             while (_currentPos < commandLineArguments.Length)
             {
                 char c = commandLineArguments[_currentPos];
-                if (c == ' ') { _currentPos++; }
+                if (c == ' ')
+                {
+                    _currentPos++;
+                }
                 else if (_optionNameIdentChars.Any(tag => c == tag))
                 {
                     arguments.AddOption(getOption(commandLineArguments));
@@ -67,7 +70,7 @@ namespace MSPro.CLArgs
 
         private void skipChars(string arguments, char[] skipChars)
         {
-            while (_currentPos < arguments.Length && skipChars.Any( sc=> sc== arguments[_currentPos])) _currentPos++;
+            while (_currentPos < arguments.Length && skipChars.Any(sc => sc == arguments[_currentPos])) _currentPos++;
         }
 
 
@@ -91,7 +94,7 @@ namespace MSPro.CLArgs
 
         private string getOptionValue(string arguments)
         {
-            skipChars(arguments, new [] {' '});
+            skipChars(arguments, new[] {' '});
             char firstChar = arguments[_currentPos];
 
             return firstChar == '"' || firstChar == '\''
@@ -104,20 +107,23 @@ namespace MSPro.CLArgs
         private string readString(string arguments)
         {
             char stringToken = arguments[_currentPos]; // string token " or '
-            _currentPos++; // skip token
+            _currentPos++;                             // skip token
 
-            // don't use Substring but collect all character to support escaping
+            // don't use Substring but collect all characters to support escaping
             List<char> chars = new List<char>();
 
             // Iterate until the second token is found
             while (arguments[_currentPos] != stringToken)
             {
+                /*
+                // msc, 2020-07-15: Escaping removed, kept collecting chars
                 // skip escape char, collect next char
                 if (arguments[_currentPos] == '\\')
                 {
                     if (++_currentPos >= arguments.Length)
                         throw new ApplicationException("Unexpected end of string after escape character");
                 }
+                */
 
                 chars.Add(arguments[_currentPos]);
                 if (++_currentPos >= arguments.Length)
@@ -150,7 +156,8 @@ namespace MSPro.CLArgs
 
             string[] lines = File.ReadAllLines(filePath);
             return lines.Select(line => line.Trim())
-                .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") && !trimmed.StartsWith("#"));
+                        .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
+                                          !trimmed.StartsWith("#"));
         }
     }
 }

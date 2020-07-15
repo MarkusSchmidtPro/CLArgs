@@ -22,7 +22,8 @@ namespace MSPro.CLArgs.ErrorHandling
         public void AddError(string attributeName, IEnumerable<string> errorMessages, string recordId = null)
         {
             string key = recordId == null ? attributeName : $"{attributeName}#{recordId}";
-            var err = this.Details.FirstOrDefault(d => d.AttributeName.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+            var err = this.Details.FirstOrDefault(
+                d => d.AttributeName.Equals(key, StringComparison.InvariantCultureIgnoreCase));
             if (err == null)
             {
                 err = new ErrorDetail(attributeName, recordId);

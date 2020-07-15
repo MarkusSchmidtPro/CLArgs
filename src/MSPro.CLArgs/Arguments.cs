@@ -16,8 +16,8 @@ namespace MSPro.CLArgs
         public Arguments(string commandLine)
         {
             this.CommandLine = commandLine;
-            this.Verbs = new List<string>();
-            this.Options = new Dictionary<string, OptionTag>();
+            this.Verbs       = new List<string>();
+            this.Options     = new Dictionary<string, OptionTag>();
         }
 
 

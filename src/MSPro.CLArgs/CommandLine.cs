@@ -30,6 +30,6 @@
         /// </returns>
         public static Arguments Parse(string[] args)
             => new Parser(OptionsTags, OptionValueTags)
-                .Run(string.Join(" ", args));
+               .Run(string.Join(" ", args));
     }
 }

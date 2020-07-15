@@ -17,13 +17,20 @@ namespace MSPro.CLArgs
     {
         protected abstract void OnExecute(TCommandParameters commandParameters);
 
-        protected virtual void OnResolveProperties(TCommandParameters commandParameters, List<string> unresolvedPropertyNames)
+
+
+        protected virtual void OnResolveProperties(TCommandParameters commandParameters,
+                                                   List<string> unresolvedPropertyNames)
         {
         }
+
+
 
         #region ICommand
 
         public ErrorDetailList Errors { get; } = new ErrorDetailList();
+
+
 
         void ICommand.Execute(Arguments arguments, bool throwIf)
         {
@@ -34,7 +41,8 @@ namespace MSPro.CLArgs
             {
                 // Convert all known options
                 CommandLineOptionsConverter converter = new CommandLineOptionsConverter();
-                var commandParameters = converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
+                var commandParameters =
+                    converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
 
                 this.Errors.Add(converter.Errors);
                 if (!this.Errors.HasErrors())
@@ -50,7 +58,7 @@ namespace MSPro.CLArgs
             if (!this.Errors.HasErrors() || !throwIf) return;
 
             throw new AggregateException(this.Errors.Details.Select(
-                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
         }
 
         #endregion

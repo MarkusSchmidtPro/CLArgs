@@ -17,8 +17,8 @@
 
 
         public string Tag { get; }
-        public string Value { get; set;  }
+        public string Value { get; set; }
 
-        public override string ToString() => Value;
+        public override string ToString() => this.Value;
     }
 }

@@ -20,7 +20,7 @@ namespace MSPro.CLArgs
             int d = (this.StartDateUtc - new DateTime(2020, 2, 4)).Days;
             int s = (int) this.StartDateUtc.TimeOfDay.TotalSeconds;
             this.ExecutionId = $"{d:0000}#{s:00000}";
-            this.ProcessId = Process.GetCurrentProcess().Id;
+            this.ProcessId   = Process.GetCurrentProcess().Id;
         }
 
 
@@ -40,7 +40,7 @@ namespace MSPro.CLArgs
 
 
 
-        public static AppExecutionProperties Get() 
+        public static AppExecutionProperties Get()
             => _instance ?? (_instance = new AppExecutionProperties());
     }
 }

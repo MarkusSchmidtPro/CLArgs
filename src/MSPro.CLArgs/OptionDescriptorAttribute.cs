@@ -13,22 +13,22 @@ namespace MSPro.CLArgs
             //bool mandatory = false) :
             //this(tag, new[] {tag}, description, defaultValue, mandatory)
         {
-            this.Name = name;
-            this.Tags = new[] {tag ?? name};
+            this.Name     = name;
+            this.Tags     = new[] {tag ?? name};
             this.Required = false;
         }
 
 
 
-        public OptionDescriptorAttribute(string name, string[] tags, 
-            bool required = false, object defaultValue = null,
-            string description = null)
+        public OptionDescriptorAttribute(string name, string[] tags,
+                                         bool required = false, object defaultValue = null,
+                                         string description = null)
         {
-            this.Name = name;
-            this.Tags = tags;
+            this.Name        = name;
+            this.Tags        = tags;
             this.Description = description;
-            this.Default = defaultValue;
-            this.Required = required;
+            this.Default     = defaultValue;
+            this.Required    = required;
         }
 
 

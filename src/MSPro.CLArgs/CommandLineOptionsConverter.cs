@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using MSPro.CLArgs.ErrorHandling;
 
 
@@ -14,7 +13,8 @@ namespace MSPro.CLArgs
 {
     internal class CommandLineOptionsConverter
     {
-        public delegate void OptionResolverAction<in TTarget>(IEnumerable<string> unresolvedOptionNames, TTarget targetInstance, ErrorDetailList errors);
+        public delegate void OptionResolverAction<in TTarget>(IEnumerable<string> unresolvedOptionNames,
+                                                              TTarget targetInstance, ErrorDetailList errors);
 
 
 
@@ -44,14 +44,15 @@ namespace MSPro.CLArgs
         ///     default value.
         /// </param>
         /// <param name="unresolvedProperties">
-        /// A list of properties which were not resolved - where there
-        /// was no value provided in the command-line. Only not <see cref="OptionDescriptorAttribute.Required"/>
-        /// options will be listed here, because required options must be in the command-line or they are listed
-        /// in the <see cref="Errors"/> list.
+        ///     A list of properties which were not resolved - where there
+        ///     was no value provided in the command-line. Only not <see cref="OptionDescriptorAttribute.Required" />
+        ///     options will be listed here, because required options must be in the command-line or they are listed
+        ///     in the <see cref="Errors" /> list.
         /// </param>
         /// <returns></returns>
         public TCommandOptions ToCommandParameters<TCommandOptions>(
-            CommandLineOptions commandLineOptions, out List<string> unresolvedProperties) where TCommandOptions : class, new()
+            CommandLineOptions commandLineOptions, out List<string> unresolvedProperties)
+            where TCommandOptions : class, new()
         {
             var targetInstance = new TCommandOptions();
             unresolvedProperties = new List<string>();
@@ -68,9 +69,12 @@ namespace MSPro.CLArgs
                 //      then the attribute's Name specifies the option's name.
                 // 2. Otherwise, the Property-Name will be used to look for a matching optionName.
 
-                var allCustomAttributesOfType = targetPropertyInfo.GetCustomAttributes(typeof(OptionDescriptorAttribute), true);
+                var allCustomAttributesOfType =
+                    targetPropertyInfo.GetCustomAttributes(typeof(OptionDescriptorAttribute), true);
                 OptionDescriptorAttribute firstOptionDescriptorAttribute
-                    = (OptionDescriptorAttribute) (allCustomAttributesOfType.Length > 0 ? allCustomAttributesOfType[0] : null);
+                    = (OptionDescriptorAttribute) (allCustomAttributesOfType.Length > 0
+                        ? allCustomAttributesOfType[0]
+                        : null);
                 if (firstOptionDescriptorAttribute == null) continue;
 
                 string optionName = firstOptionDescriptorAttribute.Name;
@@ -87,7 +91,7 @@ namespace MSPro.CLArgs
                 if (!this.Converters.ContainsKey(targetPropertyInfo.PropertyType))
                 {
                     this.Errors.AddError(optionName,
-                        $"No mapper found for type {targetPropertyInfo.PropertyType} of property {targetPropertyInfo.Name} ");
+                                         $"No mapper found for type {targetPropertyInfo.PropertyType} of property {targetPropertyInfo.Name} ");
                     continue;
                 }
 
@@ -106,7 +110,7 @@ namespace MSPro.CLArgs
         {
             if (!int.TryParse(optionValue, out var v))
                 this.Errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
+                                     $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
             return v;
         }
 
@@ -126,7 +130,7 @@ namespace MSPro.CLArgs
                     boolValue = intValue != 0;
                 else
                     this.Errors.AddError(optionName,
-                        $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
+                                         $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
             }
 
             return boolValue;
