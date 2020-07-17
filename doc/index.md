@@ -1,99 +1,34 @@
-# How it works in detail
+## How to use CLArgs
 
-This chapter is for all those, who want to understand how it works, to make the best out of it. All others who need a tool to parse a command-line go ahead and check [Use-Cases and examples](UseCases/index.md).
+There are four levels of using `CLArgs`
 
-## Introduction
+### Level 1 - Basic
 
-`CLArgs` does a lot of things behind the scenes from:
-`void Main( string[] args)`
+Level 1 is a bit more than just `string[] args`.  Simply parse your command-line into `Arguments` and work with *Verbs* and *Options*:
 
-1. to parse the command-line text,
-2. to create an instance of your parameter object from it and 
-3. to finally call the right command for the given verb(s)
+```csharp
+c:\> YourApp --fileName="myfile.csv" --target=XML
+Arguments arguments = CommandLine.Parse(args);
+```
 
-`Command.OnExecute(MyParams p)`
+See also 
 
-Behind the scenes `CLArgs` performs different steps, and you can take over control whenever you want it.
+* [Level 1 Details](doc/Level1/index.md)
+* [Verbs and Options](doc/Level1/verbsAndOptions.md)
+* [Console *Plugin concept* with Verbs and Microsoft Composition](doc/Level1/verbsWithComposition.md)
 
-### The steps
+### Level 2 - Standard
 
-1. [Parse the command-line string](argumentParser.md) (args[]) 
+Parse the command-line into a typed object and pass it to your Command (as shown in the code above). A Command represents the functionality (that is normally  `void Main`).  However, Commands can be bound to *Verbs* so that one console app can support multiple functionalities with different argument sets.
 
-   2. The tokens in a command-line are called *command-line arguments*.
-   2. They are split into *Verbs* and *OptionTags*
+The *Standard Level* supports (multiple) *Verbs* and *Options*, and it is probably the right choice for most of you. I am using `CLArgs` at this level. [More a about Level 2](doc/Level2/index.md)
 
-   > An Option has a *Name* and one or more *Tags*. 
-   >
-   > For example: `Name="SourceFile", Tags=source, f, sf`. In a command-line you can provide either the option's name or any of the tags.
-   >
-   > When parsing the command-line in the first instance, you get option-tags. In the seconds instance, based on *Option Descriptors* those *Tags* are aggregated into an Option (by Name). 
+> Most other command-line solutions I have seen, work between Level 1 and 2.
 
-### Command Base
+### Level 3 - Advanced
 
-For your convenience, `CommandBase` implements the following steps. However, you can provide your own implementation and 'step-in' whenever you need it.
+All those who are still not happy with *Level 2*, who need more flexibility or who have other special requirements: a) let me know, what is missing and then enter b) Level 3. `CLArgs` has several hooks and /or extension points where you can integrate your code, and you can use the `CLArgs` classes and functions as you want it. [More a about Level 3](doc/Level3/index.md)
 
-2. Take a [list of option descriptors](optionDescriptors.md) 
+### Level 4 - Expert
 
-   1. Check and validate the provided arguments against
-      the known and expected options
-
-> This is, for example, an *OptionDescriptorAttribute* to decorate properties: `OptionDescriptor("SourceFile", Required = false, Tag = "src" )]`
-
-3. Consolidate the option tags, as provided in the command-line,
-and [build the option-list](optionList.md) (by name)
-  
-   > For example, command-line arguments like `--f, -sf, --source` will be collected and aggregated into a single option, named: *SourceFile*. 
-
-4. Create a new instance of the command parameter object
-
-5. Take all Options (by name)
-   1. find their matching property on the command parameter object
-   2. convert the option's value (which still string) to the property's type
-      1. [Type converter](convertValues.md) for standard types (string, int, enum, DateTime) are available
-      2. You can provide your own or override the default implementation
-   3. and assign it to the property
-
-6. Now, that we have got a typed parameter object, it could happen, some properties were not provided in the command-line and we have to [resolve missing arguments](resolveArguments.md) to provide dynamic defaults or default that depends on other values.
-
-7. Finally, we check if we [collected any error](errorList.md)
-  
-   1. to throw an *AggregateException*
-   
-8. or to [execute the Command](executeCommand.md)
-
-### CommandBase implementation
-
-   ``` csharp
-void ICommand.Execute(Arguments arguments, bool throwIf)
-{
-   // Step 2
-	var options = CommandLineOptions.FromArguments<TCommandParameters>(arguments);
-
-   this.Errors.Add(options.Errors);
-   if (!this.Errors.HasErrors())
-   {
-   	// Step 3, 4, 5
-       CommandLineOptionsConverter converter = new CommandLineOptionsConverter();
-       var commandParameters = converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
-
-       this.Errors.Add(converter.Errors);
-       if (!this.Errors.HasErrors())
-       {
-           // Step 6
-       	OnResolveProperties(commandParameters, unresolvedProperties);
-           if (!this.Errors.HasErrors())
-           {
-               // Step 7
-               OnExecute(commandParameters);
-           }
-        }
-    }
-
-    if (!this.Errors.HasErrors() || !throwIf) return;
-
-    throw new AggregateException(this.Errors.Details.Select(
-        e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
-}
-   ```
-
-   
+Check out the source-code and use it for your convenience. Don't forget to [let me know](mailto:markus@markusschmidt.pro) what you would make better.

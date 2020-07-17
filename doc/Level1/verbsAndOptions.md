@@ -53,6 +53,6 @@ See also Sample Project: `Level1\Sample1.Verbs`.
 
 ## What's next
 
-* [Plugin concept with Verbs and Microsoft Composition](doc/verbsWithComposition.md)
-* [Level 2](doc/level2.md)
+* [Plugin concept with Verbs and Microsoft Composition](verbsWithComposition.md)
+* [Level 2](level2.md)
 
