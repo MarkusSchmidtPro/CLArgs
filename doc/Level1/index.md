@@ -30,12 +30,15 @@ static void Main(string[] args)
 }
 ```
 
-**Example**: with two *Verbs* and three *Options* (starting with '--'):
+See [source-code](../../samples/Level1/Sample1/Program.cs) / [sample project](../../samples/Level1/Sample1) / all samples.
+
+### Example
+
+Command-Line with two *Verbs* and three *Options* (starting with '--'):
 
 ```batch
 >>> Start Functionality
 Command-Line: verb1 verb2 --fileName='c:\myfile.csv' --target=XML --lines=7
-
 Verb[0] = 'verb1'
 Verb[1] = 'verb2'
 Options[fileName] = 'c:\myfile.csv'
@@ -43,8 +46,6 @@ Options[target] = 'XML'
 Options[lines] = '7'
 <<< End Functionality
 ```
-
-See [C# example](../../samples/Level1/Sample1)
 
 ## What's next
 
