@@ -45,4 +45,8 @@ Options[lines] = '7'
 
 Simple as that, do with the parsed information whatever you want to do. *Options* are a key-value list and all values are strings as parsed they have been from the command-line.
 
-[Continue with Level 2](level2.md)
+## What's next
+
+* [Verbs and Options](doc/verbsAndOptions.md)
+* [Plugin concept with Verbs and Microsoft Composition](doc/verbsWithComposition.md)
+* [Level 2](doc/level2.md)

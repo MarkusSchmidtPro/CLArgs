@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level1", "Level1", "{FF4C03
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Verbs", "..\samples\Level1\Sample1.Verbs\Sample1.Verbs.csproj", "{27ABE321-EB5C-4101-ADD6-8A6B59864CD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Composition", "..\samples\Level1\Sample1.Composition\Sample1.Composition.csproj", "{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{27ABE321-EB5C-4101-ADD6-8A6B59864CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27ABE321-EB5C-4101-ADD6-8A6B59864CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27ABE321-EB5C-4101-ADD6-8A6B59864CD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6143C319-BDFD-4BE0-A0FF-AB9213DD47DE} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
 		{27ABE321-EB5C-4101-ADD6-8A6B59864CD5} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
+		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
 	EndGlobalSection
 EndGlobal

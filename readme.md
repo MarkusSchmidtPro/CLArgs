@@ -79,7 +79,11 @@ c:\> YourApp --fileName="myfile.csv" --target=XML
 Arguments arguments = CommandLine.Parse(args);
 ```
 
-[More a about Level 1](doc/level1.md)
+See also 
+
+* [Verbs and Options](doc/verbsAndOptions.md)
+* [Plugin concept with Verbs and Microsoft Composition](doc/verbsWithComposition.md)
+* [More a about Level 1](doc/level1.md)
 
 ### Level 2 - Standard
 
