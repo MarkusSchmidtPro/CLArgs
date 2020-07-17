@@ -30,7 +30,7 @@ static void Main(string[] args)
 }
 ```
 
-See [source-code](../../samples/Level1/Sample1/Program.cs) / [sample project](../../samples/Level1/Sample1) / all samples.
+See [source-code](../../samples/Level1/Sample1/Program.cs) / [sample project](../../samples/Level1/Sample1) / [all samples](../../samples).
 
 ### Example
 
