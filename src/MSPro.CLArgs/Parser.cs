@@ -43,7 +43,7 @@ namespace MSPro.CLArgs
                 }
                 else if (_optionNameIdentChars.Any(tag => c == tag))
                 {
-                    arguments.AddOption(getOption(commandLineArguments));
+                    arguments.UpsertOption(getOption(commandLineArguments));
                 }
                 else if (char.IsLetter(c))
                 {

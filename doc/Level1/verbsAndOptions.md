@@ -1,14 +1,18 @@
 # Verbs and Options
 
-If you call `Arguments arguments = CommandLine.Parse(args);` you get a list of *Verbs* and a dictionary of *Options*. 
+If you call `Arguments arguments = CommandLine.Parse(args);` you get 
+
+* a list of *Verbs* and 
+* a dictionary of *[Options](options.md)*. 
 
 ## Verbs 
 
-*Verbs* are single words found in the command line. 
+- *Verbs* are single words found in the command line. 
 
-A *Verb* starts with a character.
+- A *Verb* starts with a character.
 
-A *Verb* determines which functionality should be executed.
+- A *Verb* determines which functionality should be executed.
+
 
 **Example:**
 
@@ -49,10 +53,10 @@ static void text() => Console.WriteLine("Function Text");
 static void verb() => Console.WriteLine("Function Verb");
 ```
 
-See also Sample Project: `Level1\Sample1.Verbs`. 
+See [source-code](../../samples/Level1/Sample1.Verbs/Program.cs) / [sample project](../../samples/Level1/Sample1.Verbs) / [all samples](../../samples).
 
-## What's next
+### What's next
 
 * [Plugin concept with Verbs and Microsoft Composition](verbsWithComposition.md)
-* [Level 2](level2.md)
-
+* [Options](options.md)
+* [Level 2](../Level2/index.md)

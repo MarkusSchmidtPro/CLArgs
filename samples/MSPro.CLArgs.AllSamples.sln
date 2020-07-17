@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Verbs", "Level1\Sam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Composition", "Level1\Sample1.Composition\Sample1.Composition.csproj", "{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Options", "Level1\Sample1.Options\Sample1.Options.csproj", "{999452BE-16A5-4648-97E6-11F16DC2C445}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSPro.CLArgs", "..\src\MSPro.CLArgs\MSPro.CLArgs.csproj", "{9E17F75A-8915-4E98-8326-BBC18E748FAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999452BE-16A5-4648-97E6-11F16DC2C445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999452BE-16A5-4648-97E6-11F16DC2C445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999452BE-16A5-4648-97E6-11F16DC2C445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999452BE-16A5-4648-97E6-11F16DC2C445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E17F75A-8915-4E98-8326-BBC18E748FAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E17F75A-8915-4E98-8326-BBC18E748FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E17F75A-8915-4E98-8326-BBC18E748FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E17F75A-8915-4E98-8326-BBC18E748FAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,5 +52,6 @@ Global
 		{6143C319-BDFD-4BE0-A0FF-AB9213DD47DE} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
 		{27ABE321-EB5C-4101-ADD6-8A6B59864CD5} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
 		{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
+		{999452BE-16A5-4648-97E6-11F16DC2C445} = {FF4C03AA-2241-4D92-825A-0D48EF2F081F}
 	EndGlobalSection
 EndGlobal

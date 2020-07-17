@@ -47,8 +47,7 @@ Command-Line: HelloWorld
 This is my HelloWorld command.
 <<< End Functionality
 ```
-
-See also Sample Project: `Level1\Sample1.Composition`. 
+See [source-code](../../samples/Level1/Sample1.Composition/Program.cs) / [sample project](../../samples/Level1/Sample1.Composition) / [all samples](../../samples).
 
 > Please refer to Microsoft's documentation to get used to `System.Composition`. 
 >
@@ -56,4 +55,4 @@ See also Sample Project: `Level1\Sample1.Composition`.
 
 ## What's next
 
-* [Level 2](doc/level2.md)
+* [Level 2](../Level2/index.md)

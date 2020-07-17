@@ -9,11 +9,7 @@
         ///     Create a new options.
         /// </summary>
         /// <param name="tag">The name of the option.</param>
-        public OptionTag(string tag)
-        {
-            this.Tag = tag;
-        }
-
+        public OptionTag(string tag) => this.Tag = tag;
 
 
         public string Tag { get; }

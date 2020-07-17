@@ -1,14 +1,14 @@
 # CLArg - A dotnet command-line interpreter
 
-C-Sharp Console Applications are simple:  `static void Main(string[] args)` ..  and go!
+Console Applications are simple:  `static void Main(string[] args)` ..  and go! However, getting arguments from a command-line can be complex. Simply run `dotnet build --help` and see! 
 
-Getting arguments from a command-line can be complex. `CLArgs` takes this complex part to keep your console application simple.
-
-> I thought it was time to reinvent the wheel!
+>`CLArgs`  turns your console application 
 >
-> Not the (Flint) stone wheel, not the wooden one and not the rubber one. There are so many command-line interpreters out there. I wanted to invent the wheel with air inside, where you can chose the right pressure you need - one fits all. 
+>​	into a **modern command-line application**
 >
-> Let's reinvent the way how to build command-line apps.
+>​	with **minimal coding effort**
+>
+>​	while providing **maximum flexibility** and **extensibility**.
 
 ## Example
 
@@ -66,7 +66,7 @@ class MyConverter : CommandBase<MyParams>
 
 That is basically how you would eventually use `CLArgs` on "*Level 2*".
 
-[How to use CLArgs](doc/index.md)
+Continue reading here: [How to use CLArgs](doc/index.md)
 
 ## Feature List
 
@@ -86,5 +86,14 @@ That is basically how you would eventually use `CLArgs` on "*Level 2*".
 * Dynamics default values (not only static, like True, "abc")
   * Including depend default values, e. g. on other values
 * ...
+
+## Just another command-line interpreter / parser?
+
+I thought it was time to reinvent the wheel! 
+
+Not the (Flint) stone wheel, not the wooden one and not the rubber one. There are so many command-line interpreters out there. I wanted to invent the wheel with air inside, where you can chose the right pressure you need - one fits all.
+
+Let's reinvent the way how to build modern command-line apps.
+
 <hr/>
 <sub>Markus Schmidt (PRO), Munich (DE), 2020-07-10</sub>

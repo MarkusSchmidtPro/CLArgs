@@ -49,10 +49,12 @@ namespace MSPro.CLArgs
         /// </remarks>
         public Dictionary<string, OptionTag> Options { get; }
 
+        internal void UpsertOption(OptionTag o) => this.Options[o.Tag] = o;
+
 
         /// <summary>
         /// Manually add (or override) options to the arguments.
         /// </summary>
-        public void AddOption(OptionTag o) => this.Options[o.Tag] = o;
+        public void UpsertOption(string name, string value) => this.Options[name] = new OptionTag(name) { Value = value};
     }
 }
