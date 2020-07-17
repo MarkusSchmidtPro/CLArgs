@@ -22,6 +22,9 @@ namespace MSPro.CLArgs
 
 
 
+        /// <summary>
+        ///     The full command-line as it was parsed.
+        /// </summary>
         public string CommandLine { get; }
 
 
@@ -32,6 +35,9 @@ namespace MSPro.CLArgs
         public List<string> Verbs { get; }
 
 
+        /// <summary>
+        ///     All Verbs as a '.' concatenated list - namespaced verbs.
+        /// </summary>
         public string VerbPath => string.Join(".", this.Verbs);
 
         /// <summary>
@@ -44,10 +50,9 @@ namespace MSPro.CLArgs
         public Dictionary<string, OptionTag> Options { get; }
 
 
-
-        public void AddOption(OptionTag o)
-        {
-            this.Options[o.Tag] = o;
-        }
+        /// <summary>
+        /// Manually add (or override) options to the arguments.
+        /// </summary>
+        public void AddOption(OptionTag o) => this.Options[o.Tag] = o;
     }
 }

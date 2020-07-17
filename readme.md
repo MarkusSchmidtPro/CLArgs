@@ -64,7 +64,7 @@ class MyConverter : CommandBase<MyParams>
 }
 ```
 
-That is basically how you would eventually use `CLArgs` on a "low *Level 2*".
+That is basically how you would eventually use `CLArgs` on "*Level 2*".
 
 ## Four levels of using CLArgs
 

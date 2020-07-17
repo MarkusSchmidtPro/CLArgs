@@ -12,7 +12,7 @@ namespace Sample1
     /// <remarks>
     ///     Use CLArgs to parse your command-line.
     /// </remarks>
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {

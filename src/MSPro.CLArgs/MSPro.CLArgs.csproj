@@ -34,11 +34,16 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Remove="MSPro.CLArgs.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="IArgDescriptorsProvider.cs" />
     <Compile Remove="OptionDescriptor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
   </ItemGroup>
 
 </Project>

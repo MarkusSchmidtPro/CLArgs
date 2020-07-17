@@ -8,6 +8,10 @@ using System.Linq;
 
 namespace MSPro.CLArgs
 {
+    /// <summary>
+    /// Provides the functionality to parse a command-line
+    /// </summary>
+    /// <see cref="Parser"/>
     internal class Parser
     {
         private readonly char[] _optionNameIdentChars;
