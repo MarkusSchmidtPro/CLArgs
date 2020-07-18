@@ -1,0 +1,19 @@
+[20-07-18 11:13:11.860]Info:[BuildCommand]6 plug-in(s) loaded.
+[20-07-18 11:13:11.872]Info:[BuildCommand]Post processor ExtractSearchIndex loaded.
+[20-07-18 11:13:11.928]Info:[BuildCommand]Markdown engine is markdig
+[20-07-18 11:13:12.067]Info:[BuildCommand.BuildCore.Build Document]Max parallelism is 8.
+[20-07-18 11:13:12.849]Info:[BuildCommand.BuildCore.Build Document.CompilePhaseHandlerWithIncremental.ConceptualDocumentProcessor]Building 0 file(s) in ConceptualDocumentProcessor(BuildConceptualDocument=>CountWord=>ValidateConceptualDocumentMetadata)...
+[20-07-18 11:13:12.850]Info:[BuildCommand.BuildCore.Build Document.CompilePhaseHandlerWithIncremental.TocDocumentProcessor]Building 1 file(s) in TocDocumentProcessor(BuildTocDocument)...
+[20-07-18 11:13:12.851]Info:[BuildCommand.BuildCore.Build Document.CompilePhaseHandlerWithIncremental.ResourceDocumentProcessor]Building 1 file(s) in ResourceDocumentProcessor(ValidateResourceMetadata)...
+[20-07-18 11:13:13.046]Info:[BuildCommand.BuildCore.Build Document.LinkPhaseHandlerWithIncremental.Apply Templates]Applying templates to 2 model(s)...
+[20-07-18 11:13:13.239]Info:[BuildCommand.BuildCore.Build Document]XRef map exported.
+[20-07-18 11:13:13.331]Info:[BuildCommand.Postprocess.HandlePostProcessorsWithIncremental.HandlePostProcessors.Processing ExtractSearchIndex]Extracting index data from 1 html files
+[20-07-18 11:13:13.365]Info:[BuildCommand.Postprocess]Manifest file saved to manifest.json.
+[20-07-18 11:13:13.397]Info:[BuildCommand]Completed building documents in 1524,8837 milliseconds.
+[20-07-18 11:13:13.398]Info:[BuildCommand]Completed Scope:BuildCommand in 1672,4759 milliseconds.
+[20-07-18 11:13:13.399]Info:Completed in 1676,3113 milliseconds
+
+
+Build succeeded.
+	0 Warning(s)
+	0 Error(s)

@@ -15,11 +15,14 @@ namespace MSPro.CLArgs
     /// </typeparam>
     public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
     {
+        readonly CommandLineOptionsConverter _converter = new CommandLineOptionsConverter();
+
+
         protected abstract void OnExecute(TCommandParameters commandParameters);
 
 
 
-        protected virtual void OnResolveProperties(TCommandParameters commandParameters,
+        protected virtual void OnResolveProperties(TCommandParameters ps,
                                                    List<string> unresolvedPropertyNames)
         {
         }
@@ -29,6 +32,8 @@ namespace MSPro.CLArgs
         #region ICommand
 
         public ErrorDetailList Errors { get; } = new ErrorDetailList();
+
+        public Dictionary<Type, Func<string, string, object>> ValueConverters => _converter.Converters;
 
 
 
@@ -40,11 +45,10 @@ namespace MSPro.CLArgs
             if (!this.Errors.HasErrors())
             {
                 // Convert all known options
-                CommandLineOptionsConverter converter = new CommandLineOptionsConverter();
                 var commandParameters =
-                    converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
+                    _converter.ToCommandParameters<TCommandParameters>(options, out List<string> unresolvedProperties);
 
-                this.Errors.Add(converter.Errors);
+                this.Errors.Add(_converter.Errors);
                 if (!this.Errors.HasErrors())
                 {
                     OnResolveProperties(commandParameters, unresolvedProperties);

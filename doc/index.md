@@ -27,6 +27,4 @@ Options:
 ## What's next
 
 * [The Mission - what I wanted to accomplish is **what you get**](mission.md)
-* [The four levels of using CLArgs](howToUse.md)
-
-
+* [The four levels of using CLArgs](fourLevels.md)

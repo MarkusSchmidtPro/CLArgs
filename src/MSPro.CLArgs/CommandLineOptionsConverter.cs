@@ -18,19 +18,21 @@ namespace MSPro.CLArgs
 
 
 
-        public CommandLineOptionsConverter()
+        public CommandLineOptionsConverter() 
         {
             this.Converters = new Dictionary<Type, Func<string, string, object>>
             {
+                {typeof(DateTime), toDateTime},
                 {typeof(string), toString},
                 {typeof(int), toInt},
-                {typeof(bool), toBool}
+                {typeof(bool), toBool},
+          //      {typeof(Enum), toEnum}
             };
         }
 
 
 
-        private Dictionary<Type, Func<string, string, object>> Converters { get; }
+        public Dictionary<Type, Func<string, string, object>> Converters { get; }
         public ErrorDetailList Errors { get; } = new ErrorDetailList();
 
 
@@ -108,7 +110,7 @@ namespace MSPro.CLArgs
 
         private object toInt(string optionName, string optionValue)
         {
-            if (!int.TryParse(optionValue, out var v))
+            if (!int.TryParse(optionValue, out int v))
                 this.Errors.AddError(optionName,
                                      $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
             return v;
@@ -117,6 +119,20 @@ namespace MSPro.CLArgs
 
 
         private object toString(string optionName, string optionValue) => optionValue;
+        
+        
+        //private object toEnum(string optionName, string optionValue) => Enum.Parse(optionValue);
+
+
+
+        private object toDateTime(string optionName, string optionValue)
+        {
+            if (!DateTime.TryParse(optionValue, out DateTime d))
+                this.Errors.AddError(optionName, 
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
+            return d;
+        }
+        
 
 
 

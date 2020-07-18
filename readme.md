@@ -13,7 +13,7 @@ Console Applications are simple:  `static void Main(string[] args)` ..  and go! 
 
 * [Modern Console Application Design](doc/index.md)
 * [The Mission - what I wanted to accomplish is **what you get**](doc/mission.md)
-* [The four levels of using CLArgs](doc/howToUse.md)
+* [The four levels of using CLArgs](doc/fourLevels.md)
 * [All samples on GitHub](../../samples).
 
 ## Example
@@ -84,6 +84,8 @@ That is basically how you would eventually use `CLArgs`.
   * Help-Texts and argument definitions can be loaded from files, from Resources or they can be build-in by code or a combination of these. 
   * This includes support for localized help-messages.
 * Support for custom property types and enums in your parameter classes
+* Support converting custom value converters
+  * to convert any command-line string-value into any Type
 * Dynamics default values (not only static, like True, "abc")
   * Including depend default values, e. g. on other values
 * ...
