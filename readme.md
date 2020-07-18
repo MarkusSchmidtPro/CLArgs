@@ -3,11 +3,8 @@
 Console Applications are simple:  `static void Main(string[] args)` ..  and go! However, getting arguments from a command-line can be complex. Simply run `dotnet build --help` and see! 
 
 >`CLArgs`  turns your console application 
->
 >​	into a **modern command-line application**
->
 >​	with **minimal coding effort**
->
 >​	while providing **maximum flexibility** and **extensibility**.
 
 ## Gettings started 
