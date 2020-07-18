@@ -43,6 +43,7 @@
       <PackagePath></PackagePath>
     </None>
     <None Remove="MSPro.CLArgs.xml" />
+    <Compile Remove="AppExecutionProperties.cs" />
   </ItemGroup>
 
   <ItemGroup>

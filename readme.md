@@ -1,4 +1,4 @@
-# CLArg - A dotnet command-line interpreter
+# CLArgs - A dotnet command-line interpreter
 
 Console Applications are simple:  `static void Main(string[] args)` ..  and go! However, getting arguments from a command-line can be complex. Simply run `dotnet build --help` and see! 
 
@@ -10,10 +10,18 @@ Console Applications are simple:  `static void Main(string[] args)` ..  and go! 
 >
 >​	while providing **maximum flexibility** and **extensibility**.
 
+## Gettings started 
+
+* For a first *example* and the *feature list* read on, scroll down.
+
+* [Modern Console Application Design](doc/index.md)
+* [The Mission - what I wanted to accomplish is **what you get**](doc/mission.md)
+* [The four levels of using CLArgs](doc/howToUse.md)
+* [All samples on GitHub](../../samples).
+
 ## Example
 
-`c:\ > YourApp --fileName="myfile.csv" --target=XML`
-
+`c:\ > YourApp.exe verb --fileName="myfile.csv" --target=XML`
 
 ```csharp
 class Program
@@ -25,12 +33,11 @@ class Program
     static void Main(string[] args)
     {
         Arguments arguments = CommandLine.Parse(args);
-        Console.WriteLine($"Command-Line: ''{arguments.CommandLine}''");
+        Console.WriteLine($"Command-Line: '{arguments.CommandLine}'");
         ICommand cmd = new MyConverter();
         cmd.Execute(arguments);
     }
 }
-
 
 /// <summary>
 /// Define your command's parameters - supported command-line arguments.
@@ -44,7 +51,6 @@ class MyParams
     public string Target { get; set; }
 }
 
-
 /// <summary>
 /// 	Represents your application's functionality.
 /// </summary>
@@ -57,16 +63,14 @@ class MyConverter : CommandBase<MyParams>
     protected override void OnExecute(MyParams p)
     {
         Console.WriteLine(">>> Start Functionality");
-        Console.WriteLine($"fileName='{p.FileName}''");
-        Console.WriteLine($"target='{p.Target}''");
+        Console.WriteLine($"fileName='{p.FileName}'");
+        Console.WriteLine($"target  ='{p.Target}'");
         Console.WriteLine("<<< End Functionality");
     }
 }
 ```
 
-That is basically how you would eventually use `CLArgs` on "*Level 2*".
-
-Continue reading here: [How to use CLArgs](doc/index.md)
+That is basically how you would eventually use `CLArgs`.
 
 ## Feature List
 
@@ -87,13 +91,4 @@ Continue reading here: [How to use CLArgs](doc/index.md)
   * Including depend default values, e. g. on other values
 * ...
 
-## Just another command-line interpreter / parser?
-
-I thought it was time to reinvent the wheel! 
-
-Not the (Flint) stone wheel, not the wooden one and not the rubber one. There are so many command-line interpreters out there. I wanted to invent the wheel with air inside, where you can chose the right pressure you need - one fits all.
-
-Let's reinvent the way how to build modern command-line apps.
-
-<hr/>
 <sub>Markus Schmidt (PRO), Munich (DE), 2020-07-10</sub>
