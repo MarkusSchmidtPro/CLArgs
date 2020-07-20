@@ -44,6 +44,12 @@
     </None>
     <None Remove="MSPro.CLArgs.xml" />
     <Compile Remove="AppExecutionProperties.cs" />
+    <Compile Remove="TypeConversion\**" />
+    <EmbeddedResource Remove="TypeConversion\**" />
+    <None Remove="TypeConversion\**" />
+    <None Remove="MSPro.CLArgs.csproj.DotSettings" />
+    <Compile Remove="CommandLineOptionsConverter.cs" />
+    <None Remove="Schmidt_e-Services.snk" />
   </ItemGroup>
 
   <ItemGroup>

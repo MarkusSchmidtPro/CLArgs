@@ -24,13 +24,8 @@ namespace Level2.ValueConversion
         {
             public Command()
             {
-                this.ValueConverters.Add(typeof(FileInfo),
-                                         (propertyName, optionValue) => new FileInfo(optionValue));
-                this.ValueConverters.Add(typeof(FileType),
-                                         (propertyName, optionValue) => Enum.Parse(typeof(FileType), optionValue));
-
-                this.ValueConverters[typeof(int)] 
-                    = ( propertyName, optionValue) => int.Parse(optionValue);
+                this.TypeConverters.Register(
+                    typeof(FileInfo), (propertyName, optionValue) => new FileInfo(optionValue));
             }
 
 
