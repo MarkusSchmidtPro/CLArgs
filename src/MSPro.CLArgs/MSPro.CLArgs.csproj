@@ -4,18 +4,26 @@
     <TargetFramework>netstandard2.0</TargetFramework>
       <AssemblyName>MSPro.CLArgs</AssemblyName>
       <RootNamespace>MSPro.CLArgs</RootNamespace>
-      <Authors>Markus Schmidt</Authors>
+      <Authors>Markus Schmidt (Pro)</Authors>
       <Company>Markus Schmidt (Pro)</Company>
       <Product>Command Line Arguments</Product>
-      <Copyright>(c) copyright 2020, Markus Schmidt .PRO</Copyright>
+      <Copyright>(c) copyright 2020, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
       <Version>1.2007.10.00</Version>
-      <FileVersion>$(Version)</FileVersion>
-      <SignAssembly>false</SignAssembly>
+      <FileVersion>1.2007.17.00</FileVersion>
+      <SignAssembly>true</SignAssembly>
       <Description>Console application command-line support.</Description>
       <PackageIcon>command-line.png</PackageIcon>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <PackageVersion>1.2007.17.00</PackageVersion>
+      <Title>CLArgs - Command Line at it's best</Title>
+      <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
+      <RepositoryType>GitHub</RepositoryType>
+      <PackageTags>C#, Console , Command Line</PackageTags>
+      <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,11 +42,23 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Remove="MSPro.CLArgs.xml" />
+    <Compile Remove="AppExecutionProperties.cs" />
+    <Compile Remove="TypeConversion\**" />
+    <EmbeddedResource Remove="TypeConversion\**" />
+    <None Remove="TypeConversion\**" />
+    <None Remove="MSPro.CLArgs.csproj.DotSettings" />
+    <Compile Remove="CommandLineOptionsConverter.cs" />
+    <None Remove="Schmidt_e-Services.snk" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="IArgDescriptorsProvider.cs" />
     <Compile Remove="OptionDescriptor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
   </ItemGroup>
 
 </Project>

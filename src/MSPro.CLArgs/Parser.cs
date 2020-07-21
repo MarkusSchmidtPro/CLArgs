@@ -8,6 +8,10 @@ using System.Linq;
 
 namespace MSPro.CLArgs
 {
+    /// <summary>
+    /// Provides the functionality to parse a command-line
+    /// </summary>
+    /// <see cref="Parser"/>
     internal class Parser
     {
         private readonly char[] _optionNameIdentChars;
@@ -39,7 +43,7 @@ namespace MSPro.CLArgs
                 }
                 else if (_optionNameIdentChars.Any(tag => c == tag))
                 {
-                    arguments.AddOption(getOption(commandLineArguments));
+                    arguments.UpsertOption(getOption(commandLineArguments));
                 }
                 else if (char.IsLetter(c))
                 {

@@ -1,0 +1,1 @@
+docFX\docfx doc.template\docfx.json -o ..\docs --intermediatefolder %temp%\dfx 

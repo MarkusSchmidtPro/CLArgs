@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Default": {
+      "commandName": "Project",
+      "commandLineArgs": "--DestType=XML --SourceFile=NewFile1.Txt"
+    }
+  }
+}
