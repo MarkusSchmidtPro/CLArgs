@@ -1,19 +1,26 @@
 ﻿using System;
-using System.Diagnostics;
 
 
 
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Property)]
+    public class OptionSetAttribute : Attribute
+    {
+    }
+
+
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class OptionDescriptorAttribute : Attribute
     {
         public OptionDescriptorAttribute(string optionName, string tag = null)
         {
-            this.OptionName     = optionName;
-            this.Tags     = new[] {tag ?? optionName};
-            this.Required = false;
+            this.OptionName = optionName;
+            this.Tags       = new[] {tag ?? optionName};
+            this.Required   = false;
         }
+
 
 
         public string OptionName { get; set; }
@@ -22,12 +29,15 @@ namespace MSPro.CLArgs
         public object Default { get; set; }
         public bool Required { get; set; }
 
-        public new string ToString() => 
-            $"{OptionName}: [{DebuggerDisplayTags()}], required={Required}, Default={Default}";
+
+
+        public new string ToString() =>
+            $"{this.OptionName}: [{DebuggerDisplayTags()}], required={this.Required}, Default={this.Default}";
+
 
 
 #if DEBUG
-        private string DebuggerDisplayTags() => $"{string.Join(",", Tags)}";
+        private string DebuggerDisplayTags() => $"{string.Join(",", this.Tags)}";
 #endif
     }
 }

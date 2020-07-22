@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 
 
 namespace MSPro.CLArgs.ErrorHandling
 {
+    [DebuggerDisplay("{ErrorMessages[0]}")]
     public class ErrorDetail
     {
         public ErrorDetail(string attributeName, string recordId = null, IEnumerable<string> errors = null)

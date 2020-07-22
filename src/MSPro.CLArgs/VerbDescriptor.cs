@@ -2,13 +2,7 @@
 {
     public class VerbDescriptor
     {
-        public VerbDescriptor()
-        {
-        }
-
-
-
-        public VerbDescriptor(string tag, string description)
+       public VerbDescriptor(string tag, string description)
         {
             this.Tag         = tag;
             this.Description = description;
@@ -18,5 +12,9 @@
 
         public string Tag { get; set; }
         public string Description { get; set; }
+
+
+
+        public new string ToString() => this.Tag;
     }
 }
