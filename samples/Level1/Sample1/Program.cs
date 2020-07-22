@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MSPro.CLArgs;
 
 
@@ -24,13 +25,12 @@ namespace Sample1
             Console.WriteLine(">>> Start Functionality");
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
 
-            for (int i = 0; i < arguments.Verbs.Count; i++)
+            foreach (string verb in arguments.Verbs)
             {
-                string verb = arguments.Verbs[i];
-                Console.WriteLine($"Verb[{i}] = '{verb}'");
+                Console.WriteLine($"Verb='{verb}'");
             }
 
-            foreach (KeyValuePair<string, OptionTag> option in arguments.Options)
+            foreach (Option option in arguments.Options)
             {
                 Console.WriteLine($"Options[{option.Key}] = '{option.Value}'");
             }

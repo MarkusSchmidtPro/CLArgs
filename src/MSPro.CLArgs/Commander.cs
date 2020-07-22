@@ -4,7 +4,7 @@ using System.Linq;
 
 
 
-namespace MSPro.CLArgs.Sample3
+namespace MSPro.CLArgs
 {
     public class Commander
     {

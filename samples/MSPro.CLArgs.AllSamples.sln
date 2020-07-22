@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDefault", "Level2\Dy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueConversion", "Level2\ValueConversion\ValueConversion.csproj", "{876F41B8-5A99-472B-A2D5-83CDB160EEF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedParameters", "Level2\ExtendedParameters\ExtendedParameters.csproj", "{B4F1CC9F-ADE0-483F-A069-605E36816D70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{876F41B8-5A99-472B-A2D5-83CDB160EEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{876F41B8-5A99-472B-A2D5-83CDB160EEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{876F41B8-5A99-472B-A2D5-83CDB160EEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F1CC9F-ADE0-483F-A069-605E36816D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F1CC9F-ADE0-483F-A069-605E36816D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F1CC9F-ADE0-483F-A069-605E36816D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F1CC9F-ADE0-483F-A069-605E36816D70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{351C9B43-A195-42FB-B4AA-A68C9E554C65} = {7E3ACF74-F5DE-43AA-BB07-E9423F74154E}
 		{C2115629-D066-4DF3-9AA6-E897FC90361E} = {7E3ACF74-F5DE-43AA-BB07-E9423F74154E}
 		{876F41B8-5A99-472B-A2D5-83CDB160EEF5} = {7E3ACF74-F5DE-43AA-BB07-E9423F74154E}
+		{B4F1CC9F-ADE0-483F-A069-605E36816D70} = {7E3ACF74-F5DE-43AA-BB07-E9423F74154E}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Level2.ExtendedParameters</RootNamespace>
+    <AssemblyName>Level2.ExtendedParameters</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+  </ItemGroup>
+</Project>
