@@ -18,6 +18,10 @@ namespace MSPro.CLArgs
     {
         private readonly IOptionDescriptorProvider _optionDescriptorProvider;
 
+        /// <summary>
+        /// Options with any of these Tags will not be marked as unresolved.
+        /// </summary>
+        static readonly HashSet<string> CLARGS_COMMANDS = new HashSet<string>{"clArgsTrace"};
 
         public OptionResolver(IOptionDescriptorProvider optionDescriptorProvider)
         {
@@ -37,7 +41,7 @@ namespace MSPro.CLArgs
         /// <param name="arguments"></param>
         /// <param name="errors"></param>
         /// <returns>A unique (by name) list of Options.</returns>
-        public IEnumerable<Option> ResolveOptions(Arguments arguments, ErrorDetailList errors, bool ignoreCase=false)
+        public IEnumerable<Option> ResolveOptions(Arguments arguments, ErrorDetailList errors, bool ignoreCase=false, bool ignoreUnknownTags=false)
         {
             var descriptors = _optionDescriptorProvider.Get().ToList();
             Dictionary<string, Option> optionsByName = new Dictionary<string, Option>(); 
@@ -57,9 +61,9 @@ namespace MSPro.CLArgs
                 {
                     optionsByName[d.OptionName] = option;
                 }
-                else
+                else if( !ignoreUnknownTags && !CLARGS_COMMANDS.Contains(option.Key))
                 {
-                    errors.AddError(option.Key, $"Unknown command-line option {option.Key}");
+                    errors.AddError(option.Key, $"Unknown Option '{option.Key}' provided in the command-line");
                 }
             }
 
@@ -72,8 +76,7 @@ namespace MSPro.CLArgs
             foreach (var d in descriptorsMandatory)
             {
                 if ( !optionsByName.ContainsKey(d.OptionName))
-                    errors.AddError(d.OptionName,
-                                    $"The mandatory command-line argument '{d.OptionName}' was not provided.");
+                    errors.AddError(d.OptionName, $"Missing mandatory Option: '{d.OptionName}'");
             }
 
 
@@ -91,7 +94,7 @@ namespace MSPro.CLArgs
             }
 
             // Trace Debug
-            if (arguments.OptionTagProvided("clArgsTrace"))
+            if (arguments.OptionTagProvided("clArgsTrace") && !errors.HasErrors())
             {
                 string resolved = string.Join(", ",
                                               optionsByName.Values.Where(o => o.IsResolved).Select(o => o.Key));

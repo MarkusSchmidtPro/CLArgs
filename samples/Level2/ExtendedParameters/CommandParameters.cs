@@ -7,10 +7,10 @@ namespace Level2.ExtendedParameters
 {
     internal class CommandParameters
     {
-        [OptionDescriptor("c", Required = true)]
+        [OptionDescriptor("Connection", tag:"c", Required = true)]
         public Connection DBConnection { get; set; }
 
-        [OptionDescriptor("t", Required = false)]
+        [OptionDescriptor("DatabaseTableName", "t", Required = false)]
         public string DatabaseTableName { get; set; }
     }
 
