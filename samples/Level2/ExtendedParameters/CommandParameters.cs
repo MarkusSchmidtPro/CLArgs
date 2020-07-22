@@ -5,7 +5,7 @@ using MSPro.CLArgs;
 
 namespace Level2.ExtendedParameters
 {
-    internal class CommandParameters
+    internal class CommandParameters : BaseParameters
     {
         [OptionDescriptor("Connection", tag:"c", Required = true)]
         public Connection DBConnection { get; set; }
@@ -14,6 +14,15 @@ namespace Level2.ExtendedParameters
         public string DatabaseTableName { get; set; }
     }
 
+
+    /// <summary>
+    /// Base class for parameters (will be automatically resolved).
+    /// </summary>
+    class BaseParameters
+    {
+        [OptionDescriptor("BaseSetting", tag:"bs", Required = true)]
+        public bool BaseSetting { get; set; } 
+    }
 
 
     /// <summary>

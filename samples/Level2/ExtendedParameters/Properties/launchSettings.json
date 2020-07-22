@@ -2,7 +2,7 @@
   "profiles": {
     "Default": {
       "commandName": "Project",
-      "commandLineArgs": "--DestType=XML --SourceFile=NewFile1.Txt --clArgsTrace"
+      "commandLineArgs": "--c=ns:\\\\pipe\\.\\abc --t=[dbo].IndexTable --u=msc --p=_ab123_ --bs --clArgsTrace"
     }
   }
 }

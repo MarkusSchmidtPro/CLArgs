@@ -1,8 +1,13 @@
-﻿namespace MSPro.CLArgs
+﻿using System.Diagnostics;
+
+
+
+namespace MSPro.CLArgs
 {
     /// <summary>
     ///     A command-line Option.
     /// </summary>
+    [DebuggerDisplay( "{Key}='{Value}', resolved={IsResolved}")]
     public class Option
     {
         /// <summary>

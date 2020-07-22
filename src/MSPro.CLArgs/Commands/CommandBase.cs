@@ -131,8 +131,14 @@ namespace MSPro.CLArgs
         void ICommand.Execute(Arguments arguments, bool throwIf)
         {
             var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
-            var optionDescriptorList = provider.Get();
-            
+            var optionDescriptorList = provider.Get().ToList();
+            if (arguments.OptionTagProvided("clArgsTrace"))
+            {
+                foreach (var optionDescriptorAttribute in optionDescriptorList)
+                {
+                    Console.WriteLine(optionDescriptorAttribute.ToString());
+                }
+            }
             var optionResolver = new OptionResolver(optionDescriptorList);
             this.ResolvedOptions = optionResolver.ResolveOptions(arguments, this.Errors).ToList();
             if (!this.Errors.HasErrors())

@@ -84,13 +84,14 @@ namespace MSPro.CLArgs
             // Name starts at first char that is not an optionsNameIdent
             skipChars(arguments, _optionNameIdentChars);
             Option optionTag = new Option(readUntil(arguments, _optionValueIdentChars));
-            if (arguments.Length>_currentPos && arguments[_currentPos] != ' ')
+            if (arguments.Length > _currentPos && arguments[_currentPos] != ' ')
             {
                 // an option value was provided
                 _currentPos++; // skip found char (breaker: between name and value)
                 optionTag.Value = getOptionValue(arguments);
             }
-
+            else optionTag.Value = true.ToString();
+            
             return optionTag;
         }
 
