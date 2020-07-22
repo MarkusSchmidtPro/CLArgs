@@ -58,66 +58,66 @@ namespace MSPro.CLArgs
         private TCommandParameters createInstance(List<Option> options)
         {
             HashSet<string> unresolvedPropertyNames = new HashSet<string>();
+            TCommandParameters targetInstance = (TCommandParameters)
+                createInstance(typeof(TCommandParameters), options, unresolvedPropertyNames);
+            OnResolveProperties(targetInstance, unresolvedPropertyNames);
+            return targetInstance;
+        }
 
-            var targetInstance = new TCommandParameters();
 
-            // 
-            // Iterate through all properties of the target type 
-            //  which are decorated with a CommandLineOptionAttribute
-            //
-            foreach (var targetPropertyInfo in typeof(TCommandParameters).GetProperties())
+
+        private object createInstance(Type instanceType, 
+                                      List<Option> options,
+                                      HashSet<string> unresolvedPropertyNames)
+        {
+            object instance = Activator.CreateInstance(instanceType);
+            foreach (var pi in instanceType.GetProperties())
             {
-                // Need to find the related option-name for each property
-                // The option was created from the command-line.
-                // 1. Check if current Target-Property has a CommandLineOptionAttribute,
-                //      then the attribute Name specifies the option's name.
-                // 2. Otherwise, the Property-Name will be used to look for a matching optionName.
-
-                var allCustomAttributesOfType =
-                    targetPropertyInfo.GetCustomAttributes(typeof(OptionDescriptorAttribute), true);
-                OptionDescriptorAttribute firstOptionDescriptorAttribute
-                    = (OptionDescriptorAttribute) (allCustomAttributesOfType.Length > 0
-                        ? allCustomAttributesOfType[0]
-                        : null);
-                if (firstOptionDescriptorAttribute == null) continue;
-
-
-                // the name of the Option that is bound to the property 
-                string boundOptionName = firstOptionDescriptorAttribute.OptionName;
-                // the name and the of the property
-                string targetPropertyName = targetPropertyInfo.Name;
-                Type targetType = targetPropertyInfo.PropertyType;
-
-
-                // Check if the Option is defined. It is defined when it was in the
-                // OptionDescriptorList that was used to ResolveOptions. 
-                var option = options.FirstOrDefault(o => o.Key == boundOptionName);
-                if (option == null || !option.IsResolved)
+                if (pi.GetFirst<OptionSetAttribute>() != null)
                 {
-                    // Should not happen because ResolveOptions should have added
-                    // and Option for each item in the OptionDescriptorList.
-                    // Console.WriteLine("WARN");
-
-                    // Anyways: we cannot set the target property's value
-                    // when there is no matching option.  
-                    unresolvedPropertyNames.Add(targetPropertyName);
-                }
-                else if (!this.TypeConverters.CanConvert(targetType))
-                {
-                    this.Errors.AddError(targetPropertyName,
-                                         $"No type converter found for type {targetType} of property {targetPropertyName} ");
+                    var o = createInstance( pi.PropertyType, options, unresolvedPropertyNames);
+                    pi.SetValue(instance, o);
                 }
                 else
                 {
-                    object propertyValue =
-                        this.TypeConverters.Convert(boundOptionName, option.Value, this.Errors, targetType);
-                    targetPropertyInfo.SetValue(targetInstance, propertyValue);
+                    var optionDescriptor = pi.GetFirst<OptionDescriptorAttribute>();
+                    if (optionDescriptor == null) continue;
+
+
+                    // the name of the Option that is bound to the property 
+                    string boundOptionName = optionDescriptor.OptionName;
+                    // the name and the of the property
+                    string targetPropertyName = pi.Name;
+                    Type targetType = pi.PropertyType;
+
+
+                    // Check if the Option is defined. It is defined when it was in the
+                    // OptionDescriptorList that was used to ResolveOptions. 
+                    var option = options.FirstOrDefault(o => o.Key == boundOptionName);
+                    if (option == null || !option.IsResolved)
+                    {
+                        // Should not happen because ResolveOptions should have added
+                        // and Option for each item in the OptionDescriptorList.
+                        // Console.WriteLine("WARN");
+
+                        // Anyways: we cannot set the target property's value
+                        // when there is no matching option.  
+                        unresolvedPropertyNames.Add(targetPropertyName);
+                    }
+                    else if (!this.TypeConverters.CanConvert(targetType))
+                    {
+                        this.Errors.AddError(targetPropertyName,
+                                             $"No type converter found for type {targetType} of property {targetPropertyName} ");
+                    }
+                    else
+                    {
+                        object propertyValue =
+                            this.TypeConverters.Convert(boundOptionName, option.Value, this.Errors, targetType);
+                        pi.SetValue(instance, propertyValue);
+                    }
                 }
             }
-            // Assignment of known Options to Properties finished
-            // Try to resolve the rest
-            OnResolveProperties(targetInstance, unresolvedPropertyNames);
-            return targetInstance;
+            return instance;
         }
 
 

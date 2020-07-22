@@ -61,7 +61,7 @@ namespace MSPro.CLArgs
 
                 if (d != null)
                 {
-                    optionsByName[d.OptionName] = option;
+                    optionsByName[d.OptionName] = new Option( d.OptionName, option.Value);
                 }
                 else if (!ignoreUnknownTags && !_wellKnownOptions.Contains(option.Key))
                 {

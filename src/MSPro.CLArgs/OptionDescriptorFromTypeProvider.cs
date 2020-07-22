@@ -19,13 +19,13 @@ namespace MSPro.CLArgs
             List<OptionDescriptorAttribute> result= new List<OptionDescriptorAttribute>();
             foreach (var pi in t.GetProperties())
             {
-                if (getFirst<OptionSetAttribute>(pi) != null)
+                if (pi.GetFirst<OptionSetAttribute>() != null)
                 {
                     result.AddRange( getDescriptors(pi.PropertyType));
                 }
                 else
                 {
-                    var optionDescriptor = getFirst<OptionDescriptorAttribute>(pi);
+                    var optionDescriptor = pi.GetFirst<OptionDescriptorAttribute>();
                     if( optionDescriptor!= null) result.Add(optionDescriptor);
                 } 
             }
@@ -34,13 +34,6 @@ namespace MSPro.CLArgs
 
 
 
-        private TAttribute getFirst<TAttribute>(ICustomAttributeProvider pi) where TAttribute : Attribute
-        {
-            var customAttributeOfType = pi.GetCustomAttributes(typeof(TAttribute), true);
-            if (customAttributeOfType.Length == 0) return null;
-            
-            Debug.Assert(customAttributeOfType.Length == 1);
-            return (TAttribute) customAttributeOfType[0];
-        }
+ 
     }
 }

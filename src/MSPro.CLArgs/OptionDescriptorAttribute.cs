@@ -5,13 +5,6 @@
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class OptionSetAttribute : Attribute
-    {
-    }
-
-
-
-    [AttributeUsage(AttributeTargets.Property)]
     public class OptionDescriptorAttribute : Attribute
     {
         public OptionDescriptorAttribute(string optionName, string tag = null)

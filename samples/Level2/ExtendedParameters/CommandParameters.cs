@@ -1,5 +1,4 @@
-﻿using System.IO;
-using MSPro.CLArgs;
+﻿using MSPro.CLArgs;
 
 
 
@@ -15,21 +14,23 @@ namespace Level2.ExtendedParameters
     }
 
 
+
     /// <summary>
-    /// Base class for parameters (will be automatically resolved).
+    ///     Base class for parameters (will be automatically resolved).
     /// </summary>
-    class BaseParameters
+    internal class BaseParameters
     {
-        [OptionDescriptor("BaseSetting", tag:"bs", Required = true)]
-        public bool BaseSetting { get; set; } 
+        [OptionDescriptor("BaseSetting", "bs", Required = true)]
+        public bool BaseSetting { get; set; }
     }
 
 
+
     /// <summary>
-    /// This class is a reusable type for command parameters.
+    ///     This class is a reusable type for command parameters.
     /// </summary>
     /// <remarks>
-    ///    The connection-triple is used by many parameters.
+    ///     The connection-triple is used by many parameters.
     ///     So we can define these parameters in a separate class as some kind of <c>option group</c>
     /// </remarks>
     internal class Connection
@@ -39,7 +40,7 @@ namespace Level2.ExtendedParameters
 
         [OptionDescriptor("p", Required = true)]
         public string Password { get; set; }
-        
+
         [OptionDescriptor("d", Required = false)]
         public string Domain { get; set; }
     }
