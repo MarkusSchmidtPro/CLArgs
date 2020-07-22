@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Composition;
 using System.Composition.Hosting;
+using System.Linq;
 using System.Reflection;
 using MSPro.CLArgs;
 
@@ -26,7 +27,7 @@ namespace Sample1.Composition
 
             Console.WriteLine(">>> Start Functionality");
             // No error-handling here. We simply take the first Verb and run a command. 
-            var command = serviceContainer.GetExport<IVerbRunner>(arguments.Verbs[0]);
+            var command = serviceContainer.GetExport<IVerbRunner>(arguments.Verbs.First());
             command.Run(arguments);
             Console.WriteLine("<<< End Functionality");
         }

@@ -22,16 +22,13 @@ namespace DynamicDefault
 
         private class DynamicDefaultCommand : CommandBase<CommandParameters>
         {
-            protected override void OnResolveProperties(
-                CommandParameters ps,
-                List<string> unresolvedPropertyNames)
+            protected override void OnResolveProperties( CommandParameters ps, HashSet<string> unresolvedPropertyNames)
             {
                 // Check if a property's name is in the list of unresolved
-                if (unresolvedPropertyNames.Contains(nameof(CommandParameters.EndDate)))
-                {
-                    Console.WriteLine($"Unresolved {nameof(CommandParameters.EndDate)}");
-                    ps.EndDate = ps.StartDate.AddDays(7);
-                }
+                if (!unresolvedPropertyNames.Contains(nameof(CommandParameters.EndDate))) return;
+                
+                Console.WriteLine($"Unresolved {nameof(CommandParameters.EndDate)}");
+                ps.EndDate = ps.StartDate.AddDays(7);
             }
 
             protected override void OnExecute(CommandParameters p)

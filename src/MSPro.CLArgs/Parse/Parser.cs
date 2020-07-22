@@ -43,11 +43,11 @@ namespace MSPro.CLArgs
                 }
                 else if (_optionNameIdentChars.Any(tag => c == tag))
                 {
-                    arguments.UpsertOption(getOption(commandLineArguments));
+                    arguments.AddOption(getOption(commandLineArguments));
                 }
                 else if (char.IsLetter(c))
                 {
-                    arguments.Verbs.Add(getVerb(commandLineArguments));
+                    arguments.AddVerb(getVerb(commandLineArguments));
                 }
                 else
                     throw new ApplicationException($"Unexpected character '{c}' in commandline, pos {_currentPos}.");
@@ -79,11 +79,11 @@ namespace MSPro.CLArgs
 
 
 
-        private OptionTag getOption(string arguments)
+        private Option getOption(string arguments)
         {
             // Name starts at first char that is not an optionsNameIdent
             skipChars(arguments, _optionNameIdentChars);
-            OptionTag optionTag = new OptionTag(readUntil(arguments, _optionValueIdentChars));
+            Option optionTag = new Option(readUntil(arguments, _optionValueIdentChars));
             if (arguments[_currentPos] != ' ')
             {
                 // an option value was provided

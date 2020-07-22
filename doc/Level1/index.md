@@ -15,15 +15,14 @@ static void Main(string[] args)
 	Console.WriteLine(">>> Start Functionality");
 	Console.WriteLine($"Command-Line: {arguments.CommandLine}");
 
-	for (int i = 0; i < arguments.Verbs.Count; i++)
-	{
-		string verb = arguments.Verbs[i];
-		Console.WriteLine($"Verb[{i}] = '{verb}''");
-	}
+    foreach (string verb in arguments.Verbs)
+    {
+        Console.WriteLine($"Verb='{verb}'");
+    }
 
-	foreach (KeyValuePair<string,OptionTag> option in arguments.Options)
-	{
-		Console.WriteLine($"Options[{option.Key}] = '{option.Value}''");
+	foreach (Option option in arguments.Options)
+    {
+    	Console.WriteLine($"Options[{option.Tag}] = '{option.Value}'");
 	}
 	
 	Console.WriteLine("<<< End Functionality");
