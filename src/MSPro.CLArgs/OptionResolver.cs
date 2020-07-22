@@ -91,7 +91,7 @@ namespace MSPro.CLArgs
             }
 
             // Trace Debug
-            if (optionsByName.ContainsKey("clArgsTrace"))
+            if (arguments.OptionTagProvided("clArgsTrace"))
             {
                 string resolved = string.Join(", ",
                                               optionsByName.Values.Where(o => o.IsResolved).Select(o => o.Key));

@@ -17,7 +17,7 @@ namespace MSPro.CLArgs
     public class Arguments
     {
         private readonly Dictionary<string, Option> _options;
-        private readonly Dictionary<string, string> _verbs;
+        private readonly HashSet<string> _verbs;
 
 
 
@@ -28,7 +28,7 @@ namespace MSPro.CLArgs
             IEqualityComparer<string> c = caseSensitive
                 ? StringComparer.InvariantCulture
                 : StringComparer.InvariantCultureIgnoreCase;
-            _verbs   = new Dictionary<string, string>(c);
+            _verbs   = new HashSet<string>(c);
             _options = new Dictionary<string, Option>(c);
         }
 
@@ -44,7 +44,7 @@ namespace MSPro.CLArgs
         ///     The list of verbs in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public IEnumerable<string> Verbs => _verbs.Values;
+        public HashSet<string> Verbs => _verbs;
 
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace MSPro.CLArgs
 
         public bool OptionTagProvided(string optionTag) => _options.ContainsKey(optionTag);
 
-        public void AddVerb(string verb) => _verbs[verb] = verb;
+        public void AddVerb(string verb) => _verbs.Add(verb);
 
         public void AddOption(Option option) => _options[option.Key] = option;
 
