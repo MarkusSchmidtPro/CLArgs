@@ -130,9 +130,11 @@ namespace MSPro.CLArgs
 
         void ICommand.Execute(Arguments arguments, bool throwIf)
         {
-            IOptionDescriptorProvider provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
-            var clOpts = new OptionResolver(provider);
-            this.ResolvedOptions = clOpts.ResolveOptions(arguments, this.Errors).ToList();
+            var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
+            var optionDescriptorList = provider.Get();
+            
+            var optionResolver = new OptionResolver(optionDescriptorList);
+            this.ResolvedOptions = optionResolver.ResolveOptions(arguments, this.Errors).ToList();
             if (!this.Errors.HasErrors())
             {
                 var commandParameters = createInstance(this.ResolvedOptions);
