@@ -10,17 +10,13 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class Commander
     {
-        private readonly Dictionary<string, Func<ICommand>> _commands =
-            new Dictionary<string, Func<ICommand>>();
+        private readonly Dictionary<string, Func<ICommand>> _commands = new Dictionary<string, Func<ICommand>>();
 
 
         public static Settings Settings { get; private set; } = new Settings();
 
 
         public Arguments Arguments { get; }
-
-        public void RegisterCommandFactory(Func<ICommand> factory) => RegisterCommandFactory("", factory);
-
 
 
         public void RegisterCommandFactory(string verb, Func<ICommand> factory)
@@ -34,7 +30,7 @@ namespace MSPro.CLArgs
 
 
         public ICommand GetInstance(string verb = null) =>
-            string.IsNullOrWhiteSpace(verb) && _commands.ContainsKey(verb) ? _commands[verb]() : GetDefault();
+            !string.IsNullOrWhiteSpace(verb) && _commands.ContainsKey(verb) ? _commands[verb]() : GetDefault();
 
 
 
@@ -58,6 +54,7 @@ namespace MSPro.CLArgs
             var c = new Commander(arguments);
             c.ExecuteCommand();
         }
+
 
 
         #region Construction
