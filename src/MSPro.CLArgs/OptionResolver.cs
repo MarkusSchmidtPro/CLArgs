@@ -59,12 +59,15 @@ namespace MSPro.CLArgs
             // 
             foreach (var option in arguments.Options)
             {
-                var d = _descriptors.FirstOrDefault(
-                    i => i.Tags.Any(t => string.Equals(t, option.Key, stringComparison)));
+                // Find an OptionDescriptor by searching in all Tags and in the Options name
+                var optionDescriptor = _descriptors.FirstOrDefault(
+                    desc => 
+                        desc.Tags.Any(t => string.Equals(t, option.Key, stringComparison))
+                        || string.Equals(desc.OptionName, option.Key) );
 
-                if (d != null)
+                if (optionDescriptor != null)
                 {
-                    optionsByName[d.OptionName] = new Option( d.OptionName, option.Value);
+                    optionsByName[optionDescriptor.OptionName] = new Option( optionDescriptor.OptionName, option.Value);
                 }
                 else if (!ignoreUnknownTags && !_wellKnownOptions.Contains(option.Key))
                 {
