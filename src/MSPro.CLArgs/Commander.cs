@@ -10,12 +10,13 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class Commander
     {
-        private readonly Dictionary<string, Func<ICommand>> _commands = new Dictionary<string, Func<ICommand>>();
+        private readonly Dictionary<string, Func<ICommand>> _commands =
+            new Dictionary<string, Func<ICommand>>();
 
 
         public static Settings Settings { get; private set; } = new Settings();
 
-        
+
         public Arguments Arguments { get; }
 
         public void RegisterCommandFactory(Func<ICommand> factory) => RegisterCommandFactory("", factory);
@@ -47,7 +48,7 @@ namespace MSPro.CLArgs
         public void ExecuteCommand()
         {
             ICommand command = GetInstance(this.Arguments.VerbPath);
-            command.Execute(this.Arguments);
+            command.Execute(this.Arguments, Settings.IgnoreCase);
         }
 
 
@@ -59,7 +60,7 @@ namespace MSPro.CLArgs
         /// </summary>
         /// <remarks>
         ///     You may modify the <see cref="Arguments" /> as needed (add/remove/change)
-        ///     and then continue with <see cref="Commander( Arguments, Settings)" />
+        ///     and then continue with <see cref="Commander" />
         /// </remarks>
         public static Arguments ParseCommandLine(string[] args) => new Parser().Run(args);
 
@@ -74,15 +75,13 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Create a new Commander instance.
         /// </summary>
-        /// <param name="argument">The parsed arguments.</param>
-        /// <param name="settings">Provide your own settings to adjust the Commanders behaviour.</param>
+        /// <param name="arguments">The parsed arguments.</param>
         public Commander([NotNull] Arguments arguments)
         {
             this.Arguments = arguments;
 
             // Resolve commands and register ICommand factories
             if (Settings.AutoResolveCommands) resolveCommandImplementations();
-            
         }
 
 

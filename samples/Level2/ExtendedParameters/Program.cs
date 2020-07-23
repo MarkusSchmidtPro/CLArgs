@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using MSPro.CLArgs;
 
@@ -7,7 +6,7 @@ using MSPro.CLArgs;
 
 namespace Level2.ExtendedParameters
 {
-    internal partial class Program
+    internal class Program
     {
         private static void Main(string[] args)
         {
@@ -17,7 +16,6 @@ namespace Level2.ExtendedParameters
             Commander.Settings.IgnoreCase = true;
             //Commander.Settings.TraceLevel = TraceLevel.Verbose;
             Commander commander = new Commander(args);
-            
             Console.WriteLine($"Command-Line: {commander.Arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
             commander.ExecuteCommand();
@@ -39,7 +37,7 @@ namespace Level2.ExtendedParameters
 
             protected override void OnExecute(CommandParameters p)
             {
-                Console.WriteLine($"UserName: {p.DBConnection.UserName}");
+                Console.WriteLine($"UserName: {p.DbConnection.UserName}");
                 Console.WriteLine($"DatabaseTableName: {p.DatabaseTableName}");
             }
         }

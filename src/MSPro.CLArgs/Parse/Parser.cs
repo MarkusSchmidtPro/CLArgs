@@ -9,9 +9,9 @@ using System.Linq;
 namespace MSPro.CLArgs
 {
     /// <summary>
-    /// Provides the functionality to parse a command-line
+    ///     Provides the functionality to parse a command-line
     /// </summary>
-    /// <see cref="Parser"/>
+    /// <see cref="Parser" />
     internal class Parser
     {
         private readonly Settings _settings;
@@ -25,7 +25,8 @@ namespace MSPro.CLArgs
         internal Arguments Run(string[] args)
         {
             string commandLineArguments = string.Join(" ", args);
-            Arguments arguments = new Arguments(commandLineArguments);
+            Arguments arguments = new Arguments(commandLineArguments, _settings.IgnoreCase);
+            
             _currentPos = 0;
             while (_currentPos < commandLineArguments.Length)
             {
@@ -84,7 +85,7 @@ namespace MSPro.CLArgs
                 optionTag.Value = getOptionValue(arguments);
             }
             else optionTag.Value = true.ToString();
-            
+
             return optionTag;
         }
 

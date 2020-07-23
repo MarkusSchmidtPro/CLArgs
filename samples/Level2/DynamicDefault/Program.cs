@@ -4,7 +4,7 @@ using MSPro.CLArgs;
 
 
 
-namespace DynamicDefault
+namespace Level2.DynamicDefault
 {
     internal class Program
     {

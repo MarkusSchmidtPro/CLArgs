@@ -21,13 +21,13 @@ namespace MSPro.CLArgs
 
 
 
-        public Arguments(string commandLine, bool caseSensitive = true)
+        internal Arguments(string commandLine, bool ignoreCase = false)
         {
             this.CommandLine = commandLine;
 
-            IEqualityComparer<string> c = caseSensitive
-                ? StringComparer.InvariantCulture
-                : StringComparer.InvariantCultureIgnoreCase;
+            IEqualityComparer<string> c = ignoreCase
+                ? StringComparer.InvariantCultureIgnoreCase
+                : StringComparer.InvariantCulture;
             _verbs   = new HashSet<string>(c);
             _options = new Dictionary<string, Option>(c);
         }

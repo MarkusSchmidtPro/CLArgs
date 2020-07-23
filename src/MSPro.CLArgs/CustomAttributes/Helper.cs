@@ -14,7 +14,7 @@ namespace MSPro.CLArgs
             if (customAttributeOfType.Length == 0) return null;
             
             Debug.Assert(customAttributeOfType.Length == 1);
-            return (TAttribute) customAttributeOfType[0];
+            return customAttributeOfType[0];
         }
 
 

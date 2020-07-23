@@ -41,6 +41,7 @@ namespace MSPro.CLArgs
         /// </remarks>
         /// <param name="arguments"></param>
         /// <param name="errors"></param>
+        /// <param name="ignoreCase"></param>
         /// <param name="ignoreUnknownTags"></param>
         /// <returns>A unique (by name) list of Options.</returns>
         public IEnumerable<Option> ResolveOptions(Arguments arguments, 
@@ -48,7 +49,9 @@ namespace MSPro.CLArgs
                                                   bool ignoreCase = false,
                                                   bool ignoreUnknownTags = false)
         {
-            Dictionary<string, Option> optionsByName = new Dictionary<string, Option>();
+            StringComparison stringComparison = ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+            IEqualityComparer<string> stringComparer = ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture;
+            Dictionary<string, Option> optionsByName = new Dictionary<string, Option>(stringComparer);
 
             //
             // Collect options by tag (as provided in the command-line Arguments)
@@ -57,8 +60,7 @@ namespace MSPro.CLArgs
             foreach (var option in arguments.Options)
             {
                 var d = _descriptors.FirstOrDefault(
-                    i => i.Tags.Any(
-                        t => t == option.Key));
+                    i => i.Tags.Any(t => string.Equals(t, option.Key, stringComparison)));
 
                 if (d != null)
                 {

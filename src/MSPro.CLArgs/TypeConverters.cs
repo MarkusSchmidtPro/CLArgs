@@ -164,7 +164,7 @@ namespace MSPro.CLArgs
 
         private object toEnum(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
         {
-            if (targetType != typeof(Enum) && targetType.BaseType != typeof(System.Enum))
+            if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
                 throw new ArgumentException(
                     $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
                     nameof(targetType));

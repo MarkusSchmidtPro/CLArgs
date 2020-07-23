@@ -28,7 +28,7 @@ namespace MSPro.CLArgs
         ///     If set to <c>true</c> unknown options are ignored.<br />
         ///     Otherwise an error is added to the <see cref="ErrorDetailList">error collection</see>.
         /// </remarks>
-        public bool IgnoreUnknownOptions { get; set; } = false;
+        public bool IgnoreUnknownOptions { get; set; } 
 
         /// <summary>
         ///     Automatically resolve commands using <see cref="CommandResolver" />

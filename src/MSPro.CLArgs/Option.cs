@@ -14,6 +14,7 @@ namespace MSPro.CLArgs
         ///     Create a new options.
         /// </summary>
         /// <param name="tag">The name of the option.</param>
+        /// <param name="value"></param>
         public Option(string tag, string value) : this(tag) => this.Value = value;
 
 

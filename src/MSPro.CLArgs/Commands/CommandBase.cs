@@ -28,7 +28,9 @@ namespace MSPro.CLArgs
         public List<Option> ResolvedOptions { get; private set; }
 
 
-        public TypeConverters TypeConverters { get; } = new TypeConverters();
+        public TypeConverters TypeConverters { get; } = new TypeConverters();    // TODO
+        
+        
         protected abstract void OnExecute(TCommandParameters commandParameters);
 
 
@@ -42,20 +44,25 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
+        /// The handler that is called when the command execution completed.
+        /// </summary>
+        /// <remarks>
+        ///    The default handler does nothing on success or it throws an
+        ///     <see cref="AggregateException"/> in case <see cref="Errors"/> contains any record.
+        ///     Depending on the <see cref="Settings.TraceLevel"/> errors might be traced before.
+        /// </remarks>
+        public Action<ErrorDetailList> OnCompleted { get; set; } = errors =>
+        {
+            if (!errors.HasErrors()) return;
+            throw new AggregateException(errors.Details.Select(
+                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+        };
+
+
+
+        /// <summary>
         ///     Convert the options provided in the command-line into an object.
         /// </summary>
-        /// <typeparam name="TCommandOptions">The type of the object that is created and populated.</typeparam>
-        /// <param name="optionResolver">
-        ///     The options and their values as provided in the command-line and those who had a
-        ///     default value.
-        /// </param>
-        /// <param name="unresolvedProperties">
-        ///     A list of properties which were not resolved - where there
-        ///     was no value provided in the command-line. Only not <see cref="OptionDescriptorAttribute.Required" />
-        ///     options will be listed here, because required options must be in the command-line or they are listed
-        ///     in the <see cref="Errors" /> list.
-        /// </param>
-        /// <returns></returns>
         private TCommandParameters createInstance(List<Option> options)
         {
             HashSet<string> unresolvedPropertyNames = new HashSet<string>();
@@ -94,7 +101,7 @@ namespace MSPro.CLArgs
 
                     // Check if the Option is defined. It is defined when it was in the
                     // OptionDescriptorList that was used to ResolveOptions. 
-                    var option = options.FirstOrDefault(o => o.Key == boundOptionName);
+                    var option = options.FirstOrDefault(o => string.Equals( o.Key , boundOptionName));
                     if (option == null || !option.IsResolved)
                     {
                         // Should not happen because ResolveOptions should have added
@@ -129,7 +136,7 @@ namespace MSPro.CLArgs
 
 
 
-        void ICommand.Execute(Arguments arguments, bool throwIf)
+        void ICommand.Execute(Arguments arguments, bool ignoreCase)
         {
             var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
             var optionDescriptorList = provider.Get().ToList();
@@ -157,10 +164,7 @@ namespace MSPro.CLArgs
                 }
             }
 
-            if (!this.Errors.HasErrors() || !throwIf) return;
-
-            throw new AggregateException(this.Errors.Details.Select(
-                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+            OnCompleted(this.Errors);
         }
 
         #endregion
