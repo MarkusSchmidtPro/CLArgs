@@ -10,15 +10,19 @@ namespace Level2.ExtendedParameters
     {
         private static void Main(string[] args)
         {
-            // Use CommandResolver [=CurrentAssemblyResolver]
-            // to find all classes with [Command] annotation
+            // Under Commander.Settings.CommandResolver you can provide your 
+            // own CommandResolver or use the default: 
+            //     new AssemblyCommandResolver(Assembly.GetEntryAssembly());
+            // to find all classes with [Command] annotation in the EntryAssembly!
             Commander.Settings.AutoResolveCommands = true;
+            
+            // Ignore case for command-line options and verbs
             Commander.Settings.IgnoreCase = true;
-            //Commander.Settings.TraceLevel = TraceLevel.Verbose;
-            Commander commander = new Commander(args);
-            Console.WriteLine($"Command-Line: {commander.Arguments.CommandLine}");
+            Commander.Settings.IgnoreUnknownOptions = true;
+            Arguments arguments = Commander.ParseCommandLine(args);
+            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
-            commander.ExecuteCommand();
+            Commander.ExecuteCommand(arguments);
             Console.WriteLine("<<< End Main()");
         }
 
@@ -27,14 +31,6 @@ namespace Level2.ExtendedParameters
         [Command("Default")]
         private class Command : CommandBase<CommandParameters>
         {
-            public Command()
-            {
-                this.TypeConverters.Register(
-                    typeof(FileInfo), (propertyName, optionValue) => new FileInfo(optionValue));
-            }
-
-
-
             protected override void OnExecute(CommandParameters p)
             {
                 Console.WriteLine($"UserName: {p.DbConnection.UserName}");

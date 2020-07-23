@@ -4,6 +4,20 @@
 
 namespace Level2.ExtendedParameters
 {
+    /// <summary>
+    /// A very special parameter class,
+    ///     which inherits from a parameter base-class
+    ///     and which uses an <c>OptionSet</c> class with
+    ///     separate parameters.
+    /// </summary>
+    /// <remarks>
+    ///    Finally, the following command-line option tags are supported
+    ///     --t  | --DatabaseTableName (from OptionDescriptorName)
+    ///     --bs | --BaseSetting       (from OptionDescriptorName)
+    ///     --u  | 
+    ///     --p  | 
+    ///     --d  | 
+    /// </remarks>
     internal class CommandParameters : BaseParameters
     {
         [OptionSet]

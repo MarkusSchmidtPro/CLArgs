@@ -53,6 +53,13 @@ namespace MSPro.CLArgs
 
 
 
+        public static void ExecuteCommand(Arguments arguments)
+        {
+            var c = new Commander(arguments);
+            c.ExecuteCommand();
+        }
+
+
         #region Construction
 
         /// <summary>
