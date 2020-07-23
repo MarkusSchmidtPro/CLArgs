@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using MSPro.CLArgs;
 
@@ -13,6 +14,8 @@ namespace Level2.ExtendedParameters
             // Use CommandResolver [=CurrentAssemblyResolver]
             // to find all classes with [Command] annotation
             Commander.Settings.AutoResolveCommands = true;
+            Commander.Settings.IgnoreCase = true;
+            //Commander.Settings.TraceLevel = TraceLevel.Verbose;
             Commander commander = new Commander(args);
             
             Console.WriteLine($"Command-Line: {commander.Arguments.CommandLine}");

@@ -16,5 +16,24 @@ namespace MSPro.CLArgs
             Debug.Assert(customAttributeOfType.Length == 1);
             return (TAttribute) customAttributeOfType[0];
         }
+
+
+
+        /// <summary>
+        /// Run the code block enclosed in <c>action</c> if trace level allows.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="level"></param>
+        /// <param name="action"></param>
+        public static void RunIf(this Settings settings, TraceLevel level, Action action)
+        {
+            if (settings.TraceLevel >= level) action();
+        }
+        
+        public static void Trace(this Settings settings, TraceLevel level, string message)
+        {
+            if (settings.TraceLevel >= level) settings.Trace?.Invoke(message);
+        }
     }
+
 }

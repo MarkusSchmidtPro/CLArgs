@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 using MSPro.CLArgs.ErrorHandling;
@@ -132,15 +133,21 @@ namespace MSPro.CLArgs
         {
             var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
             var optionDescriptorList = provider.Get().ToList();
-            if (arguments.OptionTagProvided("clArgsTrace"))
+            Commander.Settings.RunIf(TraceLevel.Verbose, () =>
             {
                 foreach (var optionDescriptorAttribute in optionDescriptorList)
                 {
-                    Console.WriteLine(optionDescriptorAttribute.ToString());
+                    Commander.Settings.Trace( optionDescriptorAttribute.ToString());
                 }
-            }
+            });
+            
             var optionResolver = new OptionResolver(optionDescriptorList);
-            this.ResolvedOptions = optionResolver.ResolveOptions(arguments, this.Errors).ToList();
+            this.ResolvedOptions = optionResolver.ResolveOptions(
+                arguments, 
+                this.Errors, 
+                Commander.Settings.IgnoreCase,
+                Commander.Settings.IgnoreUnknownOptions).ToList();
+            
             if (!this.Errors.HasErrors())
             {
                 var commandParameters = createInstance(this.ResolvedOptions);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MSPro.CLArgs.ErrorHandling;
 
@@ -95,16 +96,17 @@ namespace MSPro.CLArgs
                 optionsByName.Add(d.OptionName, new Option(d.OptionName, d.Default?.ToString()));
             }
 
-            // Trace Debug
-            if (arguments.OptionTagProvided("clArgsTrace") && !errors.HasErrors())
+            Commander.Settings.RunIf(TraceLevel.Verbose, () =>
             {
+                if (errors.HasErrors()) return;
+
                 string resolved = string.Join(", ",
                                               optionsByName.Values.Where(o => o.IsResolved).Select(o => o.Key));
                 string unresolved = string.Join(", ",
                                                 optionsByName.Values.Where(o => !o.IsResolved).Select(o => o.Key));
-                Console.WriteLine($"CLArgs: Resolved Options: '{resolved}'");
-                Console.WriteLine($"CLArgs: Unresolved Options: '{unresolved}'");
-            }
+                Commander.Settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
+                Commander.Settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
+            });
 
             // return a unique (by name) list of Options.
             return optionsByName.Values;

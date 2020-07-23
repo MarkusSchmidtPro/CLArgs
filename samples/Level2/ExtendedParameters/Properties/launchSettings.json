@@ -2,7 +2,7 @@
   "profiles": {
     "Default": {
       "commandName": "Project",
-      "commandLineArgs": " --t=[dbo].IndexTable --u=msc --p=_ab123_ --bs --clArgsTrace"
+      "commandLineArgs": " --T=[dbo].IndexTable --u=msc --p=_ab123_ --bs"
     }
   }
 }
