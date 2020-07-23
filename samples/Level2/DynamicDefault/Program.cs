@@ -38,7 +38,7 @@ namespace Level2.DynamicDefault
         }
 
 
-
+ 
         private class CommandParameters
         {
             [OptionDescriptor("StartDate", Required = true)]
