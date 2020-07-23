@@ -59,7 +59,7 @@
             </remarks>
             <seealso cref="T:MSPro.CLArgs.Option" />
         </member>
-        <member name="M:MSPro.CLArgs.CommandLine.Parse(System.String[])">
+        <member name="M:MSPro.CLArgs.Commander.ParseCommandLine(System.String[])">
             <summary>
                 Parse the command-line arguments into a key-value list.
             </summary>

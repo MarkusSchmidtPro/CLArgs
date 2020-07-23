@@ -29,7 +29,7 @@ class Program
 	/// </summary>
     static void Main(string[] args)
     {
-        Arguments arguments = CommandLine.Parse(args);
+        Arguments arguments = Commander.ParseCommandLine(args);
         Console.WriteLine($"Command-Line: '{arguments.CommandLine}'");
         ICommand cmd = new MyConverter();
         cmd.Execute(arguments);

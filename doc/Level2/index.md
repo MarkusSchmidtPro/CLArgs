@@ -45,7 +45,7 @@ public class CommandParameters
 
   static void Main(string[] args)
   {
-      Arguments arguments = CommandLine.Parse(args);
+      Arguments arguments = Commander.ParseCommandLine(args);
 
       ICommand cmd = new SayHello.Command();
       cmd.Execute(arguments);

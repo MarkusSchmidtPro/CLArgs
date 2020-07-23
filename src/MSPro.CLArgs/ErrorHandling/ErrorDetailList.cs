@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs.ErrorHandling
 {
+    [PublicAPI]
     public class ErrorDetailList
     {
         public List<ErrorDetail> Details { get; } = new List<ErrorDetail>();
@@ -14,19 +16,18 @@ namespace MSPro.CLArgs.ErrorHandling
 
 
 
-        public void AddError(string attributeName, string errorMessage, string recordId = null)
-            => AddError(attributeName, new[] {errorMessage}, recordId);
+        public void AddError(string attributeName, string errorMessage)
+            => AddError(attributeName, new[] {errorMessage});
 
 
 
-        public void AddError(string attributeName, IEnumerable<string> errorMessages, string recordId = null)
+        public void AddError(string attributeName, IEnumerable<string> errorMessages)
         {
-            string key = recordId == null ? attributeName : $"{attributeName}#{recordId}";
             var err = this.Details.FirstOrDefault(
-                d => d.AttributeName.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+                d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
             if (err == null)
             {
-                err = new ErrorDetail(attributeName, recordId);
+                err = new ErrorDetail(attributeName);
                 this.Details.Add(err);
             }
 
@@ -44,7 +45,7 @@ namespace MSPro.CLArgs.ErrorHandling
         {
             foreach (ErrorDetail childListDetail in childList.Details)
             {
-                AddError(childListDetail.AttributeName, childListDetail.ErrorMessages, childListDetail.RecordId);
+                AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
             }
         }
     }

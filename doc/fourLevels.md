@@ -8,7 +8,7 @@ Level 1 is a bit more than just `string[] args`.  Simply parse your command-line
 
 ```csharp
 c:\> YourApp --fileName="myfile.csv" --target=XML
-Arguments arguments = CommandLine.Parse(args);
+Arguments arguments = Commander.ParseCommandLine(args);
 ```
 
 See also 

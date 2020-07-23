@@ -11,7 +11,7 @@
 
 
 
-The first action that takes place is parsing the command-line, which is just a string. The *Parser* splits the string into several tokens. A *Token* can become either a *Verb* or an *Option*, and the result is called: `Arguments arguments = CommandLine.Parse( args);`
+The first action that takes place is parsing the command-line, which is just a string. The *Parser* splits the string into several tokens. A *Token* can become either a *Verb* or an *Option*, and the result is called: `Arguments arguments = Commander.ParseCommandLine( args);`
 
 `Arguments` contains a *List* of `Verbs` and a *Dictionary* of `Options`. All values are of type string: we are parsing, not converting, yet.
 

@@ -1,13 +1,13 @@
 # Level 1 - Basic
 
-The very first step when you use `CLArgs` is to parse the command-line: `CommandLine.Parse(args)`. This will return an `Arguments` object containing all *Verbs* and *Options* from the command-line.
+The very first step when you use `CLArgs` is to parse the command-line: `Commander.ParseCommandLine(args)`. This will return an `Arguments` object containing all *Verbs* and *Options* from the command-line.
 
 ```csharp
 using MSPro.CLArgs;
 
 static void Main(string[] args)
 {
-	Arguments arguments = CommandLine.Parse(args);
+	Arguments arguments = Commander.ParseCommandLine(args);
 
 	//
 	// Functionality: Display arguments

@@ -23,7 +23,7 @@ namespace MSPro.CLArgs.Sample3
 
             try
             {
-                Arguments arguments = CommandLine.Parse(args);
+                Arguments arguments = Commander.ParseCommandLine(args);
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 
                 Commander commander = new Commander();

@@ -8,7 +8,7 @@ The `args[]` passed to the `Program`. Basically the command-line itself. *Args* 
 private static int Main(string[] args)
 {
 	...
-	Arguments arguments = CommandLine.Parse(args);`
+	Arguments arguments = Commander.ParseCommandLine(args);`
 	...
 ```
 

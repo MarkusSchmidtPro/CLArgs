@@ -10,16 +10,20 @@ namespace Level2.ExtendedParameters
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = CommandLine.Parse(args);
-            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
+            // Use CommandResolver [=CurrentAssemblyResolver]
+            // to find all classes with [Command] annotation
+            Commander.Settings.AutoResolveCommands = true;
+            Commander commander = new Commander(args);
+            
+            Console.WriteLine($"Command-Line: {commander.Arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
-            ICommand cmd = new Command();
-            cmd.Execute(arguments);
+            commander.ExecuteCommand();
             Console.WriteLine("<<< End Main()");
         }
 
 
 
+        [Command("Default")]
         private class Command : CommandBase<CommandParameters>
         {
             public Command()

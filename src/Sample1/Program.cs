@@ -19,7 +19,7 @@ namespace MSPro.CLArgs.Sample1
             Console.WriteLine("Parsing command-line arguments ...");
             try
             {
-                Arguments arguments = CommandLine.Parse(args);
+                Arguments arguments = Commander.ParseCommandLine(args);
 
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 

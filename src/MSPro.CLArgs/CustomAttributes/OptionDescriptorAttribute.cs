@@ -4,7 +4,7 @@
 
 namespace MSPro.CLArgs
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class OptionDescriptorAttribute : Attribute
     {
         public OptionDescriptorAttribute(string optionName, string tag = null)
@@ -25,12 +25,6 @@ namespace MSPro.CLArgs
 
 
         public new string ToString() =>
-            $"{this.OptionName}: [{DebuggerDisplayTags()}], required={this.Required}, Default={this.Default}";
-
-
-
-#if DEBUG
-        private string DebuggerDisplayTags() => $"{string.Join(",", this.Tags)}";
-#endif
+            $"{this.OptionName}: [{string.Join(",", this.Tags)}], required={this.Required}, Default={this.Default}";
     }
 }

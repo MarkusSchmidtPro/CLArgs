@@ -25,7 +25,7 @@ Et voilà: simply create new classes, give them a name and you can use them via 
 ```csharp
 private static void Main(string[] args)
 {
-    Arguments arguments = CommandLine.Parse(args);
+    Arguments arguments = Commander.ParseCommandLine(args);
     Console.WriteLine($"Command-Line: {arguments.CommandLine}");
     
     var configuration // build the container, collect [Exports]

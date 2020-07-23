@@ -39,7 +39,7 @@ namespace MSPro.CLArgs.Sample2
             // 
             try
             {
-                Arguments arguments = CommandLine.Parse(args);
+                Arguments arguments = Commander.ParseCommandLine(args);
                 Console.WriteLine($"\nCommand-Line: >{arguments.CommandLine}<");
 
                 // Application's functionality is implemented in the

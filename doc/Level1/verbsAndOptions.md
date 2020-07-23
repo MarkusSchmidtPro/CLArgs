@@ -1,6 +1,6 @@
 # Verbs and Options
 
-If you call `Arguments arguments = CommandLine.Parse(args);` you get 
+If you call `Arguments arguments = Commander.ParseCommandLine(args);` you get 
 
 * a list of *Verbs* and 
 * a dictionary of *[Options](options.md)*. 
@@ -34,7 +34,7 @@ There is also a `VerbPath` property that would return `word1.text2.verb3`.
 ```csharp
 private static void Main(string[] args)
 {
-	Arguments arguments = CommandLine.Parse(args);
+	Arguments arguments = Commander.ParseCommandLine(args);
     switch (arguments.VerbPath)
     {
         if (arguments.VerbPath == "word1")

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using MSPro.CLArgs;
 
 
@@ -16,7 +15,7 @@ namespace Level1.Options
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = CommandLine.Parse(args);
+            Arguments arguments = Commander.ParseCommandLine(args);
             Console.WriteLine(">>> Start Functionality");
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
     

@@ -14,24 +14,17 @@ namespace MSPro.CLArgs
     /// <see cref="Parser"/>
     internal class Parser
     {
-        private readonly char[] _optionNameIdentChars;
-        private readonly char[] _optionValueIdentChars;
-
-
+        private readonly Settings _settings;
         private int _currentPos;
 
 
+        public Parser() => _settings = Commander.Settings;
 
-        public Parser(char[] optionNameIdentChars, char[] optionValueIdentChars)
+
+
+        internal Arguments Run(string[] args)
         {
-            _optionNameIdentChars  = optionNameIdentChars;
-            _optionValueIdentChars = optionValueIdentChars;
-        }
-
-
-
-        internal Arguments Run(string commandLineArguments)
-        {
+            string commandLineArguments = string.Join(" ", args);
             Arguments arguments = new Arguments(commandLineArguments);
             _currentPos = 0;
             while (_currentPos < commandLineArguments.Length)
@@ -41,7 +34,7 @@ namespace MSPro.CLArgs
                 {
                     _currentPos++;
                 }
-                else if (_optionNameIdentChars.Any(tag => c == tag))
+                else if (_settings.OptionsTags.Any(tag => c == tag))
                 {
                     arguments.AddOption(getOption(commandLineArguments));
                 }
@@ -82,8 +75,8 @@ namespace MSPro.CLArgs
         private Option getOption(string arguments)
         {
             // Name starts at first char that is not an optionsNameIdent
-            skipChars(arguments, _optionNameIdentChars);
-            Option optionTag = new Option(readUntil(arguments, _optionValueIdentChars));
+            skipChars(arguments, _settings.OptionsTags);
+            Option optionTag = new Option(readUntil(arguments, _settings.OptionValueTags));
             if (arguments.Length > _currentPos && arguments[_currentPos] != ' ')
             {
                 // an option value was provided

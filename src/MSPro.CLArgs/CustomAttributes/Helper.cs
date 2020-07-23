@@ -10,7 +10,7 @@ namespace MSPro.CLArgs
     {
         public static TAttribute GetFirst<TAttribute>(this ICustomAttributeProvider pi) where TAttribute : Attribute
         {
-            var customAttributeOfType = pi.GetCustomAttributes(typeof(TAttribute), true);
+            TAttribute[] customAttributeOfType = (TAttribute[]) pi.GetCustomAttributes(typeof(TAttribute), true);
             if (customAttributeOfType.Length == 0) return null;
             
             Debug.Assert(customAttributeOfType.Length == 1);

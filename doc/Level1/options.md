@@ -12,7 +12,7 @@ Options are (configuration) values that your application requires to execute a c
 c:\ > MyApp --Opt1=45`
 
 : Code
-Arguments arguments = CommandLine.Parse(args);
+Arguments arguments = Commander.ParseCommandLine(args);
 
 : Result
 arguments.Options["Opt1"] = "45"
@@ -32,7 +32,7 @@ You can update or add options when required: use the `Arguments.Upsert` (*Upsert
 ```csharp
 const string OPTION_NAME = "fileName";
 
-Arguments arguments = CommandLine.Parse(args);
+Arguments arguments = Commander.ParseCommandLine(args);
 
 // Check if the 'fileName' option exist - was provided in the command-line
 bool fileNameProvided = arguments.Options.ContainsKey(OPTION_NAME);

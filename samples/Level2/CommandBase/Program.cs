@@ -9,7 +9,7 @@ namespace Level2.CommandBaseSample
     {
         static void Main(string[] args)
         {
-            Arguments arguments = CommandLine.Parse(args);
+            Arguments arguments = Commander.ParseCommandLine(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
             

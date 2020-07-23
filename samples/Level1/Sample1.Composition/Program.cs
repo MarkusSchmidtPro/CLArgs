@@ -16,7 +16,7 @@ namespace Sample1.Composition
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = CommandLine.Parse(args);
+            Arguments arguments = Commander.ParseCommandLine(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
 
             // Please refer to Microsoft's documentation to get used to System.Composition

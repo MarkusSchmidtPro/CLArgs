@@ -22,7 +22,7 @@ Simply parse your command-line into `Arguments` - *Verbs* and *Options*:
 
 ```
 c:\ > YourApp --fileName="myfile.csv" --target=XML
-Arguments arguments = CommandLine.Parse(args);
+Arguments arguments = Commander.ParseCommandLine(args);
 ```
 
 ### Level 2 - Standard
@@ -51,7 +51,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Arguments arguments = CommandLine.Parse(args);
+        Arguments arguments = Commander.ParseCommandLine(args);
         Console.WriteLine($"Command-Line: ''{arguments.CommandLine}''");
         ICommand cmd = new MyConverter();
         cmd.Execute(arguments);

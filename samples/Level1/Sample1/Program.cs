@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using MSPro.CLArgs;
 
 
@@ -17,7 +15,7 @@ namespace Sample1
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = CommandLine.Parse(args);
+            Arguments arguments = Commander.ParseCommandLine(args);
 
             //
             // Functionality: Display arguments
