@@ -10,17 +10,17 @@ namespace Level2.DynamicDefault
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = Commander.ParseCommandLine(args);
+            Arguments arguments = CommandLineParser.Parse(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
-            ICommand cmd = new DynamicDefaultCommand();
+            var cmd = new DynamicDefaultCommandBase();
             cmd.Execute(arguments);
             Console.WriteLine("<<< End Main()");
         }
 
 
 
-        private class DynamicDefaultCommand : CommandBase<CommandParameters>
+        private class DynamicDefaultCommandBase : CommandBase<CommandParameters>
         {
             protected override void OnResolveProperties( CommandParameters ps, HashSet<string> unresolvedPropertyNames)
             {

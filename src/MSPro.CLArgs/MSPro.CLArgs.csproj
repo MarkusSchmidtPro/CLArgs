@@ -13,7 +13,6 @@
       <AssemblyVersion>1.0.*</AssemblyVersion>
       <Version>1.2007.10.00</Version>
       <FileVersion>1.2007.17.00</FileVersion>
-      <SignAssembly>true</SignAssembly>
       <Description>Console application command-line support.</Description>
       <PackageIcon>command-line.png</PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

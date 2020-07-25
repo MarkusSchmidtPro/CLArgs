@@ -19,6 +19,9 @@ namespace MSPro.CLArgs
         public TraceLevel TraceLevel { get; set; } = TraceLevel.Off;
         public Action<string> Trace { get; set; } = Console.WriteLine;
 
+
+        public TypeConverters TypeConverters { get; } = new TypeConverters(); // TODO
+
         public bool IgnoreCase { get; set; }
 
         /// <summary>
@@ -28,12 +31,12 @@ namespace MSPro.CLArgs
         ///     If set to <c>true</c> unknown options are ignored.<br />
         ///     Otherwise an error is added to the <see cref="ErrorDetailList">error collection</see>.
         /// </remarks>
-        public bool IgnoreUnknownOptions { get; set; } 
+        public bool IgnoreUnknownOptions { get; set; }
 
         /// <summary>
         ///     Automatically resolve commands using <see cref="CommandResolver" />
         /// </summary>
-        public bool AutoResolveCommands { get; set; }
+        public bool AutoResolveCommands { get; set; } = true;
 
         /// <summary>
         ///     Get or set an object to resolve all known commands (and verbs).

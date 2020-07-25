@@ -1,4 +1,5 @@
 ﻿using System;
+using Level2.CommandBaseSample.SayHello;
 using MSPro.CLArgs;
 
 
@@ -9,11 +10,11 @@ namespace Level2.CommandBaseSample
     {
         static void Main(string[] args)
         {
-            Arguments arguments = Commander.ParseCommandLine(args);
+            Arguments arguments = CommandLineParser.Parse(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
             
-            ICommand cmd = new SayHello.Command();
+            Command cmd = new SayHello.Command();
             cmd.Execute(arguments);
             
             Console.WriteLine("<<< End Main()");

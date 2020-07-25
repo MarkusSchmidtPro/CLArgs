@@ -11,22 +11,50 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Provides the functionality to parse a command-line
     /// </summary>
-    /// <see cref="Parser" />
-    internal class Parser
+    /// <see cref="CommandLineParser" />
+    public class CommandLineParser
     {
         private readonly Settings _settings;
         private int _currentPos;
 
 
-        public Parser() => _settings = Commander.Settings;
+
+        /// <summary>
+        ///     Create a new instance.
+        /// </summary>
+        /// <param name="settings">
+        ///     Provide a <see cref="Settings" /> instance to control the parsing behaviour:
+        ///     <see cref="Settings.IgnoreCase" />,
+        ///     <see cref="Settings.OptionValueTags" /> and
+        ///     <see cref="Settings.OptionsTags" /> are of interest here.
+        /// </param>
+        public CommandLineParser(Settings settings = null)
+        {
+            _settings = settings ?? new Settings();
+        }
 
 
 
-        internal Arguments Run(string[] args)
+        /// <summary>
+        ///     Shortcut and preferred way to use CommandLineParser.
+        /// </summary>
+        /// <remarks>
+        ///     Same as <code>new CommandLineParser(settings).Run(args);</code>.
+        /// </remarks>
+        /// <seealso cref="CommandLineParser(Settings)" />
+        public static Arguments Parse(string[] args, Settings settings = null)
+            => new CommandLineParser(settings).Run(args);
+
+
+
+        /// <summary>
+        ///     Parse a given command-line.
+        /// </summary>
+        public Arguments Run(string[] args)
         {
             string commandLineArguments = string.Join(" ", args);
             Arguments arguments = new Arguments(commandLineArguments, _settings.IgnoreCase);
-            
+
             _currentPos = 0;
             while (_currentPos < commandLineArguments.Length)
             {

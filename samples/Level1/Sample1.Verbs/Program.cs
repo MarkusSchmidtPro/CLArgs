@@ -17,7 +17,7 @@ namespace Sample1.Verbs
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = Commander.ParseCommandLine(args);
+            Arguments arguments = CommandLineParser.Parse(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             
             //

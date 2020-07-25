@@ -9,13 +9,13 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class CommandAttribute : Attribute
     {
-        public string Name { get; set; }
+        public string Verb { get; set; }
 
 
 
-        public CommandAttribute(string name)
+        public CommandAttribute(string verb)
         {
-            this.Name = name;
+            this.Verb = verb;
         }
     }
 }

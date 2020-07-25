@@ -1,21 +1,38 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [PublicAPI]
     public class OptionDescriptorAttribute : Attribute
     {
-        public OptionDescriptorAttribute(string optionName, string tag = null)
+        public OptionDescriptorAttribute(string optionName, 
+                                         string[] tags,
+                                         bool required = false, 
+                                         object defaultValue = null,
+                                         string description = null)
         {
             this.OptionName = optionName;
-            this.Tags       = new[] {tag ?? optionName};
-            this.Required   = false;
+            this.Tags        = tags;
+            this.Description = description;
+            this.Default     = defaultValue;
+            this.Required    = required;
+        }
+        
+        public OptionDescriptorAttribute(string optionName, 
+                                         string tag=null,
+                                         bool required = false, 
+                                         object defaultValue = null,
+                                         string description = null)
+            :this(optionName,new[] {tag ?? optionName}, required, defaultValue, description)
+        {
         }
 
-
-
+        
+        
         public string OptionName { get; set; }
         public string[] Tags { get; set; }
         public string Description { get; set; }

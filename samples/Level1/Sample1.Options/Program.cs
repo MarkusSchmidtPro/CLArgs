@@ -15,7 +15,7 @@ namespace Level1.Options
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = Commander.ParseCommandLine(args);
+            Arguments arguments = CommandLineParser.Parse(args);
             Console.WriteLine(">>> Start Functionality");
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
     

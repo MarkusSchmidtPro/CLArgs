@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1", "Level1\Sample1\Sample1.csproj", "{6143C319-BDFD-4BE0-A0FF-AB9213DD47DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample0101.ParseOnly", "Level1\Sample0101.ParseOnly\Sample0101.ParseOnly.csproj", "{6143C319-BDFD-4BE0-A0FF-AB9213DD47DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level1", "Level1", "{FF4C03AA-2241-4D92-825A-0D48EF2F081F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Verbs", "Level1\Sample1.Verbs\Sample1.Verbs.csproj", "{27ABE321-EB5C-4101-ADD6-8A6B59864CD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Composition", "Level1\Sample1.Composition\Sample1.Composition.csproj", "{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.SimpleAsThat", "Level1\Sample1.SimpleAsThat\Sample1.SimpleAsThat.csproj", "{7C6B0A28-8B50-4B8F-9167-C4D6A42135B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample1.Options", "Level1\Sample1.Options\Sample1.Options.csproj", "{999452BE-16A5-4648-97E6-11F16DC2C445}"
 EndProject

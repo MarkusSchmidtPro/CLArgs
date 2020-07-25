@@ -9,25 +9,24 @@ namespace Level2.ExtendedParameters
     {
         private static void Main(string[] args)
         {
-            // Under Commander.Settings.CommandResolver you can provide your 
-            // own CommandResolver or use the default: 
-            //     new AssemblyCommandResolver(Assembly.GetEntryAssembly());
-            // to find all classes with [Command] annotation in the EntryAssembly!
-            Commander.Settings.AutoResolveCommands = true;
-
-            // Ignore case for command-line options and verbs
-            Commander.Settings.IgnoreCase = true;
-            Arguments arguments = Commander.ParseCommandLine(args);
-            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
-            Commander.ExecuteCommand(arguments);
+            Commander.ExecuteCommand(args, new Settings
+            {
+                // Under Commander.Settings.CommandResolver you can provide your 
+                // own CommandResolver or use the default: 
+                //     new AssemblyCommandResolver(Assembly.GetEntryAssembly());
+                // to find all classes with [Command] annotation in the EntryAssembly!
+                AutoResolveCommands = true,
+                // Ignore case for command-line options and verbs
+                IgnoreCase = true
+            });
             Console.WriteLine("<<< End Main()");
         }
 
 
 
         [Command("Default")]
-        private class Command : CommandBase<CommandParameters>
+        private class CommandBase : CommandBase<CommandParameters>
         {
             protected override void OnExecute(CommandParameters p)
             {

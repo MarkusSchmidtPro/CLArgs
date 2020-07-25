@@ -10,11 +10,8 @@ namespace Level2.ValueConversion
     {
         private static void Main(string[] args)
         {
-            Arguments arguments = Commander.ParseCommandLine(args);
-            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
-            ICommand cmd = new Command();
-            cmd.Execute(arguments);
+            Commander.ExecuteCommand(args);
             Console.WriteLine("<<< End Main()");
         }
 
@@ -22,11 +19,13 @@ namespace Level2.ValueConversion
 
         private class Command : CommandBase<CommandParameters>
         {
+            /*
             public Command()
             {
                 this.TypeConverters.Register(
                     typeof(FileInfo), (propertyName, optionValue) => new FileInfo(optionValue));
             }
+            */
 
 
 

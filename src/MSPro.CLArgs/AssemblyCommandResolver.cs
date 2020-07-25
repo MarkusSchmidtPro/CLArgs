@@ -26,9 +26,9 @@ namespace MSPro.CLArgs
 
                 if (commandTypeInfo.ImplementedInterfaces.All(i => i != typeof(ICommand)))
                     throw new ApplicationException(
-                        $"Command {commandAttribute.Name} doe not implement the {nameof(ICommand)} interface.");
+                        $"Command {commandAttribute.Verb} doe not implement the {nameof(ICommand)} interface.");
 
-                result[commandAttribute.Name] = commandTypeInfo; 
+                result[commandAttribute.Verb] = commandTypeInfo; 
             }
             return result;
         }

@@ -14,7 +14,7 @@ namespace MSPro.CLArgs
     /// <remarks>
     ///     An option as it is parsed from command-line is of type <see cref="Option" />.<br />
     /// </remarks>
-    class OptionResolver
+    internal class OptionResolver
     {
         /// <summary>
         ///     Options with any of these Tags will not be marked as unresolved.
@@ -33,7 +33,7 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
-        ///     Resolve all options by tag to options by name.
+        ///     Resolve all options from command-line by tag into options by name.
         /// </summary>
         /// <remarks>
         ///     All <see cref="Arguments.Options" /> are resolved into an
@@ -41,16 +41,23 @@ namespace MSPro.CLArgs
         /// </remarks>
         /// <param name="arguments"></param>
         /// <param name="errors"></param>
-        /// <param name="ignoreCase"></param>
-        /// <param name="ignoreUnknownTags"></param>
+        /// <param name="ignoreCase">If <c>true<c /> cases will be ignored when parsing tags.</param>
+        /// <param name="ignoreUnknownTags">
+        ///     If <c>true</c> unknown tags provided in the command-line will be ignored.<br/>
+        ///     If set to <c>false</c> options provided in the command-line where there is no matching OptionDescriptor
+        ///     will be recognized as 'too much' (not known). If there is any, <see cref="errors"/> will contain
+        ///     the corresponding messages.
+        /// </param>
         /// <returns>A unique (by name) list of Options.</returns>
-        public IEnumerable<Option> ResolveOptions(Arguments arguments, 
-                                                  ErrorDetailList errors, 
+        public IEnumerable<Option> ResolveOptions(Arguments arguments,
+                                                  ErrorDetailList errors,
                                                   bool ignoreCase = false,
                                                   bool ignoreUnknownTags = false)
         {
-            StringComparison stringComparison = ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
-            IEqualityComparer<string> stringComparer = ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture;
+            StringComparison stringComparison =
+                ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
+            IEqualityComparer<string> stringComparer =
+                ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture;
             Dictionary<string, Option> optionsByName = new Dictionary<string, Option>(stringComparer);
 
             //
@@ -61,13 +68,13 @@ namespace MSPro.CLArgs
             {
                 // Find an OptionDescriptor by searching in all Tags and in the Options name
                 var optionDescriptor = _descriptors.FirstOrDefault(
-                    desc => 
+                    desc =>
                         desc.Tags.Any(t => string.Equals(t, option.Key, stringComparison))
-                        || string.Equals(desc.OptionName, option.Key) );
+                        || string.Equals(desc.OptionName, option.Key));
 
                 if (optionDescriptor != null)
                 {
-                    optionsByName[optionDescriptor.OptionName] = new Option( optionDescriptor.OptionName, option.Value);
+                    optionsByName[optionDescriptor.OptionName] = new Option(optionDescriptor.OptionName, option.Value);
                 }
                 else if (!ignoreUnknownTags && !_wellKnownOptions.Contains(option.Key))
                 {
@@ -100,18 +107,6 @@ namespace MSPro.CLArgs
             {
                 optionsByName.Add(d.OptionName, new Option(d.OptionName, d.Default?.ToString()));
             }
-
-            Commander.Settings.RunIf(TraceLevel.Verbose, () =>
-            {
-                if (errors.HasErrors()) return;
-
-                string resolved = string.Join(", ",
-                                              optionsByName.Values.Where(o => o.IsResolved).Select(o => o.Key));
-                string unresolved = string.Join(", ",
-                                                optionsByName.Values.Where(o => !o.IsResolved).Select(o => o.Key));
-                Commander.Settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
-                Commander.Settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
-            });
 
             // return a unique (by name) list of Options.
             return optionsByName.Values;

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SuperSimple": {
-      "commandName": "Project",
-      "commandLineArgs": "verb1 verb2 --fileName='c:\\myfile.csv' --target='XML 1' --lines=7"
-    }
-  }
-}
