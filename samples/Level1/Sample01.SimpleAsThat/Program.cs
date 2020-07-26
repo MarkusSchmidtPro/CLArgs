@@ -3,8 +3,20 @@ using MSPro.CLArgs;
 
 
 
-namespace Sample1.SimpleAsThat
+namespace CLArgs.Sample.SimpleAsThat
 {
+    /// <summary>
+    ///     The easiest way to use CLArgs.
+    /// </summary>
+    /// <remarks>
+    ///     Let the <see cref="Commander" /> automatically
+    ///     resolves all classes in the Entry Assembly
+    ///     which inherit from <see cref="CommandBase{TParam}" /> and which are
+    ///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
+    ///     <br />
+    ///     You can configure <see cref="Settings.AutoResolveCommands" >command resolution</see>
+    ///     and many other thins by using <see cref="Settings" />. More details will follow and other examples.
+    /// </remarks>
     internal static class Program
     {
         /// <summary>
@@ -15,20 +27,7 @@ namespace Sample1.SimpleAsThat
         /// <see cref="HelloWorldCommand" />
         private const string COMMAND_LINE = "--country=Germany --count=3";
 
-
-
-        /// <summary>
-        ///     The easiest way to use CLArgs.
-        /// </summary>
-        /// <remarks>
-        ///     Let the <see cref="Commander" /> automatically
-        ///     resolves all classes in the Entry Assembly
-        ///     which inherit from <see cref="CommandBase{TParam}" /> and which are
-        ///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
-        ///     <br />
-        ///     You can configure <see cref="Settings.AutoResolveCommands" >command resolution</see>
-        ///     and many other thins by using <see cref="Settings" />. More details will follow and other examples.
-        /// </remarks>
+ 
         private static void Main(string[] args)
         {
             Console.WriteLine(">>> Start Main");

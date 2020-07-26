@@ -15,7 +15,6 @@ namespace MSPro.CLArgs
     {
         private readonly Dictionary<string, Func<ICommand>> _commands;
         private readonly Settings _settings;
-        private readonly Arguments _arguments;
 
 
 
@@ -29,11 +28,10 @@ namespace MSPro.CLArgs
         ///     be parsed and Command implementations will be resolved (in case <see cref="Settings.AutoResolveCommands" /> is set
         ///     to true.
         /// </remarks>
-        public Commander([NotNull] string[] args, Settings settings = null)
+        public Commander(Settings settings = null)
         {
             _settings = settings ?? new Settings();
             _commands = new Dictionary<string, Func<ICommand>>();
-            _arguments = CommandLineParser.Parse(args);
             // Resolve commands and register CommandBase factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
@@ -69,6 +67,36 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
+        ///     Directly bind a function to a verb.
+        /// </summary>
+        /// <param name="verb">The Verb</param>
+        /// <param name="func">
+        ///     The function that is executed when the verbs passed in the
+        ///     command-line (<see cref="Arguments.VerbPath" /> are equal to the <paramref name="verb" />.
+        /// </param>
+        /// <example>
+        /// <code>
+        /// string COMMAND_LINE = "word1 text2 verb3";
+        /// // Arguments.VerbPath is executed
+        /// var commander = new Commander(new Settings { AutoResolveCommands = false });
+        /// commander.RegisterFunction("word1", word);
+        /// commander.RegisterFunction("word1.text2", text);
+        /// commander.RegisterFunction("word1.text2.verb3", verb);
+        /// commander.ExecuteCommand(args);
+        /// </code></example>
+        /// <exception cref="ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
+        /// <seealso cref="ExecuteCommand(string[])"/>
+        /// <seealso cref="Arguments.VerbPath "/>
+        /// <seealso cref="Settings.AutoResolveCommands"/>
+        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func)
+        {
+            if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
+            _commands[verb] = () => new CommandWrapper(func);
+        }
+
+
+
+        /// <summary>
         ///     Resolve a Command implementation by Verb.
         /// </summary>
         /// <seealso cref="Settings.AutoResolveCommands" />
@@ -84,8 +112,8 @@ namespace MSPro.CLArgs
 
             // Invoke Default Command
             if (verb == null) return _commands.First().Value();
-            
-            
+
+
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
             if (!_commands.ContainsKey(verb))
                 throw new IndexOutOfRangeException(
@@ -100,13 +128,14 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Execute the command referenced by <see cref="CLArgs.Arguments.VerbPath" />.
         /// </summary>
-        public void ExecuteCommand()
+        public void ExecuteCommand([NotNull] string[] args)
         {
             if (_commands == null || _commands.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            ICommand command = ResolveCommand(this._arguments.VerbPath);
-            command.Execute(this._arguments, _settings);
+            Arguments arguments = CommandLineParser.Parse(args);
+            ICommand command = ResolveCommand(arguments.VerbPath);
+            command.Execute(arguments, _settings);
         }
 
 
@@ -115,7 +144,7 @@ namespace MSPro.CLArgs
         ///     Shortcut and preferred way to use Commander.
         /// </summary>
         public static void ExecuteCommand(string[] args, Settings settings = null) =>
-            new Commander(args, settings).ExecuteCommand();
+            new Commander(settings).ExecuteCommand(args);
 
 
 

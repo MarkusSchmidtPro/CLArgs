@@ -7,45 +7,75 @@ using MSPro.CLArgs;
 namespace Sample1.Verbs
 {
     /// <summary>
-    ///     Do something with your verbs.
+    ///     Demonstrates how to manually register verb-functionality.
     /// </summary>
     /// <remarks>
     ///     A <c>Verb</c> normally tells your application to <c>do</c> something.
-    ///     A <c>Verb</c> specifies which functionality should be executed 
+    ///     A <c>Verb</c> specifies which functionality should be executed.
     /// </remarks>
     internal static class Program
     {
+        /// <summary>
+        ///     The test command-line for this example.
+        /// </summary>
+        private const string COMMAND_LINE = "word1 text2 verb3";
+
+
+
         private static void Main(string[] args)
         {
-            Arguments arguments = CommandLineParser.Parse(args);
-            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
+            Console.WriteLine(">>> Start Main");
+            Console.WriteLine($"Command-Line: {COMMAND_LINE}");
+            args = COMMAND_LINE.Split(' ');
+            // ------------------------------------------------
+
+             
+            Console.WriteLine("--- Commander resolution");
+            var commander = new Commander(new Settings
+            {
+                AutoResolveCommands = false
+            });
+            commander.RegisterFunction("word1", word);
+            commander.RegisterFunction("word1.text2", text);
+            commander.RegisterFunction("word1.text2.verb3", verb);
+            commander.ExecuteCommand(args);
             
-            //
-            // Functionality: Display arguments
-            // [1] = {string} "verb2" View
-            Console.WriteLine(">>> Start Functionality");
-            // for (int i = 0; i < arguments.Verbs.Count; i++)
-            // {
-            //     string verb = arguments.Verbs[i];
-            //     Console.WriteLine($"Verb[{i}] = '{verb}'");
-            // }
+            Console.WriteLine("--- Manual resolution");
+            completelyManual(args);
 
-            if (arguments.VerbPath == "word1")
-                word();
-            else if (arguments.VerbPath == "word1.text2")
-                text();
-            else if (arguments.VerbPath == "word1.text2.verb3")
-                verb();
-            else
-                Debug.Fail("Don't know what to do!");
+            
+            
 
-            Console.WriteLine("<<< End Functionality");
+            // ------------------------------------------------
+            Console.WriteLine("<<< End Main");
         }
 
 
 
-        static void word() => Console.WriteLine("Function Word");
-        static void text() => Console.WriteLine("Function Text");
-        static void verb() => Console.WriteLine("Function Verb");
+        #region Completely manual
+
+        /// <summary>
+        ///     Manual resolution of functionality by Verb.
+        /// </summary>
+        private static void completelyManual(string[] args)
+        {
+            Arguments arguments = CommandLineParser.Parse(args);
+            if (arguments.VerbPath == "word1")
+                word(arguments);
+            else if (arguments.VerbPath == "word1.text2")
+                text(arguments);
+            else if (arguments.VerbPath == "word1.text2.verb3")
+                verb(arguments);
+            else
+                Debug.Fail("Don't know what to do!");
+        }
+
+
+
+        private static void word(Arguments arguments) => Console.WriteLine("Function Word");
+        private static void text(Arguments arguments) => Console.WriteLine("Function Text");
+        private static void verb(Arguments arguments) => Console.WriteLine("Function Verb");
+
+        #endregion
     }
 }
