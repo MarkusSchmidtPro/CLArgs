@@ -3,7 +3,7 @@ using MSPro.CLArgs;
 
 
 
-namespace Sample1
+namespace CLArgs.Sample.ParseOnly
 {
     /// <summary>
     ///     Simply parse your command-line arguments.
@@ -21,10 +21,16 @@ namespace Sample1
         /// Parse the command-line args
         /// and print Verbs and Options.
         /// </summary>
-        /// <param name="args"><see cref="COMMAND_LINE"/> split into <paramref name="args"/>.</param>
-        private static void MainDemo(string[] args)
+        private static void Main(string[] args)
         {
+            Console.WriteLine(">>> Start Main");
+            // --- Use Demo command-line ---
+            args = COMMAND_LINE.Split(' ');
+            // ------------------------------------------------
+            
             Arguments arguments = CommandLineParser.Parse(args);
+            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
+            
             foreach (string verb in arguments.Verbs)
             {
                 Console.WriteLine($"Verb='{verb}'");
@@ -34,22 +40,9 @@ namespace Sample1
             {
                 Console.WriteLine($"Options[{option.Key}] = '{option.Value}'");
             }
+            
+            // ------------------------------------------------
+            Console.WriteLine("<<< End Main");
         }
-        
-        
-
-        #region Application Startup
-
-        private static void Main(string[] args)
-        {
-            // Use Demo command-line
-            args = COMMAND_LINE.Split(' ');
-
-            Console.WriteLine(">>> Start Functionality");
-            MainDemo(args);
-            Console.WriteLine("<<< End Functionality");
-        }
-
-        #endregion
     }
 }

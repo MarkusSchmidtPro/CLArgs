@@ -7,15 +7,16 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
-    
     /// <summary>
-    /// The top level class to easily use 'CLArgs'.
+    ///     The top level class to easily use 'CLArgs'.
     /// </summary>
     [PublicAPI]
     public class Commander
     {
-        private readonly Dictionary<string, Func<ICommand>> _commands ;
+        private readonly Dictionary<string, Func<ICommand>> _commands;
         private readonly Settings _settings;
+        private readonly Arguments _arguments;
+
 
 
         /// <summary>
@@ -28,22 +29,14 @@ namespace MSPro.CLArgs
         ///     be parsed and Command implementations will be resolved (in case <see cref="Settings.AutoResolveCommands" /> is set
         ///     to true.
         /// </remarks>
-        public Commander([NotNull] string[] args, Settings settings=null)
+        public Commander([NotNull] string[] args, Settings settings = null)
         {
             _settings = settings ?? new Settings();
             _commands = new Dictionary<string, Func<ICommand>>();
-                
-            this.Arguments1 = CommandLineParser.Parse(args);
+            _arguments = CommandLineParser.Parse(args);
             // Resolve commands and register CommandBase factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
-
-
-
-        /// <summary>
-        ///     The Verbs and Options as they were provided in the command-line.
-        /// </summary>
-        public Arguments Arguments1 { get; }
 
 
 
@@ -56,7 +49,7 @@ namespace MSPro.CLArgs
         ///     If there is already a command registered for the same <paramref name="verb" />
         ///     the 'old' command is overridden.
         /// </remarks>
-        /// <param name="verb">The <see cref="Arguments.Verbs" /> that is linked to this Command</param>
+        /// <param name="verb">The <see cref="CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
         /// <param name="factory">A factory function that return an instance of <see cref="CommandBase{TCommandParameters}" />.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
         /// <example>
@@ -80,12 +73,20 @@ namespace MSPro.CLArgs
         /// </summary>
         /// <seealso cref="Settings.AutoResolveCommands" />
         /// <seealso cref="RegisterCommandFactory" />
-        /// <param name="verb">The verb for which and implementation should be resolved.</param>
-        public ICommand ResolveCommand([NotNull] string verb)
+        /// <param name="verb">
+        ///     The verb for which and implementation should be resolved.
+        ///     IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
+        /// </param>
+        public ICommand ResolveCommand(string verb)
         {
-            if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
-            if (_commands==null || _commands.Count == 0) 
+            if (_commands == null || _commands.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
+
+            // Invoke Default Command
+            if (verb == null) return _commands.First().Value();
+            
+            
+            if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
             if (!_commands.ContainsKey(verb))
                 throw new IndexOutOfRangeException(
                     $"There is no Command registered for verb ${verb}. "
@@ -96,17 +97,16 @@ namespace MSPro.CLArgs
 
 
 
-
         /// <summary>
-        ///     Execute the command referenced by <see cref="Arguments.VerbPath" />.
+        ///     Execute the command referenced by <see cref="CLArgs.Arguments.VerbPath" />.
         /// </summary>
         public void ExecuteCommand()
         {
-            if (_commands==null || _commands.Count == 0)
+            if (_commands == null || _commands.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
-            
-            ICommand command = ResolveCommand(this.Arguments1.VerbPath);
-            command.Execute(this.Arguments1, _settings);
+
+            ICommand command = ResolveCommand(this._arguments.VerbPath);
+            command.Execute(this._arguments, _settings);
         }
 
 
@@ -114,17 +114,18 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Shortcut and preferred way to use Commander.
         /// </summary>
-        public static void ExecuteCommand(string[] args, Settings settings=null) => new Commander(args, settings).ExecuteCommand();
+        public static void ExecuteCommand(string[] args, Settings settings = null) =>
+            new Commander(args, settings).ExecuteCommand();
 
 
 
         private void resolveCommandImplementations()
         {
-            Dictionary<string, Type> verbAndCommandTypes = this._settings.CommandResolver.GetCommandTypes();
+            Dictionary<string, Type> verbAndCommandTypes = _settings.CommandResolver.GetCommandTypes();
             if (verbAndCommandTypes.Count == 0)
                 throw new ApplicationException(
-                    $"{nameof(this._settings.AutoResolveCommands)} is {this._settings.AutoResolveCommands} " +
-                    $"however the resolver {this._settings.CommandResolver.GetType()} did not find any CommandBase implementation! " +
+                    $"{nameof(_settings.AutoResolveCommands)} is {_settings.AutoResolveCommands} " +
+                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any CommandBase implementation! " +
                     "Make sure the resolver can see/find the Commands.");
 
             foreach (var commandType in verbAndCommandTypes)

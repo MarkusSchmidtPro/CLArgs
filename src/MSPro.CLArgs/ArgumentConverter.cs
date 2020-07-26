@@ -12,7 +12,7 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Turns Arguments into a parameter object of a specified type..
     /// </summary>
-    public class ArgumentConverter<TTarget> where TTarget: class,new()
+    class ArgumentConverter<TTarget> where TTarget: class,new()
     {
         private readonly ErrorDetailList _errors = new ErrorDetailList();
         private readonly Settings _settings;
@@ -22,7 +22,7 @@ namespace MSPro.CLArgs
         /// </summary>
         private List<Option> _resolvedOptions;
 
-        public ArgumentConverter( Settings settings)
+        public ArgumentConverter( [NotNull] Settings settings)
         {
             _settings = settings;
         }
@@ -141,6 +141,7 @@ namespace MSPro.CLArgs
                             _settings.TypeConverters.Convert(boundOptionName, option.Value, _errors, targetType);
                         pi.SetValue(instance, propertyValue);
                     }
+                    
                 }
             }
             return instance;

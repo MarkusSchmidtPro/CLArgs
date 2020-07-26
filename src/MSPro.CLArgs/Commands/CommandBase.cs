@@ -17,9 +17,9 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
     {
-        public void Execute(Arguments arguments, Settings settings=null)
+        public void Execute([NotNull] Arguments arguments, [CanBeNull] Settings settings=null)
         {
-            if (settings != null) settings = new Settings();
+            if (settings == null) settings = new Settings();
             
             ArgumentConverter<TCommandParameters> c
                 = new ArgumentConverter<TCommandParameters>(settings);

@@ -17,7 +17,6 @@ namespace MSPro.CLArgs
     public class Arguments
     {
         private readonly Dictionary<string, Option> _options;
-        private readonly HashSet<string> _verbs;
 
 
 
@@ -28,8 +27,8 @@ namespace MSPro.CLArgs
             IEqualityComparer<string> c = ignoreCase
                 ? StringComparer.InvariantCultureIgnoreCase
                 : StringComparer.InvariantCulture;
-            _verbs   = new HashSet<string>(c);
-            _options = new Dictionary<string, Option>(c);
+            this.Verbs = new HashSet<string>(c);
+            _options   = new Dictionary<string, Option>(c);
         }
 
 
@@ -44,13 +43,18 @@ namespace MSPro.CLArgs
         ///     The list of verbs in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public HashSet<string> Verbs => _verbs;
+        public HashSet<string> Verbs { get; }
+
 
 
         /// <summary>
         ///     All Verbs as a '.' concatenated list - namespaced verbs.
         /// </summary>
-        public string VerbPath => string.Join(".", this.Verbs);
+        /// <returns>
+        ///     All <see cref="Verbs" /> concatenated by '.', for example, 'HelloWorld.Germany'.<br />
+        ///     <c>null</c> in case, no verb was provided in the command-line.
+        /// </returns>
+        public string VerbPath => this.Verbs.Count == 0 ? null : string.Join(".", this.Verbs);
 
         /// <summary>
         ///     A key-value list of all options provided in the command-line.
@@ -63,9 +67,10 @@ namespace MSPro.CLArgs
 
         public bool OptionTagProvided(string optionTag) => _options.ContainsKey(optionTag);
 
-        public void AddVerb(string verb) => _verbs.Add(verb);
+        public void AddVerb(string verb) => this.Verbs.Add(verb);
 
         public void AddOption(Option option) => _options[option.Key] = option;
+
 
 
         /// <summary>
