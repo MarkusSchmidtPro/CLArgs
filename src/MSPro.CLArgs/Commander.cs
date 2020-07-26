@@ -128,12 +128,11 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Execute the command referenced by <see cref="CLArgs.Arguments.VerbPath" />.
         /// </summary>
-        public void ExecuteCommand([NotNull] string[] args)
+        public void ExecuteCommand([NotNull] Arguments arguments)
         {
             if (_commands == null || _commands.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            Arguments arguments = CommandLineParser.Parse(args);
             ICommand command = ResolveCommand(arguments.VerbPath);
             command.Execute(arguments, _settings);
         }
@@ -143,8 +142,14 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Shortcut and preferred way to use Commander.
         /// </summary>
+        /// <example>
+        ///    Full code:
+        ///     <code>
+        ///     new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args))
+        ///     </code>
+        /// </example>
         public static void ExecuteCommand(string[] args, Settings settings = null) =>
-            new Commander(settings).ExecuteCommand(args);
+            new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args));
 
 
 

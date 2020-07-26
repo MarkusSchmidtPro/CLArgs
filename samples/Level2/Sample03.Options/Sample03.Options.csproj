@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Level2.ExtendedParameters</RootNamespace>
-    <AssemblyName>Level2.ExtendedParameters</AssemblyName>
+    <RootNamespace>CLArgs.Sample.Options</RootNamespace>
+    <AssemblyName>CLArgs.Sample.Options</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

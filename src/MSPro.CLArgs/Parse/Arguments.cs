@@ -69,7 +69,10 @@ namespace MSPro.CLArgs
 
         public void AddVerb(string verb) => this.Verbs.Add(verb);
 
-        public void AddOption(Option option) => _options[option.Key] = option;
+
+
+        /// <inheritdoc cref="SetOption(MSPro.CLArgs.Option)" />
+        public void SetOption(Option option) => _options[option.Key] = option;
 
 
 
@@ -77,6 +80,6 @@ namespace MSPro.CLArgs
         ///     Manually add or update an option.
         /// </summary>
         /// <remarks>Options are unique by their <see cref="Option.Key" /></remarks>
-        public void AddOption(string tag, string value) => AddOption(new Option(tag, value));
+        public void SetOption(string tag, string value) => SetOption(new Option(tag, value));
     }
 }

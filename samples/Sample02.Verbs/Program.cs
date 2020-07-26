@@ -4,7 +4,7 @@ using MSPro.CLArgs;
 
 
 
-namespace Sample1.Verbs
+namespace CLArgs.Sample.Verbs
 {
     /// <summary>
     ///     Demonstrates how to manually register verb-functionality.

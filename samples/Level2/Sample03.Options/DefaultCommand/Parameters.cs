@@ -2,23 +2,24 @@
 
 
 
-namespace Level2.ExtendedParameters
+namespace CLArgs.Sample.Options.DefaultCommand
 {
     /// <summary>
     /// A very special parameter class,
-    ///     which inherits from a parameter base-class
+    ///     which inherits from a base-class <see cref="BaseParameters"/>
     ///     and which uses an <c>OptionSet</c> class with
     ///     separate parameters.
     /// </summary>
     /// <remarks>
     ///    Finally, the following command-line option tags are supported
+    ///    OptionName and/or any OptionTag:
     ///     --t  | --DatabaseTableName (from OptionDescriptorName)
     ///     --bs | --BaseSetting       (from OptionDescriptorName)
     ///     --u  | 
     ///     --p  | 
     ///     --d  | 
     /// </remarks>
-    internal class CommandParameters : BaseParameters
+    internal class Parameters : BaseParameters
     {
         [OptionSet]
         public Connection DbConnection { get; set; }
@@ -45,7 +46,7 @@ namespace Level2.ExtendedParameters
     /// </summary>
     /// <remarks>
     ///     The connection-triple is used by many parameters.
-    ///     So we can define these parameters in a separate class as some kind of <c>option group</c>
+    ///     So we can define these parameters in a separate class as an <see cref="OptionSetAttribute"/>.
     /// </remarks>
     internal class Connection
     {

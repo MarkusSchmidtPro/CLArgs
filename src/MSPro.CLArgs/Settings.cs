@@ -41,6 +41,11 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Get or set an object to resolve all known commands (and verbs).
         /// </summary>
+        /// <remarks>
+        /// The default resolver is
+        ///    <see cref="AssemblyCommandResolver"/>(<b>Assembly.GetEntryAssembly()</b>),
+        /// to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
+        /// </remarks>
         public ICommandResolver CommandResolver { get; set; } =
             new AssemblyCommandResolver(Assembly.GetEntryAssembly());
 

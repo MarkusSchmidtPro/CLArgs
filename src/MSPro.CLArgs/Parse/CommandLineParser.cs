@@ -65,7 +65,7 @@ namespace MSPro.CLArgs
                 }
                 else if (_settings.OptionsTags.Any(tag => c == tag))
                 {
-                    arguments.AddOption(getOption(commandLineArguments));
+                    arguments.SetOption(getOption(commandLineArguments));
                 }
                 else if (char.IsLetter(c))
                 {

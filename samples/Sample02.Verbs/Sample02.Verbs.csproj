@@ -3,13 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>CLArgs.Sample.ParseOnly</RootNamespace>
-    <AssemblyName>CLArgs.Sample.ParseOnly</AssemblyName>
+    <RootNamespace>CLArgs.Sample.Verbs</RootNamespace>
+    <AssemblyName>CLArgs.Sample.Verbs</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+    <ProjectReference Include="..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
   </ItemGroup>
-
 
 </Project>

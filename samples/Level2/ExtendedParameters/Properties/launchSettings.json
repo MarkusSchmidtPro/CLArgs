@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Default": {
-      "commandName": "Project",
-      "commandLineArgs": " --T=[dbo].IndexTable --u=msc --p=_ab123_ --BaseSetting"
-    }
-  }
-}
