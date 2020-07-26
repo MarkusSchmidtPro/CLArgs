@@ -4,7 +4,7 @@ using System.Linq;
 
 
 
-namespace MSPro.CLArgs.ErrorHandling
+namespace MSPro.CLArgs
 {
     [DebuggerDisplay("{ErrorMessages[0]}")]
     public class ErrorDetail

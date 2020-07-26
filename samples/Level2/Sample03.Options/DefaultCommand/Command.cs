@@ -8,11 +8,11 @@ namespace CLArgs.Sample.Options.DefaultCommand
     [Command("DemoCommand")]
     class Command : CommandBase<Parameters>
     {
-        protected override void OnExecute(Parameters p)
+        protected override void Execute(Parameters ps)
         {
-            Console.WriteLine($"UserName: {p.DbConnection.UserName}");
-            Console.WriteLine($"Password: {p.DbConnection.Password}");
-            Console.WriteLine($"DatabaseTableName: {p.DatabaseTableName}");
+            Console.WriteLine($"UserName: {ps.DbConnection.UserName}");
+            Console.WriteLine($"Password: {ps.DbConnection.Password}");
+            Console.WriteLine($"DatabaseTableName: {ps.DatabaseTableName}");
         }
     }
 }

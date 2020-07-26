@@ -38,7 +38,9 @@ namespace CLArgs.Sample.Verbs
             commander.RegisterFunction("word1", word);
             commander.RegisterFunction("word1.text2", text);
             commander.RegisterFunction("word1.text2.verb3", verb);
-            commander.ExecuteCommand(args);
+            
+            Arguments arguments = CommandLineParser.Parse(args);
+            commander.ExecuteCommand(arguments);
             
             Console.WriteLine("--- Manual resolution");
             completelyManual(args);

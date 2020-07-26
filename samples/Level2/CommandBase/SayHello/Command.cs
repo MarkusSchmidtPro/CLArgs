@@ -10,11 +10,11 @@ namespace Level2.CommandBaseSample.SayHello
 {
     public class Command : CommandBase<CommandParameters>
     {
-        protected override void OnExecute(CommandParameters p)
+        protected override void Execute(CommandParameters ps)
         {
-            for (int i = 0; i < p.Count; i++)
+            for (int i = 0; i < ps.Count; i++)
             {
-                Console.WriteLine($"{i}: Hello {p.Country}");
+                Console.WriteLine($"{i}: Hello {ps.Country}");
             }
         }
     }

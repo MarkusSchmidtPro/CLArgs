@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Default": {
-      "commandName": "Project",
-      "commandLineArgs": "--StartDate=2020-11-01"
-    }
-  }
-}

@@ -71,10 +71,10 @@ namespace CLArgs.Sample.SimpleAsThat
     [Command("HelloWorld")]
     internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
     {
-        protected override void OnExecute(HelloWorldParameters p)
+        protected override void Execute(HelloWorldParameters ps)
         {
-            for (int i = 0; i < p.Count; i++)
-                Console.WriteLine($"Hello {p.Country}!");
+            for (int i = 0; i < ps.Count; i++)
+                Console.WriteLine($"Hello {ps.Country}!");
         }
     }
 }

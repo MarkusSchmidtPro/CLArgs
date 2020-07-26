@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using MSPro.CLArgs.ErrorHandling;
 
 
 
@@ -17,42 +16,75 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
     {
-        public void Execute([NotNull] Arguments arguments, [CanBeNull] Settings settings=null)
+        public void Execute([NotNull] Arguments arguments, [CanBeNull] Settings settings = null)
         {
-            if (settings == null) settings = new Settings();
-            
-            ArgumentConverter<TCommandParameters> c
-                = new ArgumentConverter<TCommandParameters>(settings);
-            var errors= c.TryConvert(arguments, 
-                                     out var commandParameters,
-                out var unresolvedPropertyNames);
+            settings ??= new Settings();
+            ArgumentConverter<TCommandParameters> c = new ArgumentConverter<TCommandParameters>(settings);
+            var errors = c.TryConvert(arguments,
+                                      out var commandParameters,
+                                      out var unresolvedPropertyNames);
             if (!errors.HasErrors())
             {
-                if( unresolvedPropertyNames.Count>0)
-                    OnResolveProperties(commandParameters,unresolvedPropertyNames);
-                
-                OnExecute( commandParameters);
+                BeforeExecute(commandParameters, unresolvedPropertyNames, errors);
+                if (!errors.HasErrors()) Execute(commandParameters);
             }
-            else OnError(errors);
+
+            if (errors.HasErrors()) OnError(errors, false);
         }
 
 
 
-        protected virtual void OnError(ErrorDetailList errors)
+        /// <summary>
+        ///     Make sure everything is set-up and ready to execute the command.
+        /// </summary>
+        /// <remarks>
+        ///     Use this method to validate <see cref="parameters" />,
+        ///     to provide provide dynamic defaults and/or to resolve parameter.<br />
+        ///     The method s called immediately before the command's <see cref="Execute(TCommandParameters)" /> method is called.
+        ///     In case, <paramref name="errors" /> contains any value, <see cref="OnError" /> is called instead of
+        ///     <see cref="Execute(TCommandParameters)" />.
+        /// </remarks>
+        /// <param name="parameters">
+        ///     The parameter object (target instance) that will be used to execute the Command.
+        /// </param>
+        /// <param name="unresolvedPropertyNames">
+        ///     A <see cref="HashSet" /> containing those parameter properties that haven't yet got a value: neither by assigning a
+        ///     command-line option nor was there a default value defined in the properties
+        ///     <see cref="OptionDescriptorAttribute" />.
+        /// </param>
+        /// <param name="errors">
+        ///     The error object. In case of any error, use <see cref="ErrorDetailList.AddError(string,string)" />
+        ///     to add your errors to this list.
+        /// </param>
+        /// <seealso cref="OnError" />
+        protected virtual void BeforeExecute(
+            TCommandParameters parameters,
+            HashSet<string> unresolvedPropertyNames,
+            ErrorDetailList errors)
         {
+        }
+
+
+
+        protected abstract void Execute(TCommandParameters ps);
+
+
+
+        /// <summary>
+        ///     Error handler in case of any error.
+        ///     <remarks>
+        ///         The default implementation of <see cref="OnError" /> simply throws an
+        ///         <see cref="AggregateException" /> in case of any error. You can avoid this by overriding this method.
+        ///     </remarks>
+        /// </summary>
+        /// <param name="errors">The errors that have occured.</param>
+        /// <param name="handled">If <c>true</c> the method does nothing anymore, because it expects the errors have been handled.</param>
+        /// <exception cref="AggregateException">Always</exception>
+        protected virtual void OnError(ErrorDetailList errors, bool handled)
+        {
+            if (handled) return;
             throw new AggregateException(errors.Details.Select(
                                              e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
-
         }
-
-        protected virtual void OnResolveProperties(
-            TCommandParameters commandParameters,
-            HashSet<string> unresolvedPropertyNames)
-        {
-        }
-
-
-
-        protected abstract void OnExecute(TCommandParameters commandParameters);
     }
 }

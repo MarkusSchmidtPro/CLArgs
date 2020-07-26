@@ -8,7 +8,7 @@ namespace CLArgs.Sample.Options
 {
     /// <summary>
     ///     Options are provided in the command-line.
-    ///     See here how Options are converted to Parameters.
+    ///     Options are converted to Parameters - behind the scenes!
     ///     Parameters is the strongly typed object that is passed to a Command.
     /// </summary>
     internal class Program
@@ -17,7 +17,7 @@ namespace CLArgs.Sample.Options
         ///     The test command-line for this example.
         /// </summary>
         /// <remarks>
-        ///     Verb:    None -> use Default Command - there is only one in this example!
+        ///     Verb:    None = Default Command - there is only one in this example!
         ///     Options: <see cref="DefaultCommand.Parameters" /> class how these options are turned into Parameters.
         /// </remarks>
         private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --p=_ab123_ --BaseSetting";
@@ -32,13 +32,17 @@ namespace CLArgs.Sample.Options
             // ------------------------------------------------
 
             //
-            // The easiest way: use the static Commander.ExecuteCommand()
+            // The easy way: use the static Commander.ExecuteCommand()
             //
             // Commander auto resolution will resolve the one and only 
-            // class with [Command("DemoCommand")] annotation.
-            // This will become the ' DefaultCommand'.
-            // Then Commander will convert the command-line args into an
-            // DefaultCommand.Parameters object and execute the Command.
+            // class with [Command("DemoCommand")] annotation, which 
+            // becomes the ' DefaultCommand'.
+            //
+            // Then Commander then evaluates the command parameter type and
+            // converts the command-line args into an
+            // DefaultCommand.Parameters object.
+            //
+            // Finally it executes the Command.
             //
             Console.WriteLine("--- Minimum Code");
             Commander.ExecuteCommand(args, new Settings {IgnoreCase = true});
@@ -55,10 +59,11 @@ namespace CLArgs.Sample.Options
             // Let's change the argument from commands-line 
             Arguments arguments = CommandLineParser.Parse(args);
             arguments.SetOption("DatabaseTableName", "AnotherTable");
-            
+
             // Execute the Command with slightly different Options
             commander.ExecuteCommand(arguments);
-
+          
+            // ------------------------------------------------
             Console.WriteLine("<<< End Main()");
         }
     }

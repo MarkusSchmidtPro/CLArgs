@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs.ErrorHandling
+namespace MSPro.CLArgs
 {
     [PublicAPI]
     public class ErrorDetailList
@@ -47,6 +48,26 @@ namespace MSPro.CLArgs.ErrorHandling
             {
                 AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
             }
+        }
+
+
+
+        /// <summary>
+        ///     Easy way to get one complete message for all errors
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder msg = new StringBuilder($"{this.Details.Count} ERROR(s) occured.\n");
+            foreach (var detail in this.Details)
+            {
+                msg.AppendLine($"ERROR on {detail.AttributeName}");
+                foreach (string errorMessage in detail.ErrorMessages)
+                {
+                    msg.AppendLine($"\t{errorMessage}");
+                }
+            }
+            return msg.ToString();
         }
     }
 }

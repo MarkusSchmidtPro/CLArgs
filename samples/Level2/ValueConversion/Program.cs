@@ -29,10 +29,10 @@ namespace Level2.ValueConversion
 
 
 
-            protected override void OnExecute(CommandParameters p)
+            protected override void Execute(CommandParameters ps)
             {
-                Console.WriteLine($"FileType: {p.FileType}");
-                Console.WriteLine($"FilePath: {p.SourceFile.FullName}");
+                Console.WriteLine($"FileType: {ps.FileType}");
+                Console.WriteLine($"FilePath: {ps.SourceFile.FullName}");
             }
         }
 
