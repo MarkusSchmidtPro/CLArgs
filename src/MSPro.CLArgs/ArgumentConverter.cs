@@ -129,7 +129,7 @@ namespace MSPro.CLArgs
                         // when there is no matching option.  
                         unresolvedPropertyNames.Add(targetPropertyName);
                     }
-                    else if (!_settings.TypeConverters.CanConvert(targetType))
+                    else if (!_settings.ValueConverters.CanConvert(targetType))
                     {
                         _errors.AddError(targetPropertyName,
                                          $"No type converter found for type {targetType} of property {targetPropertyName} ");
@@ -137,7 +137,7 @@ namespace MSPro.CLArgs
                     else
                     {
                         object propertyValue =
-                            _settings.TypeConverters.Convert(boundOptionName, option.Value, _errors, targetType);
+                            _settings.ValueConverters.Convert(option.Value, boundOptionName, _errors, targetType);
                         pi.SetValue(instance, propertyValue);
                     }
                     

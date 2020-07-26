@@ -50,6 +50,7 @@
     <None Remove="MSPro.CLArgs.csproj.DotSettings" />
     <Compile Remove="CommandLineOptionsConverter.cs" />
     <None Remove="Schmidt_e-Services.snk" />
+    <Compile Remove="Parse\CommandLine.cs" />
   </ItemGroup>
 
   <ItemGroup>

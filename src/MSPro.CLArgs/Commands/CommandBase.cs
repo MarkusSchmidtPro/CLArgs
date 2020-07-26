@@ -19,6 +19,7 @@ namespace MSPro.CLArgs
         public void Execute([NotNull] Arguments arguments, [CanBeNull] Settings settings = null)
         {
             settings ??= new Settings();
+            BeforeArgumentConversion(arguments, settings);
             ArgumentConverter<TCommandParameters> c = new ArgumentConverter<TCommandParameters>(settings);
             var errors = c.TryConvert(arguments,
                                       out var commandParameters,
@@ -30,6 +31,22 @@ namespace MSPro.CLArgs
             }
 
             if (errors.HasErrors()) OnError(errors, false);
+        }
+
+
+
+        /// <summary>
+        /// </summary>
+        /// <remarks>
+        ///     This method is called before any Argument conversion takes place.
+        ///     Override this method to add your custom Argument to Property
+        ///     <see cref="Settings.ValueConverters">TypeConverters</see>.<br />
+        ///     You may also use this method to
+        ///     <see cref="Arguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
+        ///     to your arguments.
+        /// </remarks>
+        protected virtual void BeforeArgumentConversion( [NotNull] Arguments arguments, [NotNull] Settings settings )
+        {
         }
 
 

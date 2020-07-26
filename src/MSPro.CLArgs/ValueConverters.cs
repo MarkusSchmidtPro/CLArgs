@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace MSPro.CLArgs
 {
     [PublicAPIAttribute]
-    public class TypeConverters
+    public class ValueConverters
     {
         /// <summary>
         ///     Convert from <c>string</c> int a
@@ -36,13 +36,17 @@ namespace MSPro.CLArgs
         /// </code>
         /// </example>
         public delegate object FromStringDelegate(
-            string value, string optionName, ErrorDetailList errors = null, Type targetType = null);
+            string optionValue, string optionName, ErrorDetailList errors, Type targetType);
 
 
 
-        public TypeConverters()
+        private readonly Dictionary<Type, FromStringDelegate> _items;
+
+
+
+        public ValueConverters()
         {
-            this._items = new Dictionary<Type, FromStringDelegate>
+            _items = new Dictionary<Type, FromStringDelegate>
             {
                 {typeof(DateTime), toDateTime},
                 {typeof(string), toString},
@@ -54,49 +58,28 @@ namespace MSPro.CLArgs
 
 
 
-        private readonly Dictionary<Type, FromStringDelegate> _items;
-
-
-
-        public object Convert(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
-            FromStringDelegate converter
-                = _items.ContainsKey(targetType) ? _items[targetType] : _items[targetType.BaseType];
-            return converter(optionName, optionValue, errors, targetType);
-        }
-
-
-
-        /// <summary>
-        /// Register a converter that does not report conversion errors.
-        /// </summary>
-        /// <param name="targetType"></param>
-        /// <param name="convertFunc"></param>
-        public void Register(Type targetType, Func<string, string, object> convertFunc)
-        {
-            // ReSharper disable once ConvertToLocalFunction
-            FromStringDelegate convertWithOutErrors
-                = (optionName, optionValue, errors, type) => convertFunc(optionName, optionValue);
-            Register(targetType, convertWithOutErrors);
+            FromStringDelegate converter =
+                _items.ContainsKey(targetType) ? _items[targetType] : _items[targetType.BaseType];
+            return converter(optionValue, optionName, errors, targetType);
         }
 
 
 
         public void Register(Type targetType, FromStringDelegate convertFunc)
-        {
-            _items[targetType] = convertFunc;
-        }
+            => _items[targetType] = convertFunc;
 
 
 
-        public bool CanConvert(Type targetType) => 
-            this._items.ContainsKey(targetType) || _items.ContainsKey(targetType.BaseType);
+        public bool CanConvert(Type targetType) =>
+            _items.ContainsKey(targetType) || _items.ContainsKey(targetType.BaseType);
 
 
 
         #region Out-Of-The_Box Converters
 
-        private object toString(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+        private object toString(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
             if (targetType != typeof(string))
                 throw new ArgumentException(
@@ -108,7 +91,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toInt(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+        private object toInt(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
             if (targetType != typeof(int))
                 throw new ArgumentException(
@@ -123,7 +106,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toBool(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+        private object toBool(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
             if (targetType != typeof(bool))
                 throw new ArgumentException(
@@ -146,7 +129,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toDateTime(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+        private object toDateTime(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
             if (targetType != typeof(DateTime))
                 throw new ArgumentException(
@@ -159,9 +142,9 @@ namespace MSPro.CLArgs
             return d;
         }
 
- 
 
-        private object toEnum(string optionName, string optionValue, ErrorDetailList errors, Type targetType)
+
+        private object toEnum(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
         {
             if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
                 throw new ArgumentException(

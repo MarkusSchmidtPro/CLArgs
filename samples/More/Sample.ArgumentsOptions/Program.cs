@@ -3,7 +3,7 @@ using MSPro.CLArgs;
 
 
 
-namespace Sample.ArgumentsOptions
+namespace CLArgs.Sample.ArgumentsOptions
 {
     /// <summary>
     ///     CLArgs example to demonstrate Options basics. 

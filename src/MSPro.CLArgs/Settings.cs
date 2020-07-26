@@ -19,7 +19,7 @@ namespace MSPro.CLArgs
         public Action<string> Trace { get; set; } = Console.WriteLine;
 
 
-        public TypeConverters TypeConverters { get; } = new TypeConverters(); // TODO
+        public ValueConverters ValueConverters { get; } = new ValueConverters(); 
 
         public bool IgnoreCase { get; set; }
 
