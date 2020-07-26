@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace MSPro.CLArgs
 {
-    static class ExtensionMethods
+    internal static class ExtensionMethods
     {
         public static TAttribute GetFirst<TAttribute>(this ICustomAttributeProvider pi) where TAttribute : Attribute
         {

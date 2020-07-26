@@ -11,7 +11,7 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Turns Arguments into a parameter object of a specified type..
     /// </summary>
-    class ArgumentConverter<TTarget> where TTarget: class,new()
+    internal class ArgumentConverter<TTarget> where TTarget: class,new()
     {
         private readonly ErrorDetailList _errors = new ErrorDetailList();
         private readonly Settings _settings;
@@ -90,10 +90,9 @@ namespace MSPro.CLArgs
         /// <param name="instanceType"></param>
         /// <param name="options"></param>
         /// <param name="unresolvedPropertyNames"></param>
-        /// <returns></returns>
-        private object resolvePropertyValue(Type instanceType,
-                                             IReadOnlyCollection<Option> options,
-                                             ISet<string> unresolvedPropertyNames)
+        private object resolvePropertyValue([NotNull] Type instanceType,
+                                            [NotNull] IReadOnlyCollection<Option> options,
+                                            [NotNull] ISet<string> unresolvedPropertyNames)
         {
             object instance = Activator.CreateInstance(instanceType);
             foreach (var pi in instanceType.GetProperties())

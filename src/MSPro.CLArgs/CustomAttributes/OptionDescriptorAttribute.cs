@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property)]
     [PublicAPI]
     public class OptionDescriptorAttribute : Attribute
     {

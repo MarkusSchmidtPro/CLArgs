@@ -57,7 +57,7 @@ namespace MSPro.CLArgs
         /// <remarks>
         ///     Use this method to validate <see cref="parameters" />,
         ///     to provide provide dynamic defaults and/or to resolve parameter.<br />
-        ///     The method s called immediately before the command's <see cref="Execute(TCommandParameters)" /> method is called.
+        ///     The method s called immediately before the Command <see cref="Execute(TCommandParameters)" /> method is called.
         ///     In case, <paramref name="errors" /> contains any value, <see cref="OnError" /> is called instead of
         ///     <see cref="Execute(TCommandParameters)" />.
         /// </remarks>
@@ -65,7 +65,7 @@ namespace MSPro.CLArgs
         ///     The parameter object (target instance) that will be used to execute the Command.
         /// </param>
         /// <param name="unresolvedPropertyNames">
-        ///     A <see cref="HashSet" /> containing those parameter properties that haven't yet got a value: neither by assigning a
+        ///     A <see cref="HashSet{T}" /> containing those parameter properties that haven't yet got a value: neither by assigning a
         ///     command-line option nor was there a default value defined in the properties
         ///     <see cref="OptionDescriptorAttribute" />.
         /// </param>

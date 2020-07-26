@@ -10,12 +10,12 @@
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2007.10.00</Version>
-      <FileVersion>1.2007.17.00</FileVersion>
+      <Version>1.2007.26.01</Version>
+      <FileVersion>1.2007.26.01</FileVersion>
       <Description>Console application command-line support.</Description>
-      <PackageIcon>command-line.png</PackageIcon>
+      <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <PackageVersion>1.2007.17.00</PackageVersion>
+      <PackageVersion>$(Version)</PackageVersion>
       <Title>CLArgs - Command Line at it's best</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -24,42 +24,33 @@
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
       <TargetFrameworks>net452;netstandard2.0;netstandard2.1</TargetFrameworks>
       <LangVersion>default</LangVersion>
+      <ApplicationIcon></ApplicationIcon>
+      <PackageLicenseExpression></PackageLicenseExpression>
+      <PackageReleaseNotes>Code Complete (no support for --help yet)</PackageReleaseNotes>
     </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\Public\Documents\Sync\Daten\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.xml</DocumentationFile>
+    <DocumentationFile>MSPro.CLArgs.xml</DocumentationFile>
   </PropertyGroup>
 
+  
   <ItemGroup>
-    <Compile Remove="Images\**" />
-    <EmbeddedResource Remove="Images\**" />
-    <None Remove="Images\**" />
-    <None Include=".\Images\command-line.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Remove="MSPro.CLArgs.xml" />
-    <Compile Remove="AppExecutionProperties.cs" />
-    <Compile Remove="TypeConversion\**" />
-    <EmbeddedResource Remove="TypeConversion\**" />
-    <None Remove="TypeConversion\**" />
-    <None Remove="MSPro.CLArgs.csproj.DotSettings" />
-    <Compile Remove="CommandLineOptionsConverter.cs" />
+    <None Remove="CLArgs.png" />
+    <None Remove="command-line.ico" />
+    <None Remove="command-line.png" />
+    <None Remove="Images\CLArgs.ico" />
+    <None Remove="Images\CLArgs.png" />
     <None Remove="Schmidt_e-Services.snk" />
-    <Compile Remove="Parse\CommandLine.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="IArgDescriptorsProvider.cs" />
-    <Compile Remove="OptionDescriptor.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\CLArgs.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

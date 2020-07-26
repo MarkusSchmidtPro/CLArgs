@@ -14,14 +14,14 @@ namespace MSPro.CLArgs
         ///     <paramref name="targetType" />
         ///     .
         /// </summary>
-        /// <param name="value">The option value of type <c>string</c></param>
+        /// <param name="optionValue">The option value of type <c>string</c></param>
         /// <param name="optionName">
         ///     The name of the property on which the converter value will be set.
         /// </param>
         /// <param name="errors">
         ///     The error collection where to add conversion errors.
         /// </param>
-        /// <param name="targetType">The into which <paramref name="value" /> should be converted.</param>
+        /// <param name="targetType">The into which <paramref name="optionValue" /> should be converted.</param>
         /// <returns>
         ///     The converted value of type
         ///     <param ref="targetType"></param>
@@ -58,7 +58,7 @@ namespace MSPro.CLArgs
 
 
 
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, [NotNull] Type targetType)
         {
             FromStringDelegate converter =
                 _items.ContainsKey(targetType) ? _items[targetType] : _items[targetType.BaseType];
@@ -113,16 +113,15 @@ namespace MSPro.CLArgs
                     $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
                     nameof(targetType));
 
-            if (!bool.TryParse(optionValue, out var boolValue))
-            {
-                // boolean conversion failed, try int conversion on <>0
-                if (int.TryParse(optionValue, out var intValue))
-                    // int conversion possible 
-                    boolValue = intValue != 0;
-                else
-                    errors.AddError(optionName,
-                                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
-            }
+            if (bool.TryParse(optionValue, out var boolValue)) return boolValue;
+            
+            // boolean conversion failed, try int conversion on <>0
+            if (int.TryParse(optionValue, out var intValue))
+                // int conversion possible 
+                boolValue = intValue != 0;
+            else
+                errors.AddError(optionName,
+                                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
 
             return boolValue;
         }

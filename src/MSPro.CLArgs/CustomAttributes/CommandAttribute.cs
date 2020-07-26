@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     [PublicAPI]
     public class CommandAttribute : Attribute
     {

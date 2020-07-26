@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 
@@ -40,7 +39,7 @@ namespace MSPro.CLArgs
         /// </remarks>
         /// <param name="arguments"></param>
         /// <param name="errors"></param>
-        /// <param name="ignoreCase">If <c>true<c /> cases will be ignored when parsing tags.</param>
+        /// <param name="ignoreCase">If <c>true</c> cases will be ignored when parsing tags.</param>
         /// <param name="ignoreUnknownTags">
         ///     If <c>true</c> unknown tags provided in the command-line will be ignored.<br/>
         ///     If set to <c>false</c> options provided in the command-line where there is no matching OptionDescriptor

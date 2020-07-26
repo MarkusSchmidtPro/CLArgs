@@ -11,7 +11,7 @@ namespace CLArgs.Sample.SimpleAsThat
     /// <remarks>
     ///     Let the <see cref="Commander" /> automatically
     ///     resolves all classes in the Entry Assembly
-    ///     which inherit from <see cref="CommandBase{TParam}" /> and which are
+    ///     which inherit from <see cref="ConsoleApp.Skeleton{TParam}" /> and which are
     ///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
     ///     <br />
     ///     You can configure <see cref="Settings.AutoResolveCommands" >command resolution</see>

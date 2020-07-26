@@ -21,18 +21,12 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Create a new Commander instance.
         /// </summary>
-        /// <param name="args">The arguments as provided to <code>void Main( string[] args)</code>.</param>
         /// <param name="settings">Settings used to control CLArgs overall behaviour.</param>
-        /// <remarks>
-        ///     When creating an instance the provided <see cref="args" /> will
-        ///     be parsed and Command implementations will be resolved (in case <see cref="Settings.AutoResolveCommands" /> is set
-        ///     to true.
-        /// </remarks>
         public Commander(Settings settings = null)
         {
             _settings = settings ?? new Settings();
             _commands = new Dictionary<string, Func<ICommand>>();
-            // Resolve commands and register CommandBase factories
+            // Resolve commands and register ConsoleApp.Skeleton factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
 
@@ -48,7 +42,7 @@ namespace MSPro.CLArgs
         ///     the 'old' command is overridden.
         /// </remarks>
         /// <param name="verb">The <see cref="CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
-        /// <param name="factory">A factory function that return an instance of <see cref="CommandBase{TCommandParameters}" />.</param>
+        /// <param name="factory">A factory function that return an instance of <see cref="ICommand" />.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
         /// <example>
         ///     <code>
@@ -85,7 +79,6 @@ namespace MSPro.CLArgs
         /// commander.ExecuteCommand(args);
         /// </code></example>
         /// <exception cref="ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
-        /// <seealso cref="ExecuteCommand(string[])"/>
         /// <seealso cref="Arguments.VerbPath "/>
         /// <seealso cref="Settings.AutoResolveCommands"/>
         public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func)
@@ -159,7 +152,7 @@ namespace MSPro.CLArgs
             if (verbAndCommandTypes.Count == 0)
                 throw new ApplicationException(
                     $"{nameof(_settings.AutoResolveCommands)} is {_settings.AutoResolveCommands} " +
-                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any CommandBase implementation! " +
+                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any ConsoleApp.Skeleton implementation! " +
                     "Make sure the resolver can see/find the Commands.");
 
             foreach (var commandType in verbAndCommandTypes)

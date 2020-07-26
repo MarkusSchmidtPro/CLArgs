@@ -2,7 +2,7 @@
 
 
 
-namespace Level2.CommandBaseSample.SayHello
+namespace CLArgs.CommandRunner.SayHello
 {
     public class CommandParameters
     {

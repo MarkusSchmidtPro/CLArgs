@@ -3,12 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Level2.CommandBaseSample</RootNamespace>
-    <AssemblyName>Level2.CommandBaseSample</AssemblyName>
+    <RootNamespace>CLArgs.CommandRunner</RootNamespace>
+    <AssemblyName>CLArgs.CommandRunner</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+    <PackageReference Include="MSPro.CLArgs" Version="1.2007.26" />
   </ItemGroup>
 
 </Project>

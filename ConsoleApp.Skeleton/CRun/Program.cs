@@ -1,10 +1,10 @@
 ﻿using System;
-using Level2.CommandBaseSample.SayHello;
+using CLArgs.CommandRunner.SayHello;
 using MSPro.CLArgs;
 
 
 
-namespace Level2.CommandBaseSample
+namespace CLArgs.CommandRunner
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace Level2.CommandBaseSample
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             Console.WriteLine(">>> Start Main()");
             
-            Command cmd = new SayHello.Command();
+            Command cmd = new Command();
             cmd.Execute(arguments);
             
             Console.WriteLine("<<< End Main()");

@@ -34,7 +34,7 @@ namespace CLArgs.Sample.DynamicDefault
             // ------------------------------------------------
 
             // No Commander here, simply use the Command directly
-            // (its CommandBase implementation)!. This is a convenient way
+            // (its ConsoleApp.Skeleton implementation)!. This is a convenient way
             // if you app has only one command (does not support verbs).
 
             Arguments arguments = CommandLineParser.Parse(args);
@@ -53,7 +53,7 @@ namespace CLArgs.Sample.DynamicDefault
             /// <summary>
             ///     Check and prepare parameters before execution.
             /// </summary>
-            /// <inheritdoc cref="CommandBase{TCommandParameters}.BeforeExecute" />
+            /// <inheritdoc cref="ConsoleApp.Skeleton{TCommandParameters}.BeforeExecute" />
             protected override void BeforeExecute(FromToCommandParameters ps,
                                                   HashSet<string> unresolvedPropertyNames,
                                                   ErrorDetailList errors)
@@ -112,7 +112,7 @@ namespace CLArgs.Sample.DynamicDefault
             /// <summary>
             ///     Custom error handler to display error messages instead of throwing exceptions.
             /// </summary>
-            /// <inheritdoc cref="CommandBase{TCommandParameters}.OnError" />
+            /// <inheritdoc cref="ConsoleApp.Skeleton{TCommandParameters}.OnError" />
             protected override void OnError(ErrorDetailList errors, bool handled)
             {
                 Console.WriteLine(errors.ToString());

@@ -3,10 +3,7 @@ using MSPro.CLArgs;
 
 
 
-
-
-
-namespace Level2.CommandBaseSample.SayHello
+namespace CLArgs.CommandRunner.SayHello
 {
     public class Command : CommandBase<CommandParameters>
     {
