@@ -3,8 +3,8 @@
     "content": [
       {
         "files": [
-          "/*.md",
-          "**/toc.yml"
+          "*.md",
+          "toc.yml"
         ]
       }
     ],
@@ -19,6 +19,8 @@
     "overwrite": [
       {
         "exclude": [
+          "doc/Level2/**",
+          "doc.template/**",
           "obj/**",
           "docs/**"
         ]
