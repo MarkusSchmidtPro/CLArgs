@@ -3,9 +3,8 @@
     "content": [
       {
         "files": [
-          "./../doc/**/*.md",
-          ".\..\doc\**\*.md",
-          "../doc/**/toc.yml",
+          "_content/**/*.md",
+          "_content/**/toc.yml",
           "toc.yml",
           "index.md"
         ]
@@ -14,7 +13,7 @@
     "resource": [
       {
         "files": [
-          "../../**/*.assets/*",
+          "_content/**/*.assets/*",
           "index.html", ".nojekyll"
         ]
       }
