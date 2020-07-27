@@ -62,7 +62,7 @@ internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 }
 ```
 
-See [source-code](Samples/Sample01.SimpleAsThat/Program.cs) / [sample project](Samples/Sample01.SimpleAsThat) / [all samples](Samples).
+See [source-code](samples/Sample01.SimpleAsThat/Program.cs) / [sample project](samples/Sample01.SimpleAsThat) / [all samples](Samples).
 
 ## Feature List
 

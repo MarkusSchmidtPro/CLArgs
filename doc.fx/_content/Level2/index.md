@@ -16,7 +16,7 @@
   * Options : name value (values is of type string)
   * Command Parameters - a typed object specified by the Command
 
-> There are several ways to turn a *Verb* into a *Command*. The examples of Level 1 show two of them: [Simple Verbs](../../Samples/Level1/Sample1.Verbs) and the [Plugin Concept with Composition](../../Samples/Level1/Sample1.Composition). 
+> There are several ways to turn a *Verb* into a *Command*. The examples of Level 1 show two of them: [Simple Verbs](../../samples/Level1/Sample1.Verbs) and the [Plugin Concept with Composition](../../samples/Level1/Sample1.Composition). 
 
 Let's focus on Options and Command Parameters and let's implement a *SayHelloCommand* that say's <n> times "*Hello <country>*".
 
