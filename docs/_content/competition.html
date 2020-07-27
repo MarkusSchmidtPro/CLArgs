@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The Competition </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="The Competition ">
+    <meta name="generator" content="docfx 2.56.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="the-competition">The Competition</h1>
+
+<p>Is <code>CLArgs</code> just another command-line interpreter or parser?</p>
+<p>Yes, it is another command-line arguments parser.</p>
+<p>No, it is better than all others (I believe).</p>
+<p>It is better because all others I found had major disadvantages or missing features so I could not use any of them.</p>
+<blockquote>
+<p>I thought it was time to reinvent the wheel!</p>
+<p>Not the (Flint) stone wheel, not the wooden one and not the rubber one. There are so many command-line interpreters out there. I wanted to invent the wheel with air inside, where you can chose the right pressure you need - one fits all.</p>
+<p>Let's reinvent the way how to build modern command-line apps.</p>
+</blockquote>
+<h2 id="what-is-a-competitor">What is a Competitor</h2>
+<p>A Competitor was mentioned in a blog or as a suggestion somewhere. A Competitor does not look as it was a forgotten package in a beta state. It does <u>not</u> have dependencies on a specific run-time. It has a documentation and it contains examples.</p>
+<h1 id="systemcommandline---dragonfruit">System.CommandLine - DragonFruit</h1>
+<p>Initially I was quite happy to see that there is an <u>approach</u> from Microsoft. Read the <a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2019/march/net-parse-the-command-line-with-system-commandline">MSDN Article (March 2019) - Parse the Command Line with System.CommandLine</a></p>
+<p>Obviously there is a <a href="https://www.nuget.org/packages/System.CommandLine">NuGet package</a> for it, that evolved from Alpha 0.3 to Beta 2.0.0-beta1-20303.1 (2020-07-18) in 18 month. I started using it and found out it supports all features I needed but the coding effort was to high and too static with regards to adding new commands or changing / adding a new option to an existing command.</p>
+<p>You may also read about <a href="https://github.com/dotnet/command-line-api.wiki.git">DragonFruit</a> - there are many articles on the web. But since these articles were written, not much has changed. Somehow it looked like the developers are not convinced it is good enough for a release version and they got stuck in fixing issues, to keep it alive and to have a monthly release.</p>
+<h1 id="commandlineparser">CommandLineParser</h1>
+<p><a href="https://www.nuget.org/packages/CommandLineParser/">CommandLineParser</a> was my second choice. Unfortunately, there's support for only one Verb.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/msc4266/CLArgs/blob/dev/doc.fx/_content/competition.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span style='font-size:0.75em'>Copyright (c) 2020, Schmidt e-Services GmbH i.L., Niedernhausener Str.59a, D-65207 Wiesbaden</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

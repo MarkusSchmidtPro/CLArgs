@@ -338,8 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/pub/Data/Contacts.DevTrain.Sample.1583432997909.profile.xml
-/pub/Data/Contacts.DevTrain.Sample.1583432997909.CSV
-/src/ConsoleHost/Data/Contacts.profile.xml
+
 /src/MSPro.CLArgs/Schmidt_e-Services.snk
-docs/
+
