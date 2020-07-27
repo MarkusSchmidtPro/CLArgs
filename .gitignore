@@ -343,3 +343,4 @@ healthchecksdb
 /src/ConsoleHost/Data/Contacts.profile.xml
 /src/MSPro.CLArgs/Schmidt_e-Services.snk
 docs/
+tools/docFX/
