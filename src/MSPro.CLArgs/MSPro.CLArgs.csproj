@@ -41,6 +41,10 @@
     <None Remove="Images\CLArgs.ico" />
     <None Remove="Images\CLArgs.png" />
     <None Remove="Schmidt_e-Services.snk" />
+    <None Remove="MSPro.CLArgs.csproj.DotSettings" />
+    <None Remove="MSPro.CLArgs.xml" />
+    <None Remove="pack.bat" />
+    <None Remove="push.bat" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,34 +1,35 @@
 # The Mission
 
-I wanted to have a package that supports all [the features listed here](index.md).
+I wanted to have a package that supports all [the features listed here](../../readme.md).
 
-I wanted to have to ability to automatically resolve a new verb. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my `void Main()` - [Plugin Concept](Level1/verbsWithComposition.md). 
+I wanted to have to ability to automatically resolve a new verb. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my `void Main()`. 
 
 I wanted to support multiple verbs, to support commands and subcommands, like `SayHello`, `SayHello Germany`, ... .
 
 I wanted *Verbs* to become *Commands*. A Command implements a functionality and it should completely stand for itself - no dependency. Extending my console app should be as easy as adding a new Command class.
 
 ```csharp
-[Export("HelloWorld", typeof(ICommand))]
-public class Command : CommandBase<CommandParameters>
+[Command("HelloWorld")]
+internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 {
-    protected override void OnExecute(CommandParameters parameters)
+    protected override void Execute(HelloWorldParameters ps)
     {
-		// Functionality ...
-	}
+        for (int i = 0; i < ps.Count; i++)
+            Console.WriteLine($"Hello {ps.Country}!");
+    }
 }
 
-public class CommandParameters
+internal class HelloWorldParameters
 {
-    [CommandLineOption( name:"DatFile", Required = true)]
-    public string DatFilename { get; set; }
+    [OptionDescriptor("country", "c", Required = true)]
+    public string Country { get; set; }
 
-    [CommandLineOption( name:"Profile")]
-    public string ProfileName { get; set; }
+    [OptionDescriptor("count", Required = false, Default = 1)]
+    public int Count { get; set; }
 }
 ```
 
-`c:\ > MyApp HelloWorld --DatFile='abc.dat' --Profile=Profile1"`
+`c:\ > MyApp --country=Germany --count=3`
 
 I wanted to have static default values for arguments (during compile-time, by annotation) and also dynamic defaults resolved during run-time when a default value may depend on another (provided) value.
 
@@ -42,6 +43,4 @@ void OnResolveOptions(CommandParameters ps, List<string> unresolvedOptionNames)
 
 ## What's next
 
-* [The four levels of using CLArgs](fourLevels.md)
-* [Directly to Level 2 - see how this Mission was accomplished](./Level2/index.md)
-* [Level 1 - Basic](./Level1/index.md)
+* 

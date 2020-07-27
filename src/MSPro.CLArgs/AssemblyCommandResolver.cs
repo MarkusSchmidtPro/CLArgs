@@ -9,18 +9,23 @@ namespace MSPro.CLArgs
 {
     public class AssemblyCommandResolver : ICommandResolver
     {
-        private readonly List<Assembly> _assemblies= new List<Assembly>();
+        private readonly List<Assembly> _assemblies = new List<Assembly>();
 
 
 
-        public AssemblyCommandResolver( IEnumerable<string> assemblyFileNames)
+        public AssemblyCommandResolver(IEnumerable<string> assemblyFileNames)
         {
             _assemblies = assemblyFileNames.Select(Assembly.LoadFile).ToList();
         }
-        public AssemblyCommandResolver(Assembly assembly) 
+
+
+
+        public AssemblyCommandResolver(Assembly assembly)
         {
             _assemblies.Add(assembly);
         }
+
+
 
         public Dictionary<string, Type> GetCommandTypes()
         {
@@ -40,7 +45,7 @@ namespace MSPro.CLArgs
             {
                 CommandAttribute customAttribute = definedType.GetCustomAttribute<CommandAttribute>();
                 if (customAttribute == null) continue;
-                    
+
                 if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand)))
                     throw new ApplicationException(
                         "Command " + customAttribute.Verb + " doe not implement the ICommand interface.");

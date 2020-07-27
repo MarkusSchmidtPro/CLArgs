@@ -8,7 +8,7 @@
     <title>The Mission </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="The Mission ">
-    <meta name="generator" content="docfx 2.56.1.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -79,29 +79,30 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="the-mission">The Mission</h1>
 
-<p>I wanted to have a package that supports all <a href="index.html">the features listed here</a>.</p>
-<p>I wanted to have to ability to automatically resolve a new verb. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my <code>void Main()</code> - <a href="Level1/verbsWithComposition.html">Plugin Concept</a>.</p>
+<p>I wanted to have a package that supports all <a href="../../readme.md">the features listed here</a>.</p>
+<p>I wanted to have to ability to automatically resolve a new verb. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my <code>void Main()</code>.</p>
 <p>I wanted to support multiple verbs, to support commands and subcommands, like <code>SayHello</code>, <code>SayHello Germany</code>, ... .</p>
 <p>I wanted <em>Verbs</em> to become <em>Commands</em>. A Command implements a functionality and it should completely stand for itself - no dependency. Extending my console app should be as easy as adding a new Command class.</p>
-<pre><code class="lang-csharp">[Export(&quot;HelloWorld&quot;, typeof(ICommand))]
-public class Command : CommandBase&lt;CommandParameters&gt;
+<pre><code class="lang-csharp">[Command(&quot;HelloWorld&quot;)]
+internal class HelloWorldCommand : CommandBase&lt;HelloWorldParameters&gt;
 {
-    protected override void OnExecute(CommandParameters parameters)
+    protected override void Execute(HelloWorldParameters ps)
     {
-		// Functionality ...
-	}
+        for (int i = 0; i &lt; ps.Count; i++)
+            Console.WriteLine($&quot;Hello {ps.Country}!&quot;);
+    }
 }
 
-public class CommandParameters
+internal class HelloWorldParameters
 {
-    [CommandLineOption( name:&quot;DatFile&quot;, Required = true)]
-    public string DatFilename { get; set; }
+    [OptionDescriptor(&quot;country&quot;, &quot;c&quot;, Required = true)]
+    public string Country { get; set; }
 
-    [CommandLineOption( name:&quot;Profile&quot;)]
-    public string ProfileName { get; set; }
+    [OptionDescriptor(&quot;count&quot;, Required = false, Default = 1)]
+    public int Count { get; set; }
 }
 </code></pre>
-<p><code>c:\ &gt; MyApp HelloWorld --DatFile='abc.dat' --Profile=Profile1&quot;</code></p>
+<p><code>c:\ &gt; MyApp --country=Germany --count=3</code></p>
 <p>I wanted to have static default values for arguments (during compile-time, by annotation) and also dynamic defaults resolved during run-time when a default value may depend on another (provided) value.</p>
 <pre><code class="lang-csharp">void OnResolveOptions(CommandParameters ps, List&lt;string&gt; unresolvedOptionNames)
 {
@@ -111,9 +112,7 @@ public class CommandParameters
 </code></pre>
 <h2 id="whats-next">What's next</h2>
 <ul>
-<li><a href="fourLevels.html">The four levels of using CLArgs</a></li>
-<li><a href="Level2/index.html">Directly to Level 2 - see how this Mission was accomplished</a></li>
-<li><a href="Level1/index.html">Level 1 - Basic</a></li>
+<li></li>
 </ul>
 </article>
           </div>

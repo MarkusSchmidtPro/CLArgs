@@ -32,7 +32,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/index.html",
-          "hash": "yp4MvqGXpgZrWow+MDa1JA=="
+          "hash": "6ZIKp8kZJerH0Q1LjOVypw=="
         }
       },
       "is_incremental": false,
@@ -47,7 +47,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/options.html",
-          "hash": "nZ3a/pixZ73ZWXj2Eg5RMg=="
+          "hash": "MeCDd/8+VfEeddQQ/l+tWg=="
         }
       },
       "is_incremental": false,
@@ -62,7 +62,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/verbsAndOptions.html",
-          "hash": "EBlh0c3O/e4U1wk59nrFyA=="
+          "hash": "+jAuoqC0j5Zu0VXDVXt6hw=="
         }
       },
       "is_incremental": false,
@@ -77,7 +77,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/verbsWithComposition.html",
-          "hash": "T8zfCGYvs9Jx/maf49ZDuA=="
+          "hash": "QydsPFY1owl1q3bDUaHO3g=="
         }
       },
       "is_incremental": false,
@@ -92,7 +92,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/convertValues.html",
-          "hash": "inLEtJX73t+gzRZ/XdkvMw=="
+          "hash": "NTKT0Kkuz0kNNBaG2uk+mQ=="
         }
       },
       "is_incremental": false,
@@ -107,7 +107,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/dynamicDefaultValues.html",
-          "hash": "lAxKjrjHtqmyKtutPgPF1w=="
+          "hash": "BV38q/4k+FCylqH/84Lcdg=="
         }
       },
       "is_incremental": false,
@@ -119,7 +119,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/errorList.html",
-          "hash": "NLve/hlPUwbM2FnsTpgH7A=="
+          "hash": "bD4lZ7TArgpMUckQbiVvuA=="
         }
       },
       "is_incremental": false,
@@ -145,7 +145,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/index.html",
-          "hash": "AmEqK2zaoQckOMVaSIri3A=="
+          "hash": "4Im5OM5tWAeCqg6DAyBU5w=="
         }
       },
       "is_incremental": false,
@@ -157,7 +157,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/UseCases/index.html",
-          "hash": "bLg9TELJXoRTYJTSS0qkjg=="
+          "hash": "LDdg8/+murSww18HMZDDEA=="
         }
       },
       "is_incremental": false,
@@ -180,7 +180,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/competition.html",
-          "hash": "CfYKzOQOhhMEK2kNOm5QRw=="
+          "hash": "0DDABuTqWwfOHoGl4WHbrA=="
         }
       },
       "is_incremental": false,
@@ -195,7 +195,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/fourLevels.html",
-          "hash": "lDmr8T8ZNAZg+lz6kQNEFQ=="
+          "hash": "MPYlvCy9cP0DUf+57gCWnQ=="
         }
       },
       "is_incremental": false,
@@ -207,31 +207,37 @@
       "output": {
         ".html": {
           "relative_path": "_content/index.html",
-          "hash": "B0tLQvy8XqPDp6pdfymGxg=="
+          "hash": "hcBjCFJR+YUu8RjmMAPC2g=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Conceptual",
       "source_relative_path": "_content/mission.md",
       "output": {
         ".html": {
           "relative_path": "_content/mission.html",
-          "hash": "cP2sCXoTOgyUOjFVFNBVUA=="
+          "hash": "4ZNxPWcz2U3RvlQW8EkU5g=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Toc",
       "source_relative_path": "_content/toc.md",
       "output": {
         ".html": {
           "relative_path": "_content/toc.html",
-          "hash": "sOeDvr7YjPRNHxyD3xJV7g=="
+          "hash": "wFpXeT2YM/aoNVzmJaiRAg=="
         }
       },
       "is_incremental": false,
@@ -243,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/wordings.html",
-          "hash": "hiqBcNgQRxwJ6471Aq85nw=="
+          "hash": "V6G9Wlaske53Aew+dz7XpQ=="
         }
       },
       "is_incremental": false,
@@ -255,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "FsAR54ClAgYCduxH1hGT0Q=="
+          "hash": "O7x5YIcucXS+C2wP0RwFbQ=="
         }
       },
       "is_incremental": false,
@@ -287,7 +293,7 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 15,
-          "skipped_file_count": 14
+          "skipped_file_count": 15
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

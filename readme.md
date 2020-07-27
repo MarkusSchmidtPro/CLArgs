@@ -7,67 +7,62 @@ Console Applications are simple:  `static void Main(string[] args)` ..  and go! 
 >​	with **minimal coding effort**
 >​	while providing **maximum flexibility** and **extensibility**.
 
-## Gettings started 
+## Getting started 
 
 * For a first *example* and the *feature list* read on, scroll down.
 
-* [Modern Console Application Design](doc/index.md)
-* [The Mission - what I wanted to accomplish is **what you get**](doc/mission.md)
-* [The four levels of using CLArgs](doc/fourLevels.md)
-* [All samples on GitHub](../../samples).
+* [Modern Console Application Design](doc.fx/mission/index.md)
+* [The Mission - what I wanted to accomplish is **what you get**](doc.fx/mission/mission.md)
+* [All samples on GitHub](Samples).
 
 ## Example
 
-`c:\ > YourApp.exe verb --fileName="myfile.csv" --target=XML`
+`c:\ > YourApp.exe --country=Germany --count=3`
 
 ```csharp
-class Program
-{
-    /// <summary>
-	/// 	Run your app: 
-    ///		parse command-line and execute your Command
-	/// </summary>
-    static void Main(string[] args)
-    {
-        Arguments arguments = Commander.ParseCommandLine(args);
-        Console.WriteLine($"Command-Line: '{arguments.CommandLine}'");
-        ICommand cmd = new MyConverter();
-        cmd.Execute(arguments);
-    }
-}
-
 /// <summary>
-/// Define your command's parameters - supported command-line arguments.
-/// </summary>
-class MyParams
-{
-    [CommandLineOption("fileName", Required = true)]
-    public string FileName { get; set; }
-
-    [CommandLineOption("target", Required = false, Default = "JSON")]
-    public string Target { get; set; }
-}
-
-/// <summary>
-/// 	Represents your application's functionality.
+///     The easiest way to use CLArgs.
 /// </summary>
 /// <remarks>
-/// 	The command-line arguments have been turned into an object
-/// 	of type MyParams.
-/// <y/remarks>
-class MyConverter : CommandBase<MyParams>
+///     Let the <see cref="Commander" /> automatically
+///     resolve all classes in the Entry Assembly
+///     which inherit from <see cref="CommandBase{TParam}" /> and which are
+///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
+/// </remarks>
+internal static class Program
 {
-    protected override void OnExecute(MyParams p)
-    {
-        Console.WriteLine(">>> Start Functionality");
-        Console.WriteLine($"fileName='{p.FileName}'");
-        Console.WriteLine($"target  ='{p.Target}'");
-        Console.WriteLine("<<< End Functionality");
-    }
+	private static void Main(string[] args)
+	{
+        // Auto Resolve Command("HelloWorld")
+        // Turn args into a HelloWorldParameters instance
+        // Run HelloWorldCommand.Execute(HelloWorldParameters ps)
+		Commander.ExecuteCommand(args);
+	}
+}
+
+
+internal class HelloWorldParameters
+{
+	[OptionDescriptor("country", "c", Required = true)]
+	public string Country { get; set; }
+
+	[OptionDescriptor("count", Required = false, Default = 1)]
+	public int Count { get; set; }
+}
+
+
+[Command("HelloWorld")]
+internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
+{
+	protected override void Execute(HelloWorldParameters ps)
+	{
+		for (int i = 0; i < ps.Count; i++)
+			Console.WriteLine($"Hello {ps.Country}!");
+	}
 }
 ```
 
-That is basically how you would eventually use `CLArgs`.
+See [source-code](Samples/Sample01.SimpleAsThat/Program.cs) / [sample project](Samples/Sample01.SimpleAsThat) / [all samples](Samples).
 
 ## Feature List
 

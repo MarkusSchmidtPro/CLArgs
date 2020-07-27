@@ -10,12 +10,12 @@ namespace CLArgs.Sample.SimpleAsThat
     /// </summary>
     /// <remarks>
     ///     Let the <see cref="Commander" /> automatically
-    ///     resolves all classes in the Entry Assembly
-    ///     which inherit from <see cref="ConsoleApp.Skeleton{TParam}" /> and which are
+    ///     resolve all classes in the Entry Assembly
+    ///     which inherit from <see cref="CommandBase{TParam}" /> and which are
     ///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
     ///     <br />
     ///     You can configure <see cref="Settings.AutoResolveCommands" >command resolution</see>
-    ///     and many other thins by using <see cref="Settings" />. More details will follow and other examples.
+    ///     and many other thins by using <see cref="Settings" />. 
     /// </remarks>
     internal static class Program
     {
@@ -56,7 +56,7 @@ namespace CLArgs.Sample.SimpleAsThat
 
     internal class HelloWorldParameters
     {
-        [OptionDescriptor("country", "c", Required = true, Default = "No country for old men")]
+        [OptionDescriptor("country", "c", Required = true)]
         public string Country { get; set; }
 
         [OptionDescriptor("count", Required = false, Default = 1)]
