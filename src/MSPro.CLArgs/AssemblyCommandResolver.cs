@@ -9,28 +9,43 @@ namespace MSPro.CLArgs
 {
     public class AssemblyCommandResolver : ICommandResolver
     {
-        private readonly Assembly _assembly;
+        private readonly List<Assembly> _assemblies= new List<Assembly>();
 
 
 
-        public AssemblyCommandResolver(Assembly assembly) => _assembly = assembly;
-
+        public AssemblyCommandResolver( IEnumerable<string> assemblyFileNames)
+        {
+            _assemblies = assemblyFileNames.Select(Assembly.LoadFile).ToList();
+        }
+        public AssemblyCommandResolver(Assembly assembly) 
+        {
+            _assemblies.Add(assembly);
+        }
 
         public Dictionary<string, Type> GetCommandTypes()
         {
-            var result = new Dictionary<string, Type>();
-            foreach (TypeInfo commandTypeInfo in _assembly.DefinedTypes)
+            Dictionary<string, Type> dictionary = new Dictionary<string, Type>();
+            foreach (Assembly assembly in _assemblies)
             {
-                var commandAttribute = commandTypeInfo.GetCustomAttribute<CommandAttribute>();
-                if (commandAttribute == null) continue;
-
-                if (commandTypeInfo.ImplementedInterfaces.All(i => i != typeof(ICommand)))
-                    throw new ApplicationException(
-                        $"Command {commandAttribute.Verb} doe not implement the {nameof(ICommand)} interface.");
-
-                result[commandAttribute.Verb] = commandTypeInfo; 
+                GetTypesFromAssembly(assembly, dictionary);
             }
-            return result;
+            return dictionary;
+        }
+
+
+
+        private static void GetTypesFromAssembly(Assembly assembly, IDictionary<string, Type> dictionary)
+        {
+            foreach (TypeInfo definedType in assembly.DefinedTypes)
+            {
+                CommandAttribute customAttribute = definedType.GetCustomAttribute<CommandAttribute>();
+                if (customAttribute == null) continue;
+                    
+                if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand)))
+                    throw new ApplicationException(
+                        "Command " + customAttribute.Verb + " doe not implement the ICommand interface.");
+                dictionary[customAttribute.Verb] = definedType;
+            }
         }
     }
 }

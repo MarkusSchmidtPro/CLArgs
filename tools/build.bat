@@ -1,1 +1,2 @@
-docFX\docfx doc.template\docfx.json -o ..\docs --intermediatefolder %temp%\dfx 
+docFX\docfx ..\doc\docfx.json -o ..\docs --intermediatefolder %temp%\dfx 
+REM --LogLevel=Verbose

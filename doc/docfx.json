@@ -1,0 +1,44 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "/*.md",
+          "**/toc.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.assets/*",
+          "index.html", ".nojekyll"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "exclude": [
+          "obj/**",
+          "docs/**"
+        ]
+      }
+    ],
+    "template": [
+      "default"
+      , "templates/docfx-material/material"
+      , "templates/msPro"
+    ],
+    "globalMetadata": {
+      "_enableSearch": "true"
+    },
+    "postProcessors": [
+       "ExtractSearchIndex"
+    ],
+    "markdownEngineName": "markdig",
+    "keepFileLink": false,
+    "noLangKeyword": false,
+    "cleanupCacheHistory": true,
+    "disableGitFeatures": false
+  }
+}

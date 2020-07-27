@@ -4,7 +4,8 @@
       {
         "files": [
           "./../doc/**/*.md",
-          "./../doc/**/toc.yml",
+          ".\..\doc\**\*.md",
+          "../doc/**/toc.yml",
           "toc.yml",
           "index.md"
         ]
