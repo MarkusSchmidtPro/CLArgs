@@ -1,0 +1,325 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/Public/Documents/Sync/Daten/_gitHub/CLArgs/doc.fx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": ".nojekyll",
+      "output": {
+        "resource": {
+          "relative_path": ".nojekyll"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level1/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level1/index.html",
+          "hash": "yp4MvqGXpgZrWow+MDa1JA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level1/options.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level1/options.html",
+          "hash": "nZ3a/pixZ73ZWXj2Eg5RMg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level1/verbsAndOptions.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level1/verbsAndOptions.html",
+          "hash": "EBlh0c3O/e4U1wk59nrFyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level1/verbsWithComposition.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level1/verbsWithComposition.html",
+          "hash": "T8zfCGYvs9Jx/maf49ZDuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level2/convertValues.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level2/convertValues.html",
+          "hash": "inLEtJX73t+gzRZ/XdkvMw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level2/dynamicDefaultValues.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level2/dynamicDefaultValues.html",
+          "hash": "lAxKjrjHtqmyKtutPgPF1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level2/errorList.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level2/errorList.html",
+          "hash": "NLve/hlPUwbM2FnsTpgH7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_content/Level2/index.assets/image-20200718171241364.png",
+      "output": {
+        "resource": {
+          "relative_path": "_content/Level2/index.assets/image-20200718171241364.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/Level2/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/Level2/index.html",
+          "hash": "AmEqK2zaoQckOMVaSIri3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/UseCases/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/UseCases/index.html",
+          "hash": "bLg9TELJXoRTYJTSS0qkjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_content/competition.assets/image-20200718111519325.png",
+      "output": {
+        "resource": {
+          "relative_path": "_content/competition.assets/image-20200718111519325.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/competition.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/competition.html",
+          "hash": "CfYKzOQOhhMEK2kNOm5QRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/fourLevels.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/fourLevels.html",
+          "hash": "lDmr8T8ZNAZg+lz6kQNEFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/index.html",
+          "hash": "B0tLQvy8XqPDp6pdfymGxg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/mission.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/mission.html",
+          "hash": "cP2sCXoTOgyUOjFVFNBVUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "_content/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/toc.html",
+          "hash": "sOeDvr7YjPRNHxyD3xJV7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/wordings.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/wordings.html",
+          "hash": "hiqBcNgQRxwJ6471Aq85nw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "FsAR54ClAgYCduxH1hGT0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "5A2sae2+YADnTKm4TWUjRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 15,
+          "skipped_file_count": 14
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
