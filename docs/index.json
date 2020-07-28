@@ -11,8 +11,8 @@
   },
   "doc/index.html": {
     "href": "doc/index.html",
-    "title": "Modern Console Application Design",
-    "keywords": "Modern Console Application Design dotnet itself is a command-line application and a great example how modern console applications should work: c:\\> dotnet build --help Usage: dotnet build [options] <PROJECT | SOLUTION> Arguments: <PROJECT | SOLUTION> The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. Options: -h, --help Show command line help. -o, --output <OUTPUT_DIR> The output directory to place built artifacts in. ... Support --help. There is one or more Verb(s): build There are several Options , which have a name and a value: output=<OUTPUT_DIR> Options are mandatory or optional Different verbs may require different option \"sets\" Options can be represented by different Tags: -o, --output etc., etc., etc. CLArgs supports all these features and it provides a very flexible and extensible model to work with the command-line. What's next The Mission - what I wanted to accomplish is what you get The four levels of using CLArgs"
+    "title": "Modern Console Application Design1",
+    "keywords": "Modern Console Application Design1 dotnet itself is a command-line application and a great example how modern console applications should work: c:\\> dotnet build --help Usage: dotnet build [options] <PROJECT | SOLUTION> Arguments: <PROJECT | SOLUTION> The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. Options: -h, --help Show command line help. -o, --output <OUTPUT_DIR> The output directory to place built artifacts in. ... Support --help. There is one or more Verb(s): build There are several Options , which have a name and a value: output=<OUTPUT_DIR> Options are mandatory or optional Different verbs may require different option \"sets\" Options can be represented by different Tags: -o, --output etc., etc., etc. CLArgs supports all these features and it provides a very flexible and extensible model to work with the command-line. What's next The Mission - what I wanted to accomplish is what you get The four levels of using CLArgs"
   },
   "doc/Level1/index.html": {
     "href": "doc/Level1/index.html",
@@ -63,11 +63,6 @@
     "href": "doc/wordings.html",
     "title": "Wordings",
     "keywords": "Wordings Args[] = Environment.CommandLine The args[] passed to the Program . Basically the command-line itself. Args can be anything in the beginning, and the first action on it should be private static int Main(string[] args) { ... Arguments arguments = Commander.ParseCommandLine(args);` ... Arguments Arguments is the result when the command-line was parsed. An Argument is either an Option or a Verb . Verb A Verb is initially just a text, that was parsed as a single word from the command-line. Example saveFile Verbs are used to find an appropriate Command implementation that can be executed. Option An Option is a name-value tag that was parsed from the command-line. Basically the values which are passed as parameters to the command. Options values are always strings! Example: --opt1=44 --filename=\"myfile.xml\" Command A Command is the implementation of an action that is finally executed. When an instance of a Command is created it gets the Options . The Command then validates the Options and maps them to the command's Parameters . Parameters A Command gets Parameters which is an object that was build based on the Options."
-  },
-  "Home.html": {
-    "href": "Home.html",
-    "title": "",
-    "keywords": "Welcome to the abc wiki!"
   },
   "index.html": {
     "href": "index.html",

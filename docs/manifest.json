@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/Markus_Schmidt/Source/CLArgs.wiki",
+  "source_base_path": "C:/Users/Markus_Schmidt/Source/CLArgs/docs.src",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -18,21 +18,6 @@
       "output": {
         "resource": {
           "relative_path": ".nojekyll"
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "Home.md",
-      "output": {
-        ".html": {
-          "relative_path": "Home.html",
-          "hash": "3lRn9akoCHm0K14Uqx0+Zg=="
         }
       },
       "is_incremental": false,
@@ -231,7 +216,7 @@
       "output": {
         ".html": {
           "relative_path": "doc/index.html",
-          "hash": "QVxjcZ8VtJZwfO4BD6vNgg=="
+          "hash": "b/gVW482cIBrH4JlMvD+cg=="
         }
       },
       "is_incremental": false,
@@ -316,8 +301,8 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 15,
-          "skipped_file_count": 15
+          "total_file_count": 14,
+          "skipped_file_count": 14
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
