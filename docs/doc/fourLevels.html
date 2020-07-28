@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>How to use CLArgs </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="How to use CLArgs ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="how-to-use-clargs">How to use CLArgs</h2>
+
+<p>There are four levels of using <code>CLArgs</code>. The higher the Level, the more flexible <code>CLArgs</code> will become.</p>
+<h3 id="level-1---basic">Level 1 - Basic</h3>
+<p>Level 1 is a bit more than just <code>string[] args</code>.  Simply parse your command-line into <code>Arguments</code> and work with <em>Verbs</em> and <em>Options</em>:</p>
+<pre><code class="lang-csharp">c:\&gt; YourApp --fileName=&quot;myfile.csv&quot; --target=XML
+Arguments arguments = Commander.ParseCommandLine(args);
+</code></pre>
+<p>See also</p>
+<ul>
+<li><a href="Level1/index.html">Level 1 Details</a></li>
+<li><a href="Level1/verbsAndOptions.html">Verbs and Options</a></li>
+<li><a href="Level1/verbsWithComposition.html">Console <em>Plugin concept</em> with Verbs and Microsoft Composition</a></li>
+</ul>
+<h3 id="level-2---standard">Level 2 - Standard</h3>
+<p>Parse the command-line into a typed object and pass it to your Command (as shown in the code above). A Command represents the functionality (that is normally  <code>void Main</code>).  However, Commands can be bound to <em>Verbs</em> so that one console app can support multiple functionalities with different argument sets.</p>
+<p>The <em>Standard Level</em> supports (multiple) <em>Verbs</em> and <em>Options</em>, and it is probably the right choice for most of you. I am using <code>CLArgs</code> at this level. <a href="Level2/index.html">More a about Level 2</a></p>
+<blockquote>
+<p>Most other command-line solutions I have seen, work between Level 1 and 2.</p>
+</blockquote>
+<h3 id="level-3---advanced">Level 3 - Advanced</h3>
+<p>All those who are still not happy with <em>Level 2</em>, who need more flexibility or who have other special requirements: a) let me know, what is missing and then enter b) Level 3. <code>CLArgs</code> has several hooks and /or extension points where you can integrate your code, and you can use the <code>CLArgs</code> classes and functions as you want it.</p>
+<h3 id="level-4---expert">Level 4 - Expert</h3>
+<p>Check out the source-code and use it for your convenience. Don't forget to <a href="mailto:markus@markusschmidt.pro">let me know</a> what you would make better.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/msc4266/CLArgs/blob/master/doc/fourLevels.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span style='font-size:0.75em'>Copyright (c) 2020, Schmidt e-Services GmbH i.L., Niedernhausener Str.59a, D-65207 Wiesbaden</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
