@@ -11,4 +11,4 @@
 
 
 # [Examples](https://github.com/msc4266/CLArgs/tree/master/samples)
-# [Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner/readme.md)
+# [Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandRunner/readme.md)

@@ -11,11 +11,11 @@
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
       <Version>1.2007.26.01</Version>
-      <FileVersion>1.2007.26.01</FileVersion>
+      <FileVersion>1.2007.28.01</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <PackageVersion>$(Version)</PackageVersion>
+      <PackageVersion>1.2007.28.01</PackageVersion>
       <Title>CLArgs - Command Line at it's best</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>

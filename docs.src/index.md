@@ -6,7 +6,7 @@ Master your Modern Console Apps made easy.
 * Define the Command `Parameters`
 * and let *CLArgs* convert the command-line arguments and call the Command.
 
-> <span style="color:darkred">**TIP:**</span> Check-Out the [Console App Skeleton](https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner) to get a complete skeleton for your Console App.
+> <span style="color:darkred">**TIP:**</span> Check-Out the [Console App Skeleton](https://github.com/msc4266/CLArgs/tree/master/CommandRunner) to get a complete skeleton for your Console App.
 
 ```csharp
 static class Program

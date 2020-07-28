@@ -45,4 +45,4 @@ I wanted to have static default values for arguments (during compile-time, by an
 
 * [Basics](basics.md)
 * [See all examples](https://github.com/msc4266/CLArgs/tree/master/samples/)
-* [Get started with the Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner)
+* [Get started with the Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandRunner)

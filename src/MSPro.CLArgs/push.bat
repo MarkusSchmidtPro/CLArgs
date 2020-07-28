@@ -1,1 +1,0 @@
- dotnet nuget push "bin/Release/MSPro.CLArgs.1.2007.26.1.nupkg" --source "github"
