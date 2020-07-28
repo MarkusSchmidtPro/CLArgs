@@ -7,39 +7,21 @@ Console Applications are simple:  `static void Main(string[] args)` ..  and go! 
 >​	with **minimal coding effort**
 >​	while providing **maximum flexibility** and **extensibility**.
 
-## Getting started 
-
-* For a first *example* and the *feature list* read on, scroll down.
-
-* [Modern Console Application Design](doc/index.md)
-* [The Mission - what I wanted to accomplish is **what you get**](doc/mission.md)
-* [All samples on GitHub](https://github.com/msc4266/CLArgs/tree/master/samples).
-
-## Example
-
 `c:\ > YourApp.exe --country=Germany --count=3`
 
 ```csharp
-/// <summary>
-///     The easiest way to use CLArgs.
-/// </summary>
-/// <remarks>
-///     Let the <see cref="Commander" /> automatically
-///     resolve all classes in the Entry Assembly
-///     which inherit from <see cref="CommandBase{TParam}" /> and which are
-///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
-/// </remarks>
 internal static class Program
 {
 	private static void Main(string[] args)
 	{
-        // Auto Resolve Command("HelloWorld")
-        // Turn args into a HelloWorldParameters instance
-        // Run HelloWorldCommand.Execute(HelloWorldParameters ps)
-		Commander.ExecuteCommand(args);
+        // Parse the command-line
+    	Arguments arguments = CommandLineParser.Parse(args);
+        // Create a command (that contains the functionality)
+        var cmd = new HelloWorldCommand();
+        // Let CLArgs convert the arguments and run the command.
+        cmd.Execute(arguments);
 	}
 }
-
 
 internal class HelloWorldParameters
 {
@@ -50,8 +32,6 @@ internal class HelloWorldParameters
 	public int Count { get; set; }
 }
 
-
-[Command("HelloWorld")]
 internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 {
 	protected override void Execute(HelloWorldParameters ps)
@@ -62,7 +42,9 @@ internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 }
 ```
 
-See [source-code](samples/Sample01.SimpleAsThat/Program.cs) / [sample project](samples/Sample01.SimpleAsThat) / [all samples](Samples).
+See [Simple-As-That Source-Code](samples/Sample01.SimpleAsThat/Program.cs) / [Sample Project](samples/Sample01.SimpleAsThat) / [All Samples](Samples).
+
+=> [Continue reading documentation]([msc4266.github.io/clargs/](https://msc4266.github.io/CLArgs/))
 
 ## Feature List
 

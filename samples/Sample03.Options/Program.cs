@@ -61,7 +61,7 @@ namespace CLArgs.Sample.Options
             arguments.SetOption("DatabaseTableName", "AnotherTable");
 
             // Execute the Command with slightly different Options
-            commander.ExecuteCommand(arguments);
+            commander.Execute(arguments);
           
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");

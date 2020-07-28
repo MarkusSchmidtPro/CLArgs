@@ -34,11 +34,11 @@ namespace CLArgs.Sample.DynamicDefault
             // ------------------------------------------------
 
             // No Commander here, simply use the Command directly
-            // (its ConsoleApp.Skeleton implementation)!. This is a convenient way
+            // (its CommandBase implementation)!. This is a convenient way
             // if you app has only one command (does not support verbs).
 
             Arguments arguments = CommandLineParser.Parse(args);
-            var cmd = new FromToCommand();
+            var cmd = new DateRangeCommand();
             cmd.Execute(arguments);
             
             // ------------------------------------------------
@@ -47,13 +47,12 @@ namespace CLArgs.Sample.DynamicDefault
 
 
 
-        [Command("The one an only")]
-        private class FromToCommand : CommandBase<FromToCommandParameters>
+        private class DateRangeCommand : CommandBase<FromToCommandParameters>
         {
             /// <summary>
             ///     Check and prepare parameters before execution.
             /// </summary>
-            /// <inheritdoc cref="ConsoleApp.Skeleton{TCommandParameters}.BeforeExecute" />
+            /// <inheritdoc cref="CommandBase{TCommandParameters}.BeforeExecute" />
             protected override void BeforeExecute(FromToCommandParameters ps,
                                                   HashSet<string> unresolvedPropertyNames,
                                                   ErrorDetailList errors)
@@ -112,7 +111,7 @@ namespace CLArgs.Sample.DynamicDefault
             /// <summary>
             ///     Custom error handler to display error messages instead of throwing exceptions.
             /// </summary>
-            /// <inheritdoc cref="ConsoleApp.Skeleton{TCommandParameters}.OnError" />
+            /// <inheritdoc cref="CommandBase{TCommandParameters}.OnError" />
             protected override void OnError(ErrorDetailList errors, bool handled)
             {
                 Console.WriteLine(errors.ToString());

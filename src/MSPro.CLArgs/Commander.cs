@@ -26,7 +26,7 @@ namespace MSPro.CLArgs
         {
             _settings = settings ?? new Settings();
             _commands = new Dictionary<string, Func<ICommand>>();
-            // Resolve commands and register ConsoleApp.Skeleton factories
+            // Resolve commands and register CommandBase factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
 
@@ -152,7 +152,7 @@ namespace MSPro.CLArgs
             if (verbAndCommandTypes.Count == 0)
                 throw new ApplicationException(
                     $"{nameof(_settings.AutoResolveCommands)} is {_settings.AutoResolveCommands} " +
-                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any ConsoleApp.Skeleton implementation! " +
+                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any CommandBase implementation! " +
                     "Make sure the resolver can see/find the Commands.");
 
             foreach (var commandType in verbAndCommandTypes)

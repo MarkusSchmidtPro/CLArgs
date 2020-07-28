@@ -6,17 +6,8 @@ using MSPro.CLArgs;
 namespace CLArgs.Sample.SimpleAsThat
 {
     /// <summary>
-    ///     The easiest way to use CLArgs.
+    ///     See three was how to use CLArgs.
     /// </summary>
-    /// <remarks>
-    ///     Let the <see cref="Commander" /> automatically
-    ///     resolve all classes in the Entry Assembly
-    ///     which inherit from <see cref="CommandBase{TParam}" /> and which are
-    ///     annotated with a <see cref="CommandAttribute">[Command]</see>-Attribute.<br />
-    ///     <br />
-    ///     You can configure <see cref="Settings.AutoResolveCommands" >command resolution</see>
-    ///     and many other thins by using <see cref="Settings" />. 
-    /// </remarks>
     internal static class Program
     {
         /// <summary>
@@ -36,9 +27,23 @@ namespace CLArgs.Sample.SimpleAsThat
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
-            // ONE SINGLE LINE does it all!
+            Console.WriteLine(">>> Option 1");
+            // a) Parse CommandLine
+            // b) Create instance of a Command: CommandBase<HelloWorldParameters>
+            //    b1) Let CLArgs convert the args into HelloWorldParameters
+            Arguments arguments = CommandLineParser.Parse(args);
+            var cmd = new HelloWorldCommand();
+            cmd.Execute(arguments);
             
-            // a) Resolve default [Command] implementation,
+            Console.WriteLine(">>> Option 2");
+            Commander commander = new Commander(new Settings { AutoResolveCommands = false});
+            commander.RegisterCommandFactory("TheOneAndOnlyCommand", () => new HelloWorldCommand());
+            commander.ExecuteCommand( arguments);
+            
+            Console.WriteLine(">>> Option 3");
+            // ONE SINGLE LINE does it all!
+            // a) Resolve default [Command] implementation: 
+            //    uses: Settings.AutoResolveCommands = true
             //    there is only one in this example : HelloWorldCommand
             // b) Convert command-line arguments
             //    into an object of type            : HelloWorldParameters
