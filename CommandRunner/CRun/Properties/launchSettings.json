@@ -3,6 +3,14 @@
     "Default": {
       "commandName": "Project",
       "commandLineArgs": "--Country=Germany --Count=3"
+    },
+    "JsonToDb": {
+      "commandName": "Project",
+      "commandLineArgs": "JsonToDatabase --UserName='Markus Schmidt' -p=MySecret --Filename=abc.json"
+    },
+    "JsonToDb with error": {
+      "commandName": "Project",
+      "commandLineArgs": "JsonToDatabase --UserName='Markus Schmidt' --Filename=abc.json"
     }
   }
 }

@@ -3,11 +3,12 @@ using MSPro.CLArgs;
 
 
 
-namespace CLArgs.CommandRunner.SayHello
+namespace CLArgs.Command.Command01
 {
-    public class Command : CommandBase<CommandParameters>
+    [Command("SayHello")]
+    public class SayHelloCommand : CommandBase<SayHelloParameters>
     {
-        protected override void Execute(CommandParameters ps)
+        protected override void Execute(SayHelloParameters ps)
         {
             for (int i = 0; i < ps.Count; i++)
             {

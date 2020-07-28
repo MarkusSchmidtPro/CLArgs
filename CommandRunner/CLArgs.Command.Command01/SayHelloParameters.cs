@@ -2,9 +2,9 @@
 
 
 
-namespace CLArgs.CommandRunner.SayHello
+namespace CLArgs.Command.Command01
 {
-    public class CommandParameters
+    public class SayHelloParameters
     {
         [OptionDescriptor("Country",  Required = true)]
         public string Country { get; set; }

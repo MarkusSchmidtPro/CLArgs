@@ -2,13 +2,27 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>CLArgs.CommandRunner</RootNamespace>
     <AssemblyName>CLArgs.CommandRunner</AssemblyName>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSPro.CLArgs" Version="1.2007.26" />
+    <PackageReference Include="MSPro.CLArgs" Version="1.2007.28.2" />
+    <PackageReference Include="NLog" Version="4.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="nlog.config" />
+    <Content Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CLArgs.Command.Command01\CLArgs.Command.Command01.csproj" />
+    <ProjectReference Include="..\CLArgs.Command.CommandCollection\CLArgs.Command.CommandCollection.csproj" />
   </ItemGroup>
 
 </Project>
