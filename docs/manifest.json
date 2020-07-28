@@ -238,15 +238,12 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Toc",
       "source_relative_path": "doc/toc.md",
       "output": {
         ".html": {
           "relative_path": "doc/toc.html",
-          "hash": "/1M0mqtYl2Jnk6SMJWWpHg=="
+          "hash": "mPoZ0fy0dRR8YFjdJXayAg=="
         }
       },
       "is_incremental": false,
@@ -270,7 +267,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "l40/1K7H5QWaqpTK90jFxQ=="
+          "hash": "qNsbu44hGXT0MhHIdspycQ=="
         }
       },
       "is_incremental": false,
