@@ -5,22 +5,22 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Modern Console Application Design </title>
+    <title>CLArgs - A dotnet command-line interpreter </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Modern Console Application Design ">
+    <meta name="title" content="CLArgs - A dotnet command-line interpreter ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
     <link rel="stylesheet" href="../styles/main.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:navrel" content="">
     <meta property="docfx:tocrel" content="toc.html">
     
     <meta property="docfx:rel" content="../">
     
-  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
         
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.png" alt="">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,37 +77,113 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="modern-console-application-design">Modern Console Application Design</h1>
+<h1 id="clargs---a-dotnet-command-line-interpreter">CLArgs - A dotnet command-line interpreter</h1>
 
-<p><code>dotnet</code> itself is a command-line application and a great example how modern console applications should work: <code>c:\&gt; dotnet build --help</code></p>
-<pre><code>Usage: dotnet build [options] &lt;PROJECT | SOLUTION&gt;
+<p>Console Applications are simple:  <code>static void Main(string[] args)</code> ..  and go! However, getting arguments from a command-line can be complex. Simply run <code>dotnet build --help</code> and see!</p>
+<blockquote>
+<p><code>CLArgs</code>  turns your console application
+​	into a <strong>modern command-line application</strong>
+​	with <strong>minimal coding effort</strong>
+​	while providing <strong>maximum flexibility</strong> and <strong>extensibility</strong>.</p>
+</blockquote>
+<h2 id="getting-started">Getting started</h2>
+<ul>
+<li><p>For a first <em>example</em> and the <em>feature list</em> read on, scroll down.</p>
+</li>
+<li><p><a href="doc.fx/mission/index.md">Modern Console Application Design</a></p>
+</li>
+<li><p><a href="doc.fx/mission/mission.md">The Mission - what I wanted to accomplish is <strong>what you get</strong></a></p>
+</li>
+<li><p><a href="Samples">All samples on GitHub</a>.</p>
+</li>
+</ul>
+<h2 id="example">Example</h2>
+<p><code>c:\ &gt; YourApp.exe --country=Germany --count=3</code></p>
+<pre><code class="lang-csharp">/// &lt;summary&gt;
+///     The easiest way to use CLArgs.
+/// &lt;/summary&gt;
+/// &lt;remarks&gt;
+///     Let the &lt;see cref=&quot;Commander&quot; /&gt; automatically
+///     resolve all classes in the Entry Assembly
+///     which inherit from &lt;see cref=&quot;CommandBase{TParam}&quot; /&gt; and which are
+///     annotated with a &lt;see cref=&quot;CommandAttribute&quot;&gt;[Command]&lt;/see&gt;-Attribute.&lt;br /&gt;
+/// &lt;/remarks&gt;
+internal static class Program
+{
+	private static void Main(string[] args)
+	{
+        // Auto Resolve Command(&quot;HelloWorld&quot;)
+        // Turn args into a HelloWorldParameters instance
+        // Run HelloWorldCommand.Execute(HelloWorldParameters ps)
+		Commander.ExecuteCommand(args);
+	}
+}
 
-Arguments:
-  &lt;PROJECT | SOLUTION&gt;   The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
 
-Options:
-  -h, --help               	Show command line help.
-  -o, --output &lt;OUTPUT_DIR&gt; The output directory to place built artifacts in.
-	...
+internal class HelloWorldParameters
+{
+	[OptionDescriptor(&quot;country&quot;, &quot;c&quot;, Required = true)]
+	public string Country { get; set; }
+
+	[OptionDescriptor(&quot;count&quot;, Required = false, Default = 1)]
+	public int Count { get; set; }
+}
+
+
+[Command(&quot;HelloWorld&quot;)]
+internal class HelloWorldCommand : CommandBase&lt;HelloWorldParameters&gt;
+{
+	protected override void Execute(HelloWorldParameters ps)
+	{
+		for (int i = 0; i &lt; ps.Count; i++)
+			Console.WriteLine($&quot;Hello {ps.Country}!&quot;);
+	}
+}
 </code></pre>
+<p>See <a href="samples/Sample01.SimpleAsThat/Program.cs">source-code</a> / <a href="samples/Sample01.SimpleAsThat">sample project</a> / <a href="Samples">all samples</a>.</p>
+<h2 id="feature-list">Feature List</h2>
 <ul>
-<li>Support --help.</li>
-<li>There is one or more Verb(s): <em>build</em></li>
-<li>There are several <em>Options</em>, which have a name and a value: <em>output=&lt;OUTPUT_DIR&gt;</em>
+<li>A single line of code does the trick: <code>Commander.ExecuteCommand( args);</code></li>
+<li>Unlimited number of <em>Verbs</em></li>
+<li>Plug-In concept: Automatic <em>Command</em> resolution based on <em>Verbs</em></li>
+<li>Different <em>argument-sets</em> for each Command
 <ul>
-<li>Options are mandatory or optional</li>
-<li>Different verbs may require different option &quot;sets&quot;</li>
+<li>Command Parameter classes support
+<ul>
+<li>Sub-Classes (inheritance)</li>
 </ul>
 </li>
-<li>Options can be represented by different Tags: <em>-o, --output</em></li>
-<li>etc., etc., etc.</li>
 </ul>
-<p><code>CLArgs</code> supports all these features and it provides a very flexible and extensible model to work with the command-line.</p>
-<h2 id="whats-next">What's next</h2>
+</li>
+<li>Flexible argument <em>validation and completion</em></li>
+<li>Clean error-handling to report <em>all</em> errors instead of only the first one
 <ul>
-<li><a href="mission.html">The Mission - what I wanted to accomplish is <strong>what you get</strong></a></li>
-<li><a href="fourLevels.html">The four levels of using CLArgs</a></li>
+<li>When using a console application,
+It can be frustrating to see &quot;<em>Param1 is missing</em>&quot; and
+once you fixed it you get: &quot;<em>Param2 is missing</em>&quot;.</li>
+<li><code>CLArgs</code> reports all errors in a single run.</li>
 </ul>
+</li>
+<li>Support for command and argument help-text
+<ul>
+<li>Help-Texts and argument definitions can be loaded from files, from Resources or they can be build-in by code or a combination of these.</li>
+<li>This includes support for localized help-messages.</li>
+</ul>
+</li>
+<li>Support for custom property types and enums in your parameter classes</li>
+<li>Support converting custom value converters
+<ul>
+<li>to convert any command-line string-value into any Type</li>
+</ul>
+</li>
+<li>Dynamic default values (not only static, like True, &quot;abc&quot;)
+<ul>
+<li>Including depend default values, e. g. on other values</li>
+</ul>
+</li>
+<li>...</li>
+</ul>
+<p><sub>Markus Schmidt (PRO), Munich (DE), 2020-07-10</sub></p>
 </article>
           </div>
           
@@ -116,7 +192,7 @@ Options:
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/msc4266/CLArgs/blob/dev/doc.fx/_content/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/msc4266/CLArgs/blob/master/_content/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
@@ -136,7 +212,7 @@ Options:
               <a href="#top">Back to top</a>
             </span>
             
-            <span style='font-size:0.75em'>Copyright (c) 2020, Schmidt e-Services GmbH i.L., Niedernhausener Str.59a, D-65207 Wiesbaden</span>
+            <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

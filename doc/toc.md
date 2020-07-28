@@ -1,6 +1,6 @@
-# [Home](../../readme.md)
+# [Home](index.md)
 
-# [Modern Console Application Design](index.md)
+# [Modern Console Application Design](modernApp.md)
 ## [The Mission](mission.md)
 
 

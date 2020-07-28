@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/Public/Documents/Sync/Daten/_gitHub/CLArgs/doc.fx",
+  "source_base_path": "C:/Users/Public/Documents/Sync/Daten/_gitHub/CLArgs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -13,17 +13,6 @@
       "is_incremental": false
     },
     {
-      "type": "Resource",
-      "source_relative_path": ".nojekyll",
-      "output": {
-        "resource": {
-          "relative_path": ".nojekyll"
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "log_codes": [
         "InvalidFileLink"
       ],
@@ -32,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/index.html",
-          "hash": "6ZIKp8kZJerH0Q1LjOVypw=="
+          "hash": "jnjxnxy6Nc9nmh+FsZDaNA=="
         }
       },
       "is_incremental": false,
@@ -47,7 +36,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/options.html",
-          "hash": "MeCDd/8+VfEeddQQ/l+tWg=="
+          "hash": "QYs/QvEKpcSgDSgS6uso8g=="
         }
       },
       "is_incremental": false,
@@ -62,7 +51,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/verbsAndOptions.html",
-          "hash": "+jAuoqC0j5Zu0VXDVXt6hw=="
+          "hash": "wDboYO89WxUvQPImsjoi6w=="
         }
       },
       "is_incremental": false,
@@ -77,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level1/verbsWithComposition.html",
-          "hash": "QydsPFY1owl1q3bDUaHO3g=="
+          "hash": "GHsTGTzcagk1XWzlAhZXMQ=="
         }
       },
       "is_incremental": false,
@@ -92,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/convertValues.html",
-          "hash": "NTKT0Kkuz0kNNBaG2uk+mQ=="
+          "hash": "kLDvc8i4ce2a7coXxFWu4g=="
         }
       },
       "is_incremental": false,
@@ -107,7 +96,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/dynamicDefaultValues.html",
-          "hash": "BV38q/4k+FCylqH/84Lcdg=="
+          "hash": "be0LWJgh4fkURFx7AQvlVg=="
         }
       },
       "is_incremental": false,
@@ -119,7 +108,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/errorList.html",
-          "hash": "bD4lZ7TArgpMUckQbiVvuA=="
+          "hash": "4edMBK+GPJ/jwo104dOWpw=="
         }
       },
       "is_incremental": false,
@@ -145,7 +134,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/Level2/index.html",
-          "hash": "4x/5UuWXeXVISuUqXeY9YQ=="
+          "hash": "MKFbBJg6mpfJvizjERcTQA=="
         }
       },
       "is_incremental": false,
@@ -157,7 +146,57 @@
       "output": {
         ".html": {
           "relative_path": "_content/UseCases/index.html",
-          "hash": "LDdg8/+murSww18HMZDDEA=="
+          "hash": "fPF+gdActo4yPnbkTRD19w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "_content/_doc.fx/.nojekyll",
+      "output": {
+        "resource": {
+          "relative_path": "_content/_doc.fx/.nojekyll"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/_doc.fx/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/_doc.fx/index.html",
+          "hash": "LsPwa2dA4fia0OMbvK4kvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "_content/_doc.fx/templates/docfx-material/README.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/_doc.fx/templates/docfx-material/README.html",
+          "hash": "0SqZLINwwIgoJ/f6KLNMDA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "_content/_doc.fx/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "_content/_doc.fx/toc.html",
+          "hash": "5A2sae2+YADnTKm4TWUjRw=="
         }
       },
       "is_incremental": false,
@@ -180,7 +219,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/competition.html",
-          "hash": "0DDABuTqWwfOHoGl4WHbrA=="
+          "hash": "RtrE56PZ7T7VedqP/C3CEg=="
         }
       },
       "is_incremental": false,
@@ -195,19 +234,22 @@
       "output": {
         ".html": {
           "relative_path": "_content/fourLevels.html",
-          "hash": "MPYlvCy9cP0DUf+57gCWnQ=="
+          "hash": "6m2alZGuXIZdcP15Yn3Oaw=="
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Conceptual",
       "source_relative_path": "_content/index.md",
       "output": {
         ".html": {
           "relative_path": "_content/index.html",
-          "hash": "hcBjCFJR+YUu8RjmMAPC2g=="
+          "hash": "BUyAEIVD9vE7oMp4jy9OhQ=="
         }
       },
       "is_incremental": false,
@@ -222,7 +264,19 @@
       "output": {
         ".html": {
           "relative_path": "_content/mission.html",
-          "hash": "4ZNxPWcz2U3RvlQW8EkU5g=="
+          "hash": "bvS6ou4PQ400Ts/0X+tmUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "_content/modernApp.md",
+      "output": {
+        ".html": {
+          "relative_path": "_content/modernApp.html",
+          "hash": "N9neIKZBITeLGXDnzt4tkA=="
         }
       },
       "is_incremental": false,
@@ -237,7 +291,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/toc.html",
-          "hash": "3piF1IY9r62JyS0LQAwX5g=="
+          "hash": "M0+UM2BvZTzwYEsAMgE8ww=="
         }
       },
       "is_incremental": false,
@@ -249,31 +303,7 @@
       "output": {
         ".html": {
           "relative_path": "_content/wordings.html",
-          "hash": "V6G9Wlaske53Aew+dz7XpQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "index.md",
-      "output": {
-        ".html": {
-          "relative_path": "index.html",
-          "hash": "O7x5YIcucXS+C2wP0RwFbQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "toc.html",
-          "hash": "5A2sae2+YADnTKm4TWUjRw=="
+          "hash": "naAeiokb8W2UHmesy5/UDQ=="
         }
       },
       "is_incremental": false,
@@ -292,8 +322,8 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 15,
-          "skipped_file_count": 15
+          "total_file_count": 17,
+          "skipped_file_count": 17
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

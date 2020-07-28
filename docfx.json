@@ -5,8 +5,7 @@
         "files": [
           "_content/**/*.md",
           "_content/**/toc.yml",
-          "toc.yml",
-          "index.md"
+          "_content/doc.fx/toc.yml"
         ]
       }
     ],
@@ -14,7 +13,8 @@
       {
         "files": [
           "_content/**/*.assets/*",
-          "index.html", ".nojekyll"
+          "_content/_doc.fx/index.html", 
+          "_content/_doc.fx/.nojekyll"
         ]
       }
     ],
@@ -30,8 +30,8 @@
     "fileMetadataFiles": [],
     "template": [
       "default"
-      , "templates/docfx-material/material"
-      , "templates/msPro"
+      , "doc/_doc.fx/templates/docfx-material/material"
+      , "doc/_doc.fx/templates/msPro"
     ],
     "globalMetadata": {
       "_enableSearch": "true"

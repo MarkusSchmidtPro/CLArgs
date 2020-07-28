@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>How to use CLArgs </title>
+    <title>Modern Console Application Design </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="How to use CLArgs ">
+    <meta name="title" content="Modern Console Application Design ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -77,30 +77,37 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h2 id="how-to-use-clargs">How to use CLArgs</h2>
+<h1 id="modern-console-application-design">Modern Console Application Design</h1>
 
-<p>There are four levels of using <code>CLArgs</code>. The higher the Level, the more flexible <code>CLArgs</code> will become.</p>
-<h3 id="level-1---basic">Level 1 - Basic</h3>
-<p>Level 1 is a bit more than just <code>string[] args</code>.  Simply parse your command-line into <code>Arguments</code> and work with <em>Verbs</em> and <em>Options</em>:</p>
-<pre><code class="lang-csharp">c:\&gt; YourApp --fileName=&quot;myfile.csv&quot; --target=XML
-Arguments arguments = Commander.ParseCommandLine(args);
+<p><code>dotnet</code> itself is a command-line application and a great example how modern console applications should work: <code>c:\&gt; dotnet build --help</code></p>
+<pre><code>Usage: dotnet build [options] &lt;PROJECT | SOLUTION&gt;
+
+Arguments:
+  &lt;PROJECT | SOLUTION&gt;   The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
+
+Options:
+  -h, --help               	Show command line help.
+  -o, --output &lt;OUTPUT_DIR&gt; The output directory to place built artifacts in.
+	...
 </code></pre>
-<p>See also</p>
 <ul>
-<li><a href="Level1/index.html">Level 1 Details</a></li>
-<li><a href="Level1/verbsAndOptions.html">Verbs and Options</a></li>
-<li><a href="Level1/verbsWithComposition.html">Console <em>Plugin concept</em> with Verbs and Microsoft Composition</a></li>
+<li>Support --help.</li>
+<li>There is one or more Verb(s): <em>build</em></li>
+<li>There are several <em>Options</em>, which have a name and a value: <em>output=&lt;OUTPUT_DIR&gt;</em>
+<ul>
+<li>Options are mandatory or optional</li>
+<li>Different verbs may require different option &quot;sets&quot;</li>
 </ul>
-<h3 id="level-2---standard">Level 2 - Standard</h3>
-<p>Parse the command-line into a typed object and pass it to your Command (as shown in the code above). A Command represents the functionality (that is normally  <code>void Main</code>).  However, Commands can be bound to <em>Verbs</em> so that one console app can support multiple functionalities with different argument sets.</p>
-<p>The <em>Standard Level</em> supports (multiple) <em>Verbs</em> and <em>Options</em>, and it is probably the right choice for most of you. I am using <code>CLArgs</code> at this level. <a href="Level2/index.html">More a about Level 2</a></p>
-<blockquote>
-<p>Most other command-line solutions I have seen, work between Level 1 and 2.</p>
-</blockquote>
-<h3 id="level-3---advanced">Level 3 - Advanced</h3>
-<p>All those who are still not happy with <em>Level 2</em>, who need more flexibility or who have other special requirements: a) let me know, what is missing and then enter b) Level 3. <code>CLArgs</code> has several hooks and /or extension points where you can integrate your code, and you can use the <code>CLArgs</code> classes and functions as you want it. <a href="Level3/index.md">More a about Level 3</a></p>
-<h3 id="level-4---expert">Level 4 - Expert</h3>
-<p>Check out the source-code and use it for your convenience. Don't forget to <a href="mailto:markus@markusschmidt.pro">let me know</a> what you would make better.</p>
+</li>
+<li>Options can be represented by different Tags: <em>-o, --output</em></li>
+<li>etc., etc., etc.</li>
+</ul>
+<p><code>CLArgs</code> supports all these features and it provides a very flexible and extensible model to work with the command-line.</p>
+<h2 id="whats-next">What's next</h2>
+<ul>
+<li><a href="mission.html">The Mission - what I wanted to accomplish is <strong>what you get</strong></a></li>
+<li><a href="fourLevels.html">The four levels of using CLArgs</a></li>
+</ul>
 </article>
           </div>
           
@@ -109,7 +116,7 @@ Arguments arguments = Commander.ParseCommandLine(args);
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/msc4266/CLArgs/blob/master/_content/fourLevels.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/msc4266/CLArgs/blob/master/_content/modernApp.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

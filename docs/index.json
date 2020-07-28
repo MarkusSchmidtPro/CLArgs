@@ -1,4 +1,14 @@
 {
+  "_content/_doc.fx/index.html": {
+    "href": "_content/_doc.fx/index.html",
+    "title": "",
+    "keywords": ""
+  },
+  "_content/_doc.fx/templates/docfx-material/README.html": {
+    "href": "_content/_doc.fx/templates/docfx-material/README.html",
+    "title": "DocFX Material",
+    "keywords": "DocFX Material A simple material theme for DocFX . This is an override of the default template so you need to enable both in the docfx.json . The colors were chosen using https://material.io/tools/color . Install Download the source or the zipped file from the releases . Create a templates folder in the root of your DocFX directory. Copy the material folder to the templates folder. Update the docfx.json configuration to include the material template: { \"template\": [ \"default\", \"templates/material\" ], } Color customization You can easily customize the color of the header bar and the links by updating the following variables in the material/styles/main.css file. /* COLOR VARIABLES*/ :root { --header-bg-color: #0d47a1; --header-ft-color: #fff; --highlight-light: #5e92f3; --highlight-dark: #003c8f; --font-color: #34393e; }"
+  },
   "_content/competition.html": {
     "href": "_content/competition.html",
     "title": "The Competition",
@@ -11,8 +21,8 @@
   },
   "_content/index.html": {
     "href": "_content/index.html",
-    "title": "Modern Console Application Design",
-    "keywords": "Modern Console Application Design dotnet itself is a command-line application and a great example how modern console applications should work: c:\\> dotnet build --help Usage: dotnet build [options] <PROJECT | SOLUTION> Arguments: <PROJECT | SOLUTION> The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. Options: -h, --help Show command line help. -o, --output <OUTPUT_DIR> The output directory to place built artifacts in. ... Support --help. There is one or more Verb(s): build There are several Options , which have a name and a value: output=<OUTPUT_DIR> Options are mandatory or optional Different verbs may require different option \"sets\" Options can be represented by different Tags: -o, --output etc., etc., etc. CLArgs supports all these features and it provides a very flexible and extensible model to work with the command-line. What's next The Mission - what I wanted to accomplish is what you get The four levels of using CLArgs"
+    "title": "CLArgs - A dotnet command-line interpreter",
+    "keywords": "CLArgs - A dotnet command-line interpreter Console Applications are simple: static void Main(string[] args) .. and go! However, getting arguments from a command-line can be complex. Simply run dotnet build --help and see! CLArgs turns your console application ​ into a modern command-line application ​ with minimal coding effort ​ while providing maximum flexibility and extensibility . Getting started For a first example and the feature list read on, scroll down. Modern Console Application Design The Mission - what I wanted to accomplish is what you get All samples on GitHub . Example c:\\ > YourApp.exe --country=Germany --count=3 /// <summary> /// The easiest way to use CLArgs. /// </summary> /// <remarks> /// Let the <see cref=\"Commander\" /> automatically /// resolve all classes in the Entry Assembly /// which inherit from <see cref=\"CommandBase{TParam}\" /> and which are /// annotated with a <see cref=\"CommandAttribute\">[Command]</see>-Attribute.<br /> /// </remarks> internal static class Program { private static void Main(string[] args) { // Auto Resolve Command(\"HelloWorld\") // Turn args into a HelloWorldParameters instance // Run HelloWorldCommand.Execute(HelloWorldParameters ps) Commander.ExecuteCommand(args); } } internal class HelloWorldParameters { [OptionDescriptor(\"country\", \"c\", Required = true)] public string Country { get; set; } [OptionDescriptor(\"count\", Required = false, Default = 1)] public int Count { get; set; } } [Command(\"HelloWorld\")] internal class HelloWorldCommand : CommandBase<HelloWorldParameters> { protected override void Execute(HelloWorldParameters ps) { for (int i = 0; i < ps.Count; i++) Console.WriteLine($\"Hello {ps.Country}!\"); } } See source-code / sample project / all samples . Feature List A single line of code does the trick: Commander.ExecuteCommand( args); Unlimited number of Verbs Plug-In concept: Automatic Command resolution based on Verbs Different argument-sets for each Command Command Parameter classes support Sub-Classes (inheritance) Flexible argument validation and completion Clean error-handling to report all errors instead of only the first one When using a console application, It can be frustrating to see \" Param1 is missing \" and once you fixed it you get: \" Param2 is missing \". CLArgs reports all errors in a single run. Support for command and argument help-text Help-Texts and argument definitions can be loaded from files, from Resources or they can be build-in by code or a combination of these. This includes support for localized help-messages. Support for custom property types and enums in your parameter classes Support converting custom value converters to convert any command-line string-value into any Type Dynamic default values (not only static, like True, \"abc\") Including depend default values, e. g. on other values ... Markus Schmidt (PRO), Munich (DE), 2020-07-10"
   },
   "_content/Level1/index.html": {
     "href": "_content/Level1/index.html",
@@ -59,6 +69,11 @@
     "title": "The Mission",
     "keywords": "The Mission I wanted to have a package that supports all the features listed here . I wanted to have to ability to automatically resolve a new verb. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my void Main() . I wanted to support multiple verbs, to support commands and subcommands, like SayHello , SayHello Germany , ... . I wanted Verbs to become Commands . A Command implements a functionality and it should completely stand for itself - no dependency. Extending my console app should be as easy as adding a new Command class. [Command(\"HelloWorld\")] internal class HelloWorldCommand : CommandBase<HelloWorldParameters> { protected override void Execute(HelloWorldParameters ps) { for (int i = 0; i < ps.Count; i++) Console.WriteLine($\"Hello {ps.Country}!\"); } } internal class HelloWorldParameters { [OptionDescriptor(\"country\", \"c\", Required = true)] public string Country { get; set; } [OptionDescriptor(\"count\", Required = false, Default = 1)] public int Count { get; set; } } c:\\ > MyApp --country=Germany --count=3 I wanted to have static default values for arguments (during compile-time, by annotation) and also dynamic defaults resolved during run-time when a default value may depend on another (provided) value. void OnResolveOptions(CommandParameters ps, List<string> unresolvedOptionNames) { if (unresolvedOptionNames.Contains(nameof(ProfileName))) ps.ProfileName = Path.GetFileNameWithoutExtension(ps.DatFilename); } What's next"
   },
+  "_content/modernApp.html": {
+    "href": "_content/modernApp.html",
+    "title": "Modern Console Application Design",
+    "keywords": "Modern Console Application Design dotnet itself is a command-line application and a great example how modern console applications should work: c:\\> dotnet build --help Usage: dotnet build [options] <PROJECT | SOLUTION> Arguments: <PROJECT | SOLUTION> The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. Options: -h, --help Show command line help. -o, --output <OUTPUT_DIR> The output directory to place built artifacts in. ... Support --help. There is one or more Verb(s): build There are several Options , which have a name and a value: output=<OUTPUT_DIR> Options are mandatory or optional Different verbs may require different option \"sets\" Options can be represented by different Tags: -o, --output etc., etc., etc. CLArgs supports all these features and it provides a very flexible and extensible model to work with the command-line. What's next The Mission - what I wanted to accomplish is what you get The four levels of using CLArgs"
+  },
   "_content/UseCases/index.html": {
     "href": "_content/UseCases/index.html",
     "title": "Use-Cases",
@@ -68,10 +83,5 @@
     "href": "_content/wordings.html",
     "title": "Wordings",
     "keywords": "Wordings Args[] = Environment.CommandLine The args[] passed to the Program . Basically the command-line itself. Args can be anything in the beginning, and the first action on it should be private static int Main(string[] args) { ... Arguments arguments = Commander.ParseCommandLine(args);` ... Arguments Arguments is the result when the command-line was parsed. An Argument is either an Option or a Verb . Verb A Verb is initially just a text, that was parsed as a single word from the command-line. Example saveFile Verbs are used to find an appropriate Command implementation that can be executed. Option An Option is a name-value tag that was parsed from the command-line. Basically the values which are passed as parameters to the command. Options values are always strings! Example: --opt1=44 --filename=\"myfile.xml\" Command A Command is the implementation of an action that is finally executed. When an instance of a Command is created it gets the Options . The Command then validates the Options and maps them to the command's Parameters . Parameters A Command gets Parameters which is an object that was build based on the Options."
-  },
-  "index.html": {
-    "href": "index.html",
-    "title": "",
-    "keywords": ""
   }
 }

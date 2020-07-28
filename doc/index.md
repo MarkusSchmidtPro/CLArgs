@@ -11,9 +11,9 @@ Console Applications are simple:  `static void Main(string[] args)` ..  and go! 
 
 * For a first *example* and the *feature list* read on, scroll down.
 
-* [Modern Console Application Design](doc/index.md)
-* [The Mission - what I wanted to accomplish is **what you get**](doc/mission.md)
-* [All samples on GitHub](https://github.com/msc4266/CLArgs/tree/master/samples).
+* [Modern Console Application Design](doc.fx/mission/index.md)
+* [The Mission - what I wanted to accomplish is **what you get**](doc.fx/mission/mission.md)
+* [All samples on GitHub](Samples).
 
 ## Example
 
