@@ -44,7 +44,7 @@ internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 
 See [Simple-As-That Source-Code](samples/Sample01.SimpleAsThat/Program.cs) / [Sample Project](samples/Sample01.SimpleAsThat) / [All Samples](samples).
 
-=> [Continue reading documentation](msc4266.github.io/clargs)
+=> [Continue reading documentation](https://github.com/msc4266/CLArgs/wiki)
 
 ## Feature List
 
