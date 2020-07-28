@@ -14,12 +14,12 @@ internal static class Program
 {
 	private static void Main(string[] args)
 	{
-        // Parse the command-line
-    	Arguments arguments = CommandLineParser.Parse(args);
-        // Create a command (that contains the functionality)
-        var cmd = new HelloWorldCommand();
-        // Let CLArgs convert the arguments and run the command.
-        cmd.Execute(arguments);
+		// Parse the command-line
+		Arguments arguments = CommandLineParser.Parse(args);
+		// Create a command (that contains the functionality)
+		var cmd = new HelloWorldCommand();
+		// Let CLArgs convert the arguments and run the command.
+		cmd.Execute(arguments);
 	}
 }
 
@@ -42,9 +42,9 @@ internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
 }
 ```
 
-See [Simple-As-That Source-Code](samples/Sample01.SimpleAsThat/Program.cs) / [Sample Project](samples/Sample01.SimpleAsThat) / [All Samples](Samples).
+See [Simple-As-That Source-Code](samples/Sample01.SimpleAsThat/Program.cs) / [Sample Project](samples/Sample01.SimpleAsThat) / [All Samples](samples).
 
-=> [Continue reading documentation]([msc4266.github.io/clargs/](https://msc4266.github.io/CLArgs/))
+=> [Continue reading documentation](msc4266.github.io/clargs)
 
 ## Feature List
 
