@@ -21,26 +21,12 @@ namespace CLArgs.Sample.SimpleAsThat
  
         private static void Main(string[] args)
         {
-            Console.WriteLine(">>> Start Main");
             // --- Use Demo command-line ---
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
             Console.WriteLine(">>> Option 1");
-            // a) Parse CommandLine
-            // b) Create instance of a Command: CommandBase<HelloWorldParameters>
-            //    b1) Let CLArgs convert the args into HelloWorldParameters
-            Arguments arguments = CommandLineParser.Parse(args);
-            var cmd = new HelloWorldCommand();
-            cmd.Execute(arguments);
-            
-            Console.WriteLine(">>> Option 2");
-            Commander commander = new Commander(new Settings { AutoResolveCommands = false});
-            commander.RegisterCommandFactory("TheOneAndOnlyCommand", () => new HelloWorldCommand());
-            commander.ExecuteCommand( arguments);
-            
-            Console.WriteLine(">>> Option 3");
             // ONE SINGLE LINE does it all!
             // a) Resolve default [Command] implementation: 
             //    uses: Settings.AutoResolveCommands = true
@@ -51,9 +37,24 @@ namespace CLArgs.Sample.SimpleAsThat
             //    HelloWorldCommand( HelloWorldCommand p)
             
             Commander.ExecuteCommand(args);
-
-            // ------------------------------------------------
-            Console.WriteLine("<<< End Main");
+            
+            
+            
+            
+            /*
+            Console.WriteLine(">>> Option 2");
+            // a) Parse CommandLine
+            // b) Create instance of a Command: CommandBase<HelloWorldParameters>
+            //    b1) Let CLArgs convert the args into HelloWorldParameters
+            Arguments arguments = CommandLineParser.Parse(args);
+            var cmd = new HelloWorldCommand();
+            cmd.Execute(arguments);
+            
+            Console.WriteLine(">>> Option 3");
+            Commander commander = new Commander(new Settings { AutoResolveCommands = false});
+            commander.RegisterCommandFactory("TheOneAndOnlyCommand", () => new HelloWorldCommand());
+            commander.ExecuteCommand( arguments);
+            */
         }
     }
 

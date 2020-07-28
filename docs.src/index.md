@@ -1,13 +1,12 @@
 # Welcome to CLArgs documentation
 
-[Test](doc/TestPage.md)
 Master your Modern Console Apps made easy.
 
 * Create a `Command` that implements the functionality
 * Define the Command `Parameters`
 * and let *CLArgs* convert the command-line arguments and call the Command.
 
-> <span style="color:darkred">**TIP:**</span> Check-Out the [Console App Skeleton](https://github.com/msc4266/CLArgs/tree/master/ConsoleApp.Skeleton) to get a complete skeleton for your Console App.
+> <span style="color:darkred">**TIP:**</span> Check-Out the [Console App Skeleton](https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner) to get a complete skeleton for your Console App.
 
 ```csharp
 static class Program

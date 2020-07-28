@@ -1,4 +1,5 @@
-﻿using MSPro.CLArgs;
+﻿using System.IO.Enumeration;
+using MSPro.CLArgs;
 
 
 
@@ -29,6 +30,19 @@ namespace CLArgs.Sample.Options.DefaultCommand
     }
 
 
+    /*
+    class XmlConverterParameters
+    {
+        [OptionDescriptor("filename", "f", Required = true)]
+        public string Filename { get; set; }
+
+        [OptionDescriptor("out", "o", Required = false, Default = "out")]
+        public string OutDir  { get; set; }
+
+        [OptionDescriptor("forceOverride", "fo", Required = false, Default = true)]
+        public bool ForceOverride { get; set; }
+    }
+    */
 
     /// <summary>
     ///     Base class for parameters (will be automatically resolved).

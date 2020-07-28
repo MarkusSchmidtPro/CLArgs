@@ -3,11 +3,14 @@
     "content": [
       {
         "files": [
-		  "index.md", 
-		  "toc.yml",
+          "index.md",
+          "toc.yml",
           "doc/**/*.md"
-        ] , 
-		"exclude":["_site.docfx/**"]
+        ],
+        "exclude": [
+          "_site.docfx/**",
+          "doc/_archive/**"
+        ]
       }
     ],
     "resource": [
@@ -28,9 +31,9 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
-      , "_site.docfx/templates/docfx-material/material"
-      , "_site.docfx/templates/msPro"
+      "default",
+      "_site.docfx/templates/docfx-material/material",
+      "_site.docfx/templates/msPro"
     ],
     "globalMetadata": {
       "_enableSearch": "true"

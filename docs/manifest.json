@@ -24,152 +24,23 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level1/index.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level1/index.html",
-          "hash": "nT+Fs0dAfQAUtYOsBwnUdQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level1/options.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level1/options.html",
-          "hash": "Gr8LHrN/ReI7FMThWBEU/w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "doc/Level1/toc.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level1/toc.html",
-          "hash": "ENfIW2o2n7lBaL7a/2pqzg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level1/verbsAndOptions.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level1/verbsAndOptions.html",
-          "hash": "Z6Dp+57v1isE4TAb9uDOqA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level1/verbsWithComposition.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level1/verbsWithComposition.html",
-          "hash": "imK0uiY+26Zw5K8U6x9y+w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level2/convertValues.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level2/convertValues.html",
-          "hash": "ctMOGh4Yq6ZlGPls5PJS4A=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level2/dynamicDefaultValues.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level2/dynamicDefaultValues.html",
-          "hash": "LoUOllO2PehaMJ7me4Fxkw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "doc/Level2/errorList.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level2/errorList.html",
-          "hash": "ycyjPZgR2pJKblGRWkzYNg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
       "type": "Resource",
-      "source_relative_path": "doc/Level2/index.assets/image-20200718171241364.png",
+      "source_relative_path": "doc/_archive/Level2/index.assets/image-20200718171241364.png",
       "output": {
         "resource": {
-          "relative_path": "doc/Level2/index.assets/image-20200718171241364.png"
+          "relative_path": "doc/_archive/Level2/index.assets/image-20200718171241364.png"
         }
       },
       "is_incremental": false,
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
-      "source_relative_path": "doc/Level2/index.md",
+      "source_relative_path": "doc/basics.md",
       "output": {
         ".html": {
-          "relative_path": "doc/Level2/index.html",
-          "hash": "tioRVI7bHejJ5sHHB5i8zg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "doc/Level2/toc.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/Level2/toc.html",
-          "hash": "ENfIW2o2n7lBaL7a/2pqzg=="
+          "relative_path": "doc/basics.html",
+          "hash": "jxM0KdUfIElaVRrBvZgg4A=="
         }
       },
       "is_incremental": false,
@@ -192,7 +63,7 @@
       "output": {
         ".html": {
           "relative_path": "doc/competition.html",
-          "hash": "9tHYrbqK4K6NfyHEAaYG0w=="
+          "hash": "f0I98Lqled6ASnMbd3L3OQ=="
         }
       },
       "is_incremental": false,
@@ -200,11 +71,35 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "doc/fourLevels.md",
+      "source_relative_path": "doc/convertValues.md",
       "output": {
         ".html": {
-          "relative_path": "doc/fourLevels.html",
-          "hash": "pTtlgaSw6zjkTLl9MUvHrQ=="
+          "relative_path": "doc/convertValues.html",
+          "hash": "hZ3Yl0LOPR5Mr5w46ITS2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "doc/dynamicDefaultValues.md",
+      "output": {
+        ".html": {
+          "relative_path": "doc/dynamicDefaultValues.html",
+          "hash": "sgN8HnTjp6ABx22o5PoChA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "doc/errorHandling.md",
+      "output": {
+        ".html": {
+          "relative_path": "doc/errorHandling.html",
+          "hash": "xW8jMAC7Nu+LXazBsAouEg=="
         }
       },
       "is_incremental": false,
@@ -216,22 +111,7 @@
       "output": {
         ".html": {
           "relative_path": "doc/index.html",
-          "hash": "b/gVW482cIBrH4JlMvD+cg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "doc/mission.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/mission.html",
-          "hash": "TWva5unBrJS+aFp8uw8uRQ=="
+          "hash": "ZwIIbE2/OEmoCoR5QcbJpA=="
         }
       },
       "is_incremental": false,
@@ -243,19 +123,7 @@
       "output": {
         ".html": {
           "relative_path": "doc/toc.html",
-          "hash": "mPoZ0fy0dRR8YFjdJXayAg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "doc/wordings.md",
-      "output": {
-        ".html": {
-          "relative_path": "doc/wordings.html",
-          "hash": "KmLm16YZLTdG/4OxBGsN/Q=="
+          "hash": "jUzjxVlZeowCBe97Hx+sFA=="
         }
       },
       "is_incremental": false,
@@ -267,7 +135,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "qNsbu44hGXT0MhHIdspycQ=="
+          "hash": "qXfNXuhzD6250R/pB+eveg=="
         }
       },
       "is_incremental": false,
@@ -298,8 +166,8 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 14,
-          "skipped_file_count": 14
+          "total_file_count": 7,
+          "skipped_file_count": 5
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

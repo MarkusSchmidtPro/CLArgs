@@ -1,30 +1,48 @@
-# Modern Console Application Design1
+# The Command-Line Mission
 
-`dotnet` itself is a command-line application and a great example how modern console applications should work: `c:\> dotnet build --help`
+I have been using many different [command-line packages](competition.md) but none of them satisfied my needs. 
 
+## Plug-In concept for Verbs
+
+I wanted to have to ability to automatically resolve new verbs. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my `void Main()`. 
+[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat)
+
+## Support multiple Verbs 
+
+I wanted to support multiple verbs, to support commands and subcommands, like `SayHello`, `SayHello Germany`, ... .
+
+[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs)
+
+## Parameter class that support sub-classes and inheritance
+
+```csharp
+class Parameters : BaseParameters
+{
+    [OptionSet]
+    public Connection DbConnection { get; set; }
+
+    [OptionDescriptor("DatabaseTableName", "t", Required = false)]
+    public string DatabaseTableName { get; set; }
+}
 ```
-Usage: dotnet build [options] <PROJECT | SOLUTION>
+[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options)
 
-Arguments:
-  <PROJECT | SOLUTION>   The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
 
-Options:
-  -h, --help               	Show command line help.
-  -o, --output <OUTPUT_DIR> The output directory to place built artifacts in.
-	...
-```
+## Minimum code while having maximum flexibility
 
-* Support --help.
-* There is one or more Verb(s): *build*
-* There are several *Options*, which have a name and a value: *output=<OUTPUT_DIR>*
-  * Options are mandatory or optional
-  * Different verbs may require different option "sets"
-* Options can be represented by different Tags: *-o, --output*
-* etc., etc., etc.
+Zero Code: `Commander.ExecuteCommand(args);` - if you want.
 
-`CLArgs` supports all these features and it provides a very flexible and extensible model to work with the command-line. 
+[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat)
 
-## What's next
 
-* [The Mission - what I wanted to accomplish is **what you get**](mission.md)
-* [The four levels of using CLArgs](fourLevels.md)
+## Static and dynamic (dependend) default values
+
+I wanted to have static default values for arguments (during compile-time, by annotation) and also dynamic defaults, resolved during run-time when a default value may depend on another (provided) value.
+
+[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault)
+
+## What's next?
+
+* [Basics](basics.md)
+* [See all examples](https://github.com/msc4266/CLArgs/tree/master/samples/)
+* [Get started with the Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner)

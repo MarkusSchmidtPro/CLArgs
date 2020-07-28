@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Modern Console Application Design1 </title>
+    <title>The Command-Line Mission </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Modern Console Application Design1 ">
+    <meta name="title" content="The Command-Line Mission ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -77,36 +77,37 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="modern-console-application-design1">Modern Console Application Design1</h1>
+<h1 id="the-command-line-mission">The Command-Line Mission</h1>
 
-<p><code>dotnet</code> itself is a command-line application and a great example how modern console applications should work: <code>c:\&gt; dotnet build --help</code></p>
-<pre><code>Usage: dotnet build [options] &lt;PROJECT | SOLUTION&gt;
+<p>I have been using many different <a href="competition.html">command-line packages</a> but none of them satisfied my needs.</p>
+<h2 id="plug-in-concept-for-verbs">Plug-In concept for Verbs</h2>
+<p>I wanted to have to ability to automatically resolve new verbs. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my <code>void Main()</code>.
+<a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs">Sample-Code</a> / <a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat">Sample-Project</a></p>
+<h2 id="support-multiple-verbs">Support multiple Verbs</h2>
+<p>I wanted to support multiple verbs, to support commands and subcommands, like <code>SayHello</code>, <code>SayHello Germany</code>, ... .</p>
+<p><a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs/Program.cs">Sample-Code</a> / <a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs">Sample-Project</a></p>
+<h2 id="parameter-class-that-support-sub-classes-and-inheritance">Parameter class that support sub-classes and inheritance</h2>
+<pre><code class="lang-csharp">class Parameters : BaseParameters
+{
+    [OptionSet]
+    public Connection DbConnection { get; set; }
 
-Arguments:
-  &lt;PROJECT | SOLUTION&gt;   The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
-
-Options:
-  -h, --help               	Show command line help.
-  -o, --output &lt;OUTPUT_DIR&gt; The output directory to place built artifacts in.
-	...
+    [OptionDescriptor(&quot;DatabaseTableName&quot;, &quot;t&quot;, Required = false)]
+    public string DatabaseTableName { get; set; }
+}
 </code></pre>
+<p><a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options/Program.cs">Sample-Code</a> / <a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options">Sample-Project</a></p>
+<h2 id="minimum-code-while-having-maximum-flexibility">Minimum code while having maximum flexibility</h2>
+<p>Zero Code: <code>Commander.ExecuteCommand(args);</code> - if you want.</p>
+<p><a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs">Sample-Code</a> / <a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat">Sample-Project</a></p>
+<h2 id="static-and-dynamic-dependend-default-values">Static and dynamic (dependend) default values</h2>
+<p>I wanted to have static default values for arguments (during compile-time, by annotation) and also dynamic defaults, resolved during run-time when a default value may depend on another (provided) value.</p>
+<p><a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault/Program.cs">Sample-Code</a> / <a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault">Sample-Project</a></p>
+<h2 id="whats-next">What's next?</h2>
 <ul>
-<li>Support --help.</li>
-<li>There is one or more Verb(s): <em>build</em></li>
-<li>There are several <em>Options</em>, which have a name and a value: <em>output=&lt;OUTPUT_DIR&gt;</em>
-<ul>
-<li>Options are mandatory or optional</li>
-<li>Different verbs may require different option &quot;sets&quot;</li>
-</ul>
-</li>
-<li>Options can be represented by different Tags: <em>-o, --output</em></li>
-<li>etc., etc., etc.</li>
-</ul>
-<p><code>CLArgs</code> supports all these features and it provides a very flexible and extensible model to work with the command-line.</p>
-<h2 id="whats-next">What's next</h2>
-<ul>
-<li><a href="mission.html">The Mission - what I wanted to accomplish is <strong>what you get</strong></a></li>
-<li><a href="fourLevels.html">The four levels of using CLArgs</a></li>
+<li><a href="basics.html">Basics</a></li>
+<li><a href="https://github.com/msc4266/CLArgs/tree/master/samples/">See all examples</a></li>
+<li><a href="https://github.com/msc4266/CLArgs/tree/master/CommandLineRunner">Get started with the Command-Line Runner</a></li>
 </ul>
 </article>
           </div>
@@ -116,7 +117,7 @@ Options:
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/msc4266/CLArgs.wiki/blob/master/doc/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/msc4266/CLArgs/blob/master/docs.src/doc/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

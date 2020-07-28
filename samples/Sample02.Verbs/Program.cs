@@ -45,9 +45,6 @@ namespace CLArgs.Sample.Verbs
             Console.WriteLine("--- Manual resolution");
             completelyManual(args);
 
-            
-            
-
             // ------------------------------------------------
             Console.WriteLine("<<< End Main");
         }

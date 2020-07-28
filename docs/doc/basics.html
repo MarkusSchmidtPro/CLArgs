@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Wordings </title>
+    <title>Basics </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Wordings ">
+    <meta name="title" content="Basics ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -77,29 +77,60 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="wordings">Wordings</h1>
+<h1 id="basics">Basics</h1>
 
-<h2 id="args--environmentcommandline">Args[] = Environment.CommandLine</h2>
-<p>The <code>args[]</code> passed to the <code>Program</code>. Basically the command-line itself. <em>Args</em> can be anything in the beginning, and the first action on it should be</p>
-<pre><code class="lang-csharp">private static int Main(string[] args)
-{
-	...
-	Arguments arguments = Commander.ParseCommandLine(args);`
-	...
+<p>In the command-line you can provide <em>Verbs</em> and <em>Options</em>.</p>
+<h2 id="verbs-and-commands">Verbs and Commands</h2>
+<p>A <em>Verb</em> is a word that determines <em>what</em> your Console Application should do.</p>
+<p>A <em>Verb</em> is bound to a certain functionality: <code>YourApp.exe ConvertXml</code> ==&gt; <code>MyXmlConverter()</code>. This functionality is implemented as a <em>Command</em>.</p>
+<pre><code class="lang-csharp">RegisterCommandFactory( &quot;ConvertXml&quot;, () =&gt; new MyXmlConverter());
 </code></pre>
-<h2 id="arguments">Arguments</h2>
-<p>Arguments is the result when the command-line was parsed. An <em>Argument</em> is either an <em>Option</em> or a <em>Verb</em>.</p>
-<h3 id="verb">Verb</h3>
-<p>A <em>Verb</em> is initially just a text, that was parsed as a single word from the command-line.</p>
-<p>Example <code>saveFile</code></p>
-<p><em>Verbs</em> are used to find an appropriate <em>Command</em> implementation that can be executed.</p>
-<h3 id="option">Option</h3>
-<p>An <em>Option</em> is a name-value tag that was parsed from the command-line. Basically the values which are passed as parameters to the command. Options values are always strings!</p>
-<p>Example: <code>--opt1=44 --filename=&quot;myfile.xml&quot;</code></p>
-<h2 id="command">Command</h2>
-<p>A <em>Command</em> is the implementation of an action that is finally executed. When an instance of a <em>Command</em> is created it gets the <em>Options</em>. The Command then validates the <em>Options</em> and maps them to the command's <em>Parameters</em>.</p>
-<h2 id="parameters">Parameters</h2>
-<p>A <em>Command</em> gets <em>Parameters</em> which is an object that was build based on the Options.</p>
+<p>or use <em>Annotations</em> (Zero-Coding [<a href="https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs">Sample-Code</a>])</p>
+<pre><code class="lang-csharp">[Command(&quot;ConvertXml&quot;)]
+class MyXmlConverter : CommandBase&lt;XmlConverterParameters&gt;
+{
+	protected override void Execute(XmlConverterParameters ps) 
+    {
+		// ....
+	}
+}
+</code></pre>
+<blockquote>
+<p>NOTE: Verbs are completely optional. If your Console Application has only one single functionality, well, then use <em>CLArgs</em> without Verbs:</p>
+</blockquote>
+<pre><code class="lang-csharp">Arguments arguments = CommandLineParser.Parse(args);
+var cmd = new MyXmlConverter();
+cmd.Execute( arguments);
+</code></pre>
+<h2 id="options">Options</h2>
+<p>An <em>Option</em> is a name-value tag that is parsed from the command-line:</p>
+<p><code>--filename=Input.xml --out='outDir\' --forceOverride</code></p>
+<p>Options are converted into <em>Parameters</em>:</p>
+<pre><code class="lang-csharp">class XmlConverterParameters
+{
+    [OptionDescriptor(&quot;filename&quot;, &quot;f&quot;, Required = true)]
+    public string Filename { get; set; }
+
+    [OptionDescriptor(&quot;out&quot;, &quot;o&quot;, Required = false, Default = &quot;out&quot;)]
+    public string OutDir  { get; set; }
+
+    [OptionDescriptor(&quot;forceOverride&quot;, &quot;fo&quot;, 
+                      Required = false, Default = true)]
+    public bool ForceOverride { get; set; }
+}
+</code></pre>
+<h2 id="verbs-and-options">Verbs and Options</h2>
+<p>Each <em>Verb</em> has its own set of <em>Options</em>, because each <em>Command</em> requires its own <em>Parameters</em>:</p>
+<pre><code>&quot;ConvertXml&quot; =&gt; XmlConverter( XmlConverterParameters ps);
+&quot;CreateSchema&quot; =&gt; XsdSchemaGenerator( XsdSchemaGenerator ps);
+</code></pre>
+<h2 id="automatic-resolution">Automatic resolution</h2>
+<p>When you provide a Verb in the command-line, <em>CLArgs</em> automatically resolved the related Command. <em>CLArgs</em> then gets the <em>Command</em> Parameter type and converts the command-line arguments into an instance of this type. Finally it executes the command. And all this with a single line of code: <code>Commander.ExecuteCommand(args);</code></p>
+<h1 id="whats-next">What's Next</h1>
+<ul>
+<li><a href="convertValues.html">Custom Conversion</a></li>
+<li><a href="dynamicDefaultValues.html">Dynamic Defaults</a></li>
+</ul>
 </article>
           </div>
           
@@ -108,7 +139,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/msc4266/CLArgs/blob/master/docs.src/doc/wordings.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/msc4266/CLArgs/blob/master/docs.src/doc/basics.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

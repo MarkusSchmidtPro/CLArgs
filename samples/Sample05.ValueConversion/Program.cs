@@ -26,7 +26,13 @@ namespace CLArgs.Sample.ValueConversion
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
-            new Command().Execute(CommandLineParser.Parse(args));
+            /* moved to BeforeArgumentConversion
+            var settings = new Settings();
+            settings.ValueConverters.Register(typeof(FileInfo),
+                                              // Custom Conversion
+                                              (optionValue, optionName, errors, targetType) => new FileInfo(optionValue));
+            */
+            new Command().Execute(CommandLineParser.Parse(args, settings));
             
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");
