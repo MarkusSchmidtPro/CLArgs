@@ -14,7 +14,7 @@
                 Get a list of Options unique by their name.
             </summary>
         </member>
-        <member name="M:MSPro.CLArgs.ArgumentConverter`1.TryConvert(MSPro.CLArgs.Arguments,`0@,System.Collections.Generic.HashSet{System.String}@)">
+        <member name="M:MSPro.CLArgs.ArgumentConverter`1.TryConvert(MSPro.CLArgs.Arguments,System.Collections.Generic.IEnumerable{MSPro.CLArgs.OptionDescriptorAttribute},`0@,System.Collections.Generic.HashSet{System.String}@)">
             <summary>
                 Execute the command that is resolved by the verbs passed in the command-line.
             </summary>
@@ -39,7 +39,7 @@
             </summary>
             <param name="settings">Settings used to control CLArgs overall behaviour.</param>
         </member>
-        <member name="M:MSPro.CLArgs.Commander.RegisterCommandFactory(System.String,System.Func{MSPro.CLArgs.ICommand})">
+        <member name="M:MSPro.CLArgs.Commander.RegisterCommandFactory(System.String,System.Func{MSPro.CLArgs.ICommand},System.String)">
             <summary>
                 Manually register (add or update) a Command.
             </summary>
@@ -50,7 +50,8 @@
                 the 'old' command is overridden.
             </remarks>
             <param name="verb">The <see cref="P:MSPro.CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
-            <param name="factory">A factory function that return an instance of <see cref="T:MSPro.CLArgs.ICommand" />.</param>
+            <param name="factoryFunc">A factory function that return an instance of <see cref="T:MSPro.CLArgs.ICommand" />.</param>
+            <param name="commandDescription"></param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
             <example>
                 <code>
@@ -61,7 +62,7 @@
             </example>
             <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands" />
         </member>
-        <member name="M:MSPro.CLArgs.Commander.RegisterFunction(System.String,System.Action{MSPro.CLArgs.Arguments})">
+        <member name="M:MSPro.CLArgs.Commander.RegisterFunction(System.String,System.Action{MSPro.CLArgs.Arguments},System.String)">
             <summary>
                 Directly bind a function to a verb.
             </summary>
@@ -70,8 +71,9 @@
                 The function that is executed when the verbs passed in the
                 command-line (<see cref="P:MSPro.CLArgs.Arguments.VerbPath" /> are equal to the <paramref name="verb" />.
             </param>
+            <param name="commandDescription"></param>
             <example>
-            <code>
+                <code>
             string COMMAND_LINE = "word1 text2 verb3";
             // Arguments.VerbPath is executed
             var commander = new Commander(new Settings { AutoResolveCommands = false });
@@ -79,17 +81,18 @@
             commander.RegisterFunction("word1.text2", text);
             commander.RegisterFunction("word1.text2.verb3", verb);
             commander.ExecuteCommand(args);
-            </code></example>
+            </code>
+            </example>
             <exception cref="T:System.ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
-            <seealso cref="P:MSPro.CLArgs.Arguments.VerbPath"/>
-            <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands"/>
+            <seealso cref="P:MSPro.CLArgs.Arguments.VerbPath" />
+            <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands" />
         </member>
         <member name="M:MSPro.CLArgs.Commander.ResolveCommand(System.String)">
             <summary>
                 Resolve a Command implementation by Verb.
             </summary>
             <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands" />
-            <seealso cref="M:MSPro.CLArgs.Commander.RegisterCommandFactory(System.String,System.Func{MSPro.CLArgs.ICommand})" />
+            <seealso cref="M:MSPro.CLArgs.Commander.RegisterCommandFactory(System.String,System.Func{MSPro.CLArgs.ICommand},System.String)" />
             <param name="verb">
                 The verb for which and implementation should be resolved.
                 IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
@@ -105,7 +108,7 @@
                 Shortcut and preferred way to use Commander.
             </summary>
             <example>
-               Full code:
+                Full code:
                 <code>
                 new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args))
                 </code>

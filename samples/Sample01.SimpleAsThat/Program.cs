@@ -13,7 +13,7 @@ namespace CLArgs.Sample.SimpleAsThat
         /// <summary>
         ///     The test command-line for this example.
         ///     > --country and --count  : are Options passed to the Command.
-        /// </summary>
+        /// </summary>arguments.Verbs.Any
         /// <see cref="HelloWorldParameters" />
         /// <see cref="HelloWorldCommand" />
         private const string COMMAND_LINE = "--country=Germany --count=3";
