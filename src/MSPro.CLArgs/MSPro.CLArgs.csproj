@@ -10,8 +10,8 @@
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2007.26.01</Version>
-      <FileVersion>1.2007.26.01</FileVersion>
+      <Version>1.2008.05.01</Version>
+      <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -26,7 +26,7 @@
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>
-      <PackageReleaseNotes>Code Complete (no support for --help yet)</PackageReleaseNotes>
+      <PackageReleaseNotes>Help support added</PackageReleaseNotes>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
