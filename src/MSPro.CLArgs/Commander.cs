@@ -13,7 +13,8 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class Commander
     {
-        private readonly Dictionary<string, Func<ICommand>> _commands;
+        // Internally use a dictionary to make sure Verbs are unique
+        private readonly Dictionary<string, CommandDescriptor> _commandDescriptors;
         private readonly Settings _settings;
 
 
@@ -25,8 +26,14 @@ namespace MSPro.CLArgs
         public Commander(Settings settings = null)
         {
             _settings = settings ?? new Settings();
-            _commands = new Dictionary<string, Func<ICommand>>();
-            // Resolve commands and register ConsoleApp.Skeleton factories
+         
+            IEqualityComparer<string> c = _settings.IgnoreCase
+                ? StringComparer.InvariantCultureIgnoreCase
+                : StringComparer.InvariantCulture;
+            
+            _commandDescriptors = new Dictionary<string, CommandDescriptor>(c);
+            
+            // Resolve commands and register ICommand factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
 
@@ -42,7 +49,8 @@ namespace MSPro.CLArgs
         ///     the 'old' command is overridden.
         /// </remarks>
         /// <param name="verb">The <see cref="CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
-        /// <param name="factory">A factory function that return an instance of <see cref="ICommand" />.</param>
+        /// <param name="factoryFunc">A factory function that return an instance of <see cref="ICommand" />.</param>
+        /// <param name="commandDescription"></param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
         /// <example>
         ///     <code>
@@ -52,11 +60,14 @@ namespace MSPro.CLArgs
         /// </code>
         /// </example>
         /// <seealso cref="Settings.AutoResolveCommands" />
-        public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factory)
-        {
-            if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
-            _commands[verb] = factory;
-        }
+        [Obsolete("Use RegisterCommand() instead.")]
+        public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc, string commandDescription=null) 
+            => RegisterCommand( new CommandDescriptor(verb, factoryFunc, commandDescription));
+
+
+
+        public void RegisterCommand( CommandDescriptor commandDescriptor) 
+            => _commandDescriptors[commandDescriptor.Verb] = commandDescriptor;
 
 
 
@@ -68,6 +79,7 @@ namespace MSPro.CLArgs
         ///     The function that is executed when the verbs passed in the
         ///     command-line (<see cref="Arguments.VerbPath" /> are equal to the <paramref name="verb" />.
         /// </param>
+        /// <param name="commandDescription"></param>
         /// <example>
         /// <code>
         /// string COMMAND_LINE = "word1 text2 verb3";
@@ -81,13 +93,15 @@ namespace MSPro.CLArgs
         /// <exception cref="ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
         /// <seealso cref="Arguments.VerbPath "/>
         /// <seealso cref="Settings.AutoResolveCommands"/>
-        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func)
+        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func, string commandDescription=null)
         {
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
-            _commands[verb] = () => new CommandWrapper(func);
+            _commandDescriptors[verb] = new CommandDescriptor(verb, () => new CommandWrapper(func), commandDescription);
         }
 
 
+
+        public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
 
         /// <summary>
         ///     Resolve a Command implementation by Verb.
@@ -100,20 +114,20 @@ namespace MSPro.CLArgs
         /// </param>
         public ICommand ResolveCommand(string verb)
         {
-            if (_commands == null || _commands.Count == 0)
+            if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
             // Invoke Default Command
-            if (verb == null) return _commands.First().Value();
+            if (verb == null) return _commandDescriptors.First().Value.CreateCommandInstance();
 
 
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
-            if (!_commands.ContainsKey(verb))
+            if (!_commandDescriptors.ContainsKey(verb))
                 throw new IndexOutOfRangeException(
                     $"There is no Command registered for verb ${verb}. "
                     + "Check if upper/lower case is correct.");
 
-            return _commands[verb](); // call construction method
+            return _commandDescriptors[verb].CreateCommandInstance(); // call construction method
         }
 
 
@@ -123,12 +137,20 @@ namespace MSPro.CLArgs
         /// </summary>
         public void ExecuteCommand([NotNull] Arguments arguments)
         {
-            if (_commands == null || _commands.Count == 0)
+            if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            ICommand command = ResolveCommand(arguments.VerbPath);
-            command.Execute(arguments, _settings);
+            if (null == arguments.VerbPath)
+            {
+                _settings.DisplayHelp?.Invoke( CommandDescriptors);
+            }
+            else
+            {
+                ICommand command = ResolveCommand(arguments.VerbPath);
+                command.Execute(arguments, _settings);
+            }
         }
+
 
 
 
@@ -148,17 +170,16 @@ namespace MSPro.CLArgs
 
         private void resolveCommandImplementations()
         {
-            Dictionary<string, Type> verbAndCommandTypes = _settings.CommandResolver.GetCommandTypes();
-            if (verbAndCommandTypes.Count == 0)
+            List<CommandDescriptor> commandDescriptors = _settings.CommandResolver.GetCommandDescriptors();
+            if (!commandDescriptors.Any())
                 throw new ApplicationException(
                     $"{nameof(_settings.AutoResolveCommands)} is {_settings.AutoResolveCommands} " +
-                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any ConsoleApp.Skeleton implementation! " +
+                    $"however the resolver {_settings.CommandResolver.GetType()} did not find any ICommand implementation! " +
                     "Make sure the resolver can see/find the Commands.");
 
-            foreach (var commandType in verbAndCommandTypes)
+            foreach (var commandDescriptor in commandDescriptors)
             {
-                RegisterCommandFactory(commandType.Key,
-                                       () => (ICommand) Activator.CreateInstance(commandType.Value));
+                RegisterCommand(commandDescriptor);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using JetBrains.Annotations;
@@ -7,6 +8,8 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
+    public delegate void DisplayHelp(List<CommandDescriptor> commandDescriptors);
+
     [PublicAPI]
     public class Settings
     {
@@ -56,5 +59,16 @@ namespace MSPro.CLArgs
         ///     is considered to be an <c>Option</c>.
         /// </remarks>
         public char[] OptionsTags { get; set; } = {'-', '/'};
+
+
+        public DisplayHelp DisplayHelp { get; set; } = commandDescriptors =>
+        // Default Implementation
+        {
+            Console.WriteLine( $"{commandDescriptors.Count} Commands available.");
+            foreach (CommandDescriptor commandDescriptor in commandDescriptors)
+            {
+                Console.WriteLine( $"{commandDescriptor.Verb}\t\t{commandDescriptor.Description}");
+            }
+        };
     }
 }

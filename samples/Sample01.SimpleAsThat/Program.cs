@@ -25,7 +25,7 @@ namespace CLArgs.Sample.SimpleAsThat
         /// </summary>
         /// <see cref="HelloWorldParameters" />
         /// <see cref="HelloWorldCommand" />
-        private const string COMMAND_LINE = "--country=Germany --count=3";
+        private const string COMMAND_LINE = "" ; //"--country=Germany --count=3";
 
  
         private static void Main(string[] args)
@@ -68,7 +68,7 @@ namespace CLArgs.Sample.SimpleAsThat
     /// <summary>
     ///     Implement the HelloWorld functionality
     /// </summary>
-    [Command("HelloWorld")]
+    [Command("HelloWorld", "This is the help text of my HelloWorld command.")]
     internal class HelloWorldCommand : CommandBase<HelloWorldParameters>
     {
         protected override void Execute(HelloWorldParameters ps)

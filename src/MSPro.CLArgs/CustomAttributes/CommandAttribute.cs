@@ -10,12 +10,14 @@ namespace MSPro.CLArgs
     public class CommandAttribute : Attribute
     {
         public string Verb { get; set; }
+        public string Description { get; set;}
 
 
 
-        public CommandAttribute(string verb)
+        public CommandAttribute(string verb, string description=null)
         {
             this.Verb = verb;
+            this.Description = description;
         }
     }
 }

@@ -27,29 +27,32 @@ namespace MSPro.CLArgs
 
 
 
-        public Dictionary<string, Type> GetCommandTypes()
+        public List<CommandDescriptor> GetCommandDescriptors()
         {
-            Dictionary<string, Type> dictionary = new Dictionary<string, Type>();
+            Dictionary<string, CommandDescriptor> dictionary = new Dictionary<string, CommandDescriptor>();
             foreach (Assembly assembly in _assemblies)
             {
                 GetTypesFromAssembly(assembly, dictionary);
             }
-            return dictionary;
+            return dictionary.Values.ToList();
         }
 
 
 
-        private static void GetTypesFromAssembly(Assembly assembly, IDictionary<string, Type> dictionary)
+        private static void GetTypesFromAssembly( Assembly assembly, IDictionary<string, CommandDescriptor> dictionary)
         {
             foreach (TypeInfo definedType in assembly.DefinedTypes)
             {
-                CommandAttribute customAttribute = definedType.GetCustomAttribute<CommandAttribute>();
-                if (customAttribute == null) continue;
+                CommandAttribute commandAttribute = definedType.GetCustomAttribute<CommandAttribute>();
+                if (commandAttribute == null) continue;
 
                 if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand)))
                     throw new ApplicationException(
-                        "Command " + customAttribute.Verb + " doe not implement the ICommand interface.");
-                dictionary[customAttribute.Verb] = definedType;
+                        "Command " + commandAttribute.Verb + " doe not implement the ICommand interface.");
+                dictionary[commandAttribute.Verb] = 
+                    new CommandDescriptor(commandAttribute.Verb, 
+                                          ()=> (ICommand) Activator.CreateInstance(definedType),
+                                          commandAttribute.Description); 
             }
         }
     }
