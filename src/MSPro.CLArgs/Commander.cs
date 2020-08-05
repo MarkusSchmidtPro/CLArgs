@@ -26,16 +26,20 @@ namespace MSPro.CLArgs
         public Commander(Settings settings = null)
         {
             _settings = settings ?? new Settings();
-         
+
             IEqualityComparer<string> c = _settings.IgnoreCase
                 ? StringComparer.InvariantCultureIgnoreCase
                 : StringComparer.InvariantCulture;
-            
+
             _commandDescriptors = new Dictionary<string, CommandDescriptor>(c);
-            
+
             // Resolve commands and register ICommand factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
+
+
+
+        public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
 
 
 
@@ -61,12 +65,13 @@ namespace MSPro.CLArgs
         /// </example>
         /// <seealso cref="Settings.AutoResolveCommands" />
         [Obsolete("Use RegisterCommand() instead.")]
-        public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc, string commandDescription=null) 
-            => RegisterCommand( new CommandDescriptor(verb, factoryFunc, commandDescription));
+        public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc,
+                                           string commandDescription = null)
+            => RegisterCommand(new CommandDescriptor(verb, factoryFunc, commandDescription));
 
 
 
-        public void RegisterCommand( CommandDescriptor commandDescriptor) 
+        public void RegisterCommand(CommandDescriptor commandDescriptor)
             => _commandDescriptors[commandDescriptor.Verb] = commandDescriptor;
 
 
@@ -81,7 +86,7 @@ namespace MSPro.CLArgs
         /// </param>
         /// <param name="commandDescription"></param>
         /// <example>
-        /// <code>
+        ///     <code>
         /// string COMMAND_LINE = "word1 text2 verb3";
         /// // Arguments.VerbPath is executed
         /// var commander = new Commander(new Settings { AutoResolveCommands = false });
@@ -89,19 +94,19 @@ namespace MSPro.CLArgs
         /// commander.RegisterFunction("word1.text2", text);
         /// commander.RegisterFunction("word1.text2.verb3", verb);
         /// commander.ExecuteCommand(args);
-        /// </code></example>
+        /// </code>
+        /// </example>
         /// <exception cref="ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
-        /// <seealso cref="Arguments.VerbPath "/>
-        /// <seealso cref="Settings.AutoResolveCommands"/>
-        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func, string commandDescription=null)
+        /// <seealso cref="Arguments.VerbPath " />
+        /// <seealso cref="Settings.AutoResolveCommands" />
+        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func,
+                                     string commandDescription = null)
         {
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
             _commandDescriptors[verb] = new CommandDescriptor(verb, () => new CommandWrapper(func), commandDescription);
         }
 
 
-
-        public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
 
         /// <summary>
         ///     Resolve a Command implementation by Verb.
@@ -112,13 +117,13 @@ namespace MSPro.CLArgs
         ///     The verb for which and implementation should be resolved.
         ///     IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
         /// </param>
-        public ICommand ResolveCommand(string verb)
+        public CommandDescriptor ResolveCommand(string verb)
         {
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
             // Invoke Default Command
-            if (verb == null) return _commandDescriptors.First().Value.CreateCommandInstance();
+            if (verb == null) return _commandDescriptors.First().Value;
 
 
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
@@ -127,7 +132,7 @@ namespace MSPro.CLArgs
                     $"There is no Command registered for verb ${verb}. "
                     + "Check if upper/lower case is correct.");
 
-            return _commandDescriptors[verb].CreateCommandInstance(); // call construction method
+            return _commandDescriptors[verb]; // call construction method
         }
 
 
@@ -140,17 +145,20 @@ namespace MSPro.CLArgs
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            if (null == arguments.VerbPath)
+            if (!arguments.Options.Any() && arguments.Verbs.Any())
             {
-                _settings.DisplayHelp?.Invoke( CommandDescriptors);
+                    _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
             }
             else
             {
-                ICommand command = ResolveCommand(arguments.VerbPath);
-                command.Execute(arguments, _settings);
+                var commandDescriptor = ResolveCommand(arguments.VerbPath);
+                if (arguments.OptionTagProvided("help"))
+                {
+                    _settings?.DisplayCommandHelp(commandDescriptor);
+                }
+                else{ commandDescriptor.CreateCommandInstance().Execute(arguments, _settings);}
             }
         }
-
 
 
 
@@ -158,7 +166,7 @@ namespace MSPro.CLArgs
         ///     Shortcut and preferred way to use Commander.
         /// </summary>
         /// <example>
-        ///    Full code:
+        ///     Full code:
         ///     <code>
         ///     new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args))
         ///     </code>

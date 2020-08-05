@@ -11,7 +11,7 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Turns Arguments into a parameter object of a specified type..
     /// </summary>
-    internal class ArgumentConverter<TTarget> where TTarget: class,new()
+    internal class ArgumentConverter<TTarget> where TTarget : class, new()
     {
         private readonly ErrorDetailList _errors = new ErrorDetailList();
         private readonly Settings _settings;
@@ -21,30 +21,32 @@ namespace MSPro.CLArgs
         /// </summary>
         private List<Option> _resolvedOptions;
 
-        public ArgumentConverter( [NotNull] Settings settings)
+
+
+        public ArgumentConverter([NotNull] Settings settings)
         {
             _settings = settings;
         }
+
 
 
         /// <summary>
         ///     Execute the command that is resolved by the verbs passed in the command-line.
         /// </summary>
         public ErrorDetailList TryConvert(Arguments arguments,
-                                         out TTarget target, 
-                                         out HashSet<string> unresolvedPropertyNames)
+                                          IEnumerable<OptionDescriptorAttribute> optionDescriptors,
+                                          out TTarget target,
+                                          out HashSet<string> unresolvedPropertyNames)
         {
-            var provider = new OptionDescriptorFromTypeProvider<TTarget>();
-            var optionDescriptorList = provider.Get().ToList();
             _settings.RunIf(TraceLevel.Verbose, () =>
             {
-                foreach (var optionDescriptorAttribute in optionDescriptorList)
+                foreach (var optionDescriptorAttribute in optionDescriptors)
                 {
                     _settings.Trace(optionDescriptorAttribute.ToString());
                 }
             });
 
-            var optionResolver = new OptionResolver(optionDescriptorList);
+            var optionResolver = new OptionResolver(optionDescriptors);
             _resolvedOptions = optionResolver.ResolveOptions(
                 arguments,
                 _errors,
@@ -63,12 +65,12 @@ namespace MSPro.CLArgs
 
             if (_errors.HasErrors())
             {
-                target = null;
+                target                  = null;
                 unresolvedPropertyNames = null;
             }
             else
             {
-                 unresolvedPropertyNames = new HashSet<string>();
+                unresolvedPropertyNames = new HashSet<string>();
                 target = (TTarget)
                     resolvePropertyValue(typeof(TTarget), _resolvedOptions, unresolvedPropertyNames);
             }
@@ -77,11 +79,7 @@ namespace MSPro.CLArgs
 
 
 
- 
-
-
         #region Create instance and populate Command parameters
-
 
         /// <summary>
         ///     Resolves a single property's value. If property is an annotated class it will
@@ -139,7 +137,6 @@ namespace MSPro.CLArgs
                             _settings.ValueConverters.Convert(option.Value, boundOptionName, _errors, targetType);
                         pi.SetValue(instance, propertyValue);
                     }
-                    
                 }
             }
             return instance;

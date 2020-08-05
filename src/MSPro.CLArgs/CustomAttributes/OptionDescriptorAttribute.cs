@@ -15,7 +15,7 @@ namespace MSPro.CLArgs
                                          object defaultValue = null,
                                          string description = null)
         {
-            this.OptionName = optionName;
+            this.OptionName  = optionName;
             this.Tags        = tags;
             this.Description = description;
             this.Default     = defaultValue;

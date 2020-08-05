@@ -22,6 +22,7 @@ namespace MSPro.CLArgs
             BeforeArgumentConversion(arguments, settings);
             ArgumentConverter<TCommandParameters> c = new ArgumentConverter<TCommandParameters>(settings);
             var errors = c.TryConvert(arguments,
+                                      OptionDescriptors,
                                       out var commandParameters,
                                       out var unresolvedPropertyNames);
             if (!errors.HasErrors())
@@ -31,6 +32,17 @@ namespace MSPro.CLArgs
             }
 
             if (errors.HasErrors()) OnError(errors, false);
+        }
+
+
+
+        public List<OptionDescriptorAttribute> OptionDescriptors
+        {
+            get
+            {
+                var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
+                return provider.Get().ToList();
+            }
         }
 
 

@@ -8,7 +8,10 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
-    public delegate void DisplayHelp(List<CommandDescriptor> commandDescriptors);
+    public delegate void DisplayAllCommandsDescription(List<CommandDescriptor> commandDescriptors);
+    public delegate void DisplayCommandHelp(CommandDescriptor commandDescriptor);
+    
+    
 
     [PublicAPI]
     public class Settings
@@ -61,13 +64,35 @@ namespace MSPro.CLArgs
         public char[] OptionsTags { get; set; } = {'-', '/'};
 
 
-        public DisplayHelp DisplayHelp { get; set; } = commandDescriptors =>
+        public DisplayAllCommandsDescription DisplayAllCommandsDescription { get; set; } = commandDescriptors =>
         // Default Implementation
         {
             Console.WriteLine( $"{commandDescriptors.Count} Commands available.");
             foreach (CommandDescriptor commandDescriptor in commandDescriptors)
             {
                 Console.WriteLine( $"{commandDescriptor.Verb}\t\t{commandDescriptor.Description}");
+            }
+        };
+
+        public DisplayCommandHelp DisplayCommandHelp { get; set; } = (commandDescriptor) =>
+        {
+            const int ALIGN_COLUMN = 16;
+            
+            string alignSpaces = new string(' ',ALIGN_COLUMN);
+            
+            Console.WriteLine();
+            Console.WriteLine(commandDescriptor.Verb);
+            string formattedDescription = commandDescriptor.Description.Replace("\n", $"\n  ");
+            Console.WriteLine($"  {formattedDescription}");
+            Console.WriteLine("----------------------------------------------");
+            var command = commandDescriptor.CreateCommandInstance();
+            foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
+            {
+                string tags = string.Join(",", oda.Tags);
+                Console.WriteLine($"\t{oda.OptionName,-ALIGN_COLUMN}Tags={tags}, Required={oda.Required}, Default={oda.Default??"null"}");
+                formattedDescription = oda.Description.Replace("\n", $"\n\t{alignSpaces}");
+                Console.WriteLine($"\t{alignSpaces}{formattedDescription}");
+                Console.WriteLine();
             }
         };
     }
