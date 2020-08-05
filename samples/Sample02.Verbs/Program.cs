@@ -40,13 +40,10 @@ namespace CLArgs.Sample.Verbs
             commander.RegisterFunction("word1.text2.verb3", verb);
             
             Arguments arguments = CommandLineParser.Parse(args);
-            commander.ExecuteCommand(arguments);
+            commander.Execute(arguments);
             
             Console.WriteLine("--- Manual resolution");
             completelyManual(args);
-
-            
-            
 
             // ------------------------------------------------
             Console.WriteLine("<<< End Main");

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Default": {
-      "commandName": "Project",
-      "commandLineArgs": "--Country=Germany --Count=3"
-    }
-  }
-}
