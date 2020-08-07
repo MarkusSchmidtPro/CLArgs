@@ -63,13 +63,13 @@ namespace CLArgs.Sample.SimpleAsThat
 
     internal class HelloWorldParameters
     {
-        [OptionDescriptor("country", "c", Required = true, Description = "The country you're sending greetings to.")]
+        [OptionDescriptor("country", "c", Required = true, HelpText = "The country you're sending greetings to.")]
         public string Country { get; set; }
 
         [OptionDescriptor("count", Required = false, Default = 1,
-                          Description = "This is a long story short\n"+
-                                        "Provide a number how often the country\n" +
-                                        "should receive a 'HelloWorld'.")]
+                          HelpText = "This is a long story short\n"+
+                                     "Provide a number how often the country\n" +
+                                     "should receive a 'HelloWorld'.")]
         public int Count { get; set; }
     }
 

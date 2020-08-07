@@ -93,9 +93,9 @@ namespace MSPro.CLArgs
             {
                 string tags = string.Join(",", oda.Tags);
                 Console.WriteLine($"\t{oda.OptionName,-ALIGN_COLUMN}Tags={tags}, Required={oda.Required}, Default={oda.Default??"null"}");
-                if (!string.IsNullOrEmpty(oda.Description))
+                if (!string.IsNullOrEmpty(oda.HelpText))
                 {
-                    string formattedDescription1 = oda.Description.Replace("\n", $"\n\t{alignSpaces}");
+                    string formattedDescription1 = oda.HelpText.Replace("\n", $"\n\t{alignSpaces}");
                     Console.WriteLine($"\t{alignSpaces}{formattedDescription1}");
                 }
                 Console.WriteLine();

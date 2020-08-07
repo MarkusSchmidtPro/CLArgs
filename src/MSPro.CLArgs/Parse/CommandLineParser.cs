@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 
 
 
@@ -15,7 +15,6 @@ namespace MSPro.CLArgs
     public class CommandLineParser
     {
         private readonly Settings _settings;
-        private int _currentPos;
 
 
 
@@ -28,7 +27,7 @@ namespace MSPro.CLArgs
         ///     <see cref="Settings.OptionValueTags" /> and
         ///     <see cref="Settings.OptionsTags" /> are of interest here.
         /// </param>
-        public CommandLineParser(Settings settings = null)
+        private CommandLineParser(Settings settings = null)
         {
             _settings = settings ?? new Settings();
         }
@@ -50,141 +49,192 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Parse a given command-line.
         /// </summary>
-        public Arguments Run(string[] args)
+        private Arguments Run(string[] args)
         {
             string commandLineArguments = string.Join(" ", args);
             Arguments arguments = new Arguments(commandLineArguments, _settings.IgnoreCase);
 
-            _currentPos = 0;
-            while (_currentPos < commandLineArguments.Length)
-            {
-                char c = commandLineArguments[_currentPos];
-                if (c == ' ')
-                {
-                    _currentPos++;
-                }
-                else if (_settings.OptionsTags.Any(tag => c == tag))
-                {
-                    arguments.SetOption(getOption(commandLineArguments));
-                }
-                else if (char.IsLetter(c))
-                {
-                    arguments.AddVerb(getVerb(commandLineArguments));
-                }
-                else
-                    throw new ApplicationException($"Unexpected character '{c}' in commandline, pos {_currentPos}.");
-            }
+            var sp = new StringParser(_settings);
+            sp.Parse(commandLineArguments, arguments);
 
             return arguments;
         }
 
 
 
-        private string getVerb(string arguments)
-            => readUntil(arguments, new[] {' '});
-
-
-
-        private string readUntil(string arguments, char[] breaker)
+        private class StringParser
         {
-            int startPos = _currentPos;
-            while (_currentPos < arguments.Length && !breaker.Contains(arguments[_currentPos])) _currentPos++;
-            return arguments.Substring(startPos, _currentPos - startPos);
-        }
+            private readonly Settings _settings;
+            private string _argumentsString;
+            private int _currentPos;
 
 
 
-        private void skipChars(string arguments, char[] skipChars)
-        {
-            while (_currentPos < arguments.Length && skipChars.Any(sc => sc == arguments[_currentPos])) _currentPos++;
-        }
-
-
-
-        private Option getOption(string arguments)
-        {
-            // Name starts at first char that is not an optionsNameIdent
-            skipChars(arguments, _settings.OptionsTags);
-            Option optionTag = new Option(readUntil(arguments, _settings.OptionValueTags));
-            if (arguments.Length > _currentPos && arguments[_currentPos] != ' ')
+            public StringParser([NotNull] Settings settings)
             {
-                // an option value was provided
-                _currentPos++; // skip found char (breaker: between name and value)
-                optionTag.Value = getOptionValue(arguments);
+                _settings = settings;
             }
-            else optionTag.Value = true.ToString();
-
-            return optionTag;
-        }
 
 
 
-        private string getOptionValue(string arguments)
-        {
-            skipChars(arguments, new[] {' '});
-            char firstChar = arguments[_currentPos];
-
-            return firstChar == '"' || firstChar == '\''
-                ? readString(arguments)
-                : readUntil(arguments, new[] {' '});
-        }
-
-
-
-        private string readString(string arguments)
-        {
-            char stringToken = arguments[_currentPos]; // string token " or '
-            _currentPos++;                             // skip token
-
-            // don't use Substring but collect all characters to support escaping
-            List<char> chars = new List<char>();
-
-            // Iterate until the second token is found
-            while (arguments[_currentPos] != stringToken)
+            /// <summary>
+            ///     Parse a string containing arguments
+            /// </summary>
+            internal void Parse(string argumentsString, Arguments arguments)
             {
-                /*
-                // msc, 2020-07-15: Escaping removed, kept collecting chars
-                // skip escape char, collect next char
-                if (arguments[_currentPos] == '\\')
+                _currentPos      = 0;
+                _argumentsString = argumentsString;
+
+                while (_currentPos < _argumentsString.Length)
                 {
-                    if (++_currentPos >= arguments.Length)
-                        throw new ApplicationException("Unexpected end of string after escape character");
+                    char c = _argumentsString[_currentPos];
+                    if (c == ' ')
+                    {
+                        _currentPos++;
+                    }
+                    else if (_settings.OptionsTags.Any(tag => c == tag))
+                    {
+                        arguments.SetOption(getOption());
+                    }
+                    else if (c == '@')
+                    {
+                        readFromFile( arguments);
+                    }
+                    else if (char.IsLetter(c))
+                    {
+                        arguments.AddVerb(getVerb());
+                    }
+                    else
+                        throw new ApplicationException(
+                            $"Unexpected character '{c}' in commandline, pos {_currentPos}.");
                 }
-                */
-
-                chars.Add(arguments[_currentPos]);
-                if (++_currentPos >= arguments.Length)
-                    throw new ApplicationException($"Unexpected end of string, missing closing {stringToken}.");
             }
 
-            _currentPos++; // skip last char (second string token)
-            return string.Join("", chars);
-        }
 
 
-
-        private static IEnumerable<string> getArgsFromFile(string fileName)
-        {
-            // filepath starts after '@'
-            string filePath = Path.GetFullPath(fileName.Substring(1));
-            fileName = Path.GetFileName(filePath);
-
-            if (!File.Exists(filePath))
+            private void readFromFile(Arguments arguments)
             {
-                // try config directory
-                string currentDir = Path.GetDirectoryName(filePath);
-                Debug.Assert(currentDir != null, nameof(currentDir) + " != null");
-                string configDir = Path.Combine(currentDir, "Config");
+                string fileName = getFileName();
+                var args = getArgsFromFile(fileName);
+                StringParser sp = new StringParser(_settings);
+                sp.Parse(string.Join(" ", args),arguments);
+            }
 
-                filePath = Path.Combine(configDir, fileName);
+
+
+            private string getFileName()
+            {
+                char firstChar = _argumentsString[_currentPos];
+                return firstChar == '"' || firstChar == '\''
+                    ? readString()
+                    : readUntil(Path.GetInvalidPathChars().Concat( Path.GetInvalidFileNameChars()).ToArray());
+            }
+
+            private static IEnumerable<string> getArgsFromFile(string fileName)
+            {
+                string filePath = Path.GetFullPath(fileName.Substring(1));
+                fileName = Path.GetFileName(filePath);
                 if (!File.Exists(filePath))
                     throw new FileNotFoundException("Cannot find config file", fileName);
+
+                string[] lines = File.ReadAllLines(filePath);
+                return lines.Select(line => line.Trim())
+                            .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
+                                              !trimmed.StartsWith("#"));
             }
 
-            string[] lines = File.ReadAllLines(filePath);
-            return lines.Select(line => line.Trim())
-                        .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
-                                          !trimmed.StartsWith("#"));
+
+
+            private Option getOption()
+            {
+                // Name starts at first char that is not an optionsNameIdent
+                skipChars( _settings.OptionsTags);
+                Option optionTag = new Option(readUntil( _settings.OptionValueTags));
+                if (_argumentsString.Length > _currentPos && _argumentsString[_currentPos] != ' ')
+                {
+                    // an option value was provided
+                    _currentPos++; // skip found char (breaker: between name and value)
+                    optionTag.Value = getOptionValue();
+                }
+                else optionTag.Value = true.ToString();
+                return optionTag;
+            }
+
+
+
+            private string getVerb() => readUntil( new[] {' '});
+
+
+
+            private string readUntil(char[] breaker)
+            {
+                int startPos = _currentPos;
+                while (_currentPos < _argumentsString.Length && !breaker.Contains(_argumentsString[_currentPos]))
+                    _currentPos++;
+                return _argumentsString.Substring(startPos, _currentPos - startPos);
+            }
+
+
+
+            private string readAll(char[] validChars)
+            {
+                int startPos = _currentPos;
+                while (_currentPos < _argumentsString.Length
+                       && validChars.Contains(_argumentsString[_currentPos])) _currentPos++;
+                return _argumentsString.Substring(startPos, _currentPos - startPos);
+            }
+
+
+
+            private void skipChars(char[] skipChars)
+            {
+                while (_currentPos < _argumentsString.Length
+                       && skipChars.Any(sc => sc == _argumentsString[_currentPos]))
+                    _currentPos++;
+            }
+
+
+
+            private string getOptionValue()
+            {
+                skipChars(new[] {' '});
+                char firstChar = _argumentsString[_currentPos];
+                return firstChar == '"' || firstChar == '\''
+                    ? readString()
+                    : readUntil(new[] {' '});
+            }
+
+
+
+            private string readString()
+            {
+                char stringToken = _argumentsString[_currentPos]; // string token " or '
+                _currentPos++;                                    // skip token
+
+                // don't use Substring but collect all characters to support escaping
+                List<char> chars = new List<char>();
+
+                // Iterate until the second token is found
+                while (_argumentsString[_currentPos] != stringToken)
+                {
+                    /*
+                    // msc, 2020-07-15: Escaping removed, kept collecting chars
+                    // skip escape char, collect next char
+                    if (arguments[_currentPos] == '\\')
+                    {
+                        if (++_currentPos >= arguments.Length)
+                            throw new ApplicationException("Unexpected end of string after escape character");
+                    }
+                    */
+
+                    chars.Add(_argumentsString[_currentPos]);
+                    if (++_currentPos >= _argumentsString.Length)
+                        throw new ApplicationException($"Unexpected end of string, missing closing {stringToken}.");
+                }
+
+                _currentPos++; // skip last char (second string token)
+                return string.Join("", chars);
+            }
         }
     }
 }

@@ -52,7 +52,7 @@ namespace MSPro.CLArgs
                 dictionary[commandAttribute.Verb] = 
                     new CommandDescriptor(commandAttribute.Verb, 
                                           ()=> (ICommand) Activator.CreateInstance(definedType),
-                                          commandAttribute.Description); 
+                                          commandAttribute.HelpText); 
             }
         }
     }

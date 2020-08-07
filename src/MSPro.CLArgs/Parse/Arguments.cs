@@ -10,7 +10,7 @@ namespace MSPro.CLArgs
     ///     The arguments as they were provided as a command-line.
     /// </summary>
     /// <remarks>
-    ///     An <c>Argument</c> can be either a <see cref="Verbs" />
+    ///     An <c>Argument</c> is either a <see cref="Verbs" />
     ///     or an <see cref="Option" />.
     /// </remarks>
     [PublicAPI]
