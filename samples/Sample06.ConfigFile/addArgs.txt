@@ -1,0 +1,6 @@
+// This is a comment
+--Option1="abc"
+--Option2=2
+// Options in this file are parsed as they were part of the command-line
+// Option0 was previously provided in the command-line and now it is overriden
+--Option0=FromFile

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CLArgs.Sample.ConfigFile</RootNamespace>
+    <AssemblyName>CLArgs.Sample.ConfigFile</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="addArgs.txt" />
+    <Content Include="addArgs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
