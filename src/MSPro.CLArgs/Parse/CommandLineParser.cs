@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 
 
 
@@ -14,65 +13,43 @@ namespace MSPro.CLArgs
     /// <see cref="CommandLineParser" />
     public class CommandLineParser
     {
-        private readonly Settings _settings;
-
-
-
-        /// <summary>
-        ///     Create a new instance.
-        /// </summary>
-        /// <param name="settings">
-        ///     Provide a <see cref="Settings" /> instance to control the parsing behaviour:
-        ///     <see cref="Settings.IgnoreCase" />,
-        ///     <see cref="Settings.OptionValueTags" /> and
-        ///     <see cref="Settings.OptionsTags" /> are of interest here.
-        /// </param>
-        private CommandLineParser(Settings settings = null)
-        {
-            _settings = settings ?? new Settings();
-        }
-
-
-
         /// <summary>
         ///     Shortcut and preferred way to use CommandLineParser.
         /// </summary>
         /// <remarks>
         ///     Same as <code>new CommandLineParser(settings).Run(args);</code>.
         /// </remarks>
-        /// <seealso cref="CommandLineParser(Settings)" />
         public static Arguments Parse(string[] args, Settings settings = null)
-            => new CommandLineParser(settings).Run(args);
-
-
-
-        /// <summary>
-        ///     Parse a given command-line.
-        /// </summary>
-        private Arguments Run(string[] args)
         {
+            settings ??= new Settings();
+
             string commandLineArguments = string.Join(" ", args);
-            Arguments arguments = new Arguments(commandLineArguments, _settings.IgnoreCase);
-
-            var sp = new StringParser(_settings);
+            Arguments arguments = new Arguments(commandLineArguments, settings.IgnoreCase);
+            var sp = new CommandLineParser(settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(commandLineArguments, arguments);
-
             return arguments;
         }
 
 
 
-        private class StringParser
-        {
-            private readonly Settings _settings;
+        #region StringParser
+        
+            private readonly char[] _optionsTags;
+            private readonly char[] _optionValueTags;
             private string _argumentsString;
             private int _currentPos;
 
 
 
-            public StringParser([NotNull] Settings settings)
+            /// <summary>
+            ///     Create a new instance.
+            /// </summary>
+            /// <param name="optionsTags"><see cref="Settings.OptionsTags" /></param>
+            /// <param name="optionValueTags"><see cref="Settings.OptionValueTags" /></param>
+            private CommandLineParser(char[] optionsTags, char[] optionValueTags)
             {
-                _settings = settings;
+                _optionsTags = optionsTags;
+                _optionValueTags = optionValueTags;
             }
 
 
@@ -80,7 +57,7 @@ namespace MSPro.CLArgs
             /// <summary>
             ///     Parse a string containing arguments
             /// </summary>
-            internal void Parse(string argumentsString, Arguments arguments)
+            void Parse(string argumentsString, Arguments arguments)
             {
                 _currentPos      = 0;
                 _argumentsString = argumentsString;
@@ -92,13 +69,13 @@ namespace MSPro.CLArgs
                     {
                         _currentPos++;
                     }
-                    else if (_settings.OptionsTags.Any(tag => c == tag))
+                    else if (_optionsTags.Any(tag => c == tag))
                     {
                         arguments.SetOption(getOption());
                     }
                     else if (c == '@')
                     {
-                        readFromFile( arguments);
+                        readFromFile(arguments);
                     }
                     else if (char.IsLetter(c))
                     {
@@ -116,8 +93,8 @@ namespace MSPro.CLArgs
             {
                 string fileName = getFileName();
                 var args = getArgsFromFile(fileName);
-                StringParser sp = new StringParser(_settings);
-                sp.Parse(string.Join(" ", args),arguments);
+                CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags);
+                sp.Parse(string.Join(" ", args), arguments);
             }
 
 
@@ -127,8 +104,10 @@ namespace MSPro.CLArgs
                 char firstChar = _argumentsString[_currentPos];
                 return firstChar == '"' || firstChar == '\''
                     ? readString()
-                    : readUntil(Path.GetInvalidPathChars().Concat( Path.GetInvalidFileNameChars()).ToArray());
+                    : readUntil(Path.GetInvalidPathChars().Concat(Path.GetInvalidFileNameChars()).ToArray());
             }
+
+
 
             private static IEnumerable<string> getArgsFromFile(string fileName)
             {
@@ -148,8 +127,8 @@ namespace MSPro.CLArgs
             private Option getOption()
             {
                 // Name starts at first char that is not an optionsNameIdent
-                skipChars( _settings.OptionsTags);
-                Option optionTag = new Option(readUntil( _settings.OptionValueTags));
+                skipChars(_optionsTags);
+                Option optionTag = new Option(readUntil(_optionValueTags));
                 if (_argumentsString.Length > _currentPos && _argumentsString[_currentPos] != ' ')
                 {
                     // an option value was provided
@@ -162,7 +141,7 @@ namespace MSPro.CLArgs
 
 
 
-            private string getVerb() => readUntil( new[] {' '});
+            private string getVerb() => readUntil(new[] {' '});
 
 
 
@@ -235,6 +214,6 @@ namespace MSPro.CLArgs
                 _currentPos++; // skip last char (second string token)
                 return string.Join("", chars);
             }
-        }
+        #endregion
     }
 }
