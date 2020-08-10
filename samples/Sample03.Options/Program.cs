@@ -57,11 +57,11 @@ namespace CLArgs.Sample.Options
             commander.RegisterCommandFactory("TheOneAndOnlyCommand", () => new Command());
 
             // Let's change the argument from commands-line 
-            Arguments arguments = CommandLineParser.Parse(args);
-            arguments.SetOption("DatabaseTableName", "AnotherTable");
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
+            commandLineArguments.SetOption("DatabaseTableName", "AnotherTable");
 
             // Execute the Command with slightly different Options
-            commander.ExecuteCommand(arguments);
+            commander.ExecuteCommand(commandLineArguments);
           
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");

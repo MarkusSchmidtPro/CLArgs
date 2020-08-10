@@ -16,12 +16,12 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
     {
-        public void Execute([NotNull] Arguments arguments, [CanBeNull] Settings settings = null)
+        public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
         {
             settings ??= new Settings();
-            BeforeArgumentConversion(arguments, settings);
+            BeforeArgumentConversion(commandLineArguments, settings);
             ArgumentConverter<TCommandParameters> c = new ArgumentConverter<TCommandParameters>(settings);
-            var errors = c.TryConvert(arguments,
+            var errors = c.TryConvert(commandLineArguments,
                                       OptionDescriptors,
                                       out var commandParameters,
                                       out var unresolvedPropertyNames);
@@ -54,10 +54,10 @@ namespace MSPro.CLArgs
         ///     Override this method to add your custom Argument to Property
         ///     <see cref="Settings.ValueConverters">TypeConverters</see>.<br />
         ///     You may also use this method to
-        ///     <see cref="Arguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
+        ///     <see cref="CommandLineArguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
         ///     to your arguments.
         /// </remarks>
-        protected virtual void BeforeArgumentConversion( [NotNull] Arguments arguments, [NotNull] Settings settings )
+        protected virtual void BeforeArgumentConversion( [NotNull] CommandLineArguments commandLineArguments, [NotNull] Settings settings )
         {
         }
 

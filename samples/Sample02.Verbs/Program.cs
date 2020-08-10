@@ -39,8 +39,8 @@ namespace CLArgs.Sample.Verbs
             commander.RegisterFunction("word1.text2", text);
             commander.RegisterFunction("word1.text2.verb3", verb);
             
-            Arguments arguments = CommandLineParser.Parse(args);
-            commander.ExecuteCommand(arguments);
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
+            commander.ExecuteCommand(commandLineArguments);
             
             Console.WriteLine("--- Manual resolution");
             completelyManual(args);
@@ -58,22 +58,22 @@ namespace CLArgs.Sample.Verbs
         /// </summary>
         private static void completelyManual(string[] args)
         {
-            Arguments arguments = CommandLineParser.Parse(args);
-            if (arguments.VerbPath == "word1")
-                word(arguments);
-            else if (arguments.VerbPath == "word1.text2")
-                text(arguments);
-            else if (arguments.VerbPath == "word1.text2.verb3")
-                verb(arguments);
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
+            if (commandLineArguments.VerbPath == "word1")
+                word(commandLineArguments);
+            else if (commandLineArguments.VerbPath == "word1.text2")
+                text(commandLineArguments);
+            else if (commandLineArguments.VerbPath == "word1.text2.verb3")
+                verb(commandLineArguments);
             else
                 Debug.Fail("Don't know what to do!");
         }
 
 
 
-        private static void word(Arguments arguments) => Console.WriteLine("Function Word");
-        private static void text(Arguments arguments) => Console.WriteLine("Function Text");
-        private static void verb(Arguments arguments) => Console.WriteLine("Function Verb");
+        private static void word(CommandLineArguments commandLineArguments) => Console.WriteLine("Function Word");
+        private static void text(CommandLineArguments commandLineArguments) => Console.WriteLine("Function Text");
+        private static void verb(CommandLineArguments commandLineArguments) => Console.WriteLine("Function Verb");
 
         #endregion
     }

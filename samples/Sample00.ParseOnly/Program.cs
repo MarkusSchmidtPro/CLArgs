@@ -28,15 +28,15 @@ namespace CLArgs.Sample.ParseOnly
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
             
-            Arguments arguments = CommandLineParser.Parse(args);
-            Console.WriteLine($"Command-Line: {arguments.CommandLine}");
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
+            Console.WriteLine($"Command-Line: {commandLineArguments.CommandLine}");
             
-            foreach (string verb in arguments.Verbs)
+            foreach (string verb in commandLineArguments.Verbs)
             {
                 Console.WriteLine($"Verb='{verb}'");
             }
 
-            foreach (Option option in arguments.Options)
+            foreach (Option option in commandLineArguments.Options)
             {
                 Console.WriteLine($"Options[{option.Key}] = '{option.Value}'");
             }

@@ -7,28 +7,29 @@ using JetBrains.Annotations;
 namespace MSPro.CLArgs
 {
     /// <summary>
-    ///     The arguments as they were provided as a command-line.
+    ///     All arguments as they were provided in the command-line.
     /// </summary>
     /// <remarks>
     ///     An <c>Argument</c> is either a <see cref="Verbs" />
     ///     or an <see cref="Option" />.
     /// </remarks>
     [PublicAPI]
-    public class Arguments
+    public class CommandLineArguments
     {
         private readonly Dictionary<string, Option> _options;
 
 
 
-        internal Arguments(string commandLine, bool ignoreCase = false)
+        internal CommandLineArguments(string commandLine, bool ignoreCase = false)
         {
             this.CommandLine = commandLine;
 
             IEqualityComparer<string> c = ignoreCase
                 ? StringComparer.InvariantCultureIgnoreCase
                 : StringComparer.InvariantCulture;
-            this.Verbs = new HashSet<string>(c);
-            _options   = new Dictionary<string, Option>(c);
+            this.Verbs   = new HashSet<string>(c);
+            this.Targets = new HashSet<string>(c);
+            _options     = new Dictionary<string, Option>(c);
         }
 
 
@@ -44,6 +45,12 @@ namespace MSPro.CLArgs
         ///     as they were provided in the command-line.
         /// </summary>
         public HashSet<string> Verbs { get; }
+
+        /// <summary>
+        ///     The list of Targets in the sequence order
+        ///     as they were provided in the command-line.
+        /// </summary>
+        public HashSet<string> Targets { get; }
 
 
 
@@ -68,6 +75,7 @@ namespace MSPro.CLArgs
         public bool OptionTagProvided(string optionTag) => _options.ContainsKey(optionTag);
 
         public void AddVerb(string verb) => this.Verbs.Add(verb);
+        public void AddTarget(string target) => this.Targets.Add(target);
 
 
 

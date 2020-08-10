@@ -33,7 +33,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Execute the command that is resolved by the verbs passed in the command-line.
         /// </summary>
-        public ErrorDetailList TryConvert(Arguments arguments,
+        public ErrorDetailList TryConvert(CommandLineArguments commandLineArguments,
                                           IEnumerable<OptionDescriptorAttribute> optionDescriptors,
                                           out TTarget target,
                                           out HashSet<string> unresolvedPropertyNames)
@@ -48,7 +48,7 @@ namespace MSPro.CLArgs
 
             var optionResolver = new OptionResolver(optionDescriptors);
             _resolvedOptions = optionResolver.ResolveOptions(
-                arguments,
+                commandLineArguments,
                 _errors,
                 _settings.IgnoreCase,
                 _settings.IgnoreUnknownOptions).ToList();
