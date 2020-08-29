@@ -1,7 +1,3 @@
----
-description: Command Line Argument Parser - modern Console Application made easy
----
-
 # CLArgs - Read Me
 
 Console Applications are simple: `static void Main(string[] args)` .. and go! However, getting arguments from a command-line can be complex. Simply run `dotnet build --help` and see!
