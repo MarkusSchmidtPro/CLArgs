@@ -1,6 +1,7 @@
 # Table of contents
 
-* [The Command-Line Mission](README.md)
+* [CLArgs Documentation](README.md)
+* [The Command-Line Mission](the-command-line-mission.md)
 * [Basics](basics/README.md)
   * [Dynamic Default Values](basics/dynamic-default-values.md)
   * [Custom Conversion](basics/custom-conversion.md)

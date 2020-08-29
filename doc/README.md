@@ -1,47 +1,48 @@
-# The Command-Line Mission
+# CLArgs Documentation
 
-I have been using many different [command-line packages](competition.md) but none of them satisfied my needs.
+Master your Modern Console Apps made easy.
 
-## Plug-In concept for Verbs
+* Create a `Command` that implements the functionality
+* Define the Command `Parameters`
+* and let _CLArgs_ convert the command-line arguments and call the Command.
 
-I wanted to have to ability to automatically resolve new verbs. Implement the verb's functionality in its own Assembly and use it without changing or adding something in my `void Main()`. [Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat)
-
-## Support multiple Verbs
-
-I wanted to support multiple verbs, to support commands and subcommands, like `SayHello`, `SayHello Germany`, ... .
-
-[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs)
-
-## Parameter class that support sub-classes and inheritance
+> **TIP:** Check-Out the [Console App Skeleton](https://github.com/msc4266/CLArgs/tree/master/CommandRunner) to get a complete skeleton for your Console App.
 
 ```csharp
-class Parameters : BaseParameters
+static class Program
 {
-    [OptionSet]
-    public Connection DbConnection { get; set; }
+    static void Main(string[] args)
+    {
+        Arguments arguments = CommandLineParser.Parse(args);
+        var cmd = new HelloWorldCommand();
+        cmd.Execute(arguments);
+    }
+}
 
-    [OptionDescriptor("DatabaseTableName", "t", Required = false)]
-    public string DatabaseTableName { get; set; }
+class HelloWorldParameters
+{
+    [OptionDescriptor("country", "c", Required = true)]
+    public string Country { get; set; }
+
+    [OptionDescriptor("count", Required = false, Default = 1)]
+    public int Count { get; set; }
+}
+
+class HelloWorldCommand : CommandBase<HelloWorldParameters>
+{
+    protected override void Execute(HelloWorldParameters ps)
+    {
+        for (int i = 0; i < ps.Count; i++)
+            Console.WriteLine($"Hello {ps.Country}!");
+    }
 }
 ```
 
-[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options)
+This is a very basic example, of what you could do with CLArgs.
 
-## Minimum code while having maximum flexibility
+## What's next
 
-Zero Code: `Commander.ExecuteCommand(args);` - if you want.
-
-[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat)
-
-## Static and dynamic \(dependend\) default values
-
-I wanted to have static default values for arguments \(during compile-time, by annotation\) and also dynamic defaults, resolved during run-time when a default value may depend on another \(provided\) value.
-
-[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault/Program.cs) / [Sample-Project](https://github.com/msc4266/CLArgs/tree/master/samples/Sample04.DynamicDefault)
-
-## What's next?
-
-* [Basics](basics.md)
-* [See all examples](https://github.com/msc4266/CLArgs/tree/master/samples/)
-* [Get started with the Command-Line Runner](https://github.com/msc4266/CLArgs/tree/master/CommandRunner)
+* [Explore GitHub and the ReadMe to see all features](https://github.com/msc4266/CLArgs)
+* [Get the NuGet Package](https://www.nuget.org/packages/MSPro.CLArgs)
+* [Explore the examples and read more about CLArgs](doc/index.md)
 
