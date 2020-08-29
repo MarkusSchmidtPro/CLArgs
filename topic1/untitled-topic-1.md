@@ -1,2 +1,0 @@
-# Untitled - topic 1
-
