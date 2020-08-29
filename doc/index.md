@@ -1,4 +1,4 @@
-# Welcome to CLArgs documentation
+# Homepage
 
 Master your Modern Console Apps made easy.
 
