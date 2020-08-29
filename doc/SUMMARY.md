@@ -1,6 +1,5 @@
 # Table of contents
 
-* [Introduction](README.md)
-* [Homepage](index.md)
+* [Homepage](INDEX.md)
 * [The Command-Line Mission](mission.md)
 
