@@ -1,6 +1,7 @@
 # Table of contents
 
-* [Initial page](README.md)
+* [Introduction 1](README.md)
+* [Initial page1](initial-page.md)
 
 ## Documentation
 
