@@ -1,9 +1,0 @@
-# Main Menu aka horizontal headline
-# ---------------------------------
-
-- name: GitHub Source Code
-  href: https://github.com/msc4266/CLArgs
-- name: NuGet Package
-  href: https://www.nuget.org/packages/MSPro.CLArgs
-- name: About the Author
-  href: http://markusschmidt.pro
