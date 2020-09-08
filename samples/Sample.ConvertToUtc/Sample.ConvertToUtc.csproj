@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CLArgs.Sample.ConvertToUtc</RootNamespace>
+    <AssemblyName>CLArgs.Sample.ConvertToUtc</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+  </ItemGroup>
+
+
+</Project>
