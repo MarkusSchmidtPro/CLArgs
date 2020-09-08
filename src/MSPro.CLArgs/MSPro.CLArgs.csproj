@@ -10,7 +10,7 @@
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2008.05.02</Version>
+      <Version>1.2009.08.01</Version>
       <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>

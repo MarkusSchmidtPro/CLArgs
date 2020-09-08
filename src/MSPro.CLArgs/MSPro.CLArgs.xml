@@ -14,7 +14,7 @@
                 Get a list of Options unique by their name.
             </summary>
         </member>
-        <member name="M:MSPro.CLArgs.ArgumentConverter`1.TryConvert(MSPro.CLArgs.Arguments,System.Collections.Generic.IEnumerable{MSPro.CLArgs.OptionDescriptorAttribute},`0@,System.Collections.Generic.HashSet{System.String}@)">
+        <member name="M:MSPro.CLArgs.ArgumentConverter`1.TryConvert(MSPro.CLArgs.CommandLineArguments,System.Collections.Generic.IEnumerable{MSPro.CLArgs.OptionDescriptorAttribute},`0@,System.Collections.Generic.HashSet{System.String}@)">
             <summary>
                 Execute the command that is resolved by the verbs passed in the command-line.
             </summary>
@@ -49,7 +49,7 @@
                 If there is already a command registered for the same <paramref name="verb" />
                 the 'old' command is overridden.
             </remarks>
-            <param name="verb">The <see cref="P:MSPro.CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
+            <param name="verb">The <see cref="P:MSPro.CLArgs.CommandLineArguments.Verbs" /> that is linked to this Command</param>
             <param name="factoryFunc">A factory function that return an instance of <see cref="T:MSPro.CLArgs.ICommand" />.</param>
             <param name="commandDescription"></param>
             <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
@@ -62,14 +62,14 @@
             </example>
             <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands" />
         </member>
-        <member name="M:MSPro.CLArgs.Commander.RegisterFunction(System.String,System.Action{MSPro.CLArgs.Arguments},System.String)">
+        <member name="M:MSPro.CLArgs.Commander.RegisterFunction(System.String,System.Action{MSPro.CLArgs.CommandLineArguments},System.String)">
             <summary>
                 Directly bind a function to a verb.
             </summary>
             <param name="verb">The Verb</param>
             <param name="func">
                 The function that is executed when the verbs passed in the
-                command-line (<see cref="P:MSPro.CLArgs.Arguments.VerbPath" /> are equal to the <paramref name="verb" />.
+                command-line (<see cref="P:MSPro.CLArgs.CommandLineArguments.VerbPath" /> are equal to the <paramref name="verb" />.
             </param>
             <param name="commandDescription"></param>
             <example>
@@ -84,7 +84,7 @@
             </code>
             </example>
             <exception cref="T:System.ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
-            <seealso cref="P:MSPro.CLArgs.Arguments.VerbPath" />
+            <seealso cref="P:MSPro.CLArgs.CommandLineArguments.VerbPath" />
             <seealso cref="P:MSPro.CLArgs.Settings.AutoResolveCommands" />
         </member>
         <member name="M:MSPro.CLArgs.Commander.ResolveCommand(System.String)">
@@ -98,9 +98,9 @@
                 IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
             </param>
         </member>
-        <member name="M:MSPro.CLArgs.Commander.ExecuteCommand(MSPro.CLArgs.Arguments)">
+        <member name="M:MSPro.CLArgs.Commander.ExecuteCommand(MSPro.CLArgs.CommandLineArguments)">
             <summary>
-                Execute the command referenced by <see cref="P:MSPro.CLArgs.Arguments.VerbPath" />.
+                Execute the command referenced by <see cref="P:MSPro.CLArgs.CommandLineArguments.VerbPath" />.
             </summary>
         </member>
         <member name="M:MSPro.CLArgs.Commander.ExecuteCommand(System.String[],MSPro.CLArgs.Settings)">
@@ -122,7 +122,7 @@
                 The type of the parameter object that is passed to the command.
             </typeparam>
         </member>
-        <member name="M:MSPro.CLArgs.CommandBase`1.BeforeArgumentConversion(MSPro.CLArgs.Arguments,MSPro.CLArgs.Settings)">
+        <member name="M:MSPro.CLArgs.CommandBase`1.BeforeArgumentConversion(MSPro.CLArgs.CommandLineArguments,MSPro.CLArgs.Settings)">
             <summary>
             </summary>
             <remarks>
@@ -130,7 +130,7 @@
                 Override this method to add your custom Argument to Property
                 <see cref="P:MSPro.CLArgs.Settings.ValueConverters">TypeConverters</see>.<br />
                 You may also use this method to
-                <see cref="M:MSPro.CLArgs.Arguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
+                <see cref="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
                 to your arguments.
             </remarks>
         </member>
@@ -179,6 +179,11 @@
             <param name="level"></param>
             <param name="action"></param>
         </member>
+        <member name="T:MSPro.CLArgs.OptionAttribute">
+            <summary>
+            CommandLine compatibility.
+            </summary>
+        </member>
         <member name="M:MSPro.CLArgs.ErrorDetailList.ToString">
             <summary>
                 Easy way to get one complete message for all errors
@@ -224,15 +229,15 @@
                 Options with any of these Tags will not be marked as unresolved.
             </summary>
         </member>
-        <member name="M:MSPro.CLArgs.OptionResolver.ResolveOptions(MSPro.CLArgs.Arguments,MSPro.CLArgs.ErrorDetailList,System.Boolean,System.Boolean)">
+        <member name="M:MSPro.CLArgs.OptionResolver.ResolveOptions(MSPro.CLArgs.CommandLineArguments,MSPro.CLArgs.ErrorDetailList,System.Boolean,System.Boolean)">
             <summary>
                 Resolve all options from command-line by tag into options by name.
             </summary>
             <remarks>
-                All <see cref="P:MSPro.CLArgs.Arguments.Options" /> are resolved into an
+                All <see cref="P:MSPro.CLArgs.CommandLineArguments.Options" /> are resolved into an
                 OptionByName list, based on the provided list of <see cref="T:MSPro.CLArgs.OptionDescriptorAttribute" />s.
             </remarks>
-            <param name="arguments"></param>
+            <param name="commandLineArguments"></param>
             <param name="errors"></param>
             <param name="ignoreCase">If <c>true</c> cases will be ignored when parsing tags.</param>
             <param name="ignoreUnknownTags">
@@ -243,36 +248,42 @@
             </param>
             <returns>A unique (by name) list of Options.</returns>
         </member>
-        <member name="T:MSPro.CLArgs.Arguments">
+        <member name="T:MSPro.CLArgs.CommandLineArguments">
             <summary>
-                The arguments as they were provided as a command-line.
+                All arguments as they were provided in the command-line.
             </summary>
             <remarks>
-                An <c>Argument</c> can be either a <see cref="P:MSPro.CLArgs.Arguments.Verbs" />
+                An <c>Argument</c> is either a <see cref="P:MSPro.CLArgs.CommandLineArguments.Verbs" />
                 or an <see cref="T:MSPro.CLArgs.Option" />.
             </remarks>
         </member>
-        <member name="P:MSPro.CLArgs.Arguments.CommandLine">
+        <member name="P:MSPro.CLArgs.CommandLineArguments.CommandLine">
             <summary>
                 The full command-line as it was parsed.
             </summary>
         </member>
-        <member name="P:MSPro.CLArgs.Arguments.Verbs">
+        <member name="P:MSPro.CLArgs.CommandLineArguments.Verbs">
             <summary>
                 The list of verbs in the sequence order
                 as they were provided in the command-line.
             </summary>
         </member>
-        <member name="P:MSPro.CLArgs.Arguments.VerbPath">
+        <member name="P:MSPro.CLArgs.CommandLineArguments.Targets">
+            <summary>
+                The list of Targets in the sequence order
+                as they were provided in the command-line.
+            </summary>
+        </member>
+        <member name="P:MSPro.CLArgs.CommandLineArguments.VerbPath">
             <summary>
                 All Verbs as a '.' concatenated list - namespaced verbs.
             </summary>
             <returns>
-                All <see cref="P:MSPro.CLArgs.Arguments.Verbs" /> concatenated by '.', for example, 'HelloWorld.Germany'.<br />
+                All <see cref="P:MSPro.CLArgs.CommandLineArguments.Verbs" /> concatenated by '.', for example, 'HelloWorld.Germany'.<br />
                 <c>null</c> in case, no verb was provided in the command-line.
             </returns>
         </member>
-        <member name="P:MSPro.CLArgs.Arguments.Options">
+        <member name="P:MSPro.CLArgs.CommandLineArguments.Options">
             <summary>
                 A key-value list of all options provided in the command-line.
             </summary>
@@ -281,10 +292,10 @@
                 Conversion may happen later.
             </remarks>
         </member>
-        <member name="M:MSPro.CLArgs.Arguments.SetOption(MSPro.CLArgs.Option)">
-            <inheritdoc cref="M:MSPro.CLArgs.Arguments.SetOption(MSPro.CLArgs.Option)" />
+        <member name="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)">
+            <inheritdoc cref="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)" />
         </member>
-        <member name="M:MSPro.CLArgs.Arguments.SetOption(System.String,System.String)">
+        <member name="M:MSPro.CLArgs.CommandLineArguments.SetOption(System.String,System.String)">
             <summary>
                 Manually add or update an option.
             </summary>
@@ -296,17 +307,6 @@
             </summary>
             <see cref="T:MSPro.CLArgs.CommandLineParser" />
         </member>
-        <member name="M:MSPro.CLArgs.CommandLineParser.#ctor(MSPro.CLArgs.Settings)">
-            <summary>
-                Create a new instance.
-            </summary>
-            <param name="settings">
-                Provide a <see cref="T:MSPro.CLArgs.Settings" /> instance to control the parsing behaviour:
-                <see cref="P:MSPro.CLArgs.Settings.IgnoreCase" />,
-                <see cref="F:MSPro.CLArgs.Settings.OptionValueTags" /> and
-                <see cref="P:MSPro.CLArgs.Settings.OptionsTags" /> are of interest here.
-            </param>
-        </member>
         <member name="M:MSPro.CLArgs.CommandLineParser.Parse(System.String[],MSPro.CLArgs.Settings)">
             <summary>
                 Shortcut and preferred way to use CommandLineParser.
@@ -314,11 +314,21 @@
             <remarks>
                 Same as <code>new CommandLineParser(settings).Run(args);</code>.
             </remarks>
-            <seealso cref="M:MSPro.CLArgs.CommandLineParser.#ctor(MSPro.CLArgs.Settings)" />
         </member>
-        <member name="M:MSPro.CLArgs.CommandLineParser.Run(System.String[])">
+        <member name="M:MSPro.CLArgs.CommandLineParser.#ctor(System.Char[],System.Char[])">
             <summary>
-                Parse a given command-line.
+                Create a new instance.
+            </summary>
+            <param name="optionsTags">
+                <see cref="P:MSPro.CLArgs.Settings.OptionsTags" />
+            </param>
+            <param name="optionValueTags">
+                <see cref="F:MSPro.CLArgs.Settings.OptionValueTags" />
+            </param>
+        </member>
+        <member name="M:MSPro.CLArgs.CommandLineParser.Parse(System.String,MSPro.CLArgs.CommandLineArguments)">
+            <summary>
+                Parse a string containing arguments
             </summary>
         </member>
         <member name="F:MSPro.CLArgs.Settings.OptionValueTags">
