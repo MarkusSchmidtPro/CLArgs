@@ -54,7 +54,7 @@ namespace CLArgs.Sample.Options
             //
             Console.WriteLine("--- The alternative way - using an explicit Commander instance ");
             Commander commander = new Commander(new Settings {IgnoreCase = true, AutoResolveCommands = false});
-            commander.RegisterCommandFactory("TheOneAndOnlyCommand", () => new Command());
+            commander.RegisterCommand( new CommandDescriptor( "TheOneAndOnlyCommand", () => new Command()));
 
             // Let's change the argument from commands-line 
             CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
