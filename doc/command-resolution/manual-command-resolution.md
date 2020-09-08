@@ -4,11 +4,11 @@ description: AutoResolveCommands = false
 
 # Manual Command Resolution
 
-Manual Command Resolution means going _low-level,_ not using the Commander's benefits. 
+Manual Command resolution means going _low-level,_ not using the _Commander's_ benefits. 
 
-`AutoCommandResolution` is based on _Parameters_ classes, `[Command()]` annotations and command classes that inherit from `CommandBase`. Auto-resolution requires you to use the CLArgs Framework.
+`AutoCommandResolution` is based on _Parameters_ classes, `[Command()]` annotations and _Command_ classes that inherit from `CommandBase`. Auto-resolution requires you to use the CLArgs Framework. However, auto-resolution requires almost zero code.
 
-Manual resolution requires a Commander instance first. There you can registers _verbs-to-functions._ When you then call `commander.Execute()`it will no longer look for an Command implementation, it will just search the registered functions.
+Manual resolution requires a Commander instance first. There you can registers _verbs-to-functions._ When you then call `commander.Execute()`it will no longer resolve and look for a _Command_ implementation, it will just search the registered functions.
 
 ```csharp
 private static void Main(string[] args)
@@ -33,7 +33,7 @@ private static void verb( CommandLineArguments commandLineArguments)
     => Console.WriteLine("Function Verb");
 ```
 
-Please notice, there no _Options-to-Parameters_ conversion. Instead, the registered function receive a `CommandLineArguments` as input. A `CommandLineArguments` contains all provided _Verbs, Options and Targets_ from command-line \(see also [Sample2](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs)\).
+Please notice, there no _Options-to-Parameters_ conversion. Instead, the registered function receives a `CommandLineArguments` object as input. A `CommandLineArguments` contains all provided _Verbs, Options and Targets_ from command-line \(see [Sample2](https://github.com/msc4266/CLArgs/tree/master/samples/Sample02.Verbs)\).
 
 ### RegisterCommand
 
