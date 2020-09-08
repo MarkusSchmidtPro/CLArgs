@@ -1,66 +1,99 @@
-# CLArgs - A .NET command-line interpreter
+# CLArgs - A dotnet command-line parser
 
-*CLArgs* is a *NuGet Package* to enable your .NET Console Application to support command-line arguments.
+*CLArgs* is a **Command-Line Parser** or Command-Line Interpreter, 
+which comes as a [*NuGet Package*](https://www.nuget.org/packages/MSPro.CLArgs) **for dotnet console applications**.
 
-> `CLArgs`  turns your .NET Console Application 
-> 	into a **modern command-line application**
-> 	with **minimal coding effort**
-> 	while providing **maximum flexibility** and **extensibility**.
+> `Application.exe [Verbs] [Options] [Targets]`
 
-*CLArgs* supports the following command-line schema: `[Verbs] [Options] [Targets]`.
+`CLArgs` turns your dotnet Console Application 
+	into a **modern command-line application**
+	with **minimal coding effort**
+	while providing **maximum flexibility** and **extensibility**.
 
-*CLArgs* parses the command-line and turns *Verbs* into *Commands* and *Options* into parameter *Objects* which are passed to the command.
+## Documentation
 
-``` csharp
-using MSPro.CLArgs;
+**Verbs** [optional] represent different actions / commands your application can execute.
 
-class HelloWorldCommand : CommandBase<HelloWorldParameters>
-{
-	protected override void Execute(HelloWorldParameters ps)
-	{
-		for (int i = 0; i < ps.Count; i++)
-			Console.WriteLine($"Hello {ps.Country}!");
-	}
-}
+**Options** are the options / parameters which an action (verb) may need to run.
 
-internal class HelloWorldParameters
-{
-	[OptionDescriptor("country", "c", Required = true)]
-	public string Country { get; set; }
+**Targets** [optional] are the targets on which you want to perform an action, like a list of files. 
 
-	[OptionDescriptor("count", Required = false, Default = 1)]
-	public int Count { get; set; }
-}
+[Full documentation is on GitPages](https://msc4266.gitbook.io/clargs/).
+
+## Examples
+
+### Data Converter
+
+`XMLToJSON` would be the *Verb*, the *Command* that determines what should be done. `NullValueHandling`is an option that is passed as a parameter to the `XMLtoJSON`command. And the two files are the target which would be passed as the *Targets* to the Command. 
+
+```
+> DataConverterApp.exe XMLtoJSON --NullValueHandling=Default File1.xml Files2.xml
 ```
 
-Using *CLArgs* in your Console Application is simple as that:
+### Time converter
+
+This application converts a given datetime (incl. time-zone) into UTC. The application does not supports *Verbs* or *Targets*, it simply uses *Options*. Sample Code
+
+```
+> ConvertToUtc.exe --LocalDateTime='2020-08-01 08:10:00' --LocalTimeZone='Pacific Standard Time'
+```
+
+### Code
 
 ```csharp
-var cmd = new HelloWorldCommand();
-cmd.Execute(CommandLineParser.Parse(args));
+private static void Main(string[] args)
+{
+	// ...
+	Commander.ExecuteCommand(args);
+	// ...
+}
 
-> Command-Line: --country=Germany --count=3
-Hello Germany!
-Hello Germany!
-Hello Germany!
+//
+// Implement your functionality as a Command that takes Parameters (see below)
+//
+[Command("ConvertToUtc")]
+class ConvertToUtcCommand : CommandBase<ConvertToUtcParameters>
+{
+    protected override void Execute(ConvertToUtcParameters ps)
+    {
+        Console.WriteLine($"LocalDateTime={ps.LocalDateTime}");
+        Console.WriteLine($"LocalTimeZone={ps.LocalTimeZone}");
+    }
+}
+
+//
+// The parameters class. Command-line options will be turned into Parameters
+//
+class ConvertToUtcParameters
+{
+    [OptionDescriptor("LocalDateTime", required:true, 
+             helpText:"A local date and time that should be converted into UTC.")]
+    public DateTime LocalDateTime { get; set; }
+
+    [OptionDescriptor("LocalTimeZone", required:true, 
+             helpText:"Specify the LocalDateTime's time zone")]
+    public string LocalTimeZone { get; set; }
+}
 ```
-See [Simple-As-That Source-Code](samples/Sample01.SimpleAsThat/Program.cs) / [Sample Project](samples/Sample01.SimpleAsThat) / [All Samples](samples)
+
+> Note: There are a couple of more options how to handle *LocalTimeZone*. In the example above it is simply defined as string. However, you could replace it with an *Enum* to enforce certain values, or you can even provide your own converter and/or validators.
+
+[All Samples on GitHub](samples)
 
 ## Installation
 
-Simply add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your project.
+Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your project and start using it - no dependencies!
 
 ![image-20200810090003001](readme.assets/image-20200810090003001.png)
 
-### What's Next?
-
-The example from above is only one way of using *CLArgs*. Command-Line applications require flexibility and extensibility. See the feature list below what you can expect to get and [continue reading documentation](https://msc4266.github.io/CLArgs/) on github.io to see more. In case of any question, feel free to send me an e-mail.
-
 # Feature List
 
-* A single line of code does the trick: `Commander.ExecuteCommand( args);`
+* Simple but powerful to use
+  * Probably only one single line of code in your app: `Commander.ExecuteCommand( args);`
+* Zero dependencies of the NuGet package
+* Any dotnet version
 * Unlimited number of *Verbs*
-* **Plug-In concept: Automatic *Command* resolution based on *Verbs***
+* Plug-In concept: Automatic *Command* resolution based on *Verbs*
 * Different *argument-sets* for each Command
   * Sub-Classes (inheritance) for parameter objects
 
@@ -75,7 +108,7 @@ See *[Command-Runner](https://github.com/msc4266/CLArgs/tree/master/CommandRunne
 * Support for command and argument help-text
   * Help-Texts and argument definitions can be loaded from files, from Resources or they can be build-in by code or a combination of these. 
   * This includes support for localized help-messages.
-* Support for custom property types and enums in your parameter classes
+* Support for custom property types and *enums* in your parameter classes
 * Support converting custom value converters
   * to convert any command-line string-value into any Type
 * Dynamic default values (not only static, like True, "abc")

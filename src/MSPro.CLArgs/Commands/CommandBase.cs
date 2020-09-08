@@ -28,7 +28,17 @@ namespace MSPro.CLArgs
             if (!errors.HasErrors())
             {
                 BeforeExecute(commandParameters, unresolvedPropertyNames, errors);
-                if (!errors.HasErrors()) Execute(commandParameters);
+                if (!errors.HasErrors())
+                {
+                    try
+                    {
+                        Execute(commandParameters);
+                    }
+                    catch (Exception exception)
+                    {
+                        errors.AddError( "CommandExecution",  exception.Message);
+                    }
+                }
             }
 
             if (errors.HasErrors()) OnError(errors, false);
