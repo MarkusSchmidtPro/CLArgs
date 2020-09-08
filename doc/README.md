@@ -30,11 +30,11 @@ That is all you have to do to get support for
 
 The _Commander_ will [look for _Command_ implementations](basics/command-resolution.md) \(classes annotated with `[Command( <CommandName=Veb>)]`and it will execute the _Command_ that matches the _Verb_ provided in that command-line.
 
-Imagine `> YourApp.exe ConverToUTC--option1`. The provided _Verb_ is `ConverToUTC`  and _Commander_ will look for a class annotated with `[Command( "ConverToUTC"].`
+Imagine `> YourApp.exe ConverToUTC --option1`. The provided _Verb_ is `ConverToUTC`  and _Commander_ will look for a class annotated with `[Command( "ConverToUTC"].`
 
 ### Command
 
-_Commands_ represent the functionality of your application. Your Console application can have one or many _Commands_, even distributed in many Assemblies. The _Verb\(s\)_ - provided in command-line - define which _Command_ will finally be executed. 
+_Commands_ represent the functionality of your application. Your Console application can have one or many _Commands_, even distributed in many Assemblies. The _Verb\(s\)_ - provided in command-line during run-time - define which _Command_ will finally be executed. 
 
 > Note: If you don't provide a _Verb_ in the command-line _Commander_ executes the first _Command_  it can find \(see [Command Resolution](basics/command-resolution.md)\). This is perfectly fine for apps which have only one single functionality - as normal console apps have only one single `void main()`.
 
