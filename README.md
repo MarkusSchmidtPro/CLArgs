@@ -20,6 +20,12 @@ which comes as a [*NuGet Package*](https://www.nuget.org/packages/MSPro.CLArgs) 
 
 [Full documentation is on GitPages](https://msc4266.gitbook.io/clargs/).
 
+## Installation
+
+Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your project and start using it - no dependencies!
+
+![image-20200810090003001](readme.assets/image-20200810090003001.png)
+
 ## Examples
 
 ### Data Converter
@@ -32,13 +38,13 @@ which comes as a [*NuGet Package*](https://www.nuget.org/packages/MSPro.CLArgs) 
 
 ### Time converter
 
-This application converts a given datetime (incl. time-zone) into UTC. The application does not supports *Verbs* or *Targets*, it simply uses *Options*. Sample Code
+This application converts a given datetime (incl. time-zone) into UTC. The application does not supports *Verbs* or *Targets*, it simply uses *Options*. [Sample Code](samples/Sample.ConvertToUtc/)
 
 ```
 > ConvertToUtc.exe --LocalDateTime='2020-08-01 08:10:00' --LocalTimeZone='Pacific Standard Time'
 ```
 
-### Code
+#### Code
 
 ```csharp
 private static void Main(string[] args)
@@ -56,11 +62,22 @@ class ConvertToUtcCommand : CommandBase<ConvertToUtcParameters>
 {
     protected override void Execute(ConvertToUtcParameters ps)
     {
-        Console.WriteLine($"LocalDateTime={ps.LocalDateTime}");
-        Console.WriteLine($"LocalTimeZone={ps.LocalTimeZone}");
+        // Time Zone checking - inline: string to TimeZone
+        var localTimeZone=     TimeZoneInfo.FindSystemTimeZoneById(ps.LocalTimeZone);
+        Console.WriteLine($"LocalDateTime={ps.LocalDateTime} "+
+                          $"in TimeZone ''{ps.LocalTimeZone}''");
+        DateTime utc = TimeZoneInfo.ConvertTimeToUtc( ps.LocalDateTime, localTimeZone);
+        Console.WriteLine($"is UTC: {utc}");
     }
 }
+```
+**Output**
+```
+LocalDateTime=01.08.2020 08:10:00 in 'TimeZonePacific Standard' Time
+is UTC: 01.08.2020 15:10:00
+```
 
+```csharp
 //
 // The parameters class. Command-line options will be turned into Parameters
 //
@@ -79,12 +96,6 @@ class ConvertToUtcParameters
 > Note: There are a couple of more options how to handle *LocalTimeZone*. In the example above it is simply defined as string. However, you could replace it with an *Enum* to enforce certain values, or you can even provide your own converter and/or validators.
 
 [All Samples on GitHub](samples)
-
-## Installation
-
-Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your project and start using it - no dependencies!
-
-![image-20200810090003001](readme.assets/image-20200810090003001.png)
 
 # Feature List
 
