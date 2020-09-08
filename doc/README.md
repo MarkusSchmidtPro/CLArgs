@@ -28,7 +28,7 @@ That is all you have to do to get support for
 
 ### Commander
 
-The _Commander_ will [look for _Command_ implementations](basics/command-resolution.md) \(classes annotated with `[Command( <CommandName=Veb>)]`and it will execute the _Command_ that matches the _Verb_ provided in that command-line.
+The _Commander_ will [look for _Command_ implementations](command-resolution/) \(classes annotated with `[Command( <CommandName=Veb>)]`and it will execute the _Command_ that matches the _Verb_ provided in that command-line.
 
 Imagine `> YourApp.exe ConverToUTC --option1`. The provided _Verb_ is `ConverToUTC`  and _Commander_ will look for a class annotated with `[Command( "ConverToUTC"].`
 
@@ -36,9 +36,9 @@ Imagine `> YourApp.exe ConverToUTC --option1`. The provided _Verb_ is `ConverToU
 
 _Commands_ represent the functionality of your application. Your Console application can have one or many _Commands_, even distributed in many Assemblies. The _Verb\(s\)_ - provided in command-line during run-time - define which _Command_ will finally be executed. 
 
-> Note: If you don't provide a _Verb_ in the command-line _Commander_ executes the first _Command_  it can find \(see [Command Resolution](basics/command-resolution.md)\). This is perfectly fine for apps which have only one single functionality - as normal console apps have only one single `void main()`.
+> Note: If you don't provide a _Verb_ in the command-line _Commander_ executes the first _Command_  it can find \(see [Command Resolution](command-resolution/)\). This is perfectly fine for apps which have only one single functionality - as normal console apps have only one single `void main()`.
 
-Normally a _Command_  takes the code that you would have implemented in your `Main` method. However, a _Command_ does not deal with `string[] args` anymore, it executes with [Command Parameters](basics/command-parameters.md).
+Normally a _Command_  takes the code that you would have implemented in your `Main` method. However, a _Command_ does not deal with `string[] args` anymore, it executes with [Command Parameters](command-parameters.md).
 
 ```csharp
 [Command("ConvertToUtc")]
@@ -55,10 +55,10 @@ Check out [the first example on GitHub 'ConvertToUTC'](https://github.com/msc426
 
 ### Plug-In Concept
 
-It is important to notice, that you can extend your application at any time by simply adding new _Commands_. _Commands_ are atomic and they have no dependency on the environment where they are running. Just implement another _Command_ class and give it a name \(a _Verb_\). Add the _Command_'s Assembly to your application _bin_ folder. And you're done! With the very next start of your console application your application supports another _Command/Verb._
+It is important to notice, that you can extend your application at any time by simply adding new _Commands_. _Commands_ are atomic and they have no dependency on the environment where they are running. Just implement another _Command_ class and give it a name \(a _Verb_\). Add the _Command_'s Assembly to your application _bin_ folder. And you're done! With the very next start of your console application your application supports another _Command/Verb_ \(see [Command Resolution](command-resolution/)\).
 
 ## What's next
 
-* Command Parameters
+* [Command Parameters](command-parameters.md)
 * [Explore the examples and read more about CLArgs](doc/index.md)
 
