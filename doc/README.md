@@ -51,6 +51,8 @@ class ConvertToUtcCommand : CommandBase<ConvertToUtcParameters>
 }
 ```
 
+Check out [the first example on GitHub 'ConvertToUTC'](https://github.com/msc4266/CLArgs/tree/dev/samples/Sample.ConvertToUtc).
+
 ### Plug-In Concept
 
 It is important to notice, that you can extend your application at any time by simply adding new _Commands_. _Commands_ are atomic and they have no dependency on the environment where they are running. Just implement another _Command_ class and give it a name \(a _Verb_\). Add the _Command_'s Assembly to your application _bin_ folder. And you're done! With the very next start of your console application your application supports another _Command/Verb._
