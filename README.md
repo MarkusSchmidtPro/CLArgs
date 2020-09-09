@@ -30,15 +30,14 @@ Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSP
 
 ### Data Converter
 
-`XMLToJSON` would be the *Verb*, the *Command* that determines what should be done. `NullValueHandling`is an option that is passed as a parameter to the `XMLtoJSON`command. And the two files are the target which would be passed as the *Targets* to the Command. 
-
 ```
 > DataConverterApp.exe XMLtoJSON --NullValueHandling=Default File1.xml Files2.xml
 ```
+`XMLToJSON` would be the *Verb* - the *Command* that determines what should be done. `NullValueHandling`is an option that is passed as a *Parameter* to the `XMLtoJSON`*Command*. And the two files are the *Targets* which would be passed to the *Command*. 
 
 ### Time converter
 
-This application converts a given datetime (incl. time-zone) into UTC. The application does not supports *Verbs* or *Targets*, it simply uses *Options*. [Sample Code](samples/Sample.ConvertToUtc/)
+This application converts a given datetime (incl. time-zone) into UTC. The application does not support *Verbs* or *Targets*, it simply uses *Options*. [Sample Code](samples/Sample.ConvertToUtc/)
 
 ```
 > ConvertToUtc.exe --LocalDateTime='2020-08-01 08:10:00' --LocalTimeZone='Pacific Standard Time'
@@ -46,14 +45,19 @@ This application converts a given datetime (incl. time-zone) into UTC. The appli
 
 #### Code
 
+##### void Main()
+
 ```csharp
 private static void Main(string[] args)
 {
 	// ...
-	Commander.ExecuteCommand(args);
+	Commander.ExecuteCommand( args);
 	// ...
 }
+```
 
+##### The functionality -> the Command
+``` csharp
 //
 // Implement your functionality as a Command that takes Parameters (see below)
 //
@@ -66,17 +70,22 @@ class ConvertToUtcCommand : CommandBase<ConvertToUtcParameters>
         var localTimeZone=     TimeZoneInfo.FindSystemTimeZoneById(ps.LocalTimeZone);
         Console.WriteLine($"LocalDateTime={ps.LocalDateTime} "+
                           $"in TimeZone ''{ps.LocalTimeZone}''");
-        DateTime utc = TimeZoneInfo.ConvertTimeToUtc( ps.LocalDateTime, localTimeZone);
+        
+        DateTime utc = TimeZoneInfo.ConvertTimeToUtc( 
+            ps.LocalDateTime, localTimeZone);
+        
         Console.WriteLine($"is UTC: {utc}");
     }
 }
 ```
 **Output**
+
 ```
 LocalDateTime=01.08.2020 08:10:00 in 'TimeZonePacific Standard' Time
 is UTC: 01.08.2020 15:10:00
 ```
 
+##### The Options -> the Parameters
 ```csharp
 //
 // The parameters class. Command-line options will be turned into Parameters
@@ -93,7 +102,7 @@ class ConvertToUtcParameters
 }
 ```
 
-> Note: There are a couple of more options how to handle *LocalTimeZone*. In the example above it is simply defined as string. However, you could replace it with an *Enum* to enforce certain values, or you can even provide your own converter and/or validators.
+> Note: There are a couple of more options how to handle the *LocalTimeZone* option. In the example above it is simply defined as string. However, you could replace it with an *Enum* to enforce certain values, or you can even provide your own converter and/or validators.
 
 [All Samples on GitHub](samples)
 

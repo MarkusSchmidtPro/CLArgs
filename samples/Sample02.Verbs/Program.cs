@@ -31,7 +31,7 @@ namespace CLArgs.Sample.Verbs
 
              
             Console.WriteLine("--- Commander resolution");
-            var commander = new Commander(new Settings
+            Commander commander = new Commander(new Settings
             {
                 AutoResolveCommands = false
             });
