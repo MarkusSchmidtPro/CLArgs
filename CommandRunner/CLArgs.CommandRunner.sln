@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLArgs.Command.Command01", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLArgs.Command.CommandCollection", "CLArgs.Command.CommandCollection\CLArgs.Command.CommandCollection.csproj", "{F39AB13F-FB8C-4A4F-9057-62FA3ED6E609}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceCode", "SourceCode", "{113F93C7-77A8-410D-A6BB-ADFD404B9BD1}"
+ProjectSection(SolutionItems) = preProject
+	SourceCodeFolder.md = SourceCodeFolder.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB9B680A-471A-4A5D-8088-FC2560B4F6C4}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DAAA78A8-D9A5-4C01-B658-B77CF6FD034E} = {113F93C7-77A8-410D-A6BB-ADFD404B9BD1}
 	EndGlobalSection
 EndGlobal

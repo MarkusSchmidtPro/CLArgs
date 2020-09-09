@@ -1,3 +1,3 @@
-# The Command-Line Runner - cRun
+# The Command Runner - cRun
 
 
