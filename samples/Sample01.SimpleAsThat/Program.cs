@@ -37,9 +37,11 @@ namespace CLArgs.Sample.SimpleAsThat
             // c) Execute the Command:
             //    HelloWorldCommand( HelloWorldCommand p)
             
-            Commander.ExecuteCommand(args);
+            Commander.ExecuteCommand( args);
             
             
+            // Control Commander by providing a Settings object
+            // Commander.ExecuteCommand( args, new Settings{ AutoResolveCommands = true } );
             
             
             /*

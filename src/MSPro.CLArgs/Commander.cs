@@ -52,7 +52,7 @@ namespace MSPro.CLArgs
         ///     If there is already a command registered for the same <paramref name="verb" />
         ///     the 'old' command is overridden.
         /// </remarks>
-        /// <param name="verb">The <see cref="CLArgs.Arguments.Verbs" /> that is linked to this Command</param>
+        /// <param name="verb">The <see cref="CommandLineArguments.Verbs" /> that is linked to this Command</param>
         /// <param name="factoryFunc">A factory function that return an instance of <see cref="ICommand" />.</param>
         /// <param name="commandDescription"></param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="verb" /> is null or empty.</exception>
@@ -82,7 +82,7 @@ namespace MSPro.CLArgs
         /// <param name="verb">The Verb</param>
         /// <param name="func">
         ///     The function that is executed when the verbs passed in the
-        ///     command-line (<see cref="Arguments.VerbPath" /> are equal to the <paramref name="verb" />.
+        ///     command-line (<see cref="CommandLineArguments.VerbPath" /> are equal to the <paramref name="verb" />.
         /// </param>
         /// <param name="commandDescription"></param>
         /// <example>
@@ -97,9 +97,9 @@ namespace MSPro.CLArgs
         /// </code>
         /// </example>
         /// <exception cref="ArgumentNullException">In case <paramref name="verb" /> is null.</exception>
-        /// <seealso cref="Arguments.VerbPath " />
+        /// <seealso cref="CommandLineArguments.VerbPath " />
         /// <seealso cref="Settings.AutoResolveCommands" />
-        public void RegisterFunction([NotNull] string verb, [NotNull] Action<Arguments> func,
+        public void RegisterFunction([NotNull] string verb, [NotNull] Action<CommandLineArguments> func,
                                      string commandDescription = null)
         {
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
@@ -138,25 +138,25 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
-        ///     Execute the command referenced by <see cref="CLArgs.Arguments.VerbPath" />.
+        ///     Execute the command referenced by <see cref="CommandLineArguments.VerbPath" />.
         /// </summary>
-        public void ExecuteCommand([NotNull] Arguments arguments)
+        public void ExecuteCommand([NotNull] CommandLineArguments commandLineArguments)
         {
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            if (!arguments.Options.Any() && !arguments.Verbs.Any())
+            if (!commandLineArguments.Options.Any() && !commandLineArguments.Verbs.Any())
             {
                     _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
             }
             else
             {
-                var commandDescriptor = ResolveCommand(arguments.VerbPath);
-                if (arguments.OptionTagProvided("help"))
+                var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath);
+                if (commandLineArguments.OptionTagProvided("help"))
                 {
                     _settings?.DisplayCommandHelp(commandDescriptor);
                 }
-                else{ commandDescriptor.CreateCommandInstance().Execute(arguments, _settings);}
+                else{ commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings);}
             }
         }
 

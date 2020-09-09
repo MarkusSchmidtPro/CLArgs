@@ -37,9 +37,9 @@ namespace CLArgs.Sample.DynamicDefault
             // (its ICommand implementation)!. This is a convenient way
             // if you app has only one command (does not support verbs).
 
-            Arguments arguments = CommandLineParser.Parse(args);
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
             var cmd = new FromToCommand();
-            cmd.Execute(arguments);
+            cmd.Execute(commandLineArguments);
             
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");

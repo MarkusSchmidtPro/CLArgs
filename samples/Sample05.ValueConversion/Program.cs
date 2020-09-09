@@ -36,7 +36,7 @@ namespace CLArgs.Sample.ValueConversion
 
         private class Command : CommandBase<CommandParameters>
         {
-            protected override void BeforeArgumentConversion(Arguments arguments, Settings settings)
+            protected override void BeforeArgumentConversion(CommandLineArguments commandLineArguments, Settings settings)
             {
                 // Register a custom converter from string to FileInfo
                 // See TypeConverters() constructor for out-of-the-boy supported types.

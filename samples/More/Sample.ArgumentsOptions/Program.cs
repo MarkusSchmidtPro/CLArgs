@@ -22,20 +22,20 @@ namespace CLArgs.Sample.ArgumentsOptions
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
-            Arguments arguments = CommandLineParser.Parse(args);
+            CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
     
             // Check if the 'fileName' option exist - was provided in the command-line
             // E.g. --fileName=.. /fileName:...
             const string FILENAME_TAG = "fileName";
-            bool fileNameProvided = arguments.OptionTagProvided(FILENAME_TAG);
+            bool fileNameProvided = commandLineArguments.OptionTagProvided(FILENAME_TAG);
             Console.WriteLine($"*** Option '{FILENAME_TAG}' was provided in the command-line: {fileNameProvided}");
             
             // Set default value if not provided
             // Upsert = Update or Insert = Update or Add 
             if (!fileNameProvided)
-                arguments.SetOption(FILENAME_TAG, "default.txt");
+                commandLineArguments.SetOption(FILENAME_TAG, "default.txt");
             
-            foreach ( Option option in arguments.Options)
+            foreach ( Option option in commandLineArguments.Options)
             {
                 Console.WriteLine($"Options[{option.Key}] = '{option.Value}'");
             }

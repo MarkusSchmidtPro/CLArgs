@@ -26,6 +26,9 @@ namespace CLArgs.Sample.ValueConversion
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
+            // Execute the Command direct,
+            // without Command or registration,
+            // by using the Command Execute() method.
             new Command().Execute(CommandLineParser.Parse(args));
             
             // ------------------------------------------------

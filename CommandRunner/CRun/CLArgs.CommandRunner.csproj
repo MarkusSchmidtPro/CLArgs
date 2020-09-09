@@ -1,16 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AssemblyName>CLArgs.CommandRunner</AssemblyName>
+    <RootNamespace>CLArgs.CommandRunner</RootNamespace>
+    <Authors>Markus Schmidt (Pro)</Authors>
+    <Company>Markus Schmidt (Pro)</Company>
+    <Product>CLArgs - Command Line Parser</Product>
+    <Copyright>(c) copyright 2020, Markus Schmidt (Pro)</Copyright>
+    <Description>Console application Command runner.</Description>
+    <Version>1.2009.09.01</Version>
+    
+    <!--  -->
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>CLArgs.CommandRunner</RootNamespace>
-    <AssemblyName>CLArgs.CommandRunner</AssemblyName>
     <LangVersion>default</LangVersion>
+    <!--  -->
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MSPro.CLArgs" Version="1.2007.28.2" />
-    <PackageReference Include="NLog" Version="4.7.2" />
+    <PackageReference Include="MSPro.CLArgs" Version="1.2009.9.1" />
+    <PackageReference Include="NLog" Version="4.7.4" />
   </ItemGroup>
 
   <ItemGroup>

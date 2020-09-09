@@ -1,13 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <AssemblyName>CLArgs.Command.Command01</AssemblyName>
+        <RootNamespace>CLArgs.Command.Command01</RootNamespace>
+        <Authors>Markus Schmidt (Pro)</Authors>
+        <Company>Markus Schmidt (Pro)</Company>
+        <Product>CLArgs - Command Line Parser</Product>
+        <Copyright>(c) copyright 2020, Markus Schmidt (Pro)</Copyright>
+        <Description>CLArgs sample Command implementation.</Description>
+        <Version>1.2009.09.01</Version>
+        <!--  -->
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>default</LangVersion>
+        <!--  -->
+        <Deterministic>false</Deterministic>
+        <AssemblyVersion>1.0.*</AssemblyVersion>
+        <FileVersion>$(Version)</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MSPro.CLArgs" Version="1.2007.28.2" />
-      <PackageReference Include="NLog" Version="4.7.2" />
+      <PackageReference Include="MSPro.CLArgs" Version="1.2009.9.1" />
+      <PackageReference Include="NLog" Version="4.7.4" />
     </ItemGroup>
 
 </Project>

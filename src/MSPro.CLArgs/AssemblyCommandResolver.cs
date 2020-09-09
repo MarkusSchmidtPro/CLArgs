@@ -48,10 +48,10 @@ namespace MSPro.CLArgs
 
                 if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand)))
                     throw new ApplicationException(
-                        "Command " + commandAttribute.Verb + " doe not implement the ICommand interface.");
+                        "Command " + commandAttribute.Verb + " does not implement the ICommand interface.");
                 dictionary[commandAttribute.Verb] = 
                     new CommandDescriptor(commandAttribute.Verb, 
-                                          ()=> (ICommand) Activator.CreateInstance(definedType),
+                                          () => (ICommand) Activator.CreateInstance(definedType),
                                           commandAttribute.HelpText); 
             }
         }

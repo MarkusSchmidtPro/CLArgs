@@ -39,7 +39,7 @@ namespace MSPro.CLArgs
         public bool IgnoreUnknownOptions { get; set; }
 
         /// <summary>
-        ///     Automatically resolve commands using <see cref="CommandResolver" />
+        ///      Automatically resolve commands using <see cref="CommandResolver" />
         /// </summary>
         public bool AutoResolveCommands { get; set; } = true;
 

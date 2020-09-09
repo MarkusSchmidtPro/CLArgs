@@ -5,32 +5,33 @@
       <RootNamespace>MSPro.CLArgs</RootNamespace>
       <Authors>Markus Schmidt (Pro)</Authors>
       <Company>Markus Schmidt (Pro)</Company>
-      <Product>Command Line Arguments</Product>
+      <Product>CLArgs - Command Line Parser</Product>
       <Copyright>(c) copyright 2020, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2008.05.02</Version>
+      <Version>1.2009.09.01</Version>
       <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <PackageVersion>$(Version)</PackageVersion>
-      <Title>CLArgs - Command Line at it's best</Title>
+      <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
       <RepositoryType>GitHub</RepositoryType>
-      <PackageTags>C#, Console , Command Line</PackageTags>
+      <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
       <TargetFrameworks>net452;netstandard2.0;netstandard2.1</TargetFrameworks>
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>
-      <PackageReleaseNotes>Help support added, fixes null Descriptions</PackageReleaseNotes>
+      <PackageReleaseNotes>Support for Targets, new Sample, Updated Help, Fixes</PackageReleaseNotes>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>MSPro.CLArgs.xml</DocumentationFile>
+      <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
   

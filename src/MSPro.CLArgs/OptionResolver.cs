@@ -34,10 +34,10 @@ namespace MSPro.CLArgs
         ///     Resolve all options from command-line by tag into options by name.
         /// </summary>
         /// <remarks>
-        ///     All <see cref="Arguments.Options" /> are resolved into an
+        ///     All <see cref="CommandLineArguments.Options" /> are resolved into an
         ///     OptionByName list, based on the provided list of <see cref="OptionDescriptorAttribute" />s.
         /// </remarks>
-        /// <param name="arguments"></param>
+        /// <param name="commandLineArguments"></param>
         /// <param name="errors"></param>
         /// <param name="ignoreCase">If <c>true</c> cases will be ignored when parsing tags.</param>
         /// <param name="ignoreUnknownTags">
@@ -47,7 +47,7 @@ namespace MSPro.CLArgs
         ///     the corresponding messages.
         /// </param>
         /// <returns>A unique (by name) list of Options.</returns>
-        public IEnumerable<Option> ResolveOptions(Arguments arguments,
+        public IEnumerable<Option> ResolveOptions(CommandLineArguments commandLineArguments,
                                                   ErrorDetailList errors,
                                                   bool ignoreCase = false,
                                                   bool ignoreUnknownTags = false)
@@ -62,7 +62,7 @@ namespace MSPro.CLArgs
             // Collect options by tag (as provided in the command-line Arguments)
             // and store them under option[ name]
             // 
-            foreach (var option in arguments.Options)
+            foreach (var option in commandLineArguments.Options)
             {
                 // Find an OptionDescriptor by searching in all Tags and in the Options name
                 var optionDescriptor = _descriptors.FirstOrDefault(

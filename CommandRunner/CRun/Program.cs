@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using MSPro.CLArgs;
 using NLog;
 
@@ -26,7 +27,7 @@ namespace CLArgs.CommandRunner
             // see nlog.config for logging output.
             // Debug    -->    File crun.log
             // INFO:    -->    Console.Window
-            
+            _log.Debug(AssemblyInfo.ToString());
 
             // *** YOU MAY WANT TO REFERENCE THOSE PROJECTS
             //     SO THAT THEIR DLLs ARE COPIED
@@ -39,28 +40,30 @@ namespace CLArgs.CommandRunner
             string[] assemblyFileNames = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, SEARCH_PATTERN,
                                                             SearchOption.AllDirectories);
 
-            #region DEBUG and visualisation stuff
+            var resolver = new AssemblyCommandResolver(assemblyFileNames);
             
-            _log.Info("*** '{Assembly.GetExecutingAssembly().GetName().Name}' ***");
-            _log.Info(AssemblyInfo.ToString());
+            
+            #region DEBUG and visualisation stuff
+
+#if DEBUG
             _log.Debug($"Searching the following {assemblyFileNames.Length} Assemblies for 'ICommand' implementations");
             foreach (string assemblyFileName in assemblyFileNames)
             {
                 _log.Debug(assemblyFileName);
             }
 
-            var resolver = new AssemblyCommandResolver(assemblyFileNames);
             // Just for visualization
-            Dictionary<string,Type> commandTypes = resolver.GetCommandTypes();
-            _log.Debug($"{commandTypes.Count} Command Pairs found");
-            foreach (KeyValuePair<string,Type> keyValuePair in commandTypes)
+            var commandDescriptors = resolver.GetCommandDescriptors();
+            _log.Debug($"{commandDescriptors.Count} Command Pairs found");
+            foreach (var keyValuePair in commandDescriptors)
             {
-                _log.Debug($"Verb='{keyValuePair.Key}': Type={keyValuePair.Value.Name}");
+                var commandType = keyValuePair.CreateCommandInstance();
+                _log.Debug($"Verb='{keyValuePair.Verb}': Type={commandType.GetType()}");
             }
-
+#endif
             #endregion
             
-
+            Console.WriteLine(AssemblyInfo.ToString());
             Console.WriteLine($"args={string.Join(' ', args)}");
             Console.WriteLine("<<< Start Command()");
             // Let CLArgs resolve the command for the given verb
