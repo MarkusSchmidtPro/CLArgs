@@ -13,7 +13,7 @@ Commander commander = new Commander( new Settings {IgnoreCase = true, ..
 The `Commander` and `Command.Execute()` will then ignore cases, and _Verbs_ and _Option_ tags will be case-ignorant \(see [Sample03.Options](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options/Program.cs)\). 
 
 {% hint style="danger" %}
-While Option _tags can be 'this or that',_  Option _values_ and _Targets_ are always case-sensitive!
+While Option _tags_ can be 'this or that', __ Option _**values**_ **and** _**Targets**_ **are always case-sensitive!**
 {% endhint %}
 
 

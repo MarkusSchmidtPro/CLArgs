@@ -4,7 +4,7 @@ description: Parsing the Command-line arguments
 
 # Command Line Parser
 
-The very first step in any functionality is always: parsing the `string args[]` provided in the command-line. Even if you normally won't see this happen, it always takes place behind the scenes.
+The very first step in any functionality is always: parsing the `string args[]` provided in the command-line. Even if you normally won't see this happen, parsing always takes place behind the scenes.
 
 There is one class that does this job: `CommandLineParser`. This class parses the command-line and creates _Verbs, Options and Targets._
 
@@ -38,7 +38,7 @@ Options[FILENAME] = 'def'
 Options[fileName] = 'c:\myfile.csv'
 ```
 
-> Of course, this is just half the story. However, if you' re using the **`CommandLineParser`** you should be aware of this 'sensitive behavior'. You will find the rest of the story and how to configure `IgnoreCase` in the [Option resolution and argument conversion](../the-commander/) section.
+> Of course, this is just half the story. However, if you' re using the **`CommandLineParser`** you should be aware of this 'sensitive behavior'. You will find the rest of the story and how to configure `IgnoreCase` in the [Commander](../the-commander/) section.
 
 ### Settings - to control Option recognition
 
@@ -54,11 +54,11 @@ CommandLineArguments arguments = CommandLineParser.Parse(
     }
 ```
 
-`OptionTags` - define the tokens which mark an _Option_ \(note: '--' will also be recognized as an Option tag\).
+`OptionTags` - define the tags which mark an _Option_ \(note: '--' will also be recognized as an Option tag\).
 
-_`OptionValueTags` -_  define the tokens that split an _Option_ name from its value
+_`OptionValueTags` -_  define the tag that split an _Option_ name from its value
 
-With these default values, you can specify _Options_ like that:
+With the default values, you can specify _Options_ like that:
 
 ```text
 --Option1

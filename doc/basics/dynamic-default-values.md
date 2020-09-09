@@ -22,7 +22,7 @@ To accomplish this, override the `BeforeExecute()` method in your _Command_.
 class DateRangeCommand : CommandBase<FromToCommandParameters>
 {
     protected override void BeforeExecute(
-        FromToCommandParameters ps,
+        TCommandParameters ps,
         HashSet<string> unresolvedPropertyNames,
         ErrorDetailList errors)
     {
@@ -33,19 +33,4 @@ class DateRangeCommand : CommandBase<FromToCommandParameters>
     }
 }
 ```
-
-```
-    }
-```
-
-## What's next
-
-* [Value conversion - Option \(string\) Parameter value](convertValues.md)
-* [Error-Handling](errorHandling.md)
-
-### Additional throughs
-
-I decided to have one single method `OnResolveProperties` to resolve all properties over something like `[OptionDescriptor( "EndDate", Default => myFunc()]` and over single property resolution like `resolveProperty( string propertyName, ..)`. The reason is: when the resolve property method is called, you can never know which other properties have been resolved. How can you know `StartDate` has got a value when `EndDate` is resolved. How can you guarantee, `StartDate` is resolved before `EndeDate`? You can't!
-
-With single property resolution you have no control over the sequence of resolution.
 

@@ -10,7 +10,7 @@
   * [How Commander uses Annotations](the-commander/how-commander-uses-annotations.md)
 * [Options](basics/README.md)
   * [Dynamic Default Values](basics/dynamic-default-values.md)
-  * [Parameter Validation - BeforeExecute](basics/parameter-validation-beforeexecute.md)
+  * [BeforeExecute\(\) & Parameter Validation](basics/parameter-validation-beforeexecute.md)
   * [Custom Conversion](basics/custom-conversion.md)
 * [The untold topics](the-untold-topics.md)
 * [The Command-Line Mission](the-command-line-mission/README.md)
