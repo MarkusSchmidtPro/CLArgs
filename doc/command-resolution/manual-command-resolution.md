@@ -6,9 +6,9 @@ description: AutoResolveCommands = false
 
 Manual Command resolution means going _low-level,_ not using the _Commander's_ benefits. 
 
-`AutoCommandResolution` is based on _Parameters_ classes, `[Command()]` annotations and _Command_ classes that inherit from `CommandBase`. Auto-resolution requires you to use the CLArgs Framework. However, auto-resolution requires almost zero code.
+Command auto-resolution is based on `Command()]` annotations and _Command_ classes that inherit from `CommandBase`. Auto-resolution requires you to use the _CLArgs_ Framework and it requires almost zero code.
 
-Manual resolution requires a Commander instance first. There you can registers _verbs-to-functions._ When you then call `commander.Execute()`it will no longer resolve and look for a _Command_ implementation, it will just search the registered functions.
+Manual resolution requires a _Commander_ instance first. There you can registers _verbs-to-functions._ When you then call `commander.Execute()`it will no longer resolve and look for a _Command_ implementation, it will just search the registered functions.
 
 ```csharp
 private static void Main(string[] args)
@@ -37,5 +37,5 @@ Please notice, there no _Options-to-Parameters_ conversion. Instead, the registe
 
 ### RegisterCommand
 
-There is one last option how to resolve Commands: `Commander.RegisterCommand`. More details to be provided \(see also [Sample3](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options)\).
+There is another option how to resolve _Commands_: `Commander.RegisterCommand`. More [details](../the-commander/how-commander-uses-annotations.md) to be provided \(see also [Sample3](https://github.com/msc4266/CLArgs/tree/master/samples/Sample03.Options)\).
 
