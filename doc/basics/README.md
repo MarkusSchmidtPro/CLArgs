@@ -1,49 +1,21 @@
 ---
-description: About Verbs and Options
+description: How Options become Properties become Parameters
 ---
 
-# Basics
+# Options
 
-In the command-line you can provide _Verbs_ and _Options_.
-
-### Verbs and Commands
-
-A _Verb_ is a word that determines _what_ your Console Application should do.
-
-A _Verb_ is bound to a certain functionality: `YourApp.exe ConvertXml` ==&gt; `MyXmlConverter()`. This functionality is implemented as a _Command_.
-
-```csharp
-RegisterCommandFactory( "ConvertXml", () => new MyXmlConverter());
-```
-
-or use _Annotations_ \(Zero-Coding \[[Sample-Code](https://github.com/msc4266/CLArgs/tree/master/samples/Sample01.SimpleAsThat/Program.cs)\]\)
-
-```csharp
-[Command("ConvertXml")]
-class MyXmlConverter : CommandBase<XmlConverterParameters>
-{
-    protected override void Execute(XmlConverterParameters ps) 
-    {
-        // ....
-    }
-}
-```
-
-> NOTE: Verbs are completely optional. If your Console Application has only one single functionality, well, then use _CLArgs_ without Verbs:
-
-```csharp
-Arguments arguments = CommandLineParser.Parse(args);
-var cmd = new MyXmlConverter();
-cmd.Execute( arguments);
-```
-
-### Options
-
-An _Option_ is a name-value tag that is parsed from the command-line:
+An _Option_ is a tag-value \(or name-value\) token that is parsed from the command-line:
 
 `--filename=Input.xml --out='outDir\' --forceOverride`
 
-Options are converted into _Parameters_:
+{% hint style="info" %}
+An Option without an explicit value is resolve to _boolean: true_  
+like _--forceOverride_ in the example above.
+{% endhint %}
+
+For each _Option_ provided in the command-line the `Commander` tries to find an appropriate `OptionDescriptor`. _OptionDescriptors_ are automatically resolved by searching for the corresponding Annotations, or they can be added manually to the `Commander`\(see [How Commander uses Annotations](../the-commander/how-commander-uses-annotations.md)\) .
+
+An `OptionDescriptor` describes an _Option_, if it is required, the recognized _Option_ tags, its data type, the help text about it and its [static default value](dynamic-default-values.md). A group of options is called _Parameters_ class which is finally passed to a _Command_.
 
 ```csharp
 class XmlConverterParameters
@@ -59,19 +31,6 @@ class XmlConverterParameters
     public bool ForceOverride { get; set; }
 }
 ```
-
-### Verbs and Options
-
-Each _Verb_ has its own set of _Options_, because each _Command_ requires its own _Parameters_:
-
-```text
-"ConvertXml" => XmlConverter( XmlConverterParameters ps);
-"CreateSchema" => XsdSchemaGenerator( XsdSchemaGenerator ps);
-```
-
-### Automatic resolution
-
-When you provide a Verb in the command-line, _CLArgs_ automatically resolved the related Command. _CLArgs_ then gets the _Command_ Parameter type and converts the command-line arguments into an instance of this type. Finally it executes the command. And all this with a single line of code: `Commander.ExecuteCommand(args);`
 
 ## What's Next
 

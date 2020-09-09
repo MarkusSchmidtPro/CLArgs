@@ -8,15 +8,15 @@ In most cases, it is enough to define _static_ default values, which are known d
 [OptionDescriptor("count", Required = false, Default = 1)]
 ```
 
-However, there are use-cases when you would consider dynamic default values or when a default value depends on another option value. Imagine your app takes two arguments:
+However, there are use-cases when you would consider dynamic default values or when a default value depends on another option value. 
+
+Imagine your application takes two arguments:
 
 `StartDate` \[mandatory\] and `EndDate`\[optional\]
 
 If `EndDate` is not provided in the command-line, it should be `Startdate + 7 days`. In that case, you cannot define a static default value for `Enddate` because it depends on another value.
 
-## Resolve Properties
-
-To accomplish this, override the `BeforeExecute()` method in your Command.
+To accomplish this, override the `BeforeExecute()` method in your _Command_.
 
 ```csharp
 class DateRangeCommand : CommandBase<FromToCommandParameters>
@@ -34,23 +34,7 @@ class DateRangeCommand : CommandBase<FromToCommandParameters>
 }
 ```
 
-## Parameter Validation
-
-You would also use this method to perform Parameter validations: static and dynamic validations:
-
-```csharp
-protected override void BeforeExecute(
-    FromToCommandParameters ps,
-    HashSet<string> unresolvedPropertyNames,
-    ErrorDetailList errors)
-{
-    // Check K.O. criteria: do not run command if fail
-    DateTime minStartDate = new DateTime(2020, 1, 1);
-    if (ps.StartDate < minStartDate)
-    {
-        errors.AddError(nameof(ps.StartDate),
-            $"{nameof(ps.StartDate)} must be greater or equal to
-            {minStartDate:d}, current value: {ps.StartDate:d}");
+```
     }
 ```
 

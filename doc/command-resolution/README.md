@@ -1,5 +1,5 @@
 ---
-description: How to control the available Commands
+description: How to control the Command resolution by using Settings
 ---
 
 # Command Resolution
@@ -12,6 +12,8 @@ Commander.ExecuteCommand(
     new Settings { AutoResolveCommands = true, ... } 
 );
 ```
+
+See also: [How _Settings_ control command-line parsing](../command-line-parser/)
 
 ### Default resolution - EntryAssembly
 
