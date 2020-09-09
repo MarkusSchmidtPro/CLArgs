@@ -25,14 +25,14 @@ namespace MSPro.CLArgs
 
             string commandLine = string.Join(" ", args);
             CommandLineArguments commandLineArguments = new CommandLineArguments(commandLine, settings.IgnoreCase);
-            var sp = new CommandLineParser(settings.OptionsTags, settings.OptionValueTags);
+            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(commandLine, commandLineArguments);
             return commandLineArguments;
         }
 
 
 
-        #region StringParser
+        #region CommandLineParser
 
         private readonly char[] _optionsTags;
         private readonly char[] _optionValueTags;

@@ -27,7 +27,7 @@ namespace CLArgs.Sample.ValueConversion
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
-            var arguments = CommandLineParser.Parse(args);
+            CommandLineArguments arguments = CommandLineParser.Parse( args);
             foreach (string target in arguments.Targets)
             {
                 Console.WriteLine($"Target: {target}");
