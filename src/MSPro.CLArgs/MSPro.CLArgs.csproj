@@ -9,21 +9,21 @@
       <Copyright>(c) copyright 2020, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.0.*</AssemblyVersion>
-      <Version>1.2009.09.01</Version>
-      <FileVersion>$(Version)</FileVersion>
+      <AssemblyVersion>1.2012.29.01</AssemblyVersion>
+      <Version>1.2012.29.01</Version>
+      <FileVersion>1.2012.29.01</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>$(Version)</PackageVersion>
+      <PackageVersion>1.2012.29.01</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
       <RepositoryType>GitHub</RepositoryType>
       <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
-      <TargetFrameworks>net452;netstandard2.0;netstandard2.1</TargetFrameworks>
+      <TargetFrameworks>net452;net462;net472;net48;net5.0;netcoreapp2.1;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>
@@ -31,7 +31,7 @@
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+      <DocumentationFile>C:\Users\Public\Documents\Sync\Daten\_gitHub\CLArgs\src\MSPro.CLArgs\MSPro.CLArgs.xml</DocumentationFile>
   </PropertyGroup>
 
   
@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
   </ItemGroup>
 
   <ItemGroup>
