@@ -4,7 +4,7 @@ description: The main class that does all
 
 # The Commander
 
-The `Commander` is the main object within `ClArgs`. As you have seen i[n the introduction](../) you can use a single line of code to 
+The `Commander` is the main object within `ClArgs`. As you have seen [in the introduction](../) with a single line of code `Commander.ExecuteCommand( args)` _Commander_ will do: 
 
 * parse the command-line
 * resolve existing _Commands_
@@ -14,7 +14,7 @@ The `Commander` is the main object within `ClArgs`. As you have seen i[n the int
 * do the error-handling
 * display help messages if requested
 
-The simplest way to use the `Commander` is by using its static `ExecuteCommand()` method. Alternatively, you may create your own instance  `new Commander(..)` whatever you prefer.
+The [simplest way](https://github.com/msc4266/CLArgs/blob/master/samples/Sample01.SimpleAsThat/Program.cs) to use the `Commander` is by using its static `ExecuteCommand()` method. Alternatively, you may create your own instance  `new Commander(..`.`)`.
 
 ```csharp
 public static void ExecuteCommand(string[] args, Settings settings = null) =>
@@ -23,7 +23,7 @@ public static void ExecuteCommand(string[] args, Settings settings = null) =>
 
 ### Annotations
 
-The `Commander` normally relies on Annotations, like `Command`, `OptionDescriptor` or `OptionSet`
+The `Commander` normally relies on Annotations, like`[Command]`, `[OptionDescriptor]` or `[OtionSet]`.
 
 ```csharp
 [Command("HelloWorld", "This is the help text of my HelloWorld command.")]
