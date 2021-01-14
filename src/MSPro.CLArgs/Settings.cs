@@ -54,6 +54,15 @@ namespace MSPro.CLArgs
         public ICommandResolver CommandResolver { get; set; } =
             new AssemblyCommandResolver(Assembly.GetEntryAssembly());
 
+
+        /// <summary>
+        /// Resolves to location of a provided configuration file with relative path (@fileName).
+        /// </summary>
+        /// <remarks>
+        ///     The default
+        /// </remarks>
+        public IConfigFileResolver ConfigFileResolver { get; set; } = new ConfigFileResolver();
+
         /// <summary>
         ///     Get or set tags which identify an option.
         /// </summary>

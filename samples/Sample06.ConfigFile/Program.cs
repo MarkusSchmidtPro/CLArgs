@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using MSPro.CLArgs;
 
 
 
-namespace CLArgs.Sample.ValueConversion
+namespace CLArgs.Sample.ConfigFile
 {
     /// <summary>
     /// Demo how to use your custom Option to Parameter converter.
@@ -24,10 +25,17 @@ namespace CLArgs.Sample.ValueConversion
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
+            Settings s = new Settings
+            {
+                // Specify a configuration file resolver that looks in the AppData directory
+                // and in the entry Assembly's path for the provided config file.
+              ConfigFileResolver = new ConfigFileResolver {UserDefinedDirectory = "%AppData%"}
+            };
+
             // Execute the Command direct,
             // without Command or registration,
             // by using the Command Execute() method.
-            new Command().Execute(CommandLineParser.Parse(args));
+            new Command().Execute(CommandLineParser.Parse(args, s));
             
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");
@@ -47,8 +55,17 @@ namespace CLArgs.Sample.ValueConversion
 
         private class CommandParameters
         {
-            [OptionDescriptor("Option0")]
+            /// <summary>
+            /// This property takes the first occurrence of Option0 in the command-line.
+            /// </summary>
+            [OptionDescriptor("Option0", AllowMultiple = nameof(AllOptions0))]
             public string Option0 { get; set; }    
+
+            /// <summary>
+            /// This property takes all 'Option0' tag fro command-line
+            /// as it is allowed to specify this option in the option file and in the command-line.
+            /// </summary>
+            public List<string> AllOptions0 { get; set; }    
 
             [OptionDescriptor("Option1")]
             public string Option1 { get; set; } 

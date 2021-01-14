@@ -53,7 +53,7 @@ namespace CLArgs.Sample.DynamicDefault
             /// <summary>
             ///     Check and prepare parameters before execution.
             /// </summary>
-            /// <inheritdoc cref="ICommand{TCommandParameters}.BeforeExecute" />
+            /// <inheritdoc cref="CommandBase{TCommandParameters}.BeforeExecute" />
             protected override void BeforeExecute(FromToCommandParameters ps,
                                                   HashSet<string> unresolvedPropertyNames,
                                                   ErrorDetailList errors)
@@ -112,7 +112,7 @@ namespace CLArgs.Sample.DynamicDefault
             /// <summary>
             ///     Custom error handler to display error messages instead of throwing exceptions.
             /// </summary>
-            /// <inheritdoc cref="ICommand{TCommandParameters}.OnError" />
+            /// <inheritdoc cref="CommandBase{TCommandParameters}.OnError" />
             protected override void OnError(ErrorDetailList errors, bool handled)
             {
                 Console.WriteLine(errors.ToString());

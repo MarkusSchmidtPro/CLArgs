@@ -17,7 +17,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Options with any of these Tags will not be marked as unresolved.
         /// </summary>
-        private static readonly HashSet<string> _wellKnownOptions = new HashSet<string> {"clArgsTrace"};
+        private static readonly HashSet<string> _wellKnownOptions = new() {"clArgsTrace"};
 
         private readonly IEnumerable<OptionDescriptorAttribute> _descriptors;
 
@@ -106,15 +106,6 @@ namespace MSPro.CLArgs
 
             // return a list of Options.
             return optionsByName;
-        }
-
-
-        private void addOptionByName(Dictionary<string, List<Option>> optionsByName, Option item)
-        {
-            if (!optionsByName.ContainsKey(item.Key))
-                optionsByName[item.Key] = new List<Option> {item};
-            else
-                optionsByName[item.Key].Add(item);
         }
     }
 }

@@ -10,13 +10,13 @@
       <!--  -->
       <Deterministic>false</Deterministic>
       <AssemblyVersion>1.21.0114.01</AssemblyVersion>
-      <Version>1.21.0114.01</Version>
-      <FileVersion>1.21.0114.01</FileVersion>
+      <Version>1.2101.14.01</Version>
+      <FileVersion>1.2101.14.01</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon></PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>1.2012.29.01</PackageVersion>
+      <PackageVersion>1.2101.14.01</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>

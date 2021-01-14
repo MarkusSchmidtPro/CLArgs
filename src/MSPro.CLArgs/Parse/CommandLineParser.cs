@@ -25,7 +25,7 @@ namespace MSPro.CLArgs
 
             string commandLine = string.Join(" ", args);
             CommandLineArguments commandLineArguments = new CommandLineArguments(commandLine, settings.IgnoreCase);
-            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags);
+            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags, settings.ConfigFileResolver);
             sp.Parse(commandLine, commandLineArguments);
             return commandLineArguments;
         }
@@ -38,7 +38,7 @@ namespace MSPro.CLArgs
         private readonly char[] _optionValueTags;
         private string _argumentsString;
         private int _currentPos;
-
+        private readonly IConfigFileResolver _configFileResolver;
 
 
         /// <summary>
@@ -50,10 +50,12 @@ namespace MSPro.CLArgs
         /// <param name="optionValueTags">
         ///     <see cref="Settings.OptionValueTags" />
         /// </param>
-        private CommandLineParser(char[] optionsTags, char[] optionValueTags)
+        /// <param name="configFileResolver"></param>
+        private CommandLineParser(char[] optionsTags, char[] optionValueTags, IConfigFileResolver configFileResolver)
         {
             _optionsTags     = optionsTags;
             _optionValueTags = optionValueTags;
+            _configFileResolver = configFileResolver;
         }
 
 
@@ -110,7 +112,7 @@ namespace MSPro.CLArgs
         {
             string fileName = getFileName();
             var args = getArgsFromFile(fileName);
-            CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags);
+            CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags, _configFileResolver);
             sp.Parse(string.Join(" ", args), commandLineArguments);
         }
 
@@ -126,13 +128,9 @@ namespace MSPro.CLArgs
 
 
 
-        private static IEnumerable<string> getArgsFromFile(string fileName)
+        private IEnumerable<string> getArgsFromFile(string fileName)
         {
-            string filePath = Path.GetFullPath(fileName.Substring(1));
-            fileName = Path.GetFileName(filePath);
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException("Cannot find config file", fileName);
-
+            string filePath = _configFileResolver.ResolvePath(fileName.Substring(1));
             string[] lines = File.ReadAllLines(filePath);
             return lines.Select(line => line.Trim())
                         .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&

@@ -116,7 +116,7 @@ namespace MSPro.CLArgs
         ///         <see cref="AggregateException" /> in case of any error. You can avoid this by overriding this method.
         ///     </remarks>
         /// </summary>
-        /// <param name="errors">The errors that have occured.</param>
+        /// <param name="errors">The errors that have occurred.</param>
         /// <param name="handled">If <c>true</c> the method does nothing anymore, because it expects the errors have been handled.</param>
         /// <exception cref="AggregateException">Always</exception>
         protected virtual void OnError(ErrorDetailList errors, bool handled)
