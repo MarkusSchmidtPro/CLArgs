@@ -25,7 +25,7 @@ namespace CLArgs.Sample.Options.DefaultCommand
         [OptionSet]
         public Connection DbConnection { get; set; }
 
-        [OptionDescriptor("DatabaseTableName", "t", Required = false, AllowMultiple= nameof(DatabaseTableNames))] // 
+        [OptionDescriptor("DatabaseTableName", "t", Required = false, AllowMultiple= nameof(DatabaseTableNames), AllowMultipleSplit=",;")] // 
         public string DatabaseTableName { get; set; }   
         
         /// <summary>

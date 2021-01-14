@@ -169,15 +169,31 @@ namespace MSPro.CLArgs
                             continue;
                         }
 
+
                         // Create a new list instance and
                         // set it to the 'AllowMultiple' property (this does NOT add a list item!)
                         var listInstance = (IList)Activator.CreateInstance(collectionPropertyInfo.PropertyType);
                         // add options to the list
                         foreach (Option providedOption in providedOptions)
                         {
-                            object currentPropertyValue =
-                                _settings.ValueConverters.Convert(providedOption.Value, boundOptionName, _errors, targetType);
-                            listInstance.Add(currentPropertyValue);
+                            // In case of AllowMultipleSplit each option's value
+                            // will be probably split into n values
+                            // by using the AllowMultipleSplit token.
+                            List<string> allValues = new List<string>();
+                            string providedOptionValue = providedOption.Value;
+                            if ( !string.IsNullOrWhiteSpace(optionDescriptor.AllowMultipleSplit ))
+                            {
+                                allValues.AddRange( providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray()));
+                            }
+                            else allValues.Add(providedOptionValue);
+
+                            foreach (string value in allValues)
+                            {
+                                object currentPropertyValue =
+                                    _settings.ValueConverters.Convert(value, boundOptionName, _errors,
+                                        targetType);
+                                listInstance.Add(currentPropertyValue);
+                            }
                         }
                         collectionPropertyInfo.SetValue(commandParametersInstance, listInstance);
                         // the first list item will also be set at the current properties value

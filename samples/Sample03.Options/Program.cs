@@ -25,7 +25,7 @@ namespace CLArgs.Sample.Options
         ///     Check the <see cref="Command">command's implementation</see>
         ///     how the command makes use of it.
         /// </remarks>
-        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --T=SecondTable --p=_ab123_ --BaseSetting";
+        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --T=SecondTable --p=_ab123_ --BaseSetting --T='3rd Table,4th Table'";
 
 
 

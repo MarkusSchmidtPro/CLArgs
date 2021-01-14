@@ -48,6 +48,7 @@ namespace MSPro.CLArgs
         public object Default { get; set; }
         public bool Required { get; set; }
         public string AllowMultiple { get; set; }
+        public string AllowMultipleSplit { get; set; }
 
 
         public override string ToString() =>
