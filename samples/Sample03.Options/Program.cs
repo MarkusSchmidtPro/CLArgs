@@ -18,9 +18,14 @@ namespace CLArgs.Sample.Options
         /// </summary>
         /// <remarks>
         ///     Verb:    None = Default Command - there is only one in this example!
-        ///     Options: <see cref="DefaultCommand.Parameters" /> class how these options are turned into Parameters.
+        ///     Options: <see cref="DefaultCommand.Parameters" /> class how these options are turned into Parameters.<br />
+        ///
+        ///     Please notice, --T is specified more than once. This required the "AllowMultiple" to be set on
+        ///     the <see cref="Parameters.DatabaseTableName">"T" parameter</see>.
+        ///     Check the <see cref="Command">command's implementation</see>
+        ///     how the command makes use of it.
         /// </remarks>
-        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --p=_ab123_ --BaseSetting";
+        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --T=SecondTable --p=_ab123_ --BaseSetting";
 
 
 
@@ -58,7 +63,7 @@ namespace CLArgs.Sample.Options
 
             // Let's change the argument from commands-line 
             CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
-            commandLineArguments.SetOption("DatabaseTableName", "AnotherTable");
+            commandLineArguments.AddOption("DatabaseTableName", "AnotherTable");
 
             // Execute the Command with slightly different Options
             commander.ExecuteCommand(commandLineArguments);

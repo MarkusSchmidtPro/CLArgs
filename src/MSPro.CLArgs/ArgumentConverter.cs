@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace MSPro.CLArgs
 
             if (_errors.HasErrors())
             {
-                target                  = null;
+                target = null;
                 unresolvedPropertyNames = null;
             }
             else
@@ -85,38 +86,45 @@ namespace MSPro.CLArgs
         ///     Resolves a single property's value. If property is an annotated class it will
         ///     recursively resolve all properties of this class.
         /// </summary>
-        /// <param name="instanceType"></param>
+        /// <param name="commandParametersType"></param>
         /// <param name="options"></param>
         /// <param name="unresolvedPropertyNames"></param>
-        private object resolvePropertyValue([NotNull] Type instanceType,
+        private object resolvePropertyValue([NotNull] Type commandParametersType,
                                             [NotNull] IReadOnlyCollection<Option> options,
                                             [NotNull] ISet<string> unresolvedPropertyNames)
         {
-            object instance = Activator.CreateInstance(instanceType);
-            foreach (var pi in instanceType.GetProperties())
+            // The instance of the command parameters object.
+            // This is where we set the values
+            object commandParametersInstance = Activator.CreateInstance(commandParametersType);
+
+            // Iterate over all properties of the command parameters type
+            foreach (var propInfo in commandParametersType.GetProperties())
             {
-                if (pi.GetFirst<OptionSetAttribute>() != null)
+                // If a property is an OptionSet we must parse recursively
+                if (propInfo.GetFirst<OptionSetAttribute>() != null)
                 {
-                    var o = resolvePropertyValue(pi.PropertyType, options, unresolvedPropertyNames);
-                    pi.SetValue(instance, o);
+                    var o = resolvePropertyValue(propInfo.PropertyType, options, unresolvedPropertyNames);
+                    propInfo.SetValue(commandParametersInstance, o);
                 }
                 else
                 {
-                    var optionDescriptor = pi.GetFirst<OptionDescriptorAttribute>();
+                    // If a property is not an OptionDescriptor there is nothing to do with it.
+                    var optionDescriptor = propInfo.GetFirst<OptionDescriptorAttribute>();
                     if (optionDescriptor == null) continue;
 
 
                     // the name of the Option that is bound to the property 
                     string boundOptionName = optionDescriptor.OptionName;
                     // the name and the of the property
-                    string targetPropertyName = pi.Name;
-                    Type targetType = pi.PropertyType;
+                    string targetPropertyName = propInfo.Name;
+                    Type targetType = propInfo.PropertyType;
 
 
                     // Check if the Option is defined. It is defined when it was in the
                     // OptionDescriptorList that was used to ResolveOptions. 
-                    var option = options.FirstOrDefault(o => string.Equals(o.Key, boundOptionName));
-                    if (option == null || !option.IsResolved)
+                    // With AllowMultiple, options can be specified more than once 
+                    var providedOptions = options.Where(o => string.Equals(o.Key, boundOptionName)).ToList();
+                    if (providedOptions.Count == 0) //|| !providedOptions.IsResolved)
                     {
                         // Should not happen because ResolveOptions should have added
                         // and Option for each item in the OptionDescriptorList.
@@ -131,15 +139,68 @@ namespace MSPro.CLArgs
                         _errors.AddError(targetPropertyName,
                                          $"No type converter found for type {targetType} of property {targetPropertyName} ");
                     }
+                    // When an option has the allow multiple specified, only the first value is assigned to the property
+                    // and all others are added to the property whose name is specified as 'AllowMultiple'.
+                    else if (!string.IsNullOrWhiteSpace(optionDescriptor.AllowMultiple))
+                    {
+                        /* Example:
+                            // currentPropertyValue the value of the current argument specified in the command line
+
+                            [ ... optionDescriptor.AllowMultiple = nameof( ComponentIds)]
+                            public string ComponentId;
+                            
+                            // collectionPropertyName = "ComponentIds"
+                            public List<string> ComponentIds;   // must implement IList
+                         */
+                        string collectionPropertyName = optionDescriptor.AllowMultiple;
+                        var collectionPropertyInfo = commandParametersType.GetProperty(collectionPropertyName);
+                        if (collectionPropertyInfo == null)
+                        {
+                            _errors.AddError(targetPropertyName,
+                                $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
+                            continue;
+                        }
+
+                        // The collection property name must implement IList
+                        if (!typeof(IList).IsAssignableFrom(collectionPropertyInfo.PropertyType))
+                        {
+                            _errors.AddError(targetPropertyName,
+                                $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} is not of type IList");
+                            continue;
+                        }
+
+                        // Create a new list instance and
+                        // set it to the 'AllowMultiple' property (this does NOT add a list item!)
+                        var listInstance = (IList)Activator.CreateInstance(collectionPropertyInfo.PropertyType);
+                        // add options to the list
+                        foreach (Option providedOption in providedOptions)
+                        {
+                            object currentPropertyValue =
+                                _settings.ValueConverters.Convert(providedOption.Value, boundOptionName, _errors, targetType);
+                            listInstance.Add(currentPropertyValue);
+                        }
+                        collectionPropertyInfo.SetValue(commandParametersInstance, listInstance);
+                        // the first list item will also be set at the current properties value
+                        propInfo.SetValue(commandParametersInstance, providedOptions[0].Value);
+                    }
+                    else // AllowMultiple = false 
+                    if (providedOptions.Count > 1)
+                    {
+                        _errors.AddError(targetPropertyName,
+                            $"'AllowMultiple' is not specified on property {targetPropertyName} however it was provided {providedOptions.Count} times.");
+                        continue;
+                    }
                     else
                     {
+                        // Convert the string from the command line into the correct type so that the value
+                        // can be assigned to the property.
                         object propertyValue =
-                            _settings.ValueConverters.Convert(option.Value, boundOptionName, _errors, targetType);
-                        pi.SetValue(instance, propertyValue);
+                            _settings.ValueConverters.Convert(providedOptions[0].Value, boundOptionName, _errors, targetType);
+                        propInfo.SetValue(commandParametersInstance, propertyValue);
                     }
                 }
             }
-            return instance;
+            return commandParametersInstance;
         }
 
         #endregion

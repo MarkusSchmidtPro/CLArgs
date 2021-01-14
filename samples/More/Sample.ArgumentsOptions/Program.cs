@@ -33,7 +33,7 @@ namespace CLArgs.Sample.ArgumentsOptions
             // Set default value if not provided
             // Upsert = Update or Insert = Update or Add 
             if (!fileNameProvided)
-                commandLineArguments.SetOption(FILENAME_TAG, "default.txt");
+                commandLineArguments.AddOption(FILENAME_TAG, "default.txt");
             
             foreach ( Option option in commandLineArguments.Options)
             {

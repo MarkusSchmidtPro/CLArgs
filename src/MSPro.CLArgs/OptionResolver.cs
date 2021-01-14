@@ -22,12 +22,10 @@ namespace MSPro.CLArgs
         private readonly IEnumerable<OptionDescriptorAttribute> _descriptors;
 
 
-
         public OptionResolver(IEnumerable<OptionDescriptorAttribute> descriptors)
         {
             _descriptors = descriptors;
         }
-
 
 
         /// <summary>
@@ -41,22 +39,21 @@ namespace MSPro.CLArgs
         /// <param name="errors"></param>
         /// <param name="ignoreCase">If <c>true</c> cases will be ignored when parsing tags.</param>
         /// <param name="ignoreUnknownTags">
-        ///     If <c>true</c> unknown tags provided in the command-line will be ignored.<br/>
+        ///     If <c>true</c> unknown tags provided in the command-line will be ignored.<br />
         ///     If set to <c>false</c> options provided in the command-line where there is no matching OptionDescriptor
-        ///     will be recognized as 'too much' (not known). If there is any, <see cref="errors"/> will contain
+        ///     will be recognized as 'too much' (not known). If there is any, <paramref name="errors" /> will contain
         ///     the corresponding messages.
         /// </param>
         /// <returns>A unique (by name) list of Options.</returns>
         public IEnumerable<Option> ResolveOptions(CommandLineArguments commandLineArguments,
-                                                  ErrorDetailList errors,
-                                                  bool ignoreCase = false,
-                                                  bool ignoreUnknownTags = false)
+            ErrorDetailList errors,
+            bool ignoreCase = false,
+            bool ignoreUnknownTags = false)
         {
             StringComparison stringComparison =
                 ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
-            IEqualityComparer<string> stringComparer =
-                ignoreCase ? StringComparer.InvariantCultureIgnoreCase : StringComparer.InvariantCulture;
-            Dictionary<string, Option> optionsByName = new Dictionary<string, Option>(stringComparer);
+            // With AllowMultiple options with the same name can occur more than once
+            List<Option> optionsByName = new();
 
             //
             // Collect options by tag (as provided in the command-line Arguments)
@@ -72,7 +69,7 @@ namespace MSPro.CLArgs
 
                 if (optionDescriptor != null)
                 {
-                    optionsByName[optionDescriptor.OptionName] = new Option(optionDescriptor.OptionName, option.Value);
+                    optionsByName.Add(new Option(optionDescriptor.OptionName, option.Value));
                 }
                 else if (!ignoreUnknownTags && !_wellKnownOptions.Contains(option.Key))
                 {
@@ -88,7 +85,7 @@ namespace MSPro.CLArgs
             var descriptorsMandatory = _descriptors.Where(od => od.Required);
             foreach (var d in descriptorsMandatory)
             {
-                if (!optionsByName.ContainsKey(d.OptionName))
+                if (!optionsByName.Any(o => o.Key.Equals(d.OptionName, stringComparison)))
                     errors.AddError(d.OptionName, $"Missing mandatory Option: '{d.OptionName}'");
             }
 
@@ -101,13 +98,23 @@ namespace MSPro.CLArgs
 
             // Iterate through all optional and not yet resolved descriptors
             var descriptorsOptional = _descriptors.Where(od => !od.Required);
-            foreach (var d in descriptorsOptional.Where(i => !optionsByName.ContainsKey(i.OptionName)))
+            foreach (var d in descriptorsOptional.Where(i =>
+                !optionsByName.Any(o => o.Key.Equals(i.OptionName, stringComparison))))
             {
-                optionsByName.Add(d.OptionName, new Option(d.OptionName, d.Default?.ToString()));
+                optionsByName.Add(new Option(d.OptionName, d.Default?.ToString()));
             }
 
-            // return a unique (by name) list of Options.
-            return optionsByName.Values;
+            // return a list of Options.
+            return optionsByName;
+        }
+
+
+        private void addOptionByName(Dictionary<string, List<Option>> optionsByName, Option item)
+        {
+            if (!optionsByName.ContainsKey(item.Key))
+                optionsByName[item.Key] = new List<Option> {item};
+            else
+                optionsByName[item.Key].Add(item);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.IO.Enumeration;
+﻿using System.Collections.Generic;
 using MSPro.CLArgs;
 
 
@@ -6,7 +6,7 @@ using MSPro.CLArgs;
 namespace CLArgs.Sample.Options.DefaultCommand
 {
     /// <summary>
-    /// A very special parameter class,
+    /// A "very special" parameter class,
     ///     which inherits from a base-class <see cref="BaseParameters"/>
     ///     and which uses an <c>OptionSet</c> class with
     ///     separate parameters.
@@ -25,8 +25,18 @@ namespace CLArgs.Sample.Options.DefaultCommand
         [OptionSet]
         public Connection DbConnection { get; set; }
 
-        [OptionDescriptor("DatabaseTableName", "t", Required = false)]
-        public string DatabaseTableName { get; set; }
+        [OptionDescriptor("DatabaseTableName", "t", Required = false, AllowMultiple= nameof(DatabaseTableNames))] // 
+        public string DatabaseTableName { get; set; }   
+        
+        /// <summary>
+        /// This property takes all /t parameters specified in the commandline, because /t is
+        /// allowed to be specified multiple times.
+        /// </summary>
+        /// <remarks>
+        /// DatabaseTableNames[0] = DatabaseTableName<br/>
+        /// DatabaseTableNames is null if /t is not provided in the command-line.
+        /// </remarks>
+        public List<string> DatabaseTableNames { get; set; }
     }
 
 

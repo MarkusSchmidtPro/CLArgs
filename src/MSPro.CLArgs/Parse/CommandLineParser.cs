@@ -58,12 +58,6 @@ namespace MSPro.CLArgs
 
 
 
-        private enum ParserStatus
-        {
-            Verbs,
-            Options,
-            Targets
-        }
 
 
 
@@ -89,7 +83,7 @@ namespace MSPro.CLArgs
                 else if (_optionsTags.Any(tag => c == tag))
                 {
                     optionRead = true;
-                    commandLineArguments.SetOption(getOption());
+                    commandLineArguments.AddOption(getOption());
                 }
                 else if (c == '@')
                 {
