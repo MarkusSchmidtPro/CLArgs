@@ -20,7 +20,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Get a list of Options unique by their name.
         /// </summary>
-        private List<Option> _resolvedOptions;
+        private List<Option> _allOptions;
 
 
 
@@ -48,7 +48,9 @@ namespace MSPro.CLArgs
             });
 
             var optionResolver = new OptionResolver(optionDescriptors);
-            _resolvedOptions = optionResolver.ResolveOptions(
+            // contains all options for which a Property is defined
+            // check .IsResolved flag if a value has been resolved
+            _allOptions = optionResolver.ResolveOptions(
                 commandLineArguments,
                 _errors,
                 _settings.IgnoreCase,
@@ -57,8 +59,8 @@ namespace MSPro.CLArgs
             _settings.RunIf(TraceLevel.Verbose, () =>
             {
                 if (_errors.HasErrors()) return;
-                string resolved = string.Join(", ", _resolvedOptions.Where(o => o.IsResolved).Select(o => o.Key));
-                string unresolved = string.Join(", ", _resolvedOptions.Where(o => !o.IsResolved).Select(o => o.Key));
+                string resolved = string.Join(", ", _allOptions.Where(o => o.IsResolved).Select(o => o.Key));
+                string unresolved = string.Join(", ", _allOptions.Where(o => !o.IsResolved).Select(o => o.Key));
                 _settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
                 _settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
             });
@@ -73,7 +75,7 @@ namespace MSPro.CLArgs
             {
                 unresolvedPropertyNames = new HashSet<string>();
                 target = (TTarget)
-                    resolvePropertyValue(typeof(TTarget), _resolvedOptions, unresolvedPropertyNames);
+                    resolvePropertyValue(typeof(TTarget), _allOptions, unresolvedPropertyNames);
             }
             return _errors;
         }
@@ -124,7 +126,7 @@ namespace MSPro.CLArgs
                     // OptionDescriptorList that was used to ResolveOptions. 
                     // With AllowMultiple, options can be specified more than once 
                     var providedOptions = options.Where(o => string.Equals(o.Key, boundOptionName)).ToList();
-                    if (providedOptions.Count == 0) //|| !providedOptions.IsResolved)
+                    if (providedOptions.Count( o=> o.IsResolved) == 0) //|| !providedOptions.IsResolved)
                     {
                         // Should not happen because ResolveOptions should have added
                         // and Option for each item in the OptionDescriptorList.
@@ -174,7 +176,7 @@ namespace MSPro.CLArgs
                         // set it to the 'AllowMultiple' property (this does NOT add a list item!)
                         var listInstance = (IList)Activator.CreateInstance(collectionPropertyInfo.PropertyType);
                         // add options to the list
-                        foreach (Option providedOption in providedOptions)
+                        foreach (Option providedOption in providedOptions.Where( o=>o.IsResolved))
                         {
                             // In case of AllowMultipleSplit each option's value
                             // will be probably split into n values
@@ -197,6 +199,7 @@ namespace MSPro.CLArgs
                         }
                         collectionPropertyInfo.SetValue(commandParametersInstance, listInstance);
                         // the first list item will also be set at the current properties value
+                        // there should be at least one resolved option 
                         propInfo.SetValue(commandParametersInstance, providedOptions[0].Value);
                     }
                     else // AllowMultiple = false 
