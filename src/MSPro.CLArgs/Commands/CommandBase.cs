@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -10,17 +11,23 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Provides a convenient way to use command-line for most applications.
     /// </summary>
-    /// <typeparam name="TCommandParameters">
+    /// <typeparam name="TContext">
     ///     The type of the parameter object that is passed to the command.
     /// </typeparam>
     [PublicAPI]
-    public abstract class CommandBase<TCommandParameters> : ICommand where TCommandParameters : class, new()
+    public abstract class CommandBase<TContext> : ICommand where TContext : class, new()
     {
+        /// <summary>
+        /// The settings instance as provided by Console.Main().
+        /// </summary>
+        protected Settings Settings;
+
+
         public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
         {
-            settings ??= new Settings();
-            BeforeArgumentConversion(commandLineArguments, settings);
-            ArgumentConverter<TCommandParameters> c = new ArgumentConverter<TCommandParameters>(settings);
+            Settings ??= new Settings();
+            BeforeArgumentConversion(commandLineArguments);
+            ArgumentConverter<TContext> c = new ArgumentConverter<TContext>(Settings);
             var errors = c.TryConvert(commandLineArguments,
                                       OptionDescriptors,
                                       out var commandParameters,
@@ -50,7 +57,7 @@ namespace MSPro.CLArgs
         {
             get
             {
-                var provider = new OptionDescriptorFromTypeProvider<TCommandParameters>();
+                var provider = new OptionDescriptorFromTypeProvider<TContext>();
                 return provider.Get().ToList();
             }
         }
@@ -62,12 +69,12 @@ namespace MSPro.CLArgs
         /// <remarks>
         ///     This method is called before any Argument conversion takes place.
         ///     Override this method to add your custom Argument to Property
-        ///     <see cref="Settings.ValueConverters">TypeConverters</see>.<br />
+        ///     <see cref="ValueConverters">TypeConverters</see>.<br />
         ///     You may also use this method to
         ///     <see cref="CommandLineArguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
         ///     to your arguments.
         /// </remarks>
-        protected virtual void BeforeArgumentConversion( [NotNull] CommandLineArguments commandLineArguments, [NotNull] Settings settings )
+        protected virtual void BeforeArgumentConversion( [NotNull] CommandLineArguments commandLineArguments )
         {
         }
 
@@ -79,9 +86,9 @@ namespace MSPro.CLArgs
         /// <remarks>
         ///     Use this method to validate <see paramref="parameters" />,
         ///     to provide provide dynamic defaults and/or to resolve parameter.<br />
-        ///     The method s called immediately before the Command <see cref="Execute(TCommandParameters)" /> method is called.
+        ///     The method s called immediately before the Command <see cref="Execute(TContext)" /> method is called.
         ///     In case, <paramref name="errors" /> contains any value, <see cref="OnError" /> is called instead of
-        ///     <see cref="Execute(TCommandParameters)" />.
+        ///     <see cref="Execute(TContext)" />.
         /// </remarks>
         /// <param name="parameters">
         ///     The parameter object (target instance) that will be used to execute the Command.
@@ -97,7 +104,7 @@ namespace MSPro.CLArgs
         /// </param>
         /// <seealso cref="OnError" />
         protected virtual void BeforeExecute(
-            TCommandParameters parameters,
+            TContext parameters,
             HashSet<string> unresolvedPropertyNames,
             ErrorDetailList errors)
         {
@@ -105,7 +112,7 @@ namespace MSPro.CLArgs
 
 
 
-        protected abstract void Execute(TCommandParameters ps);
+        protected abstract void Execute(TContext ps);
 
 
 

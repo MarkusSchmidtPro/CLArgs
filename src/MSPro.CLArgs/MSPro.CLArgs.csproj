@@ -24,6 +24,7 @@
       <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
       <TargetFrameworks>net452;net462;net472;net48;net5.0;netcoreapp2.1;netcoreapp3.1;netstandard2.0;netstandard2.1</TargetFrameworks>
+      <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>

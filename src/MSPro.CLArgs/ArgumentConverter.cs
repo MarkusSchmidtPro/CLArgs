@@ -39,13 +39,13 @@ namespace MSPro.CLArgs
                                           out TTarget target,
                                           out HashSet<string> unresolvedPropertyNames)
         {
-            _settings.RunIf(TraceLevel.Verbose, () =>
-            {
-                foreach (var optionDescriptorAttribute in optionDescriptors)
-                {
-                    _settings.Trace(optionDescriptorAttribute.ToString());
-                }
-            });
+            //_settings.RunIf(TraceLevel.Verbose, () =>
+            //{
+            //    foreach (var optionDescriptorAttribute in optionDescriptors)
+            //    {
+            //        _settings.Trace(optionDescriptorAttribute.ToString());
+            //    }
+            //});
 
             var optionResolver = new OptionResolver(optionDescriptors);
             // contains all options for which a Property is defined
@@ -56,14 +56,14 @@ namespace MSPro.CLArgs
                 _settings.IgnoreCase,
                 _settings.IgnoreUnknownOptions).ToList();
 
-            _settings.RunIf(TraceLevel.Verbose, () =>
-            {
-                if (_errors.HasErrors()) return;
-                string resolved = string.Join(", ", _allOptions.Where(o => o.IsResolved).Select(o => o.Key));
-                string unresolved = string.Join(", ", _allOptions.Where(o => !o.IsResolved).Select(o => o.Key));
-                _settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
-                _settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
-            });
+            //_settings.RunIf(TraceLevel.Verbose, () =>
+            //{
+            //    if (_errors.HasErrors()) return;
+            //    string resolved = string.Join(", ", _allOptions.Where(o => o.IsResolved).Select(o => o.Key));
+            //    string unresolved = string.Join(", ", _allOptions.Where(o => !o.IsResolved).Select(o => o.Key));
+            //    _settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
+            //    _settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
+            //});
 
 
             if (_errors.HasErrors())

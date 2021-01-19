@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using JetBrains.Annotations;
 
@@ -9,9 +8,12 @@ using JetBrains.Annotations;
 namespace MSPro.CLArgs
 {
     public delegate void DisplayAllCommandsDescription(List<CommandDescriptor> commandDescriptors);
+
+
+
     public delegate void DisplayCommandHelp(CommandDescriptor commandDescriptor);
-    
-    
+
+
 
     [PublicAPI]
     public class Settings
@@ -21,11 +23,7 @@ namespace MSPro.CLArgs
         /// </summary>
         public char[] OptionValueTags = {' ', ':', '='};
 
-        public TraceLevel TraceLevel { get; set; } = TraceLevel.Off;
-        public Action<string> Trace { get; set; } = Console.WriteLine;
-
-
-        public ValueConverters ValueConverters { get; } = new ValueConverters(); 
+        public ValueConverters ValueConverters { get; } = new ();
 
         public bool IgnoreCase { get; set; }
 
@@ -39,7 +37,7 @@ namespace MSPro.CLArgs
         public bool IgnoreUnknownOptions { get; set; }
 
         /// <summary>
-        ///      Automatically resolve commands using <see cref="CommandResolver" />
+        ///     Automatically resolve commands using <see cref="CommandResolver" />
         /// </summary>
         public bool AutoResolveCommands { get; set; } = true;
 
@@ -47,9 +45,9 @@ namespace MSPro.CLArgs
         ///     Get or set an object to resolve all known commands (and verbs).
         /// </summary>
         /// <remarks>
-        /// The default resolver is
-        ///    <see cref="AssemblyCommandResolver"/>(<b>Assembly.GetEntryAssembly()</b>),
-        /// to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
+        ///     The default resolver is
+        ///     <see cref="AssemblyCommandResolver" />(<b>Assembly.GetEntryAssembly()</b>),
+        ///     to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
         /// </remarks>
         public ICommandResolver CommandResolver { get; set; } =
             new AssemblyCommandResolver(Assembly.GetEntryAssembly());
@@ -65,16 +63,16 @@ namespace MSPro.CLArgs
 
 
         public DisplayAllCommandsDescription DisplayAllCommandsDescription { get; set; } = commandDescriptors =>
-        // Default Implementation
+            // Default Implementation
         {
-            Console.WriteLine( $"{commandDescriptors.Count} Commands available.");
+            Console.WriteLine($"{commandDescriptors.Count} Commands available.");
             foreach (CommandDescriptor commandDescriptor in commandDescriptors)
             {
-                Console.WriteLine( $"{commandDescriptor.Verb}\t\t{commandDescriptor?.Description}");
+                Console.WriteLine($"{commandDescriptor.Verb}\t\t{commandDescriptor?.Description}");
             }
         };
 
-        public DisplayCommandHelp DisplayCommandHelp { get; set; } = (commandDescriptor) =>
+        public DisplayCommandHelp DisplayCommandHelp { get; set; } = commandDescriptor =>
         {
             const int ALIGN_COLUMN = 16;
 
@@ -84,20 +82,23 @@ namespace MSPro.CLArgs
             Console.WriteLine(commandDescriptor.Verb);
             if (!string.IsNullOrEmpty(commandDescriptor.Description))
             {
-                string formattedDescription = commandDescriptor.Description.Replace("\n", $"\n  ");
+                string formattedDescription = commandDescriptor.Description.Replace("\n", "\n  ");
                 Console.WriteLine($"  {formattedDescription}");
             }
+
             Console.WriteLine("----------------------------------------------");
             var command = commandDescriptor.CreateCommandInstance();
             foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
             {
                 string tags = string.Join(",", oda.Tags);
-                Console.WriteLine($"\t{oda.OptionName,-ALIGN_COLUMN}Tags={tags}, Required={oda.Required}, Default={oda.Default??"null"}");
+                Console.WriteLine(
+                    $"\t{oda.OptionName,-ALIGN_COLUMN}Tags={tags}, Required={oda.Required}, Default={oda.Default ?? "null"}");
                 if (!string.IsNullOrEmpty(oda.HelpText))
                 {
                     string formattedDescription1 = oda.HelpText.Replace("\n", $"\n\t{alignSpaces}");
                     Console.WriteLine($"\t{alignSpaces}{formattedDescription1}");
                 }
+
                 Console.WriteLine();
             }
         };
