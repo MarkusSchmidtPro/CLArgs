@@ -77,7 +77,7 @@ namespace MSPro.CLArgs
         ///     Make sure everything is set-up and ready to execute the command.
         /// </summary>
         /// <remarks>
-        ///     Use this method to validate <see cref="parameters" />,
+        ///     Use this method to validate <see paramref="parameters" />,
         ///     to provide provide dynamic defaults and/or to resolve parameter.<br />
         ///     The method s called immediately before the Command <see cref="Execute(TCommandParameters)" /> method is called.
         ///     In case, <paramref name="errors" /> contains any value, <see cref="OnError" /> is called instead of

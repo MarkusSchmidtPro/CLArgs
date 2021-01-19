@@ -25,7 +25,7 @@ namespace MSPro.CLArgs
 
             string commandLine = string.Join(" ", args);
             CommandLineArguments commandLineArguments = new CommandLineArguments(commandLine, settings.IgnoreCase);
-            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags, settings.ConfigFileResolver);
+            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(commandLine, commandLineArguments);
             return commandLineArguments;
         }
@@ -38,7 +38,6 @@ namespace MSPro.CLArgs
         private readonly char[] _optionValueTags;
         private string _argumentsString;
         private int _currentPos;
-        private readonly IConfigFileResolver _configFileResolver;
 
 
         /// <summary>
@@ -50,12 +49,10 @@ namespace MSPro.CLArgs
         /// <param name="optionValueTags">
         ///     <see cref="Settings.OptionValueTags" />
         /// </param>
-        /// <param name="configFileResolver"></param>
-        private CommandLineParser(char[] optionsTags, char[] optionValueTags, IConfigFileResolver configFileResolver)
+        private CommandLineParser(char[] optionsTags, char[] optionValueTags)
         {
             _optionsTags     = optionsTags;
             _optionValueTags = optionValueTags;
-            _configFileResolver = configFileResolver;
         }
 
 
@@ -112,7 +109,7 @@ namespace MSPro.CLArgs
         {
             string fileName = getFileName();
             var args = getArgsFromFile(fileName);
-            CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags, _configFileResolver);
+            CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags);
             sp.Parse(string.Join(" ", args), commandLineArguments);
         }
 
@@ -130,8 +127,7 @@ namespace MSPro.CLArgs
 
         private IEnumerable<string> getArgsFromFile(string fileName)
         {
-            string filePath = _configFileResolver.ResolvePath(fileName.Substring(1));
-            string[] lines = File.ReadAllLines(filePath);
+            string[] lines = File.ReadAllLines(fileName);
             return lines.Select(line => line.Trim())
                         .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
                                           !trimmed.StartsWith("#"));
