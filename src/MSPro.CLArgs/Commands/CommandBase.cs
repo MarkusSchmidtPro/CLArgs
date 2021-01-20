@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -20,26 +19,40 @@ namespace MSPro.CLArgs
         /// <summary>
         /// The settings instance as provided by Console.Main().
         /// </summary>
-        protected Settings Settings;
+        protected Settings Settings{ get; private set; }
 
+        /// <summary>
+        /// Get the execution context as it is provided to the Execute method.
+        /// </summary>
+        protected TContext ExecutionContext { get; private set; }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
+        /// <param name="commandLineArguments"></param>
+        /// <param name="settings"></param>
         public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
         {
             Settings ??= new Settings();
             BeforeArgumentConversion(commandLineArguments);
-            ArgumentConverter<TContext> c = new ArgumentConverter<TContext>(Settings);
+            ArgumentConverter<TContext> c = new(Settings);
+
+            // Convert command-line arguments and create the execution context
             var errors = c.TryConvert(commandLineArguments,
                                       OptionDescriptors,
-                                      out var commandParameters,
+                                      out var executionContext,
                                       out var unresolvedPropertyNames);
+
+            ExecutionContext = executionContext;
+
             if (!errors.HasErrors())
             {
-                BeforeExecute(commandParameters, unresolvedPropertyNames, errors);
+                BeforeExecute(ExecutionContext, unresolvedPropertyNames, errors);
                 if (!errors.HasErrors())
                 {
                     try
                     {
-                        Execute(commandParameters);
+                        Execute(ExecutionContext);
                     }
                     catch (Exception exception)
                     {
@@ -70,9 +83,6 @@ namespace MSPro.CLArgs
         ///     This method is called before any Argument conversion takes place.
         ///     Override this method to add your custom Argument to Property
         ///     <see cref="ValueConverters">TypeConverters</see>.<br />
-        ///     You may also use this method to
-        ///     <see cref="CommandLineArguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
-        ///     to your arguments.
         /// </remarks>
         protected virtual void BeforeArgumentConversion( [NotNull] CommandLineArguments commandLineArguments )
         {

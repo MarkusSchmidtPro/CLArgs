@@ -76,7 +76,7 @@ namespace MSPro.CLArgs
         {
             const int ALIGN_COLUMN = 16;
 
-            string alignSpaces = new string(' ', ALIGN_COLUMN);
+            string alignSpaces = new(' ', ALIGN_COLUMN);
 
             Console.WriteLine();
             Console.WriteLine(commandDescriptor.Verb);

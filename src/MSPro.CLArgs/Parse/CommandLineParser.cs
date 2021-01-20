@@ -24,7 +24,7 @@ namespace MSPro.CLArgs
             settings ??= new Settings();
 
             string commandLine = string.Join(" ", args);
-            CommandLineArguments commandLineArguments = new CommandLineArguments(commandLine, settings.IgnoreCase);
+            CommandLineArguments commandLineArguments = new(commandLine, settings.IgnoreCase);
             var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(commandLine, commandLineArguments);
             return commandLineArguments;
@@ -109,7 +109,7 @@ namespace MSPro.CLArgs
         {
             string fileName = getFileName();
             var args = getArgsFromFile(fileName);
-            CommandLineParser sp = new CommandLineParser(_optionsTags, _optionValueTags);
+            CommandLineParser sp = new(_optionsTags, _optionValueTags);
             sp.Parse(string.Join(" ", args), commandLineArguments);
         }
 
@@ -139,7 +139,7 @@ namespace MSPro.CLArgs
         {
             // Name starts at first char that is not an optionsNameIdent
             skipChars(_optionsTags);
-            Option optionTag = new Option(readUntil(_optionValueTags));
+            Option optionTag = new(readUntil(_optionValueTags));
             if (_argumentsString.Length > _currentPos && _argumentsString[_currentPos] != ' ')
             {
                 // an option value was provided
@@ -198,7 +198,7 @@ namespace MSPro.CLArgs
             _currentPos++;                                    // skip token
 
             // don't use Substring but collect all characters to support escaping
-            List<char> chars = new List<char>();
+            List<char> chars = new();
 
             // Iterate until the second token is found
             while (_argumentsString[_currentPos] != stringToken)

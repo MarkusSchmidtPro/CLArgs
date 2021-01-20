@@ -14,7 +14,7 @@ namespace MSPro.CLArgs
 
         private IEnumerable<OptionDescriptorAttribute> getDescriptors(Type t)
         {
-            List<OptionDescriptorAttribute> result= new List<OptionDescriptorAttribute>();
+            List<OptionDescriptorAttribute> result= new();
             foreach (var pi in t.GetProperties())
             {
                 if (pi.GetFirst<OptionSetAttribute>() != null)

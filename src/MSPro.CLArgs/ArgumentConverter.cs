@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -12,9 +11,9 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Turns Arguments into a parameter object of a specified type..
     /// </summary>
-    internal class ArgumentConverter<TTarget> where TTarget : class, new()
+    internal class ArgumentConverter<TExecutionContext> where TExecutionContext : class, new()
     {
-        private readonly ErrorDetailList _errors = new ErrorDetailList();
+        private readonly ErrorDetailList _errors = new();
         private readonly Settings _settings;
 
         /// <summary>
@@ -23,21 +22,19 @@ namespace MSPro.CLArgs
         private List<Option> _allOptions;
 
 
-
         public ArgumentConverter([NotNull] Settings settings)
         {
             _settings = settings;
         }
 
 
-
         /// <summary>
         ///     Execute the command that is resolved by the verbs passed in the command-line.
         /// </summary>
         public ErrorDetailList TryConvert(CommandLineArguments commandLineArguments,
-                                          IEnumerable<OptionDescriptorAttribute> optionDescriptors,
-                                          out TTarget target,
-                                          out HashSet<string> unresolvedPropertyNames)
+            IEnumerable<OptionDescriptorAttribute> optionDescriptors,
+            out TExecutionContext executionContext,
+            out HashSet<string> unresolvedPropertyNames)
         {
             //_settings.RunIf(TraceLevel.Verbose, () =>
             //{
@@ -68,15 +65,16 @@ namespace MSPro.CLArgs
 
             if (_errors.HasErrors())
             {
-                target = null;
+                executionContext = null;
                 unresolvedPropertyNames = null;
             }
             else
             {
                 unresolvedPropertyNames = new HashSet<string>();
-                target = (TTarget)
-                    resolvePropertyValue(typeof(TTarget), _allOptions, unresolvedPropertyNames);
+                executionContext = (TExecutionContext)
+                    resolvePropertyValue(typeof(TExecutionContext), _allOptions, unresolvedPropertyNames);
             }
+
             return _errors;
         }
 
@@ -88,25 +86,25 @@ namespace MSPro.CLArgs
         ///     Resolves a single property's value. If property is an annotated class it will
         ///     recursively resolve all properties of this class.
         /// </summary>
-        /// <param name="commandParametersType"></param>
+        /// <param name="executionContextType"></param>
         /// <param name="options"></param>
         /// <param name="unresolvedPropertyNames"></param>
-        private object resolvePropertyValue([NotNull] Type commandParametersType,
-                                            [NotNull] IReadOnlyCollection<Option> options,
-                                            [NotNull] ISet<string> unresolvedPropertyNames)
+        private object resolvePropertyValue([NotNull] Type executionContextType,
+            [NotNull] IReadOnlyCollection<Option> options,
+            [NotNull] ISet<string> unresolvedPropertyNames)
         {
             // The instance of the command parameters object.
             // This is where we set the values
-            object commandParametersInstance = Activator.CreateInstance(commandParametersType);
+            object executionContext = Activator.CreateInstance(executionContextType);
 
             // Iterate over all properties of the command parameters type
-            foreach (var propInfo in commandParametersType.GetProperties())
+            foreach (var propInfo in executionContextType.GetProperties())
             {
                 // If a property is an OptionSet we must parse recursively
                 if (propInfo.GetFirst<OptionSetAttribute>() != null)
                 {
                     var o = resolvePropertyValue(propInfo.PropertyType, options, unresolvedPropertyNames);
-                    propInfo.SetValue(commandParametersInstance, o);
+                    propInfo.SetValue(executionContext, o);
                 }
                 else
                 {
@@ -126,7 +124,7 @@ namespace MSPro.CLArgs
                     // OptionDescriptorList that was used to ResolveOptions. 
                     // With AllowMultiple, options can be specified more than once 
                     var providedOptions = options.Where(o => string.Equals(o.Key, boundOptionName)).ToList();
-                    if (providedOptions.Count( o=> o.IsResolved) == 0) //|| !providedOptions.IsResolved)
+                    if (providedOptions.Count(o => o.IsResolved) == 0) //|| !providedOptions.IsResolved)
                     {
                         // Should not happen because ResolveOptions should have added
                         // and Option for each item in the OptionDescriptorList.
@@ -139,7 +137,7 @@ namespace MSPro.CLArgs
                     else if (!_settings.ValueConverters.CanConvert(targetType))
                     {
                         _errors.AddError(targetPropertyName,
-                                         $"No type converter found for type {targetType} of property {targetPropertyName} ");
+                            $"No type converter found for type {targetType} of property {targetPropertyName} ");
                     }
                     // When an option has the allow multiple specified, only the first value is assigned to the property
                     // and all others are added to the property whose name is specified as 'AllowMultiple'.
@@ -155,7 +153,7 @@ namespace MSPro.CLArgs
                             public List<string> ComponentIds;   // must implement IList
                          */
                         string collectionPropertyName = optionDescriptor.AllowMultiple;
-                        var collectionPropertyInfo = commandParametersType.GetProperty(collectionPropertyName);
+                        var collectionPropertyInfo = executionContextType.GetProperty(collectionPropertyName);
                         if (collectionPropertyInfo == null)
                         {
                             _errors.AddError(targetPropertyName,
@@ -174,18 +172,19 @@ namespace MSPro.CLArgs
 
                         // Create a new list instance and
                         // set it to the 'AllowMultiple' property (this does NOT add a list item!)
-                        var listInstance = (IList)Activator.CreateInstance(collectionPropertyInfo.PropertyType);
+                        var listInstance = (IList) Activator.CreateInstance(collectionPropertyInfo.PropertyType);
                         // add options to the list
-                        foreach (Option providedOption in providedOptions.Where( o=>o.IsResolved))
+                        foreach (Option providedOption in providedOptions.Where(o => o.IsResolved))
                         {
                             // In case of AllowMultipleSplit each option's value
                             // will be probably split into n values
                             // by using the AllowMultipleSplit token.
-                            List<string> allValues = new List<string>();
+                            List<string> allValues = new();
                             string providedOptionValue = providedOption.Value;
-                            if ( !string.IsNullOrWhiteSpace(optionDescriptor.AllowMultipleSplit ))
+                            if (!string.IsNullOrWhiteSpace(optionDescriptor.AllowMultipleSplit))
                             {
-                                allValues.AddRange( providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray()));
+                                allValues.AddRange(
+                                    providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray()));
                             }
                             else allValues.Add(providedOptionValue);
 
@@ -197,29 +196,31 @@ namespace MSPro.CLArgs
                                 listInstance.Add(currentPropertyValue);
                             }
                         }
-                        collectionPropertyInfo.SetValue(commandParametersInstance, listInstance);
+
+                        collectionPropertyInfo.SetValue(executionContext, listInstance);
                         // the first list item will also be set at the current properties value
                         // there should be at least one resolved option 
-                        propInfo.SetValue(commandParametersInstance, providedOptions[0].Value);
+                        propInfo.SetValue(executionContext, providedOptions[0].Value);
                     }
                     else // AllowMultiple = false 
                     if (providedOptions.Count > 1)
                     {
                         _errors.AddError(targetPropertyName,
                             $"'AllowMultiple' is not specified on property {targetPropertyName} however it was provided {providedOptions.Count} times.");
-                        continue;
                     }
                     else
                     {
                         // Convert the string from the command line into the correct type so that the value
                         // can be assigned to the property.
                         object propertyValue =
-                            _settings.ValueConverters.Convert(providedOptions[0].Value, boundOptionName, _errors, targetType);
-                        propInfo.SetValue(commandParametersInstance, propertyValue);
+                            _settings.ValueConverters.Convert(providedOptions[0].Value, boundOptionName, _errors,
+                                targetType);
+                        propInfo.SetValue(executionContext, propertyValue);
                     }
                 }
             }
-            return commandParametersInstance;
+
+            return executionContext;
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class ErrorDetailList
     {
-        public List<ErrorDetail> Details { get; } = new List<ErrorDetail>();
+        public List<ErrorDetail> Details { get; } = new();
 
         public bool HasErrors() => this.Details.Count > 0;
 
@@ -58,7 +58,7 @@ namespace MSPro.CLArgs
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder msg = new StringBuilder($"{this.Details.Count} ERROR(s) occured.\n");
+            StringBuilder msg = new($"{this.Details.Count} ERROR(s) occured.\n");
             foreach (var detail in this.Details)
             {
                 msg.AppendLine($"ERROR on {detail.AttributeName}");

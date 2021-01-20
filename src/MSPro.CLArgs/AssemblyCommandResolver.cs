@@ -9,7 +9,7 @@ namespace MSPro.CLArgs
 {
     public class AssemblyCommandResolver : ICommandResolver
     {
-        private readonly List<Assembly> _assemblies = new List<Assembly>();
+        private readonly List<Assembly> _assemblies = new();
 
 
 
@@ -29,7 +29,7 @@ namespace MSPro.CLArgs
 
         public List<CommandDescriptor> GetCommandDescriptors()
         {
-            Dictionary<string, CommandDescriptor> dictionary = new Dictionary<string, CommandDescriptor>();
+            Dictionary<string, CommandDescriptor> dictionary = new();
             foreach (Assembly assembly in _assemblies)
             {
                 GetTypesFromAssembly(assembly, dictionary);
