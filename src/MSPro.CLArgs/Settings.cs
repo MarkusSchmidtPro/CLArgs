@@ -105,19 +105,16 @@ namespace MSPro.CLArgs
 
             Console.WriteLine($"{new string('-', HELP_FULL_WIDTH)}");
             var command = commandDescriptor.CreateCommandInstance();
-            //int maxOptionNameLength = command.OptionDescriptors.Max(od => od.OptionName.Length);
             foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
             {
-                string tags = oda.Tags!= null?  $"Tags={string.Join(",", oda.Tags)}, ": string.Empty;
-                string required = oda.Required ? "required" : "optional" +", ";
-                string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $", Split='{oda.AllowMultipleSplit}'" : string.Empty;
-                Console.WriteLine(
-                    $"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}{tags}{required}" +
-                    $"AllowMultiple={oda.AllowMultiple != null}{split}");
-                if( oda.Default!= null) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}DEFAULT: '{oda.Default}'"); 
-
+                string tags = oda.Tags!= null?  $"Tags={string.Join(",", oda.Tags)} ": string.Empty;
+                string required = oda.Required ? "required" : "optional" +" ";
+                string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $" Split='{oda.AllowMultipleSplit}'" : string.Empty;
+                string allowMultiple = !string.IsNullOrWhiteSpace(oda.AllowMultiple) ? $"AllowMultiple={oda.AllowMultiple != null}{split}" : string.Empty;
+                Console.WriteLine($"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}{tags}{required}{allowMultiple}");
                 var wrapped = Helper.Wrap(oda.HelpText, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
                 foreach (string line in wrapped.AllLines) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{line}");
+                if( oda.Default!= null) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}DEFAULT: '{oda.Default}'"); 
                 Console.WriteLine();
             }
         };

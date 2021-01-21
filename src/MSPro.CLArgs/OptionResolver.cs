@@ -64,7 +64,7 @@ namespace MSPro.CLArgs
                 // Find an OptionDescriptor by searching in all Tags and in the Options name
                 var optionDescriptor = _descriptors.FirstOrDefault(
                     desc =>
-                        desc.Tags.Any(t => string.Equals(t, option.Key, stringComparison))
+                        desc.Tags!= null && desc.Tags.Any(t => string.Equals(t, option.Key, stringComparison))
                         || string.Equals(desc.OptionName, option.Key));
 
                 if (optionDescriptor != null)
