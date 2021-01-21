@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 
@@ -21,9 +22,9 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Get or set a list of characters that mark the end of an option's name.
         /// </summary>
-        public char[] OptionValueTags = {' ', ':', '='};
+        public char[] OptionValueTags = { ' ', ':', '=' };
 
-        public ValueConverters ValueConverters { get; } = new ();
+        public ValueConverters ValueConverters { get; } = new();
 
         public bool IgnoreCase { get; set; }
 
@@ -59,44 +60,65 @@ namespace MSPro.CLArgs
         ///     A command-line argument that starts with any of these character
         ///     is considered to be an <c>Option</c>.
         /// </remarks>
-        public char[] OptionsTags { get; set; } = {'-', '/'};
+        public char[] OptionsTags { get; set; } = { '-', '/' };
 
 
+        const int HELP_ALIGN_COLUMN = 25;
+        const int HELP_FULL_WIDTH = 100;
+
+        /// <summary>
+        ///     Display a help text for all commands.
+        /// </summary>
+        /// <remarks>
+        ///     This method is called when you application is called without any parameter.
+        /// </remarks>
         public DisplayAllCommandsDescription DisplayAllCommandsDescription { get; set; } = commandDescriptors =>
-            // Default Implementation
+        // Default Implementation
         {
             Console.WriteLine($"{commandDescriptors.Count} Commands available.");
             foreach (CommandDescriptor commandDescriptor in commandDescriptors)
             {
-                Console.WriteLine($"{commandDescriptor.Verb}\t\t{commandDescriptor?.Description}");
+                Console.WriteLine("");
+                var wrapped = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH);
+                Console.WriteLine($"{commandDescriptor.Verb.Replace('.', ' '),-HELP_ALIGN_COLUMN}{wrapped.AllLines[0]}");
+                for (int lineNo = 1; lineNo < wrapped.AllLines.Length; lineNo++)
+                    Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{wrapped.AllLines[lineNo]}");
             }
         };
 
+
+        /// <summary>
+        ///     Display a formatted help text for a single Command.
+        /// </summary>
+        /// <remarks>
+        ///     This method is called when a VERB was specified and help for this particular verb should be printed.<br />
+        ///     The <see cref="CommandDescriptor">Command's descriptor</see> is passed to the method (the Command is specified by
+        ///     the Verb).
+        /// </remarks>
         public DisplayCommandHelp DisplayCommandHelp { get; set; } = commandDescriptor =>
         {
-            const int ALIGN_COLUMN = 16;
-
-            string alignSpaces = new(' ', ALIGN_COLUMN);
-
             Console.WriteLine();
-            Console.WriteLine(commandDescriptor.Verb);
-            if (!string.IsNullOrEmpty(commandDescriptor.Description))
-            {
-                string formattedDescription = commandDescriptor.Description.Replace("\n", "\n  ");
-                Console.WriteLine($"  {formattedDescription}");
-            }
 
-            Console.WriteLine("----------------------------------------------");
+            var wrappedDesc = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH-HELP_ALIGN_COLUMN);
+            Console.WriteLine($"{commandDescriptor.Verb.Replace('.', ' '),-HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[0]}");
+            for (int lineNo = 1; lineNo < wrappedDesc.AllLines.Length; lineNo++)
+                Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[lineNo]}");
+
+            Console.WriteLine($"{new string( '-', HELP_FULL_WIDTH)}");
             var command = commandDescriptor.CreateCommandInstance();
+            //int maxOptionNameLength = command.OptionDescriptors.Max(od => od.OptionName.Length);
             foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
             {
                 string tags = string.Join(",", oda.Tags);
+                string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $", Split={oda.AllowMultipleSplit}" : string.Empty;
                 Console.WriteLine(
-                    $"\t{oda.OptionName,-ALIGN_COLUMN}Tags={tags}, Required={oda.Required}, Default={oda.Default ?? "null"}");
+                    $"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}Tags={tags}, Required={oda.Required}, Default={oda.Default ?? "null"}, AllowMultiple={oda.AllowMultiple != null}{split}");
+
+                // Help Text is displayed on column ALIGN_COLUMN
                 if (!string.IsNullOrEmpty(oda.HelpText))
                 {
-                    string formattedDescription1 = oda.HelpText.Replace("\n", $"\n\t{alignSpaces}");
-                    Console.WriteLine($"\t{alignSpaces}{formattedDescription1}");
+                    var wrapped = Helper.Wrap(oda.HelpText, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
+                    foreach (string line in wrapped.AllLines) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{line}");
                 }
 
                 Console.WriteLine();
