@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 
@@ -99,28 +98,26 @@ namespace MSPro.CLArgs
         {
             Console.WriteLine();
 
-            var wrappedDesc = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH-HELP_ALIGN_COLUMN);
+            var wrappedDesc = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
             Console.WriteLine($"{commandDescriptor.Verb.Replace('.', ' '),-HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[0]}");
             for (int lineNo = 1; lineNo < wrappedDesc.AllLines.Length; lineNo++)
                 Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[lineNo]}");
 
-            Console.WriteLine($"{new string( '-', HELP_FULL_WIDTH)}");
+            Console.WriteLine($"{new string('-', HELP_FULL_WIDTH)}");
             var command = commandDescriptor.CreateCommandInstance();
             //int maxOptionNameLength = command.OptionDescriptors.Max(od => od.OptionName.Length);
             foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
             {
-                string tags = string.Join(",", oda.Tags);
-                string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $", Split={oda.AllowMultipleSplit}" : string.Empty;
+                string tags = oda.Tags!= null?  $"Tags={string.Join(",", oda.Tags)}, ": string.Empty;
+                string required = oda.Required ? "required" : "optional" +", ";
+                string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $", Split='{oda.AllowMultipleSplit}'" : string.Empty;
                 Console.WriteLine(
-                    $"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}Tags={tags}, Required={oda.Required}, Default={oda.Default ?? "null"}, AllowMultiple={oda.AllowMultiple != null}{split}");
+                    $"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}{tags}{required}" +
+                    $"AllowMultiple={oda.AllowMultiple != null}{split}");
+                if( oda.Default!= null) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}DEFAULT: '{oda.Default}'"); 
 
-                // Help Text is displayed on column ALIGN_COLUMN
-                if (!string.IsNullOrEmpty(oda.HelpText))
-                {
-                    var wrapped = Helper.Wrap(oda.HelpText, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
-                    foreach (string line in wrapped.AllLines) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{line}");
-                }
-
+                var wrapped = Helper.Wrap(oda.HelpText, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
+                foreach (string line in wrapped.AllLines) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{line}");
                 Console.WriteLine();
             }
         };

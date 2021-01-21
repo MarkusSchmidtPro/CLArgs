@@ -27,7 +27,7 @@ namespace MSPro.CLArgs
             bool required = false,
             object defaultValue = null,
             string helpText = null)
-            : this(optionName, new[] {tag ?? optionName}, required, defaultValue, helpText)
+            : this(optionName, tag!=null ? new [] {tag} : null, required, defaultValue, helpText)
         {
         }
 
