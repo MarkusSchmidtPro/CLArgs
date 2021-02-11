@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
-    internal class Helper
+    class Helper
     {
+        /// <summary>
+        /// Wrap a given text (insert meaningful line breaks) as a specified column.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="atColumn"></param>
+        /// <returns></returns>
         public static WrappedText Wrap(string text, int atColumn = 60)
         {
             if (string.IsNullOrWhiteSpace(text)) return new WrappedText();
@@ -26,7 +32,7 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
-        ///     Warps long line by using sb.AppendLine for each new line.
+        ///     Wraps long line by using sb.AppendLine for each new line.
         /// </summary>
         private static string insertLineBreaks(string line, int lineBreakColumn)
         {

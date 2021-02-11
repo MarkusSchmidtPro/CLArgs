@@ -17,46 +17,45 @@ namespace MSPro.CLArgs
     public abstract class CommandBase<TContext> : ICommand where TContext : class, new()
     {
         /// <summary>
-        /// The settings instance as provided by Console.Main().
+        ///     The settings instance as provided by Console.Main().
         /// </summary>
-        protected Settings Settings{ get; private set; }
+        protected Settings Settings { get; private set; }
 
         /// <summary>
-        /// Get the execution context as it is provided to the Execute method.
+        ///     Get the execution context as it is provided to the Execute method.
         /// </summary>
         protected TContext ExecutionContext { get; private set; }
 
         /// <summary>
-        /// Execute the command.
+        ///     Execute the command.
         /// </summary>
         /// <param name="commandLineArguments"></param>
         /// <param name="settings"></param>
         public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
         {
-            Settings ??= new Settings();
+            this.Settings ??= new Settings();
             BeforeArgumentConversion(commandLineArguments);
-            ArgumentConverter<TContext> c = new(Settings);
+            ArgumentConverter<TContext> c = new(this.Settings);
 
             // Convert command-line arguments and create the execution context
-            var errors = c.TryConvert(commandLineArguments,
-                                      OptionDescriptors,
-                                      out var executionContext,
-                                      out var unresolvedPropertyNames);
+            var errors = c.TryConvert(commandLineArguments, this.OptionDescriptors,
+                out var executionContext,
+                out var unresolvedPropertyNames);
 
-            ExecutionContext = executionContext;
+            this.ExecutionContext = executionContext;
 
             if (!errors.HasErrors())
             {
-                BeforeExecute(ExecutionContext, unresolvedPropertyNames, errors);
+                BeforeExecute(this.ExecutionContext, unresolvedPropertyNames, errors);
                 if (!errors.HasErrors())
                 {
                     try
                     {
-                        Execute(ExecutionContext);
+                        Execute(this.ExecutionContext);
                     }
                     catch (Exception exception)
                     {
-                        errors.AddError( "CommandExecution",  exception.Message);
+                        errors.AddError("CommandExecution", exception.Message);
                     }
                 }
             }
@@ -84,10 +83,9 @@ namespace MSPro.CLArgs
         ///     Override this method to add your custom Argument to Property
         ///     <see cref="ValueConverters">TypeConverters</see>.<br />
         /// </remarks>
-        protected virtual void BeforeArgumentConversion( [NotNull] CommandLineArguments commandLineArguments )
+        protected virtual void BeforeArgumentConversion([NotNull] CommandLineArguments commandLineArguments)
         {
         }
-
 
 
         /// <summary>
@@ -104,9 +102,12 @@ namespace MSPro.CLArgs
         ///     The parameter object (target instance) that will be used to execute the Command.
         /// </param>
         /// <param name="unresolvedPropertyNames">
-        ///     A <see cref="HashSet{T}" /> containing those parameter properties that haven't yet got a value: neither by assigning a
-        ///     command-line option nor was there a default value defined in the properties
-        ///     <see cref="OptionDescriptorAttribute" />.
+        ///     A <see cref="HashSet{T}" /> containing the names of those properties in the CommandContext
+        ///     which haven't got a value, neither by assigning a command-line option
+        ///     nor by a default value defined in the <c>CommandContext</c>.
+        ///     Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br/>
+        ///     If you want to check for unresolved properties is is best practice to use <c>nameof()</c>
+        ///     instead fo plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
         /// </param>
         /// <param name="errors">
         ///     The error object. In case of any error, use <see cref="ErrorDetailList.AddError(string,string)" />
@@ -121,9 +122,7 @@ namespace MSPro.CLArgs
         }
 
 
-
         protected abstract void Execute(TContext ps);
-
 
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace MSPro.CLArgs
         {
             if (handled) return;
             throw new AggregateException(errors.Details.Select(
-                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
         }
     }
 }

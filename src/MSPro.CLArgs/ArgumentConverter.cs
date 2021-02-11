@@ -157,56 +157,68 @@ namespace MSPro.CLArgs
                         if (collectionPropertyInfo == null)
                         {
                             _errors.AddError(targetPropertyName,
-                                $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
+                                $"The property {collectionPropertyInfo.Name} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
                             continue;
                         }
 
                         // The collection property name must implement IList
-                        if (!typeof(IList).IsAssignableFrom(collectionPropertyInfo.PropertyType))
+                        if (!typeof(IList<string>).IsAssignableFrom(collectionPropertyInfo.PropertyType))
                         {
                             _errors.AddError(targetPropertyName,
-                                $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} is not of type IList");
+                                $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} is not of type IList<string>");
                             continue;
                         }
 
+                        if (collectionPropertyInfo.SetMethod == null)
+                        {
+                            _errors.AddError(collectionPropertyInfo.Name,
+                                $"There is no public setter on property {collectionPropertyInfo.Name}.");
+                            continue;
 
-                        // Create a new list instance and
-                        // set it to the 'AllowMultiple' property (this does NOT add a list item!)
-                        var listInstance = (IList) Activator.CreateInstance(collectionPropertyInfo.PropertyType);
+                        }
+
                         // add options to the list
                         foreach (Option providedOption in providedOptions.Where(o => o.IsResolved))
                         {
                             // In case of AllowMultipleSplit each option's value
                             // will be probably split into n values
                             // by using the AllowMultipleSplit token.
-                            List<string> allValues = new();
+                            
+                            IList contextList = (IList) collectionPropertyInfo.GetValue(executionContext);
+                            if (contextList == null)
+                            {
+                                _errors.AddError(collectionPropertyInfo.Name,
+                                    $"The List property {collectionPropertyInfo.Name} must not be null. Use: public List<T> {collectionPropertyInfo.Name} {{ get; set; }} =new();" );
+                                continue;
+                            }
+
                             string providedOptionValue = providedOption.Value;
                             if (!string.IsNullOrWhiteSpace(optionDescriptor.AllowMultipleSplit))
                             {
-                                allValues.AddRange(
-                                    providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray()));
+                                var providedValuesString= providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray());
+                                foreach (var valueString in providedValuesString)
+                                    contextList.Add(
+                                        _settings.ValueConverters.Convert(valueString, boundOptionName, _errors,
+                                            targetType));
                             }
-                            else allValues.Add(providedOptionValue);
-
-                            foreach (string value in allValues)
-                            {
-                                object currentPropertyValue =
-                                    _settings.ValueConverters.Convert(value, boundOptionName, _errors,
-                                        targetType);
-                                listInstance.Add(currentPropertyValue);
-                            }
+                            else contextList.Add(providedOptionValue);
                         }
 
-                        collectionPropertyInfo.SetValue(executionContext, listInstance);
                         // the first list item will also be set at the current properties value
                         // there should be at least one resolved option 
                         propInfo.SetValue(executionContext, providedOptions[0].Value);
+
                     }
                     else // AllowMultiple = false 
                     if (providedOptions.Count > 1)
                     {
                         _errors.AddError(targetPropertyName,
                             $"'AllowMultiple' is not specified on property {targetPropertyName} however it was provided {providedOptions.Count} times.");
+                    }
+                    else if (propInfo.SetMethod == null)
+                    {
+                        _errors.AddError(propInfo.Name,
+                            $"There is no public setter on property {propInfo.Name}.");
                     }
                     else
                     {
