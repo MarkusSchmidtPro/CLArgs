@@ -107,7 +107,7 @@ namespace MSPro.CLArgs
         ///     nor by a default value defined in the <c>CommandContext</c>.
         ///     Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br/>
         ///     If you want to check for unresolved properties is is best practice to use <c>nameof()</c>
-        ///     instead fo plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
+        ///     instead of plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
         /// </param>
         /// <param name="errors">
         ///     The error object. In case of any error, use <see cref="ErrorDetailList.AddError(string,string)" />

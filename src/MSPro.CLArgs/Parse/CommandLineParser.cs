@@ -107,6 +107,7 @@ namespace MSPro.CLArgs
 
         private void readFromFile(CommandLineArguments commandLineArguments)
         {
+            _currentPos++;
             string fileName = getFileName();
             var args = getArgsFromFile(fileName);
             CommandLineParser sp = new(_optionsTags, _optionValueTags);
