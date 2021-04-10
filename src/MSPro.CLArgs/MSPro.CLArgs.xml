@@ -9,7 +9,7 @@
                 Turns Arguments into a parameter object of a specified type..
             </summary>
         </member>
-        <member name="F:MSPro.CLArgs.ArgumentConverter`1._resolvedOptions">
+        <member name="F:MSPro.CLArgs.ArgumentConverter`1._allOptions">
             <summary>
                 Get a list of Options unique by their name.
             </summary>
@@ -24,7 +24,7 @@
                 Resolves a single property's value. If property is an annotated class it will
                 recursively resolve all properties of this class.
             </summary>
-            <param name="instanceType"></param>
+            <param name="executionContextType"></param>
             <param name="options"></param>
             <param name="unresolvedPropertyNames"></param>
         </member>
@@ -118,20 +118,34 @@
             <summary>
                 Provides a convenient way to use command-line for most applications.
             </summary>
-            <typeparam name="TCommandParameters">
+            <typeparam name="TContext">
                 The type of the parameter object that is passed to the command.
             </typeparam>
         </member>
-        <member name="M:MSPro.CLArgs.CommandBase`1.BeforeArgumentConversion(MSPro.CLArgs.CommandLineArguments,MSPro.CLArgs.Settings)">
+        <member name="P:MSPro.CLArgs.CommandBase`1.Settings">
+            <summary>
+                The settings instance as provided by Console.Main().
+            </summary>
+        </member>
+        <member name="P:MSPro.CLArgs.CommandBase`1.ExecutionContext">
+            <summary>
+                Get the execution context as it is provided to the Execute method.
+            </summary>
+        </member>
+        <member name="M:MSPro.CLArgs.CommandBase`1.Execute(MSPro.CLArgs.CommandLineArguments,MSPro.CLArgs.Settings)">
+            <summary>
+                Execute the command.
+            </summary>
+            <param name="commandLineArguments"></param>
+            <param name="settings"></param>
+        </member>
+        <member name="M:MSPro.CLArgs.CommandBase`1.BeforeArgumentConversion(MSPro.CLArgs.CommandLineArguments)">
             <summary>
             </summary>
             <remarks>
                 This method is called before any Argument conversion takes place.
                 Override this method to add your custom Argument to Property
-                <see cref="P:MSPro.CLArgs.Settings.ValueConverters">TypeConverters</see>.<br />
-                You may also use this method to
-                <see cref="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)">add missing options</see>
-                to your arguments.
+                <see cref="T:MSPro.CLArgs.ValueConverters">TypeConverters</see>.<br />
             </remarks>
         </member>
         <member name="M:MSPro.CLArgs.CommandBase`1.BeforeExecute(`0,System.Collections.Generic.HashSet{System.String},MSPro.CLArgs.ErrorDetailList)">
@@ -139,7 +153,7 @@
                 Make sure everything is set-up and ready to execute the command.
             </summary>
             <remarks>
-                Use this method to validate <see cref="!:parameters" />,
+                Use this method to validate <see paramref="parameters" />,
                 to provide provide dynamic defaults and/or to resolve parameter.<br />
                 The method s called immediately before the Command <see cref="M:MSPro.CLArgs.CommandBase`1.Execute(`0)" /> method is called.
                 In case, <paramref name="errors" /> contains any value, <see cref="M:MSPro.CLArgs.CommandBase`1.OnError(MSPro.CLArgs.ErrorDetailList,System.Boolean)" /> is called instead of
@@ -149,9 +163,12 @@
                 The parameter object (target instance) that will be used to execute the Command.
             </param>
             <param name="unresolvedPropertyNames">
-                A <see cref="T:System.Collections.Generic.HashSet`1" /> containing those parameter properties that haven't yet got a value: neither by assigning a
-                command-line option nor was there a default value defined in the properties
-                <see cref="T:MSPro.CLArgs.OptionDescriptorAttribute" />.
+                A <see cref="T:System.Collections.Generic.HashSet`1" /> containing the names of those properties in the CommandContext
+                which haven't got a value, neither by assigning a command-line option
+                nor by a default value defined in the <c>CommandContext</c>.
+                Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br/>
+                If you want to check for unresolved properties is is best practice to use <c>nameof()</c>
+                instead of plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
             </param>
             <param name="errors">
                 The error object. In case of any error, use <see cref="M:MSPro.CLArgs.ErrorDetailList.AddError(System.String,System.String)" />
@@ -167,28 +184,37 @@
                     <see cref="T:System.AggregateException" /> in case of any error. You can avoid this by overriding this method.
                 </remarks>
             </summary>
-            <param name="errors">The errors that have occured.</param>
+            <param name="errors">The errors that have occurred.</param>
             <param name="handled">If <c>true</c> the method does nothing anymore, because it expects the errors have been handled.</param>
             <exception cref="T:System.AggregateException">Always</exception>
-        </member>
-        <member name="M:MSPro.CLArgs.ExtensionMethods.RunIf(MSPro.CLArgs.Settings,System.Diagnostics.TraceLevel,System.Action)">
-            <summary>
-            Run the code block enclosed in <c>action</c> if trace level allows.
-            </summary>
-            <param name="settings"></param>
-            <param name="level"></param>
-            <param name="action"></param>
-        </member>
-        <member name="T:MSPro.CLArgs.OptionAttribute">
-            <summary>
-            CommandLine compatibility.
-            </summary>
         </member>
         <member name="M:MSPro.CLArgs.ErrorDetailList.ToString">
             <summary>
                 Easy way to get one complete message for all errors
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:MSPro.CLArgs.Helper.Wrap(System.String,System.Int32)">
+            <summary>
+            Wrap a given text (insert meaningful line breaks) as a specified column.
+            </summary>
+            <param name="text"></param>
+            <param name="atColumn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MSPro.CLArgs.Helper.insertLineBreaks(System.String,System.Int32)">
+            <summary>
+                Wraps long line by using sb.AppendLine for each new line.
+            </summary>
+        </member>
+        <member name="M:MSPro.CLArgs.IConfigFileResolver.ResolvePath(System.String)">
+            <summary>
+            Resolve a relative configuration file name to a full path.
+            </summary>
+            <remarks>
+            Resolution looks in the preferred directory first. If the file exists there, the
+            full path is returned. Otherwise the full path is build based on the entry Assembly's path.<br/>
+            You can use %AppData% and other environment variables.</remarks>
         </member>
         <member name="T:MSPro.CLArgs.Option">
             <summary>
@@ -241,9 +267,9 @@
             <param name="errors"></param>
             <param name="ignoreCase">If <c>true</c> cases will be ignored when parsing tags.</param>
             <param name="ignoreUnknownTags">
-                If <c>true</c> unknown tags provided in the command-line will be ignored.<br/>
+                If <c>true</c> unknown tags provided in the command-line will be ignored.<br />
                 If set to <c>false</c> options provided in the command-line where there is no matching OptionDescriptor
-                will be recognized as 'too much' (not known). If there is any, <see cref="!:errors"/> will contain
+                will be recognized as 'too much' (not known). If there is any, <paramref name="errors" /> will contain
                 the corresponding messages.
             </param>
             <returns>A unique (by name) list of Options.</returns>
@@ -288,14 +314,14 @@
                 A key-value list of all options provided in the command-line.
             </summary>
             <remarks>
-                All option values are <c>strings</c> int he first instance.
+                All option values are <c>strings</c> in the first instance.
                 Conversion may happen later.
             </remarks>
         </member>
-        <member name="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)">
-            <inheritdoc cref="M:MSPro.CLArgs.CommandLineArguments.SetOption(MSPro.CLArgs.Option)" />
+        <member name="M:MSPro.CLArgs.CommandLineArguments.AddOption(MSPro.CLArgs.Option)">
+            <inheritdoc cref="M:MSPro.CLArgs.CommandLineArguments.AddOption(MSPro.CLArgs.Option)" />
         </member>
-        <member name="M:MSPro.CLArgs.CommandLineArguments.SetOption(System.String,System.String)">
+        <member name="M:MSPro.CLArgs.CommandLineArguments.AddOption(System.String,System.String)">
             <summary>
                 Manually add or update an option.
             </summary>
@@ -347,7 +373,7 @@
         </member>
         <member name="P:MSPro.CLArgs.Settings.AutoResolveCommands">
             <summary>
-                 Automatically resolve commands using <see cref="P:MSPro.CLArgs.Settings.CommandResolver" />
+                Automatically resolve commands using <see cref="P:MSPro.CLArgs.Settings.CommandResolver" />
             </summary>
         </member>
         <member name="P:MSPro.CLArgs.Settings.CommandResolver">
@@ -355,9 +381,9 @@
                 Get or set an object to resolve all known commands (and verbs).
             </summary>
             <remarks>
-            The default resolver is
-               <see cref="T:MSPro.CLArgs.AssemblyCommandResolver"/>(<b>Assembly.GetEntryAssembly()</b>),
-            to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
+                The default resolver is
+                <see cref="T:MSPro.CLArgs.AssemblyCommandResolver" />(<b>Assembly.GetEntryAssembly()</b>),
+                to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
             </remarks>
         </member>
         <member name="P:MSPro.CLArgs.Settings.OptionsTags">
@@ -367,6 +393,24 @@
             <remarks>
                 A command-line argument that starts with any of these character
                 is considered to be an <c>Option</c>.
+            </remarks>
+        </member>
+        <member name="P:MSPro.CLArgs.Settings.DisplayAllCommandsDescription">
+            <summary>
+                Display a help text for all commands.
+            </summary>
+            <remarks>
+                This method is called when you application is called without any parameter.
+            </remarks>
+        </member>
+        <member name="P:MSPro.CLArgs.Settings.DisplayCommandHelp">
+            <summary>
+                Display a formatted help text for a single Command.
+            </summary>
+            <remarks>
+                This method is called when a VERB was specified and help for this particular verb should be printed.<br />
+                The <see cref="T:MSPro.CLArgs.CommandDescriptor">Command's descriptor</see> is passed to the method (the Command is specified by
+                the Verb).
             </remarks>
         </member>
         <member name="T:MSPro.CLArgs.ValueConverters.FromStringDelegate">
