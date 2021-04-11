@@ -75,14 +75,14 @@ namespace MSPro.CLArgs
             while (_currentPos < _argumentsString.Length)
             {
                 char c = _argumentsString[_currentPos];
-                if (c == ' ')
-                {
-                    _currentPos++;
-                }
-                else if (_optionsTags.Any(tag => c == tag))
+                if (_optionsTags.Any(tag => c == tag))
                 {
                     optionRead = true;
                     commandLineArguments.AddOption(getOption());
+                }
+                else if (c == ' ')
+                {
+                    _currentPos++;
                 }
                 else if (c == '@')
                 {
@@ -141,6 +141,10 @@ namespace MSPro.CLArgs
             // Name starts at first char that is not an optionsNameIdent
             skipChars(_optionsTags);
             Option optionTag = new(readUntil(_optionValueTags));
+
+            // 2021-04-11: getValue
+            skipChars(_optionValueTags);
+            // Value starts, if not the next option already
             if (_argumentsString.Length > _currentPos && _argumentsString[_currentPos] != ' ')
             {
                 // an option value was provided
@@ -163,20 +167,11 @@ namespace MSPro.CLArgs
 
 
 
-        private string readAll(char[] validChars)
-        {
-            int startPos = _currentPos;
-            while (_currentPos < _argumentsString.Length
-                   && validChars.Contains(_argumentsString[_currentPos])) _currentPos++;
-            return _argumentsString.Substring(startPos, _currentPos - startPos);
-        }
 
-
-
-        private void skipChars(char[] skipChars)
+        private void skipChars(char[] ignoreChars)
         {
             while (_currentPos < _argumentsString.Length
-                   && skipChars.Any(sc => sc == _argumentsString[_currentPos]))
+                   && ignoreChars.Any(sc => sc == _argumentsString[_currentPos]))
                 _currentPos++;
         }
 
