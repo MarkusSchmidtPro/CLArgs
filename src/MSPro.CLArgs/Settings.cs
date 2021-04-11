@@ -30,7 +30,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Get or set a list of characters that mark the end of an option's name.
         /// </summary>
-        public char[] OptionValueTags = { ' ', ':', '=' };
+        public char[] OptionValueTags { get; set; } = { 'x', ':', '=' };
 
         public ValueConverters ValueConverters { get; } = new();
 

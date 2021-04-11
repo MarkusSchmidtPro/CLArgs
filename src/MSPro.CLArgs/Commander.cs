@@ -172,7 +172,7 @@ namespace MSPro.CLArgs
         ///     </code>
         /// </example>
         public static void ExecuteCommand(string[] args, Settings settings = null) =>
-            new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args));
+            new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args, settings));
 
 
 
