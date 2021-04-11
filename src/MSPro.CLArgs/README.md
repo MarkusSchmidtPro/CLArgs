@@ -7,9 +7,21 @@ I have started and migrated some old project, called *CleanFolders* to use `CLAr
 While migrating this project, I recognized some limitations, which I have fixed immediately:
 
 * *Targets* can now be used in a `CommandContext`.
+  
+  ```csharp
+  class CommandContext
+  {
+  	[Targets]
+      public List<string> Directories { get; set; } = new();
+      ...
+  }
+  ```
+  
   (See again the *CleanSolution* example for using *Targets*)
+  
 * BETA Support for `OptionTagValue` '  ' to allow blanks as option / value separator, like `/p "Parameter value" /x 5` instead of `/p:"Parameter value" /x:5`.
   Basically, this works; BETA because I haven't extensively tested all scenarios.
+  
 * Improved `Settings` to support help-text output for different consoles: `HelpAlignColumn` and `HelpFullWidth` properties.
 
 ## 2021-04-09

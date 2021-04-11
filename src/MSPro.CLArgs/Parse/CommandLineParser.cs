@@ -146,7 +146,6 @@ namespace MSPro.CLArgs
             if (_argumentsString.Length > _currentPos && _argumentsString[_currentPos] != ' ')
             {
                 // an option value was provided
-                _currentPos++; // skip found char (breaker: between name and value)
                 optionTag.Value = readString();
             }
             else optionTag.Value = true.ToString();
