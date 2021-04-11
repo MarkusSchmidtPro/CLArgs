@@ -164,7 +164,10 @@ namespace MSPro.CLArgs
 
 
 
-        private bool isOptionNameChar(char c) => char.IsLetterOrDigit(c) || c=='-' || c=='_';
+        bool isOptionNameChar(char c) => 
+            (char.IsLetterOrDigit(c) || c=='_')
+            && !_optionValueTags.Contains(c) 
+            && !_optionsTags.Contains(c);
 
 
 
