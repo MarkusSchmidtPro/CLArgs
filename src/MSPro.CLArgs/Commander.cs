@@ -147,7 +147,7 @@ namespace MSPro.CLArgs
 
             if (!commandLineArguments.Options.Any() && !commandLineArguments.Verbs.Any())
             {
-                    _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
+                _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace MSPro.CLArgs
                 {
                     _settings?.DisplayCommandHelp(commandDescriptor);
                 }
-                else{ commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings);}
+                else { commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings); }
             }
         }
 

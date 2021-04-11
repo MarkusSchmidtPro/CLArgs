@@ -18,6 +18,15 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class Settings
     {
+        public Settings()
+        {
+            this.HelpAlignColumn = 20;
+            this.HelpFullWidth = 80;
+            this.DisplayAllCommandsDescription = displayAllCommandsDescription;
+            this.DisplayCommandHelp = displayCommandHelp;
+        }
+
+
         /// <summary>
         ///     Get or set a list of characters that mark the end of an option's name.
         /// </summary>
@@ -62,28 +71,46 @@ namespace MSPro.CLArgs
         public char[] OptionsTags { get; set; } = { '-', '/' };
 
 
-        const int HELP_ALIGN_COLUMN = 25;
-        const int HELP_FULL_WIDTH = 100;
+        /// <summary>
+        /// The width that is used to print a help text before a line break is inserted.
+        /// </summary>
+        public int HelpFullWidth { get; set; }
+
+        /// <summary>
+        /// First column where help text starts.
+        /// </summary>
+        public int HelpAlignColumn { get; set; }
 
         /// <summary>
         ///     Display a help text for all commands.
         /// </summary>
         /// <remarks>
-        ///     This method is called when you application is called without any parameter.
+        ///     This method is called when you application is called without any parameter
+        ///     to display the help text for all commands. You may provide your own method
+        ///     to override the default implementation;
         /// </remarks>
-        public DisplayAllCommandsDescription DisplayAllCommandsDescription { get; set; } = commandDescriptors =>
-        // Default Implementation
+        public DisplayAllCommandsDescription DisplayAllCommandsDescription { get; set; }
+
+
+
+        private void displayAllCommandsDescription(List<CommandDescriptor> commandDescriptors)
         {
+            string insert = new(' ', HelpAlignColumn);
+
             Console.WriteLine($"{commandDescriptors.Count} Commands available.");
             foreach (CommandDescriptor commandDescriptor in commandDescriptors)
             {
                 Console.WriteLine("");
-                var wrapped = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH);
-                Console.WriteLine($"{commandDescriptor.Verb.Replace('.', ' '),-HELP_ALIGN_COLUMN}{wrapped.AllLines[0]}");
+                var wrapped = Helper.Wrap(commandDescriptor.Description, HelpFullWidth);
+                string verbs = commandDescriptor.Verb.Replace('.', ' ');
+                Console.WriteLine($"{verbs.PadRight(HelpAlignColumn)}{wrapped.AllLines[0]}");
                 for (int lineNo = 1; lineNo < wrapped.AllLines.Length; lineNo++)
-                    Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{wrapped.AllLines[lineNo]}");
+                {
+                    Console.WriteLine(insert + wrapped.AllLines[lineNo]);
+                }
             }
-        };
+        }
+
 
 
         /// <summary>
@@ -94,29 +121,35 @@ namespace MSPro.CLArgs
         ///     The <see cref="CommandDescriptor">Command's descriptor</see> is passed to the method (the Command is specified by
         ///     the Verb).
         /// </remarks>
-        public DisplayCommandHelp DisplayCommandHelp { get; set; } = commandDescriptor =>
+        public DisplayCommandHelp DisplayCommandHelp { get; set; }
+
+
+
+        private void displayCommandHelp(CommandDescriptor commandDescriptor)
         {
+            string insert = new(' ', HelpAlignColumn);
+
             Console.WriteLine();
 
-            var wrappedDesc = Helper.Wrap(commandDescriptor.Description, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
-            Console.WriteLine($"{commandDescriptor.Verb.Replace('.', ' '),-HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[0]}");
-            for (int lineNo = 1; lineNo < wrappedDesc.AllLines.Length; lineNo++)
-                Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{wrappedDesc.AllLines[lineNo]}");
+            var wrappedDesc = Helper.Wrap(commandDescriptor.Description, HelpFullWidth - HelpAlignColumn);
+            string verbs = commandDescriptor.Verb.Replace('.', ' ');
+            Console.WriteLine($"{verbs.PadRight(HelpAlignColumn)}{wrappedDesc.AllLines[0]}");
+            for (int lineNo = 1; lineNo < wrappedDesc.AllLines.Length; lineNo++) Console.WriteLine(insert + wrappedDesc.AllLines[lineNo]);
 
-            Console.WriteLine($"{new string('-', HELP_FULL_WIDTH)}");
+            Console.WriteLine($"{new string('-', HelpFullWidth)}");
             var command = commandDescriptor.CreateCommandInstance();
             foreach (OptionDescriptorAttribute oda in command.OptionDescriptors)
             {
-                string tags = oda.Tags!= null?  $"Tags={string.Join(",", oda.Tags)} ": string.Empty;
-                string required = oda.Required ? "required" : "optional" +" ";
+                string tags = oda.Tags != null ? $"Tags={string.Join(",", oda.Tags)} " : string.Empty;
+                string required = oda.Required ? "required" : "optional" + " ";
                 string split = !string.IsNullOrWhiteSpace(oda.AllowMultipleSplit) ? $" Split='{oda.AllowMultipleSplit}'" : string.Empty;
                 string allowMultiple = !string.IsNullOrWhiteSpace(oda.AllowMultiple) ? $"AllowMultiple={oda.AllowMultiple != null}{split}" : string.Empty;
-                Console.WriteLine($"/{oda.OptionName,-HELP_ALIGN_COLUMN + 1}{tags}{required}{allowMultiple}");
-                var wrapped = Helper.Wrap(oda.HelpText, HELP_FULL_WIDTH - HELP_ALIGN_COLUMN);
-                foreach (string line in wrapped.AllLines) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}{line}");
-                if( oda.Default!= null) Console.WriteLine($"{" ",HELP_ALIGN_COLUMN}DEFAULT: '{oda.Default}'"); 
+                Console.WriteLine($"/{oda.OptionName.PadRight(HelpAlignColumn - 1)}{tags}{required}{allowMultiple}");
+                var wrapped = Helper.Wrap(oda.HelpText, HelpFullWidth - HelpAlignColumn);
+                foreach (string line in wrapped.AllLines) Console.WriteLine(insert + line);
+                if (oda.Default != null) Console.WriteLine($"{insert}DEFAULT: '{oda.Default}'");
                 Console.WriteLine();
             }
-        };
+        }
     }
 }

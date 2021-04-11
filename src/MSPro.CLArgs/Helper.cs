@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 
 
 
 namespace MSPro.CLArgs
 {
-    class Helper
+    static class Helper
     {
         /// <summary>
         /// Wrap a given text (insert meaningful line breaks) as a specified column.
@@ -14,7 +13,7 @@ namespace MSPro.CLArgs
         /// <param name="text"></param>
         /// <param name="atColumn"></param>
         /// <returns></returns>
-        public static WrappedText Wrap(string text, int atColumn = 60)
+        public static WrappedText Wrap(string text, int atColumn)
         {
             if (string.IsNullOrWhiteSpace(text)) return new WrappedText();
             StringBuilder sb = new(text.Replace(Environment.NewLine, "|"));

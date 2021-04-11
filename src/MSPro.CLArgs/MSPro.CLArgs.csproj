@@ -9,11 +9,11 @@
       <Copyright>(c) copyright 2021, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.2104.09.01</AssemblyVersion>
-      <Version>1.2101.19.01</Version>
-      <FileVersion>1.2104.09.01</FileVersion>
+      <AssemblyVersion>1.2104.11.01</AssemblyVersion>
+      <Version>$(AssemblyVersion)</Version>
+      <FileVersion>$(AssemblyVersion)</FileVersion>
       <Description>Console application command-line support.</Description>
-      <PackageIcon></PackageIcon>
+      <PackageIcon>CLArgs.png</PackageIcon>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <PackageVersion>1.2104.09.01</PackageVersion>
@@ -28,7 +28,7 @@
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>
-      <PackageReleaseNotes>Added AllowMultiple for options.</PackageReleaseNotes>
+      <PackageReleaseNotes></PackageReleaseNotes>
       <SignAssembly>true</SignAssembly>
     </PropertyGroup>
 
@@ -60,10 +60,14 @@
     <None Remove="MSPro.CLArgs.xml" />
     <None Remove="pack.bat" />
     <None Remove="push.bat" />
+    <None Include="Images\CLArgs.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
   </ItemGroup>
 
   <ItemGroup>
