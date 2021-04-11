@@ -36,14 +36,6 @@ namespace MSPro.CLArgs
             out TExecutionContext executionContext,
             out HashSet<string> unresolvedPropertyNames)
         {
-            //_settings.RunIf(TraceLevel.Verbose, () =>
-            //{
-            //    foreach (var optionDescriptorAttribute in optionDescriptors)
-            //    {
-            //        _settings.Trace(optionDescriptorAttribute.ToString());
-            //    }
-            //});
-
             var optionResolver = new OptionResolver(optionDescriptors);
             // contains all options for which a Property is defined
             // check .IsResolved flag if a value has been resolved
@@ -52,16 +44,6 @@ namespace MSPro.CLArgs
                 _errors,
                 _settings.IgnoreCase,
                 _settings.IgnoreUnknownOptions).ToList();
-
-            //_settings.RunIf(TraceLevel.Verbose, () =>
-            //{
-            //    if (_errors.HasErrors()) return;
-            //    string resolved = string.Join(", ", _allOptions.Where(o => o.IsResolved).Select(o => o.Key));
-            //    string unresolved = string.Join(", ", _allOptions.Where(o => !o.IsResolved).Select(o => o.Key));
-            //    _settings.Trace($"CLArgs: Resolved Options: '{resolved}'");
-            //    _settings.Trace($"CLArgs: Unresolved Options: '{unresolved}'");
-            //});
-
 
             if (_errors.HasErrors())
             {
@@ -73,6 +55,36 @@ namespace MSPro.CLArgs
                 unresolvedPropertyNames = new HashSet<string>();
                 executionContext = (TExecutionContext)
                     resolvePropertyValue(typeof(TExecutionContext), _allOptions, unresolvedPropertyNames);
+
+                // Assign Targets, if any
+
+                var contextProperties = executionContext.GetType().GetProperties();
+                // Find first property with a TargetAttribute 
+                var targetsPropertyInfo= contextProperties.FirstOrDefault( pi => pi.GetFirst<TargetsAttribute>()!=null);
+                if (targetsPropertyInfo != null)
+                {
+                    if (!typeof(IList<string>).IsAssignableFrom(targetsPropertyInfo.PropertyType))
+                    {
+                        _errors.AddError(targetsPropertyInfo.Name,
+                            $"The property {targetsPropertyInfo.Name} cannot be used for Targets because it does not inherit from type IList<string>");
+                    }
+                    else
+                    {
+                        IList targetsList = (IList) targetsPropertyInfo.GetValue(executionContext);
+                        if (targetsList == null)
+                        {
+                            _errors.AddError(targetsPropertyInfo.Name,
+                                $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; set; }} =new();" );
+                        }
+                        else
+                        {
+                            foreach (string target in commandLineArguments.Targets)
+                            {
+                                targetsList.Add(target);
+                            }
+                        }
+                    }
+                }
             }
 
             return _errors;
@@ -174,7 +186,6 @@ namespace MSPro.CLArgs
                             _errors.AddError(collectionPropertyInfo.Name,
                                 $"There is no public setter on property {collectionPropertyInfo.Name}.");
                             continue;
-
                         }
 
                         // add options to the list

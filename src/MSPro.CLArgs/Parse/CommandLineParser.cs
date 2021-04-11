@@ -25,7 +25,7 @@ namespace MSPro.CLArgs
 
             string commandLine = string.Join(" ", args);
             CommandLineArguments commandLineArguments = new(commandLine, settings.IgnoreCase);
-            var sp = new CommandLineParser( settings.OptionsTags, settings.OptionValueTags);
+            var sp = new CommandLineParser(settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(commandLine, commandLineArguments);
             return commandLineArguments;
         }
@@ -40,6 +40,7 @@ namespace MSPro.CLArgs
         private int _currentPos;
 
 
+
         /// <summary>
         ///     Create a new instance.
         /// </summary>
@@ -51,12 +52,9 @@ namespace MSPro.CLArgs
         /// </param>
         private CommandLineParser(char[] optionsTags, char[] optionValueTags)
         {
-            _optionsTags     = optionsTags;
+            _optionsTags = optionsTags;
             _optionValueTags = optionValueTags;
         }
-
-
-
 
 
 
@@ -69,7 +67,7 @@ namespace MSPro.CLArgs
             // least one Option to distinguish between verbs and options.
             bool optionRead = false;
 
-            _currentPos      = 0;
+            _currentPos = 0;
             _argumentsString = argumentsString;
 
             while (_currentPos < _argumentsString.Length)
@@ -130,8 +128,8 @@ namespace MSPro.CLArgs
         {
             string[] lines = File.ReadAllLines(fileName);
             return lines.Select(line => line.Trim())
-                        .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
-                                          !trimmed.StartsWith("#"));
+                .Where(trimmed => !string.IsNullOrWhiteSpace(trimmed) && !trimmed.StartsWith("//") &&
+                                  !trimmed.StartsWith("#"));
         }
 
 
@@ -152,6 +150,7 @@ namespace MSPro.CLArgs
                 optionTag.Value = readString();
             }
             else optionTag.Value = true.ToString();
+
             return optionTag;
         }
 
@@ -164,7 +163,6 @@ namespace MSPro.CLArgs
                 _currentPos++;
             return _argumentsString.Substring(startPos, _currentPos - startPos);
         }
-
 
 
 
@@ -191,7 +189,7 @@ namespace MSPro.CLArgs
         private string readStringQuoted()
         {
             char stringToken = _argumentsString[_currentPos]; // string token " or '
-            _currentPos++;                                    // skip token
+            _currentPos++; // skip token
 
             // don't use Substring but collect all characters to support escaping
             List<char> chars = new();

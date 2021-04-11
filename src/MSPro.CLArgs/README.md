@@ -8,6 +8,8 @@ While migrating this project, I recognized some limitations, which I have fixed 
 
 * *Targets* can now be used in a `CommandContext`.
   (See again the *CleanSolution* example for using *Targets*)
+* BETA Support for `OptionTagValue` '  ' to allow blanks as option / value separator, like `/p "Parameter value" /x 5` instead of `/p:"Parameter value" /x:5`.
+  Basically, this works; BETA because I haven't extensively tested all scenarios.
 * Improved `Settings` to support help-text output for different consoles: `HelpAlignColumn` and `HelpFullWidth` properties.
 
 ## 2021-04-09
