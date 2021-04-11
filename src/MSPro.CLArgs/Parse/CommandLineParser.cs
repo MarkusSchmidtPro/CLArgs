@@ -138,7 +138,7 @@ namespace MSPro.CLArgs
         {
             // Name starts at first char that is not an optionsNameIdent
             skipChars(_optionsTags);
-            Option optionTag = new(readUntil(_optionValueTags));
+            Option optionTag = new(getOptionName());
 
             // 2021-04-11: getValue
             skipChars(_optionValueTags);
@@ -152,6 +152,19 @@ namespace MSPro.CLArgs
 
             return optionTag;
         }
+
+        
+        private string getOptionName()
+        {
+            int startPos = _currentPos;
+            while (_currentPos < _argumentsString.Length && isOptionNameChar(_argumentsString[_currentPos]))
+                _currentPos++;
+            return _argumentsString.Substring(startPos, _currentPos - startPos);
+        }
+
+
+
+        private bool isOptionNameChar(char c) => char.IsLetterOrDigit(c) || c=='-' || c=='_';
 
 
 
