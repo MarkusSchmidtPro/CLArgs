@@ -150,8 +150,14 @@
             <param name="commandLineArguments"></param>
             <param name="settings"></param>
         </member>
+        <member name="P:MSPro.CLArgs.CommandBase`1.OptionDescriptors">
+            <summary>
+            Get a list of all OptionDescriptorAttributes.
+            </summary>
+        </member>
         <member name="M:MSPro.CLArgs.CommandBase`1.BeforeArgumentConversion(MSPro.CLArgs.CommandLineArguments)">
             <summary>
+            BeforeArgumentConversion
             </summary>
             <remarks>
                 This method is called before any Argument conversion takes place.
@@ -177,7 +183,7 @@
                 A <see cref="T:System.Collections.Generic.HashSet`1" /> containing the names of those properties in the CommandContext
                 which haven't got a value, neither by assigning a command-line option
                 nor by a default value defined in the <c>CommandContext</c>.
-                Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br/>
+                Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br />
                 If you want to check for unresolved properties is is best practice to use <c>nameof()</c>
                 instead of plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
             </param>
@@ -190,11 +196,11 @@
         <member name="M:MSPro.CLArgs.CommandBase`1.OnError(MSPro.CLArgs.ErrorDetailList,System.Boolean)">
             <summary>
                 Error handler in case of any error.
-                <remarks>
-                    The default implementation of <see cref="M:MSPro.CLArgs.CommandBase`1.OnError(MSPro.CLArgs.ErrorDetailList,System.Boolean)" /> simply throws an
-                    <see cref="T:System.AggregateException" /> in case of any error. You can avoid this by overriding this method.
-                </remarks>
             </summary>
+            <remarks>
+                The default implementation of <see cref="M:MSPro.CLArgs.CommandBase`1.OnError(MSPro.CLArgs.ErrorDetailList,System.Boolean)" /> simply throws an
+                <see cref="T:System.AggregateException" /> in case of any error. You can avoid this by overriding this method.
+            </remarks>
             <param name="errors">The errors that have occurred.</param>
             <param name="handled">If <c>true</c> the method does nothing anymore, because it expects the errors have been handled.</param>
             <exception cref="T:System.AggregateException">Always</exception>
