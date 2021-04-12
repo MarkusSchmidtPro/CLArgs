@@ -36,7 +36,7 @@ namespace MSPro.CLArgs
         /// </code>
         /// </example>
         public delegate object FromStringDelegate(
-            string optionValue, string optionName, ErrorDetailList errors, Type targetType);
+            string optionValue, string optionName, Type targetType, ErrorDetailList errors);
 
 
 
@@ -58,11 +58,11 @@ namespace MSPro.CLArgs
 
 
 
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, [NotNull] Type targetType)
+        public object Convert(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             FromStringDelegate converter =
                 _items.ContainsKey(targetType) ? _items[targetType] : _items[targetType.BaseType];
-            return converter(optionValue, optionName, errors, targetType);
+            return converter(optionValue, optionName, targetType, errors);
         }
 
 
@@ -79,7 +79,7 @@ namespace MSPro.CLArgs
 
         #region Out-Of-The_Box Converters
 
-        private object toString(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        private object toString(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             if (targetType != typeof(string))
                 throw new ArgumentException(
@@ -91,7 +91,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toInt(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        private object toInt(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             if (targetType != typeof(int))
                 throw new ArgumentException(
@@ -106,7 +106,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toBool(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        private object toBool(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             if (targetType != typeof(bool))
                 throw new ArgumentException(
@@ -128,7 +128,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toDateTime(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        private object toDateTime(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             if (targetType != typeof(DateTime))
                 throw new ArgumentException(
@@ -143,7 +143,7 @@ namespace MSPro.CLArgs
 
 
 
-        private object toEnum(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        private object toEnum(string optionValue, string optionName, Type targetType, ErrorDetailList errors)
         {
             if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
                 throw new ArgumentException(

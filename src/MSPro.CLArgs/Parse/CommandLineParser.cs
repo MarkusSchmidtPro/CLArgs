@@ -107,7 +107,12 @@ namespace MSPro.CLArgs
         {
             _currentPos++;
             string fileName = getFileName();
-            var args = getArgsFromFile(fileName);
+            string filePath = Helper.FindFile( fileName, 
+                Environment.CurrentDirectory,
+                Helper.BinDir,null, 
+                true);
+
+            var args = readArgs(filePath);
             CommandLineParser sp = new(_optionsTags, _optionValueTags);
             sp.Parse(string.Join(" ", args), commandLineArguments);
         }
@@ -124,7 +129,7 @@ namespace MSPro.CLArgs
 
 
 
-        private IEnumerable<string> getArgsFromFile(string fileName)
+        private IEnumerable<string> readArgs(string fileName)
         {
             string[] lines = File.ReadAllLines(fileName);
             return lines.Select(line => line.Trim())

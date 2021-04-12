@@ -209,8 +209,7 @@ namespace MSPro.CLArgs
                                 var providedValuesString= providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray());
                                 foreach (var valueString in providedValuesString)
                                     contextList.Add(
-                                        _settings.ValueConverters.Convert(valueString, boundOptionName, _errors,
-                                            targetType));
+                                        _settings.ValueConverters.Convert(valueString, boundOptionName, targetType, _errors));
                             }
                             else contextList.Add(providedOptionValue);
                         }
@@ -236,8 +235,7 @@ namespace MSPro.CLArgs
                         // Convert the string from the command line into the correct type so that the value
                         // can be assigned to the property.
                         object propertyValue =
-                            _settings.ValueConverters.Convert(providedOptions[0].Value, boundOptionName, _errors,
-                                targetType);
+                            _settings.ValueConverters.Convert(providedOptions[0].Value, boundOptionName, targetType, _errors);
                         propInfo.SetValue(executionContext, propertyValue);
                     }
                 }

@@ -1,12 +1,14 @@
 # MSPro CLArgs Version History
 
-## 2021-04-11
+## 2021-04-12
 
 I have started and migrated some old project, called *CleanFolders* to use `CLArgs`. This project serves as a real world example, that demonstrates how to use `CLArgs` in most cases. Check it out here [CleanSolution CLArgs application](https://github.com/msc4266/CleanSolution).
 
 While migrating this project, I recognized some limitations, which I have fixed immediately:
 
-* *Targets* can now be used in a `CommandContext`.
+* ***Targets* can now be used in a `CommandContext`.**
+  
+  Previously, *Targets* were available in `CommandLineArguments`, only. This made it very inconvenient to use *Targets* with `Commander.ExecuteCommand`:
   
   ```csharp
   class CommandContext
@@ -16,13 +18,48 @@ While migrating this project, I recognized some limitations, which I have fixed 
       ...
   }
   ```
+    (See again the *CleanSolution* example for using *Targets*)
   
-  (See again the *CleanSolution* example for using *Targets*)
-  
-* BETA Support for `OptionTagValue` '  ' to allow blanks as option / value separator, like `/p "Parameter value" /x 5` instead of `/p:"Parameter value" /x:5`.
+* **BETA Support** for `OptionTagValue` '  ' to **allow blanks as option-value separator**, like `/p "Parameter value" /x 5` instead of `/p:"Parameter value" /x:5`.
   Basically, this works; BETA because I haven't extensively tested all scenarios.
   
-* Improved `Settings` to support help-text output for different consoles: `HelpAlignColumn` and `HelpFullWidth` properties.
+* Improved `Settings` to **support help-text output for different consoles width'**: `HelpAlignColumn` and `HelpFullWidth` properties.
+
+* Provides files ('@' token) are now found in the current (working) directory and then in the application's (exe) directory. This is extremely useful when you want to create **Profiles**.
+
+### Self-Contained Assemblies
+
+* NO support for automatic *Command* resolution (`AssemblyCommandResolver`) with **self-contained** Assemblies, yet.
+
+![image-20210412144502887](README.assets/image-20210412144502887.png)
+
+  > Self-Contained .net Assemblies are special, in a way, that there is an EXE, only. However, this EXE that you see in a directory is <u>not</u> an Assembly - it is a PE File! 
+  >
+  > This PE-File contains all Assemblies of your solution. Once you run such PE-Exe-File, `Assembly.GetEntryAssembly()`returns the entry Assembly, which is a DLL with the name of the EXE. So far, so good, for all commands in the entry Assembly.
+  >
+  > To resolve Commands in other Assemblies, normally `Directory.GetFiles( ppDomain.CurrentDomain.BaseDirectory( pattern)` does the job. For self-contained applications, this call won't return and more Assembly, as all other Assemblies have become part of the EXE.
+  >
+  > I haven't found any way yet, to Load Assemblies when they are 'baked-into' a self-contained executable.
+
+![image-20210412144845517](README.assets/image-20210412144845517.png)
+
+To work around this, you can provide your own Assembly resolver instead of `AssemblyCommandResolver`, to find all your command implementations:
+
+```csharp
+Commander.ExecuteCommand(args, new Settings
+{
+	CommandResolver = new AssemblyCommandResolver(assemblyFileNames),
+    ...
+```
+
+> Don't forget to tell me, once you have written such resolver for PE-Files!
+
+### Command-Line Profiles
+
+A **Profile** is a **collection of predefined command-line arguments**. You can store such profiles as *global* profiles in the Application (EXE) directory or you can override these global profiles by providing a *local* profiles in the current working directory.
+
+If you store your application together with its global profiles, for example, here
+`%LocalAppdata%\MSPro\Programs` (don't forget to set a path to it), you can run `CleanSolution.Exe @sln.profile`  from any working directory and apply the settings from the global profile stored with the application.
 
 ## 2021-04-09
 

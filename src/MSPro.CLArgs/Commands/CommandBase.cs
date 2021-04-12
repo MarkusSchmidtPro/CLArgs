@@ -26,6 +26,8 @@ namespace MSPro.CLArgs
         /// </summary>
         protected TContext ExecutionContext { get; private set; }
 
+
+
         /// <summary>
         ///     Execute the command.
         /// </summary>
@@ -39,8 +41,8 @@ namespace MSPro.CLArgs
 
             // Convert command-line arguments and create the execution context
             var errors = c.TryConvert(commandLineArguments, this.OptionDescriptors,
-                out var executionContext,
-                out var unresolvedPropertyNames);
+                                      out var executionContext,
+                                      out var unresolvedPropertyNames);
 
             this.ExecutionContext = executionContext;
 
@@ -64,7 +66,9 @@ namespace MSPro.CLArgs
         }
 
 
-
+        /// <summary>
+        /// Get a list of all OptionDescriptorAttributes.
+        /// </summary>
         public List<OptionDescriptorAttribute> OptionDescriptors
         {
             get
@@ -77,6 +81,7 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
+        /// BeforeArgumentConversion
         /// </summary>
         /// <remarks>
         ///     This method is called before any Argument conversion takes place.
@@ -86,6 +91,7 @@ namespace MSPro.CLArgs
         protected virtual void BeforeArgumentConversion([NotNull] CommandLineArguments commandLineArguments)
         {
         }
+
 
 
         /// <summary>
@@ -105,7 +111,7 @@ namespace MSPro.CLArgs
         ///     A <see cref="HashSet{T}" /> containing the names of those properties in the CommandContext
         ///     which haven't got a value, neither by assigning a command-line option
         ///     nor by a default value defined in the <c>CommandContext</c>.
-        ///     Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br/>
+        ///     Such properties will have their C# defaults, like <c>false</c> for boolean properties.<br />
         ///     If you want to check for unresolved properties is is best practice to use <c>nameof()</c>
         ///     instead of plain string: <code>if (unresolvedPropertyNames.Contains(nameof(CommandContext.CSV))) ...</code>
         /// </param>
@@ -122,16 +128,18 @@ namespace MSPro.CLArgs
         }
 
 
+
         protected abstract void Execute(TContext ps);
+
 
 
         /// <summary>
         ///     Error handler in case of any error.
-        ///     <remarks>
-        ///         The default implementation of <see cref="OnError" /> simply throws an
-        ///         <see cref="AggregateException" /> in case of any error. You can avoid this by overriding this method.
-        ///     </remarks>
         /// </summary>
+        /// <remarks>
+        ///     The default implementation of <see cref="OnError" /> simply throws an
+        ///     <see cref="AggregateException" /> in case of any error. You can avoid this by overriding this method.
+        /// </remarks>
         /// <param name="errors">The errors that have occurred.</param>
         /// <param name="handled">If <c>true</c> the method does nothing anymore, because it expects the errors have been handled.</param>
         /// <exception cref="AggregateException">Always</exception>
@@ -139,7 +147,7 @@ namespace MSPro.CLArgs
         {
             if (handled) return;
             throw new AggregateException(errors.Details.Select(
-                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
         }
     }
 }

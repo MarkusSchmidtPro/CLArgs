@@ -59,7 +59,7 @@ namespace MSPro.CLArgs
         ///     to find all classes with [Command] annotation in the <c>EntryAssembly</c>.
         /// </remarks>
         public ICommandResolver CommandResolver { get; set; } =
-            new AssemblyCommandResolver(Assembly.GetEntryAssembly());
+            new AssemblyCommandResolver( Assembly.GetEntryAssembly());
 
         /// <summary>
         ///     Get or set tags which identify an option.

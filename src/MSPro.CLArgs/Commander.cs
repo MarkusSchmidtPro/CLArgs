@@ -39,6 +39,9 @@ namespace MSPro.CLArgs
 
 
 
+        /// <summary>
+        /// Get a list of available CommandDescriptors.
+        /// </summary>
         public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
 
 
@@ -71,6 +74,10 @@ namespace MSPro.CLArgs
 
 
 
+        /// <summary>
+        /// Register a command.
+        /// </summary>
+        /// <param name="commandDescriptor"></param>
         public void RegisterCommand(CommandDescriptor commandDescriptor)
             => _commandDescriptors[commandDescriptor.Verb] = commandDescriptor;
 

@@ -25,17 +25,10 @@ namespace CLArgs.Sample.ConfigFile
             args = COMMAND_LINE.Split(' ');
             // ------------------------------------------------
 
-            Settings s = new Settings
-            {
-                // Specify a configuration file resolver that looks in the AppData directory
-                // and in the entry Assembly's path for the provided config file.
-              ConfigFileResolver = new ConfigFileResolver {UserDefinedDirectory = "%AppData%"}
-            };
-
             // Execute the Command direct,
             // without Command or registration,
             // by using the Command Execute() method.
-            new Command().Execute(CommandLineParser.Parse(args, s));
+            new Command().Execute(CommandLineParser.Parse(args));
             
             // ------------------------------------------------
             Console.WriteLine("<<< End Main()");
@@ -59,13 +52,13 @@ namespace CLArgs.Sample.ConfigFile
             /// This property takes the first occurrence of Option0 in the command-line.
             /// </summary>
             [OptionDescriptor("Option0", AllowMultiple = nameof(AllOptions0))]
-            public string Option0 { get; set; }    
+            public string Option0 { get; set; }
 
             /// <summary>
             /// This property takes all 'Option0' tag fro command-line
             /// as it is allowed to specify this option in the option file and in the command-line.
             /// </summary>
-            public List<string> AllOptions0 { get; set; }    
+            public List<string> AllOptions0 { get; set; } = new List<string>();
 
             [OptionDescriptor("Option1")]
             public string Option1 { get; set; } 
