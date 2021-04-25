@@ -9,6 +9,7 @@ While migrating this project, I recognized some limitations, which I have fixed 
 * ***Targets* can now be used in a `CommandContext`.**
   
   Previously, *Targets* were available in `CommandLineArguments`, only. This made it very inconvenient to use *Targets* with `Commander.ExecuteCommand`:
+  Now you can specify a property in your CommandContext that will receive the targets specified in the command-line.
   
   ```csharp
   class CommandContext
