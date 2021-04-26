@@ -35,7 +35,7 @@ namespace MSPro.CLArgs
         /// <param name="settings"></param>
         public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
         {
-            this.Settings ??= new Settings();
+            this.Settings = settings ?? new Settings();
             BeforeArgumentConversion(commandLineArguments);
             ArgumentConverter<TContext> c = new(this.Settings);
 

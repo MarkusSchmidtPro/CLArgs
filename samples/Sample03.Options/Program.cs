@@ -18,14 +18,14 @@ namespace CLArgs.Sample.Options
         /// </summary>
         /// <remarks>
         ///     Verb:    None = Default Command - there is only one in this example!
-        ///     Options: <see cref="DefaultCommand.Parameters" /> class how these options are turned into Parameters.<br />
+        ///     Options: <see cref="Context" /> class how these options are turned into Parameters.<br />
         ///
         ///     Please notice, --T is specified more than once. This required the "AllowMultiple" to be set on
-        ///     the <see cref="Parameters.DatabaseTableName">"T" parameter</see>.
+        ///     the <see cref="Context.DatabaseTableName">"T" parameter</see>.
         ///     Check the <see cref="Command">command's implementation</see>
         ///     how the command makes use of it.
         /// </remarks>
-        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --T=SecondTable --p=_ab123_ --BaseSetting --T='3rd Table,4th Table'";
+        private const string COMMAND_LINE = "--T=[dbo].IndexTable --u=msc --T=SecondTable --p=_ab123_ --BaseSetting --T=\"3rd Table,4th Table\"";
 
 
 
@@ -33,7 +33,7 @@ namespace CLArgs.Sample.Options
         {
             Console.WriteLine(">>> Start Main");
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             //
@@ -63,7 +63,7 @@ namespace CLArgs.Sample.Options
 
             // Let's change the argument from commands-line 
             CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
-            commandLineArguments.AddOption("DatabaseTableName", "AnotherTable");
+            commandLineArguments.AddOption( new Option("DatabaseTableName", "AnotherTable"));
 
             // Execute the Command with slightly different Options
             commander.ExecuteCommand(commandLineArguments);

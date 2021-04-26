@@ -24,7 +24,7 @@ namespace CLArgs.Sample.SimpleAsThat
         {
             // --- Use Demo command-line ---
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             Console.WriteLine(">>> Option 1");

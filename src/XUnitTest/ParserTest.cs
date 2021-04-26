@@ -199,12 +199,15 @@ namespace XUnitTest
         public void Test6()
         {
             const string CMD_LINE = "Deploy /ExcludeFolder=\"HM Government of Gibraltar/Baseline Code11\" /Package=\"2021 gx\" @arguments.txt --flag --mixed-option is-set \"My Targets\"";
-            string[] args = Win32.CommandLineToArgs(CMD_LINE);
 
+            string[] testArgs = Helper.SplitCommandLine(CMD_LINE);
+            Assert.Equal(8, testArgs.Length);   // @arguments.txt is one argument so far!!
+
+            string[] args = Win32.CommandLineToArgs(CMD_LINE);
             var clArgs = CommandLineParser.Parse(args);
 
             Assert.Single(clArgs.Verbs);
-            Assert.Equal(10, clArgs.Options.Count);
+            Assert.Equal(11, clArgs.Options.Count);
             Assert.Single(clArgs.Targets);
 
             var verbs = clArgs.Verbs.ToArray();
@@ -212,7 +215,7 @@ namespace XUnitTest
 
             var excludeFolders = clArgs.Options.Where(option => option.Key == "ExcludeFolder").ToList();
             Assert.NotEmpty(excludeFolders);
-            Assert.Equal(7, excludeFolders.Count);
+            Assert.Equal(8, excludeFolders.Count);
             Assert.Equal(@"HM Government of Gibraltar/03", excludeFolders[2].Value);
 
             Option packageOption = clArgs.Options.FirstOrDefault(o => o.Key == "Package");

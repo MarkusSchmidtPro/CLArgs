@@ -16,13 +16,13 @@ namespace CLArgs.Sample.ValueConversion
     internal class Program
     {
         // Verb, Options and three Arguments
-        private const string COMMAND_LINE = "MyVerb --Option0=DirectArgs --Option1=1 File1.txt File2.txt 'data\\File2.txt'";
+        private const string COMMAND_LINE = "MyVerb --Option0=DirectArgs --Option1=1 File1.txt File2.txt \"data\\File2.txt\"";
 
         private static void Main(string[] args)
         {
             Console.WriteLine(">>> Start Main");
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             CommandLineArguments arguments = CommandLineParser.Parse( args);

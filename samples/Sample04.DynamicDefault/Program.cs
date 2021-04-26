@@ -30,7 +30,7 @@ namespace CLArgs.Sample.DynamicDefault
         {
             Console.WriteLine(">>> Start Main");
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             // No Commander here, simply use the Command directly

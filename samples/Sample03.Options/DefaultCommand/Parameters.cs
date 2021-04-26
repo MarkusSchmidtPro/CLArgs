@@ -7,7 +7,7 @@ namespace CLArgs.Sample.Options.DefaultCommand
 {
     /// <summary>
     /// A "very special" parameter class,
-    ///     which inherits from a base-class <see cref="BaseParameters"/>
+    ///     which inherits from a base-class <see cref="BaseContext"/>
     ///     and which uses an <c>OptionSet</c> class with
     ///     separate parameters.
     /// </summary>
@@ -20,14 +20,14 @@ namespace CLArgs.Sample.Options.DefaultCommand
     ///     --p  | 
     ///     --d  | 
     /// </remarks>
-    internal class Parameters : BaseParameters
+    internal class Context : BaseContext
     {
         [OptionSet]
         public Connection DbConnection { get; set; }
 
         [OptionDescriptor("DatabaseTableName", "t", Required = false, AllowMultiple= nameof(DatabaseTableNames), AllowMultipleSplit=",;")] // 
-        public string DatabaseTableName { get; set; }   
-        
+        public string DatabaseTableName { get; set; }
+
         /// <summary>
         /// This property takes all /t parameters specified in the commandline, because /t is
         /// allowed to be specified multiple times.
@@ -36,7 +36,7 @@ namespace CLArgs.Sample.Options.DefaultCommand
         /// DatabaseTableNames[0] = DatabaseTableName<br/>
         /// DatabaseTableNames is null if /t is not provided in the command-line.
         /// </remarks>
-        public List<string> DatabaseTableNames { get; set; }
+        public List<string> DatabaseTableNames { get; } = new  List<string>();
     }
 
 
@@ -57,7 +57,7 @@ namespace CLArgs.Sample.Options.DefaultCommand
     /// <summary>
     ///     Base class for parameters (will be automatically resolved).
     /// </summary>
-    internal class BaseParameters
+    internal class BaseContext
     {
         [OptionDescriptor("BaseSetting", "bs", Required = true)]
         public bool BaseSetting { get; set; }

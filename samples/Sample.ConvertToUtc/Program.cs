@@ -15,7 +15,7 @@ namespace CLArgs.Sample.ConvertToUtc
         /// <summary>
         /// The test command-line for this example.
         /// </summary>
-        private const string COMMAND_LINE = "--LocalDateTime='2020-08-01 08:10:00' --LocalTimeZone='Pacific Standard Time'";
+        private const string COMMAND_LINE = "--LocalDateTime=\"2020-08-01 08:10:00\" --LocalTimeZone=\"Pacific Standard Time\"";
 
 
         /// <summary>
@@ -25,8 +25,8 @@ namespace CLArgs.Sample.ConvertToUtc
         private static void Main(string[] args)
         {
             Console.WriteLine(">>> Start Main");
-            // Use demo command  line if not argument are provided
-            if( args.Length==0) args = COMMAND_LINE.Split(' ');
+           
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
             
             CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);

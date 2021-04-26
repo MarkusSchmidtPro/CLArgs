@@ -29,9 +29,6 @@ namespace MSPro.CLArgs
                 ? StringComparison.InvariantCultureIgnoreCase
                 : StringComparison.InvariantCulture;
 
-            IEqualityComparer<string> c = ignoreCase
-                ? StringComparer.InvariantCultureIgnoreCase
-                : StringComparer.InvariantCulture;
             this.Verbs = new List<string>();
             this.Targets = new List<string>();
             this.Options = new List<Option>();
@@ -76,26 +73,25 @@ namespace MSPro.CLArgs
         /// </remarks>
         public List<Option> Options { get; }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="optionTag"></param>
+        /// <returns></returns>
         public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _comparer));
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="verb"></param>
         public void AddVerb(string verb) => this.Verbs.Add(verb);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
         public void AddTarget(string target) => this.Targets.Add(target);
-
-
 
         /// <inheritdoc cref="AddOption(MSPro.CLArgs.Option)" />
         public void AddOption(Option option) => this.Options.Add(option);
-
-
-
-        /// <summary>
-        ///     Update an option's value
-        /// </summary>
-        /// <remarks>
-        ///     Options are unique by their <see cref="Option.Key" />. The option must have been added before, using
-        ///     <see cref="AddOption" />.
-        /// </remarks>
-        public void SetOptionValue(string tag, string value) => this.Options.First(o => o.Key == tag).Value = value;
     }
 }

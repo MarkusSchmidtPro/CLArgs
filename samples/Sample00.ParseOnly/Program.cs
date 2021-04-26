@@ -14,7 +14,7 @@ namespace CLArgs.Sample.ParseOnly
         /// <summary>
         /// The test command-line for this example.
         /// </summary>
-        private const string COMMAND_LINE = "verb1 verb2 VERB2 --FILENAME='def' --fileName='c:\\myfile.csv' --target='XML 1' --lines=7 targetfile.xml";
+        private const string COMMAND_LINE = "verb1 verb2 VERB2 --FILENAME=\"def\" --fileName=\"c:\\myfile.csv\" --target=\"XML 1\" --lines=7 targetfile.xml";
 
 
         /// <summary>
@@ -25,17 +25,10 @@ namespace CLArgs.Sample.ParseOnly
         {
             Console.WriteLine(">>> Start Main");
             // --- Use Demo command-line ---
-            args = COMMAND_LINE.Split(' ');
+            args = Helper.SplitCommandLine(COMMAND_LINE);
             // ------------------------------------------------
             
-            CommandLineArguments arguments = CommandLineParser.Parse( 
-                args,
-                new Settings
-                {
-                    OptionsTags = new []{ '-', '/'} ,
-                    OptionValueTags = new [] {' ', ':', '='}
-                }
-                                                                      );
+            CommandLineArguments arguments = CommandLineParser.Parse(args);
             Console.WriteLine($"Command-Line: {arguments.CommandLine}");
             
             foreach (string verb in arguments.Verbs)

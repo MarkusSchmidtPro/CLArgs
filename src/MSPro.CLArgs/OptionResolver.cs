@@ -47,7 +47,7 @@ namespace MSPro.CLArgs
         /// <returns>A unique (by name) list of Options.</returns>
         public IEnumerable<Option> ResolveOptions(CommandLineArguments commandLineArguments,
             ErrorDetailList errors,
-            bool ignoreCase = false,
+            bool ignoreCase,
             bool ignoreUnknownTags = false)
         {
             StringComparison stringComparison =

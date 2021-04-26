@@ -25,7 +25,7 @@ namespace CLArgs.Sample.ValueConversion
         {
             Console.WriteLine(">>> Start Main");
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             new Command().Execute(CommandLineParser.Parse(args));

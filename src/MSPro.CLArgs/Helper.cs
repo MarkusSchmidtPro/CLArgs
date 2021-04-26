@@ -26,12 +26,15 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Split a command-line into arguments.
         /// </summary>
+        /// <remarks>
+        ///     Simulates Win32 CommandLineToArgvW tokenization.
+        /// </remarks>
         public static string[] SplitCommandLine(string commandLine)
         {
             List<string> result = new();
             int i = 0;
             bool quotation = false;
-            StringBuilder currentToken = new StringBuilder(4096);
+            StringBuilder currentToken = new (4096);
             while (i < commandLine.Length)
             {
                 if (quotation)
@@ -56,6 +59,7 @@ namespace MSPro.CLArgs
             if (quotation)
                 throw new ApplicationException("Unmatched quotation - missing quote.");
 
+            result.Add(currentToken.ToString());
             return result.ToArray();
         }
 

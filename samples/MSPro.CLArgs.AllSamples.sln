@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample07.Targets", "Sample0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ConvertToUtc", "Sample.ConvertToUtc\Sample.ConvertToUtc.csproj", "{AC907842-6A69-4D98-93ED-C1B77E6B8A9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTest", "..\src\XUnitTest\XUnitTest.csproj", "{3A6C4FBF-B7D0-4F74-88F7-90B2798B5166}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{AC907842-6A69-4D98-93ED-C1B77E6B8A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC907842-6A69-4D98-93ED-C1B77E6B8A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC907842-6A69-4D98-93ED-C1B77E6B8A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6C4FBF-B7D0-4F74-88F7-90B2798B5166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6C4FBF-B7D0-4F74-88F7-90B2798B5166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6C4FBF-B7D0-4F74-88F7-90B2798B5166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6C4FBF-B7D0-4F74-88F7-90B2798B5166}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

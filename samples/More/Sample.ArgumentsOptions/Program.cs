@@ -13,13 +13,13 @@ namespace CLArgs.Sample.ArgumentsOptions
         /// <summary>
         ///     The test command-line for this example.
         /// </summary>
-        private const string COMMAND_LINE = "--target='XML 1' --lines=7";
+        private const string COMMAND_LINE = "--target=\"XML 1\" --lines=7";
 
         private static void Main(string[] args)
         {
             Console.WriteLine(">>> Start Main");
             Console.WriteLine($"Command-Line: {COMMAND_LINE}");
-            args = COMMAND_LINE.Split(' ');
+            args =   Helper.SplitCommandLine( COMMAND_LINE);
             // ------------------------------------------------
 
             CommandLineArguments commandLineArguments = CommandLineParser.Parse(args);
@@ -33,7 +33,7 @@ namespace CLArgs.Sample.ArgumentsOptions
             // Set default value if not provided
             // Upsert = Update or Insert = Update or Add 
             if (!fileNameProvided)
-                commandLineArguments.AddOption(FILENAME_TAG, "default.txt");
+                commandLineArguments.AddOption(new Option(FILENAME_TAG, "default.txt"));
             
             foreach ( Option option in commandLineArguments.Options)
             {

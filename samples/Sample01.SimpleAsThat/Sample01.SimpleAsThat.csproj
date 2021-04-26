@@ -10,4 +10,8 @@
   <ItemGroup>
     <PackageReference Include="MSPro.CLArgs" Version="1.2009.9.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MSPro.CLArgs\MSPro.CLArgs.csproj" />
+  </ItemGroup>
 </Project>

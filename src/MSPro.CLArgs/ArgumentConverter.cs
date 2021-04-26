@@ -74,7 +74,7 @@ namespace MSPro.CLArgs
                         if (targetsList == null)
                         {
                             _errors.AddError(targetsPropertyInfo.Name,
-                                $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; set; }} =new();" );
+                                $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; }} =new();" );
                         }
                         else
                         {
@@ -199,7 +199,7 @@ namespace MSPro.CLArgs
                             if (contextList == null)
                             {
                                 _errors.AddError(collectionPropertyInfo.Name,
-                                    $"The List property {collectionPropertyInfo.Name} must not be null. Use: public List<T> {collectionPropertyInfo.Name} {{ get; set; }} =new();" );
+                                    $"The List property {collectionPropertyInfo.Name} must not be null. Use: public List<T> {collectionPropertyInfo.Name} {{ get; }} =new();" );
                                 continue;
                             }
 

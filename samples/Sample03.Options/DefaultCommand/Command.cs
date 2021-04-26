@@ -6,9 +6,9 @@ using MSPro.CLArgs;
 namespace CLArgs.Sample.Options.DefaultCommand
 {
     [Command("DemoCommand")]
-    class Command : CommandBase<Parameters>
+    class Command : CommandBase<Context>
     {
-        protected override void Execute(Parameters ps)
+        protected override void Execute(Context ps)
         {
             Console.WriteLine($"UserName: {ps.DbConnection.UserName}");
             Console.WriteLine($"Password: {ps.DbConnection.Password}");
