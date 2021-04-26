@@ -65,7 +65,7 @@ namespace MSPro.CLArgs
                 var optionDescriptor = _descriptors.FirstOrDefault(
                     desc =>
                         desc.Tags!= null && desc.Tags.Any(t => string.Equals(t, option.Key, stringComparison))
-                        || string.Equals(desc.OptionName, option.Key));
+                        || string.Equals(desc.OptionName, option.Key, stringComparison));
 
                 if (optionDescriptor != null)
                 {

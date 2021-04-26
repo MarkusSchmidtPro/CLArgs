@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace MSPro.CLArgs
 {
+    /// <summary>
+    /// Provides functionality to resolve Commands in one or in a list of assemblies.
+    /// </summary>
     public class AssemblyCommandResolver : ICommandResolver
     {
         private readonly List<Assembly> _assemblies = new();

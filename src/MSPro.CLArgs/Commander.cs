@@ -182,7 +182,6 @@ namespace MSPro.CLArgs
             new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args, settings));
 
 
-
         private void resolveCommandImplementations()
         {
             List<CommandDescriptor> commandDescriptors = _settings.CommandResolver.GetCommandDescriptors();

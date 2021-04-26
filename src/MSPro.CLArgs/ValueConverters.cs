@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
+#pragma warning disable CS1591
 
 
 namespace MSPro.CLArgs

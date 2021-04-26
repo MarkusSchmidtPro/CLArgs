@@ -1,5 +1,28 @@
 # MSPro CLArgs Version History
 
+## 2021-04-26 - Mai 2021 Release
+
+The `CommandLineParser` was completely rewritten, to be more flexible. It now **supports blanks** to split option values from names, like `--mixed-option is-set`.  In addition, **quote handling** is now more standard.  In addition, **option tags are now string** instead of character, only, to support option tags. 
+
+* Fixed a bug in Option Names not respecting `Setting.IgnoreCase`
+* Introduced Unit Testing
+
+### Compatibility changes
+
+The `' ` character is no longer supported in the command-line to mark a string. Always use `" ` instead.
+
+`DEPLOY /Package="Sprint 03" --dst-env 01-DEV /dn:"Fixed API" "  Another target"`
+
+#### Settings.cs
+
+```
+char[] OptionsTags     --> string[] OptionsTags
+char[] OptionValueTags --> string[] OptionValueTags
+```
+
+
+
+
 ## 2021-04-12
 
 I have started and migrated some old project, called *CleanFolders* to use `CLArgs`. This project serves as a real world example, that demonstrates how to use `CLArgs` in most cases. Check it out here [CleanSolution CLArgs application](https://github.com/msc4266/CleanSolution).

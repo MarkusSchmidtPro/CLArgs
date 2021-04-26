@@ -4,7 +4,6 @@ using System.Reflection;
 using JetBrains.Annotations;
 
 
-
 namespace MSPro.CLArgs
 {
     public delegate void DisplayAllCommandsDescription(List<CommandDescriptor> commandDescriptors);
@@ -30,7 +29,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Get or set a list of characters that mark the end of an option's name.
         /// </summary>
-        public char[] OptionValueTags { get; set; } = { 'x', ':', '=' };
+        public string[] OptionValueTags { get; set; } = {  ":", "=" };
 
         public ValueConverters ValueConverters { get; } = new();
 
@@ -68,7 +67,7 @@ namespace MSPro.CLArgs
         ///     A command-line argument that starts with any of these character
         ///     is considered to be an <c>Option</c>.
         /// </remarks>
-        public char[] OptionsTags { get; set; } = { '-', '/' };
+        public string[] OptionsTags { get; set; } = { "--", "-", "/" };
 
 
         /// <summary>

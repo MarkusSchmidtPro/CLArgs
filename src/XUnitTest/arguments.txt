@@ -1,0 +1,7 @@
+﻿/ExcludeFolder="HM Government of Gibraltar/Baseline Code"
+/ExcludeFolder "HM Government of Gibraltar/03"
+/ExcludeFolder="HM Government of Gibraltar/09"
+/ExcludeFolder="HM Government of Gibraltar/10"
+/ExcludeFolder="HM Government of Gibraltar/11"
+/ExcludeFolder="HM Government of Gibraltar/X"
+/ExcludeFolder="HM Government of Gibraltar/z"

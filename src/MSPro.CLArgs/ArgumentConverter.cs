@@ -11,7 +11,7 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Turns Arguments into a parameter object of a specified type..
     /// </summary>
-    internal class ArgumentConverter<TExecutionContext> where TExecutionContext : class, new()
+    public class ArgumentConverter<TExecutionContext> where TExecutionContext : class, new()
     {
         private readonly ErrorDetailList _errors = new();
         private readonly Settings _settings;
@@ -181,12 +181,12 @@ namespace MSPro.CLArgs
                             continue;
                         }
 
-                        if (collectionPropertyInfo.SetMethod == null)
-                        {
-                            _errors.AddError(collectionPropertyInfo.Name,
-                                $"There is no public setter on property {collectionPropertyInfo.Name}.");
-                            continue;
-                        }
+                        //if (collectionPropertyInfo.SetMethod == null)
+                        //{
+                        //    _errors.AddError(collectionPropertyInfo.Name,
+                        //        $"There is no public setter on property {collectionPropertyInfo.Name}.");
+                        //    continue;
+                        //}
 
                         // add options to the list
                         foreach (Option providedOption in providedOptions.Where(o => o.IsResolved))

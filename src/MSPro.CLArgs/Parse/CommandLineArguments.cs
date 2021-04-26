@@ -17,24 +17,24 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class CommandLineArguments
     {
-        private readonly List<Option> _allCommandLineOptions;
         private readonly StringComparison _comparer;
+
 
 
         internal CommandLineArguments(string commandLine, bool ignoreCase = false)
         {
             this.CommandLine = commandLine;
 
-            _comparer = ignoreCase 
+            _comparer = ignoreCase
                 ? StringComparison.InvariantCultureIgnoreCase
                 : StringComparison.InvariantCulture;
 
             IEqualityComparer<string> c = ignoreCase
                 ? StringComparer.InvariantCultureIgnoreCase
                 : StringComparer.InvariantCulture;
-            this.Verbs = new HashSet<string>(c);
-            this.Targets = new HashSet<string>(c);
-            _allCommandLineOptions = new List<Option>();
+            this.Verbs = new List<string>();
+            this.Targets = new List<string>();
+            this.Options = new List<Option>();
         }
 
 
@@ -49,14 +49,13 @@ namespace MSPro.CLArgs
         ///     The list of verbs in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public HashSet<string> Verbs { get; }
+        public List<string> Verbs { get; }
 
         /// <summary>
         ///     The list of Targets in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public HashSet<string> Targets { get; }
-
+        public List<string> Targets { get; }
 
 
         /// <summary>
@@ -75,9 +74,10 @@ namespace MSPro.CLArgs
         ///     All option values are <c>strings</c> in the first instance.
         ///     Conversion may happen later.
         /// </remarks>
-        public IEnumerable<Option> Options => _allCommandLineOptions;
+        public List<Option> Options { get; }
 
-        public bool OptionTagProvided(string optionTag) => _allCommandLineOptions.Any(o => o.Key.Equals(optionTag, _comparer));
+
+        public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _comparer));
 
         public void AddVerb(string verb) => this.Verbs.Add(verb);
         public void AddTarget(string target) => this.Targets.Add(target);
@@ -85,14 +85,17 @@ namespace MSPro.CLArgs
 
 
         /// <inheritdoc cref="AddOption(MSPro.CLArgs.Option)" />
-        public void AddOption(Option option) => _allCommandLineOptions.Add( option);
+        public void AddOption(Option option) => this.Options.Add(option);
 
 
 
         /// <summary>
-        ///     Manually add or update an option.
+        ///     Update an option's value
         /// </summary>
-        /// <remarks>Options are unique by their <see cref="Option.Key" /></remarks>
-        public void AddOption(string tag, string value) => AddOption(new Option(tag, value));
+        /// <remarks>
+        ///     Options are unique by their <see cref="Option.Key" />. The option must have been added before, using
+        ///     <see cref="AddOption" />.
+        /// </remarks>
+        public void SetOptionValue(string tag, string value) => this.Options.First(o => o.Key == tag).Value = value;
     }
 }

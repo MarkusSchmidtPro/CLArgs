@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace MSPro.CLArgs
 {
-    internal class OptionDescriptorFromTypeProvider<TCommandOptions>
+    public class OptionDescriptorFromTypeProvider<TCommandContext>
     {
-        public IEnumerable<OptionDescriptorAttribute> Get() => getDescriptors(typeof(TCommandOptions));
+        public IEnumerable<OptionDescriptorAttribute> Get() => getDescriptors(typeof(TCommandContext));
 
         // if property is of type class
         // recursively dive down to check if there are more properties.

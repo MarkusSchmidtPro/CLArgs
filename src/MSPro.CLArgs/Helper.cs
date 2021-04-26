@@ -24,20 +24,59 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
+        ///     Split a command-line into arguments.
+        /// </summary>
+        public static string[] SplitCommandLine(string commandLine)
+        {
+            List<string> result = new();
+            int i = 0;
+            bool quotation = false;
+            StringBuilder currentToken = new StringBuilder(4096);
+            while (i < commandLine.Length)
+            {
+                if (quotation)
+                {
+                    if (commandLine[i] == '\"') quotation = false;
+                    else currentToken.Append(commandLine[i]);
+                }
+                else if (commandLine[i] == ' ')
+                {
+                    result.Add(currentToken.ToString());
+                    currentToken.Clear();
+                }
+                else if (commandLine[i] == '\"')
+                {
+                    quotation = true;
+                }
+                else currentToken.Append(commandLine[i]);
+
+                i++;
+            }
+
+            if (quotation)
+                throw new ApplicationException("Unmatched quotation - missing quote.");
+
+            return result.ToArray();
+        }
+
+
+
+        /// <summary>
         ///     Get the name of the current executable.
         /// </summary>
         /// <remarks>
         ///     To support self-contained Assemblies, the method uses <see cref="Environment.GetCommandLineArgs()" /> to
         ///     get the name of the executable.<br />
-        ///     <b>Be careful:</b> The exe of a .net portable Assembly cannot be loaded using <see cref="Assembly.LoadFile"/>.
-        ///     If you use ILSpy you will see 'PEFileNotSupportedException: PE file does not contain any managed metadata.'.<br/>
-        ///     Interesting to see, <see cref="Assembly.GetEntryAssembly()"/> returns an ExeFileName.DLL as the entry Assembly.
-        ///     This DLL can be used 
+        ///     <b>Be careful:</b> The exe of a .net portable Assembly cannot be loaded using
+        ///     <see cref="Assembly.LoadFile(string)" />.
+        ///     If you use ILSpy you will see 'PEFileNotSupportedException: PE file does not contain any managed metadata.'.<br />
+        ///     Interesting to see, <see cref="Assembly.GetEntryAssembly()" /> returns an ExeFileName.DLL as the entry Assembly.
+        ///     This DLL can be used
         ///     The same is true for a single executable, which cannot be loaded
         ///     <br />
-        ///     Compilation shows this warning: <see cref="System.Reflection.Assembly.Location"/> always returns an empty
+        ///     Compilation shows this warning: <see cref="System.Reflection.Assembly.Location" /> always returns an empty
         ///     string for assemblies embedded in a single-file app. If the path to the app directory is needed,
-        ///     consider calling <see cref="System.AppContext.BaseDirectory"/>".
+        ///     consider calling <see cref="System.AppDomain.BaseDirectory" />".
         /// </remarks>
         /// <seealso href="https://docs.microsoft.com/de-de/dotnet/core/deploying/single-file" />
         public static string GetExecutableFileName()
