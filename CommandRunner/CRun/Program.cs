@@ -14,7 +14,6 @@ namespace CLArgs.CommandRunner
     /// </summary>
     /// <remarks>
     ///     Uses NLog for logging.
-    ///     dotnetcore 2.1 (on purpose!)
     /// </remarks>
     internal class Program
     {
