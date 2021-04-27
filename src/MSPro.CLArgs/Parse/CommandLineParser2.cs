@@ -80,7 +80,7 @@ namespace MSPro.CLArgs
 
             while (argNo < args.Count)
             {
-                string arg = args[argNo].Trim();
+                string arg = args[argNo];
                 bool isOption = false;  // current argument is an option
                 foreach (string optionTag in _optionsTags)
                 {

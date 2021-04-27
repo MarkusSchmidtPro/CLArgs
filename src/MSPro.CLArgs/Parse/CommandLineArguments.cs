@@ -25,7 +25,7 @@ namespace MSPro.CLArgs
         internal CommandLineArguments(string[] args, bool ignoreCase = false)
         {
             this.Args = args;
-            this.CommandLine = string.Join(" ", args.ToString());
+            this.CommandLine = string.Join(" ", args);
 
             _comparer = ignoreCase
                 ? StringComparison.InvariantCultureIgnoreCase
