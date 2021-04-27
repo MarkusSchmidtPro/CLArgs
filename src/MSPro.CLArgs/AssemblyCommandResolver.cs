@@ -18,6 +18,7 @@ namespace MSPro.CLArgs
         public AssemblyCommandResolver(IEnumerable<string> assemblyFileNames)
         {
             _assemblies = assemblyFileNames.Select(Assembly.LoadFile).ToList();
+            _assemblies.Add( Assembly.GetExecutingAssembly());
         }
 
         public AssemblyCommandResolver(Assembly assembly)
