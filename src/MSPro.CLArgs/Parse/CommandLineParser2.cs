@@ -35,8 +35,8 @@ namespace MSPro.CLArgs
 
         private readonly string[] _optionsTags;
         private readonly string[] _optionValueTags;
-        private readonly Regex _verbRegEx = new(@"[A-Za-z0-9_\-]*");
-        private readonly Regex _optionRegEx = new(@"[A-Za-z0-9_\-]*");
+        private readonly Regex _verbRegEx = new(@"^[A-Za-z][A-Za-z0-9_\-]*");
+        private readonly Regex _optionNameRegEx = new(@"[A-Za-z0-9_\-]*");
 
         /// <summary>
         ///     Create a new instance.
@@ -59,7 +59,7 @@ namespace MSPro.CLArgs
 
         bool isVerb(string arg) => _verbRegEx.Match(arg).Value == arg;
 
-        string getOptionName(string arg) => _optionRegEx.Match(arg).Value;
+        string getOptionName(string arg) => _optionNameRegEx.Match(arg).Value;
 
 
         /// <summary>

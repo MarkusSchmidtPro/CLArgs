@@ -231,6 +231,29 @@ namespace XUnitTest
             Assert.Equal("is-set", mixedOption.Value);
 
             Assert.Equal("My Targets", clArgs.Targets[0]);
+        }  
+        
+        
+        
+        [Fact]
+        public void Test7()
+        {
+            const string CMD_LINE = "FETCH GET --componentId f388d899-b7ca-45da-b3b9-c30f7fb8cb94";
+
+            string[] testArgs = Helper.SplitCommandLine(CMD_LINE);
+            Assert.Equal(4, testArgs.Length);   // @arguments.txt is one argument so far!!
+
+            string[] args = Win32.CommandLineToArgs(CMD_LINE);
+            var clArgs = CommandLineParser.Parse(args);
+
+            Assert.Equal(2,clArgs.Verbs.Count);
+            Assert.Single(clArgs.Options);
+            Assert.Empty(clArgs.Targets);
+
+
+            Option componentId = clArgs.Options.FirstOrDefault(o => o.Key == "componentId");
+            Assert.NotNull(componentId);
+            Assert.Equal( "f388d899-b7ca-45da-b3b9-c30f7fb8cb94", componentId.Value);   
         }
     }
 }
