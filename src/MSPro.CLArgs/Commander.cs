@@ -152,7 +152,9 @@ namespace MSPro.CLArgs
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            if (!commandLineArguments.Options.Any() && !commandLineArguments.Verbs.Any())
+            // Nothing provided or first Argument is ? or help
+            if (!commandLineArguments.Options.Any() && !commandLineArguments.Verbs.Any() && !commandLineArguments.Targets.Any()
+            )
             {
                 _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
             }

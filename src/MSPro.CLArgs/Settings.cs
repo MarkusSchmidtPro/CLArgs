@@ -96,10 +96,13 @@ namespace MSPro.CLArgs
         {
             string insert = new(' ', HelpAlignColumn);
 
-            Console.WriteLine($"{commandDescriptors.Count} Commands available.");
+            Console.WriteLine($"{commandDescriptors.Count} Commands available:");
+            Console.WriteLine($"=======================================");
+            string v = "Verb".PadRight(HelpAlignColumn);
+            Console.WriteLine($"{v}Description");
+            Console.WriteLine($"---------------------------------------");
             foreach (CommandDescriptor commandDescriptor in commandDescriptors)
             {
-                Console.WriteLine("");
                 var wrapped = Helper.Wrap(commandDescriptor.Description, HelpFullWidth);
                 string verbs = commandDescriptor.Verb.Replace('.', ' ');
                 Console.WriteLine($"{verbs.PadRight(HelpAlignColumn)}{wrapped.AllLines[0]}");
@@ -107,6 +110,7 @@ namespace MSPro.CLArgs
                 {
                     Console.WriteLine(insert + wrapped.AllLines[lineNo]);
                 }
+                Console.WriteLine("");
             }
         }
 
