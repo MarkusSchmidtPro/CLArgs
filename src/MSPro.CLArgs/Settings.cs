@@ -35,6 +35,15 @@ namespace MSPro.CLArgs
 
         public bool IgnoreCase { get; set; }
 
+        public StringComparison StringComparison => IgnoreCase
+            ?  StringComparison.InvariantCultureIgnoreCase
+            : StringComparison.InvariantCulture;   
+        
+        public IEqualityComparer<string> GetStringComparer() => IgnoreCase
+            ? StringComparer.InvariantCultureIgnoreCase
+            : StringComparer.InvariantCulture;
+        
+        
         /// <summary>
         ///     Get or set if unknown option tags provided in the command-line should be ignored.
         /// </summary>

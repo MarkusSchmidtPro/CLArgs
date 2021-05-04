@@ -25,14 +25,8 @@ namespace MSPro.CLArgs
         /// <param name="settings">Settings used to control CLArgs overall behaviour.</param>
         public Commander(Settings settings = null)
         {
-            _settings = settings ?? new Settings();
-
-            IEqualityComparer<string> c = _settings.IgnoreCase
-                ? StringComparer.InvariantCultureIgnoreCase
-                : StringComparer.InvariantCulture;
-
-            _commandDescriptors = new Dictionary<string, CommandDescriptor>(c);
-
+            _settings           = settings ?? new Settings();
+            _commandDescriptors = new Dictionary<string, CommandDescriptor>(_settings.GetStringComparer());
             // Resolve commands and register ICommand factories
             if (_settings.AutoResolveCommands) resolveCommandImplementations();
         }
@@ -40,7 +34,7 @@ namespace MSPro.CLArgs
 
 
         /// <summary>
-        /// Get a list of available CommandDescriptors.
+        ///     Get a list of available CommandDescriptors.
         /// </summary>
         public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
 
@@ -69,13 +63,13 @@ namespace MSPro.CLArgs
         /// <seealso cref="Settings.AutoResolveCommands" />
         [Obsolete("Use RegisterCommand() instead.")]
         public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc,
-            string commandDescription = null)
+                                           string commandDescription = null)
             => RegisterCommand(new CommandDescriptor(verb, factoryFunc, commandDescription));
 
 
 
         /// <summary>
-        /// Register a command.
+        ///     Register a command.
         /// </summary>
         /// <param name="commandDescriptor"></param>
         public void RegisterCommand(CommandDescriptor commandDescriptor)
@@ -107,7 +101,7 @@ namespace MSPro.CLArgs
         /// <seealso cref="CommandLineArguments.VerbPath " />
         /// <seealso cref="Settings.AutoResolveCommands" />
         public void RegisterFunction([NotNull] string verb, [NotNull] Action<CommandLineArguments> func,
-            string commandDescription = null)
+                                     string commandDescription = null)
         {
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
             _commandDescriptors[verb] = new CommandDescriptor(verb, () => new CommandWrapper(func), commandDescription);
@@ -123,6 +117,10 @@ namespace MSPro.CLArgs
         /// <param name="verb">
         ///     The verb for which and implementation should be resolved.
         ///     IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
+        /// </param>
+        /// <param name="throwOnFail">
+        ///     If <c>true</c> the method throws an exception in case
+        ///     "There is no Command registered for verb..". If set to <c>false</c> it returns <c>null</c>.
         /// </param>
         public CommandDescriptor ResolveCommand(string verb, bool throwOnFail = true)
         {
@@ -151,28 +149,36 @@ namespace MSPro.CLArgs
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
-            // Nothing provided or first Argument is ? or help
-            if (!commandLineArguments.Options.Any() && !commandLineArguments.Verbs.Any() && !commandLineArguments.Targets.Any()
-            )
+            if (!commandLineArguments.Verbs.Any())
             {
-                _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
-            }
-            else
-            {
-                var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, false);
-                if (commandDescriptor == null
-                    && commandLineArguments.Verbs.Count > 0
-                    && commandLineArguments.Verbs[0].StartsWith("clargs"))
+                if(  !commandLineArguments.Targets.Any() &&
+                     (commandLineArguments.Options.Count==0 || commandLineArguments.HelpRequested))
                 {
-                    commandDescriptor = ResolveCommand(commandLineArguments.Verbs[0]);
+                    _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
+                    return;
                 }
+                
+                // No explicit Verb specified in command-line
+                // set default verb
+                commandLineArguments.AddVerb("DEFAULT");
+            }
+            
+            
+            var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, false);
+            if (commandDescriptor == null
+                && commandLineArguments.Verbs.Count > 0
+                && commandLineArguments.Verbs[0].StartsWith("clargs", _settings.StringComparison))
+            {
+                commandDescriptor = ResolveCommand(commandLineArguments.Verbs[0]);
+            }
 
-                if (commandLineArguments.OptionTagProvided("help"))
-                {
-                    _settings?.DisplayCommandHelp(commandDescriptor);
-                }
-                else { commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings); }
+            if (commandLineArguments.HelpRequested)
+            {
+                _settings?.DisplayCommandHelp(commandDescriptor);
+                return;
             }
+         
+            commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings);
         }
 
 

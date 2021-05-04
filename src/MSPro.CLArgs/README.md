@@ -1,6 +1,10 @@
 # MSPro CLArgs Version History
 
-## 2021-04-26 - Mai 2021 Release
+## 2021-05-04 - Mai 2021 Beta Release
+
+* Improved support for "help" and "?" tags.
+
+## 2021-04-26 - Mai 2021 Alpha Release 
 
 The `CommandLineParser` was completely rewritten, to be more flexible. It now **supports blanks** to split option values from names, like `--mixed-option is-set`.  In addition, **quote handling** is now more standard.  In addition, **option tags are now string** instead of character, only, to support option tags. 
 

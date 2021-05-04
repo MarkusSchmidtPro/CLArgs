@@ -18,22 +18,17 @@ namespace MSPro.CLArgs
     public class CommandLineArguments
     {
         public string[] Args { get; }
-        private readonly StringComparison _comparer;
+        private readonly StringComparison _stringComparison;
 
 
-
-        internal CommandLineArguments(string[] args, bool ignoreCase = false)
+        internal CommandLineArguments(string[] args, StringComparison stringComparison)
         {
-            this.Args = args;
-            this.CommandLine = string.Join(" ", args);
-
-            _comparer = ignoreCase
-                ? StringComparison.InvariantCultureIgnoreCase
-                : StringComparison.InvariantCulture;
-
-            this.Verbs = new List<string>();
-            this.Targets = new List<string>();
-            this.Options = new List<Option>();
+            this.Args         = args;
+            this.CommandLine  = string.Join(" ", args);
+            _stringComparison = stringComparison;
+            this.Verbs        = new List<string>();
+            this.Targets      = new List<string>();
+            this.Options      = new List<Option>();
         }
 
 
@@ -76,12 +71,18 @@ namespace MSPro.CLArgs
         public List<Option> Options { get; }
 
         /// <summary>
-        /// 
+        /// Check if an option tag was provided in the command-line.
         /// </summary>
-        /// <param name="optionTag"></param>
-        /// <returns></returns>
-        public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _comparer));
+        /// <remarks>The function respects the <seealso cref="Settings.IgnoreCase"/>.</remarks>
+        public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _stringComparison));
 
+
+        /// <summary>
+        /// The user requested help in the command-line.
+        /// </summary>
+        public bool HelpRequested => OptionTagProvided("help") || OptionTagProvided("?");
+        
+        
         /// <summary>
         /// 
         /// </summary>

@@ -7,7 +7,11 @@ using JetBrains.Annotations;
 namespace MSPro.CLArgs.ListArgs
 {
     [UsedImplicitly]
-    [Command(COMMAND_NAME, HelpText = "Parse command-line and list all recognized arguments.")]
+    [Command(COMMAND_NAME, 
+             HelpText = "CLArgs built-in: Parse command-line and list all recognized arguments."+
+                        "|Does not provide any kind of functionality but helps you to check what could be wrong with your commandline arguments."+
+                        " In many cases missing or invalid quotations, especially when using Batch files, can drive you nuts. Use this command" +
+                        " to 'debug' you arguments.")]
     internal class Command : ICommand
     {
         private const string COMMAND_NAME = "clargs-list";

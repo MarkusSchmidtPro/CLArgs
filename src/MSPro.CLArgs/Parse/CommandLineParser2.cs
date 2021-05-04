@@ -23,7 +23,7 @@ namespace MSPro.CLArgs
         public static CommandLineArguments Parse(string[] args, Settings settings = null)
         {
             settings ??= new Settings();
-            CommandLineArguments commandLineArguments = new(args, settings.IgnoreCase);
+            CommandLineArguments commandLineArguments = new(args, settings.StringComparison);
             CommandLineParser sp = new(settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(args, commandLineArguments);
             return commandLineArguments;
