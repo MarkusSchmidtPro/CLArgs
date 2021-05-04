@@ -23,7 +23,7 @@ namespace MSPro.CLArgs
         public static CommandLineArguments Parse(string[] args, Settings settings = null)
         {
             settings ??= new Settings();
-            CommandLineArguments commandLineArguments = new(string.Join(" ", args.ToString(), settings.IgnoreCase));
+            CommandLineArguments commandLineArguments = new(args, settings.IgnoreCase);
             CommandLineParser sp = new(settings.OptionsTags, settings.OptionValueTags);
             sp.Parse(args, commandLineArguments);
             return commandLineArguments;
@@ -35,8 +35,8 @@ namespace MSPro.CLArgs
 
         private readonly string[] _optionsTags;
         private readonly string[] _optionValueTags;
-        private readonly Regex _verbRegEx = new(@"[A-Za-z0-9_\-]*");
-        private readonly Regex _optionRegEx = new(@"[A-Za-z0-9_\-]*");
+        private readonly Regex _verbRegEx = new(@"^[A-Za-z][A-Za-z0-9_\-]*");
+        private readonly Regex _optionNameRegEx = new(@"[A-Za-z0-9_\-]*");
 
         /// <summary>
         ///     Create a new instance.
@@ -59,7 +59,7 @@ namespace MSPro.CLArgs
 
         bool isVerb(string arg) => _verbRegEx.Match(arg).Value == arg;
 
-        string getOptionName(string arg) => _optionRegEx.Match(arg).Value;
+        string getOptionName(string arg) => _optionNameRegEx.Match(arg).Value;
 
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace MSPro.CLArgs
 
             while (argNo < args.Count)
             {
-                string arg = args[argNo].Trim();
+                string arg = args[argNo];
                 bool isOption = false;  // current argument is an option
                 foreach (string optionTag in _optionsTags)
                 {

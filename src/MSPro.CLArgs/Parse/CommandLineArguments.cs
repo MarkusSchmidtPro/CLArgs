@@ -17,13 +17,15 @@ namespace MSPro.CLArgs
     [PublicAPI]
     public class CommandLineArguments
     {
+        public string[] Args { get; }
         private readonly StringComparison _comparer;
 
 
 
-        internal CommandLineArguments(string commandLine, bool ignoreCase = false)
+        internal CommandLineArguments(string[] args, bool ignoreCase = false)
         {
-            this.CommandLine = commandLine;
+            this.Args = args;
+            this.CommandLine = string.Join(" ", args);
 
             _comparer = ignoreCase
                 ? StringComparison.InvariantCultureIgnoreCase

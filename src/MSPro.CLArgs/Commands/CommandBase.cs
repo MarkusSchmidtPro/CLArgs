@@ -88,7 +88,7 @@ namespace MSPro.CLArgs
         ///     Override this method to add your custom Argument to Property
         ///     <see cref="ValueConverters">TypeConverters</see>.<br />
         /// </remarks>
-        protected virtual void BeforeArgumentConversion([NotNull] CommandLineArguments commandLineArguments)
+        protected virtual void BeforeArgumentConversion([NotNull] CommandLineArguments clArgs)
         {
         }
 

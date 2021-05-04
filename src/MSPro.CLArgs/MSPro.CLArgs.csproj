@@ -9,14 +9,13 @@
       <Copyright>(c) copyright 2021, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.2104.12.1</AssemblyVersion>
+      <AssemblyVersion>1.2104.27.1</AssemblyVersion>
       <Version>$(AssemblyVersion)</Version>
-      <FileVersion>1.2104.12.1</FileVersion>
+      <FileVersion>1.2104.27.1</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon>CLArgs.png</PackageIcon>
-      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>1.2104.12.01</PackageVersion>
+      <PackageVersion>1.2104.27.01</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -33,6 +32,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
       <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <WarningLevel>3</WarningLevel>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">

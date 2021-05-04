@@ -69,7 +69,7 @@ namespace MSPro.CLArgs
         /// <seealso cref="Settings.AutoResolveCommands" />
         [Obsolete("Use RegisterCommand() instead.")]
         public void RegisterCommandFactory([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc,
-                                           string commandDescription = null)
+            string commandDescription = null)
             => RegisterCommand(new CommandDescriptor(verb, factoryFunc, commandDescription));
 
 
@@ -107,7 +107,7 @@ namespace MSPro.CLArgs
         /// <seealso cref="CommandLineArguments.VerbPath " />
         /// <seealso cref="Settings.AutoResolveCommands" />
         public void RegisterFunction([NotNull] string verb, [NotNull] Action<CommandLineArguments> func,
-                                     string commandDescription = null)
+            string commandDescription = null)
         {
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
             _commandDescriptors[verb] = new CommandDescriptor(verb, () => new CommandWrapper(func), commandDescription);
@@ -124,22 +124,21 @@ namespace MSPro.CLArgs
         ///     The verb for which and implementation should be resolved.
         ///     IF <c>verb</c> is <c>null</c> the default Command (first registered command) is returned.
         /// </param>
-        public CommandDescriptor ResolveCommand(string verb)
+        public CommandDescriptor ResolveCommand(string verb, bool throwOnFail = true)
         {
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
                 throw new ApplicationException("No Commands have been registered");
 
             // Invoke Default Command
             if (verb == null) return _commandDescriptors.First().Value;
-
-
             if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
-            if (!_commandDescriptors.ContainsKey(verb))
-                throw new IndexOutOfRangeException(
-                    $"There is no Command registered for verb ${verb}. "
-                    + "Check if upper/lower case is correct.");
+            if (_commandDescriptors.ContainsKey(verb)) return _commandDescriptors[verb];
 
-            return _commandDescriptors[verb]; // call construction method
+            if (throwOnFail)
+                throw new IndexOutOfRangeException(
+                    $"There is no Command registered for verb '{verb}'. "
+                    + "Check if upper/lower case is correct.");
+            return null;
         }
 
 
@@ -160,7 +159,14 @@ namespace MSPro.CLArgs
             }
             else
             {
-                var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath);
+                var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, false);
+                if (commandDescriptor == null
+                    && commandLineArguments.Verbs.Count > 0
+                    && commandLineArguments.Verbs[0].StartsWith("clargs"))
+                {
+                    commandDescriptor = ResolveCommand(commandLineArguments.Verbs[0]);
+                }
+
                 if (commandLineArguments.OptionTagProvided("help"))
                 {
                     _settings?.DisplayCommandHelp(commandDescriptor);
@@ -182,6 +188,7 @@ namespace MSPro.CLArgs
         /// </example>
         public static void ExecuteCommand(string[] args, Settings settings = null) =>
             new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args, settings));
+
 
 
         private void resolveCommandImplementations()
