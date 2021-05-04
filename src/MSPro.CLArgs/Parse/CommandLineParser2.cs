@@ -35,8 +35,10 @@ namespace MSPro.CLArgs
 
         private readonly string[] _optionsTags;
         private readonly string[] _optionValueTags;
-        private readonly Regex _verbRegEx = new(@"^[A-Za-z][A-Za-z0-9_\-]*");
-        private readonly Regex _optionNameRegEx = new(@"[A-Za-z0-9_\-]*");
+        private const string FIRST_CHAR_PATTERN = "^[A-Za-z]";
+        private const string WORD_PATTERN = "[A-Za-z0-9_\\-]*";
+        private readonly Regex _verbRegEx = new($"({FIRST_CHAR_PATTERN}{WORD_PATTERN})");
+        private readonly Regex _optionNameRegEx = new($"(\\?)|({FIRST_CHAR_PATTERN}{WORD_PATTERN})");
 
         /// <summary>
         ///     Create a new instance.
