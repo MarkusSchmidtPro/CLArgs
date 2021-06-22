@@ -12,7 +12,7 @@ namespace MSPro.CLArgs
     /// </summary>
     public class AssemblyCommandResolver : ICommandResolver
     {
-        private readonly List<Assembly> _assemblies = new();
+        private readonly List<Assembly> _assemblies = new List<Assembly>();
 
 
         public AssemblyCommandResolver(IEnumerable<string> assemblyFileNames)

@@ -125,11 +125,11 @@ namespace MSPro.CLArgs
         public CommandDescriptor ResolveCommand(string verb, bool throwOnFail = true)
         {
             if (_commandDescriptors == null || _commandDescriptors.Count == 0)
-                throw new ApplicationException("No Commands have been registered");
+                throw new ApplicationException("No Commands have been registered.");
 
-            // Invoke Default Command
-            if (verb == null) return _commandDescriptors.First().Value;
-            if (string.IsNullOrEmpty(verb)) throw new ArgumentNullException(nameof(verb));
+            if (string.IsNullOrEmpty(verb)) 
+                throw new ArgumentNullException(nameof(verb),"Cannot resolve a command if no verb is specified.");
+
             if (_commandDescriptors.ContainsKey(verb)) return _commandDescriptors[verb];
 
             if (throwOnFail)
@@ -164,7 +164,8 @@ namespace MSPro.CLArgs
             }
             
             
-            var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, false);
+            var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, true);
+
             if (commandDescriptor == null
                 && commandLineArguments.Verbs.Count > 0
                 && commandLineArguments.Verbs[0].StartsWith("clargs", _settings.StringComparison))

@@ -146,8 +146,11 @@ namespace MSPro.CLArgs
         protected virtual void OnError(ErrorDetailList errors, bool handled)
         {
             if (handled) return;
-            throw new AggregateException(errors.Details.Select(
+            if( errors.Details.Count>1)
+                throw new AggregateException(errors.Details.Select(
                                              e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+
+            throw new ArgumentException(errors.Details[0].ErrorMessages[0], errors.Details[0].AttributeName);
         }
     }
 }

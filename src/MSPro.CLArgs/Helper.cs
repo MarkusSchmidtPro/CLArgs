@@ -85,16 +85,20 @@ namespace MSPro.CLArgs
         /// <seealso href="https://docs.microsoft.com/de-de/dotnet/core/deploying/single-file" />
         public static string GetExecutableFileName()
         {
-            string[] args = Environment.GetCommandLineArgs();
-            if (args == null || args.Length == 0)
-                throw new InvalidOperationException("Unexpected: Environment.GetCommandLineArgs()[0] returned null!");
+            ProcessModule processModule = Process.GetCurrentProcess().MainModule;
+            if (processModule == null) 
+                throw new InvalidOperationException("Unexpected: Call to Process.GetCurrentProcess().MainModule returned null!");
 
-            return args[0];
+            return Path.GetFullPath(processModule.FileName);
+
+            //string[] args = Environment.GetCommandLineArgs();
+            //if (args == null || args.Length == 0)
+            //    throw new InvalidOperationException("Unexpected: Environment.GetCommandLineArgs()[0] returned null!");
+
+            //return args[0];
         }
-        //ProcessModule processModule = Process.GetCurrentProcess().MainModule;
-        //if (processModule != null) return Path.GetDirectoryName(processModule.FileName);
-        //throw new InvalidOperationException("Unexpected: Call to Process.GetCurrentProcess().MainModule returned null!");
-
+        
+       
 
 
         /// <summary>
