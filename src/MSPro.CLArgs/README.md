@@ -1,5 +1,14 @@
 # MSPro CLArgs Version History
 
+## 2021-09-07 - September 2021 Release
+
+* Fixes
+* Improved help output
+* Support for ? and /? as a single parameter to get help
+* Improved error messages
+* Fixed samples
+* Improved CLArgs parser
+
 ## 2021-05-04 - Mai 2021 Beta Release
 
 * Improved support for "help" and "?" tags.
