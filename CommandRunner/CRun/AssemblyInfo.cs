@@ -4,7 +4,7 @@ using System.Reflection;
 
 
 
-namespace CLArgs.CommandRunner
+namespace CLArgs.ConsoleHost
 {
     internal static class AssemblyInfo
     {

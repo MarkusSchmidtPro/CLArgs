@@ -1,16 +1,24 @@
 {
   "profiles": {
-    "Default": {
+    "Sum": {
       "commandName": "Project",
-      "commandLineArgs": "--Country=Germany --Count=3"
+      "commandLineArgs": "MATH SUM --Value=7 -v=9 -v=10 -v=20;30"
+    },
+    "Add": {
+      "commandName": "Project",
+      "commandLineArgs": "MATH ADD --Value1=7 -v2=9"
+    },
+    "SayHello": {
+      "commandName": "Project",
+      "commandLineArgs": "SayHello --Country=Germany --Count=3"
     },
     "JsonToDb": {
       "commandName": "Project",
-      "commandLineArgs": "JsonToDatabase --UserName='Markus Schmidt' -p=MySecret --Filename=abc.json"
+      "commandLineArgs": "JsonToDatabase --UserName=\"Markus Schmidt\" -p=MySecret --Filename=abc.json"
     },
     "JsonToDb with error": {
       "commandName": "Project",
-      "commandLineArgs": "JsonToDatabase --UserName='Markus Schmidt' --Filename=abc.json"
+      "commandLineArgs": "JsonToDatabase --UserName=\"Markus Schmidt\" --Filename=abc.json"
     }
   }
 }
