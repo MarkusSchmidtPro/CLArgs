@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MSPro.CLArgs;
 using NLog;
 
@@ -7,19 +8,20 @@ using NLog;
 namespace CLArgs.Command.CommandCollection.JsonToDBCommand
 {
     [Command("JsonToDatabase")]
-    class JsonToDbCommand : CommandBase<JsonToDbParameters>
+    class AddCommand : CommandBase<JsonToDbParameters>
     {
-        private readonly ILogger _log = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// Do parameter validation.
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="unresolvedPropertyNames"></param>
         /// <param name="errors"></param>
-        protected override void BeforeExecute(JsonToDbParameters ps, HashSet<string> unresolvedPropertyNames, ErrorDetailList errors)
+        protected override void BeforeExecute(
+            JsonToDbParameters parameters,
+            HashSet<string> unresolvedPropertyNames, 
+            ErrorDetailList errors)
         {
-            UsernamePassword up = ps.UsernamePassword;
+            UsernamePassword up = parameters.UsernamePassword;
             if (up.WindowsAuthentication)
             {
                 if( up.Password!=null || up.UserName!=null)
@@ -46,7 +48,7 @@ namespace CLArgs.Command.CommandCollection.JsonToDBCommand
         /// <param name="handled"></param>
         protected override void OnError(ErrorDetailList errors, bool handled)
         {
-            _log.Error(errors.ToString);
+            Console.WriteLine(errors.ToString());
             handled = true;
         }
 
@@ -58,15 +60,15 @@ namespace CLArgs.Command.CommandCollection.JsonToDBCommand
         /// <param name="ps"></param>
         protected override void Execute(JsonToDbParameters ps)
         {
-            _log.Info($">><Execute ENTER");
+            Console.WriteLine($">><Execute ENTER");
             // do something
-            _log.Info($"Username={ps.UsernamePassword.UserName}");
-            _log.Info($"Password={ps.UsernamePassword.Password}");
-            _log.Info($"WindowsAuthentication={ps.UsernamePassword.WindowsAuthentication}");
-            _log.Info($"Filename={ps.Filename}");
-            _log.Info($"MaxItems={ps.MaxItems}");
-            
-            _log.Info($"<<<Finished EXIT");
+            Console.WriteLine($"Username={ps.UsernamePassword.UserName}");
+            Console.WriteLine($"Password={ps.UsernamePassword.Password}");
+            Console.WriteLine($"WindowsAuthentication={ps.UsernamePassword.WindowsAuthentication}");
+            Console.WriteLine($"Filename={ps.Filename}");
+            Console.WriteLine($"MaxItems={ps.MaxItems}");
+
+            Console.WriteLine($"<<<Finished EXIT");
         }
     }
 }

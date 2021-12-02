@@ -78,7 +78,7 @@ namespace XUnitTest
         public void Test2()
         {
             const string CMD_LINE =
-                "DEPLOY EXEC /Package= \"2021-04.03_Sprint03\\iPack.jsonc\" /PackageDir=Packages /DstEnv=01-DEV /dn= \"Fixed API parameter, removed trailing blank\"" +
+                "DEPLOY EXEC /Package=\"2021-04.03_Sprint03\\iPack.jsonc\" /PackageDir=Packages /DstEnv=01-DEV /dn=\"Fixed API parameter, removed trailing blank\"" +
                 " Target01 \"  Another target\" 'one more'";
             string[] args = Win32.CommandLineToArgs(CMD_LINE);
 

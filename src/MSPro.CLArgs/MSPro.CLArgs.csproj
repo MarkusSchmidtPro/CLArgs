@@ -9,20 +9,20 @@
       <Copyright>(c) copyright 2021, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.2109.07</AssemblyVersion>
+      <AssemblyVersion>1.2112.01</AssemblyVersion>
       <Version>$(AssemblyVersion)</Version>
-      <FileVersion>1.2109.07</FileVersion>
+      <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon>CLArgs.png</PackageIcon>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>1.2109.07</PackageVersion>
+      <PackageVersion>$(Version)</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
       <RepositoryType>GitHub</RepositoryType>
       <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
-      <TargetFrameworks>net452;net462;net472;net48;net5.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+      <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1</TargetFrameworks>
       <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
@@ -45,6 +45,10 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+    <DocumentationFile />
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,7 +75,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
   </ItemGroup>
 
   <ItemGroup>
