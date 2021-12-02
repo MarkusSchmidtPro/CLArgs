@@ -120,12 +120,12 @@ namespace MSPro.CLArgs
                             if (!arg.StartsWith(optionValueTag)) continue;
 
                             string optionValue = arg.Substring(optionValueTag.Length);
-                            if (optionValue.Length > 0)
-                            {
-                                lastOption.Value = optionValue;
-                                lastOption = null; // option is complete!
-                                break;
-                            }
+                            //  if (optionValue.Length > 0) {
+                            // 2021-12-02: Must allow zero string options (length=0): /dn=""
+                            lastOption.Value = optionValue;
+                            lastOption = null; // option is complete!
+                            break;
+                            // }
                         }
                     }
                 }
