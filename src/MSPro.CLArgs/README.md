@@ -1,5 +1,10 @@
 # MSPro CLArgs Version History
 
+## 2021-12-11 - December 2021 Release
+
+* Support for .net 6.0
+* Allow empty string as argument
+
 ## 2021-09-07 - September 2021 Release
 
 * Fixes
