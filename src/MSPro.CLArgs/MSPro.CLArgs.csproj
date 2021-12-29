@@ -22,7 +22,7 @@
       <RepositoryType>GitHub</RepositoryType>
       <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
-      <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1</TargetFrameworks>
+      <TargetFrameworks>net472;net48;net5.0;net5.0-windows;net6.0;net6.0-windows</TargetFrameworks>
       <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
       <ApplicationIcon></ApplicationIcon>
