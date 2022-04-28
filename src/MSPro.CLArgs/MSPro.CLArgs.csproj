@@ -6,16 +6,16 @@
       <Authors>Markus Schmidt (Pro)</Authors>
       <Company>Markus Schmidt (Pro)</Company>
       <Product>CLArgs - Command Line Parser</Product>
-      <Copyright>(c) copyright 2021, Markus Schmidt (PRO)</Copyright>
+      <Copyright>(c) copyright 2021, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.2112.02</AssemblyVersion>
+      <AssemblyVersion>1.2112.01</AssemblyVersion>
       <Version>$(AssemblyVersion)</Version>
-      <FileVersion>1.2112.02</FileVersion>
+      <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
       <PackageIcon>CLArgs.png</PackageIcon>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>1.2112.02</PackageVersion>
+      <PackageVersion>$(Version)</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -28,7 +28,6 @@
       <ApplicationIcon></ApplicationIcon>
       <PackageLicenseExpression></PackageLicenseExpression>
       <PackageReleaseNotes></PackageReleaseNotes>
-      <SignAssembly>true</SignAssembly>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
