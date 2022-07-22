@@ -1,5 +1,6 @@
 # MSPro CLArgs Version History
 
+
 ## 2021-12-11 - December 2021 Release
 
 * Support for .net 6.0
@@ -37,9 +38,6 @@ The `' ` character is no longer supported in the command-line to mark a string. 
 char[] OptionsTags     --> string[] OptionsTags
 char[] OptionValueTags --> string[] OptionValueTags
 ```
-
-
-
 
 ## 2021-04-12
 
