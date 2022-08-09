@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-
-
+using MSPro.CLArgs.v1;
 
 namespace MSPro.CLArgs.ListArgs
 {
@@ -12,7 +11,7 @@ namespace MSPro.CLArgs.ListArgs
                         "|Does not provide any kind of functionality but helps you to check what could be wrong with your commandline arguments."+
                         " In many cases missing or invalid quotations, especially when using Batch files, can drive you nuts. Use this command" +
                         " to 'debug' you arguments.")]
-    internal class Command : ICommand
+    internal class Command : ICommand, ICommand2
     {
         private const string COMMAND_NAME = "clargs-list";
         public List<OptionDescriptorAttribute> OptionDescriptors { get; }
@@ -51,6 +50,11 @@ namespace MSPro.CLArgs.ListArgs
                 Console.WriteLine($"Targets {i:d2}: '{clArgs.Targets[i]}'");
             }
             Console.WriteLine("--- DONE! ---");
+        }
+
+        public void Execute()
+        {
+                throw new NotImplementedException();
         }
     }
 }

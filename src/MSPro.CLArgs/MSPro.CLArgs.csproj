@@ -6,10 +6,10 @@
       <Authors>Markus Schmidt (Pro)</Authors>
       <Company>Markus Schmidt (Pro)</Company>
       <Product>CLArgs - Command Line Parser</Product>
-      <Copyright>(c) copyright 2021, Markus Schmidt (Pro)</Copyright>
+      <Copyright>(c) copyright 2022, Markus Schmidt (Pro)</Copyright>
       <!--  -->
       <Deterministic>false</Deterministic>
-      <AssemblyVersion>1.2112.01</AssemblyVersion>
+      <AssemblyVersion>2.2208.01</AssemblyVersion>
       <Version>$(AssemblyVersion)</Version>
       <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
@@ -76,6 +76,9 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs
 {
-    [PublicAPIAttribute]
+    [PublicAPI]
     public class ValueConverters
     {
         /// <summary>

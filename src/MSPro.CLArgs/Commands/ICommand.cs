@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MSPro.CLArgs.v1;
+using System.Collections.Generic;
 
 
 
@@ -19,5 +20,11 @@ namespace MSPro.CLArgs
         /// <param name="commandParameters"></param>
         /// <param name="settings"></param>
         void Execute(CommandLineArguments commandParameters, Settings settings);
+    }   
+
+
+    public interface ICommand2
+    {
+        void Execute();
     }
 }
