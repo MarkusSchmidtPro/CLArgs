@@ -1,5 +1,4 @@
-﻿using MSPro.CLArgs.v1;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +20,7 @@ public class CommandLineParser
     /// </remarks>
     public static CommandLineArguments Parse(string[] args, Settings2 settings)
     {
-        CommandLineArguments commandLineArguments = new(args, settings.StringComparison);
+        CommandLineArguments commandLineArguments = new( settings.StringComparison);
         CommandLineParser sp = new(settings.OptionsTags, settings.OptionValueTags);
         sp.Parse(args, commandLineArguments);
         return commandLineArguments;

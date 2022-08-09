@@ -6,25 +6,25 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public static class CommandlineArgumentCollectionExtensions
 {
-    public static ICommandlineArgumentCollection AddArguments(this ICommandlineArgumentCollection commandlineArguments,
+    public static IArgumentCollection AddArguments(this IArgumentCollection arguments,
         string[] args, Settings2 settings)
     {
         var cp =  CommandLineParser.Parse(args.Skip(1).ToArray(),settings);
         foreach (string name in cp.Verbs)
         {
-            commandlineArguments.Add( CommandlineArgument.Verb( name));
+            arguments.Add( CommandlineArgument.Verb( name));
         } 
         
         foreach (var option in cp.Options)
         {
-            commandlineArguments.Add( CommandlineArgument.Option( option.Key, option.Value));
+            arguments.Add( CommandlineArgument.Option( option.Key, option.Value));
         }     
         
         foreach (var target in cp.Targets)
         {
-            commandlineArguments.Add( CommandlineArgument.Target( target));
+            arguments.Add( CommandlineArgument.Target( target));
         }
 
-        return commandlineArguments;
+        return arguments;
     }
 }

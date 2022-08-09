@@ -1,28 +1,28 @@
-# CLArgs - A dotnet command-line parser
+# CLArgs - A .NET Command-Line Parser
 
 *CLArgs* is a **Command-Line Parser** or Command-Line Interpreter, 
-which comes as a [*NuGet Package*](https://www.nuget.org/packages/MSPro.CLArgs) **for dotnet console applications**.
+which comes as a [*NuGet Package*](https://www.nuget.org/packages/MSPro.CLArgs) **for .NET Console Applications**.
 
 > `Application.exe [Verbs] [Options] [Targets]`
 
-`CLArgs` turns your dotnet Console Application 
+`CLArgs` turns your .NET Console Application 
 	into a **modern command-line application**
 	with **minimal coding effort**
 	while providing **maximum flexibility** and **extensibility**.
 
 ## Documentation
 
-**Verbs** [optional] represent different actions / commands your application can execute.
+**Verbs** [optional] represent different actions or commands your application can execute.
 
-**Options** are the options / parameters which an action (verb) may need to run.
+**Options** represent are the parameters you want to pass to your command.
 
-**Targets** [optional] are the targets on which you want to perform an action, like a list of files. 
+**Targets** [optional] represent the items on which you want to perform an action, like a list of files. 
 
-[Full documentation is on GitPages](https://msc4266.gitbook.io/clargs/).
+Read the [full documentation on GitPages](https://mspro.gitbook.io/clargs/).
 
 ## Installation
 
-Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your project and start using it - no dependencies!
+Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSPro.CLArgs) to your .NET project .
 
 ![image-20200810090003001](readme.assets/image-20200810090003001.png)
 
@@ -33,7 +33,8 @@ Add the latest `MSPro.CLArgs` [NuGet package](https://www.nuget.org/packages/MSP
 ```
 > DataConverterApp.exe XMLtoJSON --NullValueHandling=Default File1.xml Files2.xml
 ```
-`XMLToJSON` would be the *Verb* - the *Command* that determines what should be done. `NullValueHandling`is an option that is passed as a *Parameter* to the `XMLtoJSON`*Command*. And the two files are the *Targets* which would be passed to the *Command*. 
+`XMLToJSON` would be the *Verb* - the *Command* that determines what should be done. `NullValueHandling`is an option that is passed as a *Parameter* to the `XMLtoJSON` *Command*. And the two files are the *Targets* which would be passed to the *Command*. 
+
 
 ### Time converter
 
@@ -58,9 +59,9 @@ private static void Main(string[] args)
 
 ##### The functionality -> the Command
 ``` csharp
-//
-// Implement your functionality as a Command that takes Parameters (see below)
-//
+// Implement your functionality 
+// as a Command that takes Parameters (see below)
+
 [Command("ConvertToUtc")]
 class ConvertToUtcCommand : CommandBase<ConvertToUtcParameters>
 {

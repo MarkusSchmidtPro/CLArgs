@@ -17,7 +17,7 @@ public class AssemblyCommandResolver2
     public AssemblyCommandResolver2(IEnumerable<string> assemblyFileNames)
     {
         _assemblies = assemblyFileNames.Select(Assembly.LoadFile).ToList();
-        _assemblies.Add(Assembly.GetExecutingAssembly());
+        //_assemblies.Add(Assembly.GetExecutingAssembly());
     }
 
     public AssemblyCommandResolver2(Assembly assembly)

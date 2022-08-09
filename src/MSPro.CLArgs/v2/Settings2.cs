@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using MSPro.CLArgs.v1;
 
 namespace MSPro.CLArgs
 {
@@ -22,7 +21,7 @@ namespace MSPro.CLArgs
         /// </summary>
         public string[] OptionValueTags { get; set; } = { ":", "=" };
 
-        public bool IgnoreCase { get; set; }
+        public bool IgnoreCase { get; set; } = true;
 
         public StringComparison StringComparison => IgnoreCase
             ? StringComparison.InvariantCultureIgnoreCase
@@ -42,10 +41,6 @@ namespace MSPro.CLArgs
         /// </remarks>
         public bool IgnoreUnknownOptions { get; set; }
 
-        /// <summary>
-        ///     Automatically resolve commands using <see cref="CommandResolver" />
-        /// </summary>
-        public bool AutoResolveCommands { get; set; } = true;
 
 
 

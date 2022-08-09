@@ -2,7 +2,7 @@
 
 namespace MSPro.CLArgs;
 
-public interface ICommandlineArgumentCollection : IList<CommandlineArgument>
+public interface IArgumentCollection : IList<CommandlineArgument>
 {
     public IEnumerable<string> Verbs { get; }
     public IEnumerable<string> Targets{ get; }

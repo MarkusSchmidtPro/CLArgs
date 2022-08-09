@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,7 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public class CommandBuilder
 {
-    private readonly List<Action<ICommandlineArgumentCollection, Settings2>> _configureCommandlineArgumentsActions =
+    private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions =
         new();
 
     private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = new();
@@ -33,9 +34,9 @@ public class CommandBuilder
     }
 
 
-    public void ConfigureCommandlineArguments(Action<ICommandlineArgumentCollection, Settings2> action)
+    public void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
     {
-        _configureCommandlineArgumentsActions.Add(action);
+        _configureArgumentsActions.Add(action);
     }
 
     public void ConfigureArgumentConverters(Action<Settings2> configureArgumentConvertersAction)
@@ -62,30 +63,32 @@ public class CommandBuilder
         ICommandDescriptorCollection commandDescriptors = createDefaultCommandDescriptors();
         foreach (var build in _configureCommandsActions) build(commandDescriptors);
 
-        ICommandlineArgumentCollection commandlineArguments = createDefaultCommandlineArguments();
-        foreach (var build in _configureCommandlineArgumentsActions) build(commandlineArguments, settings);
+        IArgumentCollection arguments = createDefaultArguments(settings);
+        foreach (var build in _configureArgumentsActions) build(arguments, settings);
      
-        IArgumentConvertersCollection argumentConverters = createDefaultArgumentConverters();
+        IArgumentConverterCollection argumentConverters = createDefaultArgumentConverters();
         foreach (var build in _configureArgumentConvertersActions) build( settings);
 
         IServiceCollection services = new ServiceCollection();
-        services.AddScoped<Settings2>();
-        services.AddScoped<OptionResolver2>();
-        services.AddScoped<ContextBuilder>();
+        services.AddSingleton<OptionResolver2>();
+        services.AddSingleton<ContextBuilder>();
+        services.AddSingleton(settings);
         services.AddScoped(_ => commandDescriptors);
-        services.AddScoped(_ => commandlineArguments);
+        services.AddScoped(_ => arguments);
         services.AddScoped(_ => argumentConverters);
-        foreach (var action in _configureServicesActions) action(services, settings);
 
         foreach (var commandDescriptor in commandDescriptors.Values)
             services.AddScoped(commandDescriptor.Type);
 
+        foreach (var action in _configureServicesActions) 
+            action(services, settings);
+
         return new Commander2(services.BuildServiceProvider());
     }
 
-    private IArgumentConvertersCollection createDefaultArgumentConverters()
+    private IArgumentConverterCollection createDefaultArgumentConverters()
     {
-        var result = new ArgumentConvertersCollection
+        var result = new ArgumentConverterCollection
         {
             { typeof(string), new StringArgumentConverter() },
             { typeof(int), new IntArgumentConverter() },
@@ -97,11 +100,23 @@ public class CommandBuilder
     }
 
 
-    private ICommandlineArgumentCollection createDefaultCommandlineArguments() => new CommandlineArgumentCollection();
+    private IArgumentCollection createDefaultArguments(Settings2 settings)
+    {
+        var result = new ArgumentCollection();
+        result.AddArguments(Environment.GetCommandLineArgs(), settings);
+        return result;
+    }
+
+
 
     private Settings2 createDefaultSettings() => new();
 
-    private ICommandDescriptorCollection createDefaultCommandDescriptors() => new CommandDescriptorCollection();
+    private ICommandDescriptorCollection createDefaultCommandDescriptors()
+    {
+        var result = new CommandDescriptorCollection();
+        result.AddAssemblies(new AssemblyCommandResolver2(Assembly.GetExecutingAssembly()));
+        return result;
+    }
 
     #endregion
 }

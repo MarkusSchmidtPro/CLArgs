@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using JetBrains.Annotations;
 
-namespace MSPro.CLArgs.v1;
+namespace MSPro.CLArgs;
 
 public delegate void DisplayAllCommandsDescription(List<CommandDescriptor> commandDescriptors);
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
+
+
 namespace MSPro.CLArgs;
 
 /// <summary>
@@ -11,83 +13,74 @@ namespace MSPro.CLArgs;
 /// </summary>
 public class ContextBuilder
 {
-    private readonly IArgumentConvertersCollection _argumentConvertersCollection;
-    private readonly ICommandlineArgumentCollection _commandlineArgumentCollection;
+    private readonly IArgumentCollection _argumentCollection;
+    private readonly IArgumentConverterCollection _argumentConverterCollection;
     private readonly OptionResolver2 _optionsResolver;
-    private readonly Settings2 _settings;
 
 
-    private List<Option> _allOptions;
+
 
     public ContextBuilder(
-        ICommandlineArgumentCollection commandlineArgumentCollection
-        , IArgumentConvertersCollection argumentConvertersCollection
-        , OptionResolver2 optionsResolver
-        , Settings2 settings)
+        IArgumentCollection argumentCollection
+        , IArgumentConverterCollection argumentConverterCollection
+        , OptionResolver2 optionsResolver)
     {
-        _commandlineArgumentCollection = commandlineArgumentCollection;
-        _argumentConvertersCollection = argumentConvertersCollection;
+        _argumentCollection = argumentCollection;
+        _argumentConverterCollection = argumentConverterCollection;
         _optionsResolver = optionsResolver;
-        _settings = settings;
     }
+
 
 
     /// <summary>
     ///     Execute the command that is resolved by the verbs passed in the command-line.
     /// </summary>
-    public ErrorDetailList TryConvert(Type contextType,
-        out object executionContext,
-        out HashSet<string> unresolvedPropertyNames)
+    public TContext Build<TContext>(
+        out HashSet<string> unresolvedPropertyNames,
+        out ErrorDetailList errors)
     {
-        var optionDescriptors = getDescriptors(contextType).ToList();
+        errors = new();
+        unresolvedPropertyNames = new HashSet<string>();
+
         // contains all options for which a Property is defined
         // check .IsResolved flag if a value has been resolved
-        ErrorDetailList errors = new();
-        _allOptions = _optionsResolver.ResolveOptions(optionDescriptors, errors).ToList();
+        List<OptionDescriptorAttribute> optionDescriptors = getDescriptors(typeof(TContext));
+        List<Option> allOptions = _optionsResolver.Resolve(optionDescriptors, errors);
+        if (errors.HasErrors()) return default;
 
-        if (errors.HasErrors())
+        TContext context = createContext<TContext>(allOptions, unresolvedPropertyNames, errors);
+        var contextProperties = context.GetType().GetProperties();
+        // Find first property with a TargetAttribute 
+        var targetsPropertyInfo = contextProperties.FirstOrDefault(pi => pi.GetFirst<TargetsAttribute>() != null);
+        if (targetsPropertyInfo != null)
         {
-            executionContext = null;
-            unresolvedPropertyNames = null;
-        }
-        else
-        {
-            unresolvedPropertyNames = new HashSet<string>();
-            executionContext =
-                resolvePropertyValue(contextType, _allOptions, errors, unresolvedPropertyNames);
-
-            // Assign Targets, if any
-
-            var contextProperties = executionContext.GetType().GetProperties();
-            // Find first property with a TargetAttribute 
-            var targetsPropertyInfo = contextProperties.FirstOrDefault(pi => pi.GetFirst<TargetsAttribute>() != null);
-            if (targetsPropertyInfo != null)
+            if (!typeof(IList<string>).IsAssignableFrom(targetsPropertyInfo.PropertyType))
             {
-                if (!typeof(IList<string>).IsAssignableFrom(targetsPropertyInfo.PropertyType))
-                {
+                errors.AddError(targetsPropertyInfo.Name,
+                    $"The property {targetsPropertyInfo.Name} cannot be used for Targets because it does not inherit from type IList<string>");
+            }
+            else
+            {
+                var targetsList = (IList)targetsPropertyInfo.GetValue(context);
+                if (targetsList == null)
                     errors.AddError(targetsPropertyInfo.Name,
-                        $"The property {targetsPropertyInfo.Name} cannot be used for Targets because it does not inherit from type IList<string>");
-                }
+                        $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; }} =new();");
                 else
-                {
-                    var targetsList = (IList)targetsPropertyInfo.GetValue(executionContext);
-                    if (targetsList == null)
-                        errors.AddError(targetsPropertyInfo.Name,
-                            $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; }} =new();");
-                    else
-                        foreach (string target in _commandlineArgumentCollection.Targets)
-                            targetsList.Add(target);
-                }
+                    foreach (string target in _argumentCollection.Targets)
+                        targetsList.Add(target);
             }
         }
 
-        return errors;
+        return context;
     }
 
-    private IEnumerable<OptionDescriptorAttribute> getDescriptors(Type t)
+
+
+    private List<OptionDescriptorAttribute> getDescriptors(Type contextType)
     {
         List<OptionDescriptorAttribute> result = new();
-        foreach (var pi in t.GetProperties())
+        foreach (var pi in contextType.GetProperties())
+        {
             if (pi.GetFirst<OptionSetAttribute>() != null)
             {
                 result.AddRange(getDescriptors(pi.PropertyType));
@@ -97,24 +90,26 @@ public class ContextBuilder
                 var optionDescriptor = pi.GetFirst<OptionDescriptorAttribute>();
                 if (optionDescriptor != null) result.Add(optionDescriptor);
             }
+        }
 
         return result;
     }
 
+
+
     #region Create instance and populate Command parameters
 
-    /// <summary>
-    ///     Resolves a single property's value. If property is an annotated class it will
-    ///     recursively resolve all properties of this class.
-    /// </summary>
-    /// <param name="executionContextType"></param>
-    /// <param name="options"></param>
-    /// <param name="unresolvedPropertyNames"></param>
-    private object resolvePropertyValue(
-        [NotNull] Type executionContextType,
+    private TContext createContext<TContext>([NotNull] IReadOnlyCollection<Option> options,
+        [NotNull] ISet<string> unresolvedPropertyNames,
+        [NotNull] ErrorDetailList errors)
+        => (TContext)_createContext(typeof(TContext), options, unresolvedPropertyNames, errors);
+
+
+
+    private object _createContext([NotNull] Type executionContextType,
         [NotNull] IReadOnlyCollection<Option> options,
-        [NotNull] ErrorDetailList errors,
-        [NotNull] ISet<string> unresolvedPropertyNames)
+        [NotNull] ISet<string> unresolvedPropertyNames,
+        [NotNull] ErrorDetailList errors)
     {
         // The instance of the command parameters object.
         // This is where we set the values
@@ -125,7 +120,7 @@ public class ContextBuilder
             // If a property is an OptionSet we must parse recursively
             if (propInfo.GetFirst<OptionSetAttribute>() != null)
             {
-                object o = resolvePropertyValue(propInfo.PropertyType, options, errors, unresolvedPropertyNames);
+                object o = _createContext(propInfo.PropertyType, options, unresolvedPropertyNames, errors);
                 propInfo.SetValue(executionContext, o);
             }
             else
@@ -155,7 +150,7 @@ public class ContextBuilder
                     // when there is no matching option.  
                     unresolvedPropertyNames.Add(targetPropertyName);
                 }
-                else if (!_argumentConvertersCollection.ContainsKey(targetType))
+                else if (!_argumentConverterCollection.ContainsKey(targetType))
                 {
                     errors.AddError(targetPropertyName,
                         $"No type converter found for type {targetType} of property {targetPropertyName} ");
@@ -217,7 +212,7 @@ public class ContextBuilder
                                 providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray());
                             foreach (string valueString in providedValuesString)
                                 contextList.Add(
-                                    _argumentConvertersCollection[targetType].Convert(valueString, boundOptionName, errors,targetType));
+                                    _argumentConverterCollection[targetType].Convert(valueString, boundOptionName, errors, targetType));
                         }
                         else
                         {
@@ -245,7 +240,7 @@ public class ContextBuilder
                     // Convert the string from the command line into the correct type so that the value
                     // can be assigned to the property.
                     object propertyValue =
-                        _argumentConvertersCollection[targetType].Convert(providedOptions[0].Value, boundOptionName, errors, targetType);
+                        _argumentConverterCollection[targetType].Convert(providedOptions[0].Value, boundOptionName, errors, targetType);
                     propInfo.SetValue(executionContext, propertyValue);
                 }
             }

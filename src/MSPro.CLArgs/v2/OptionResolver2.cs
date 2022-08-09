@@ -19,18 +19,19 @@ namespace MSPro.CLArgs
         /// </summary>
         private static readonly HashSet<string> _wellKnownOptions = new() { "clArgsTrace" };
 
-        private readonly ICommandlineArgumentCollection _commandlineArgumentCollection;
+        private readonly IArgumentCollection _argumentCollection;
         private readonly Settings2 _settings;
 
-        public OptionResolver2(ICommandlineArgumentCollection commandlineArgumentCollection, Settings2 settings)
+        public OptionResolver2(IArgumentCollection argumentCollection, Settings2 settings)
         {
-            _commandlineArgumentCollection = commandlineArgumentCollection;
+            _argumentCollection = argumentCollection;
             _settings = settings;
         }
 
 
-        public List<Option> ResolveOptions(
-            [NotNull] List<OptionDescriptorAttribute> descriptors, ErrorDetailList errors)
+        public List<Option> Resolve(
+            [NotNull] List<OptionDescriptorAttribute> descriptors, 
+            [NotNull] ErrorDetailList errors)
         {
             // With AllowMultiple options with the same name can occur more than once
             List<Option> optionsByName = new();
@@ -41,7 +42,7 @@ namespace MSPro.CLArgs
             // Collect options by tag (as provided in the command-line Arguments)
             // and store them under option[ name]
             // 
-            foreach (var option in _commandlineArgumentCollection.Options)
+            foreach (var option in _argumentCollection.Options)
             {
                 // Find an OptionDescriptor by searching in all Tags and in the Options name
                 var optionDescriptor = descriptors.FirstOrDefault(

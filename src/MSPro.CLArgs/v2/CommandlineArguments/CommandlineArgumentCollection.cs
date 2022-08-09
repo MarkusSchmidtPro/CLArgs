@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MSPro.CLArgs;
 
-public class CommandlineArgumentCollection : ICommandlineArgumentCollection
+public class ArgumentCollection : IArgumentCollection
 {
     public IEnumerable<string> Verbs =>
         _list

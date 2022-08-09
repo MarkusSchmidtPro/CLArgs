@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using MSPro.CLArgs.v1;
 
 namespace MSPro.CLArgs;
 
@@ -156,8 +155,8 @@ public class Commander
             commandLineArguments.AddVerb("DEFAULT");
         }
 
-
-        var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath);
+        string verbPath = commandLineArguments.Verbs.Count == 0 ? null : string.Join(".", commandLineArguments.Verbs);
+        var commandDescriptor = ResolveCommand(verbPath);
 
         if (commandDescriptor == null
             && commandLineArguments.Verbs.Count > 0

@@ -21,11 +21,4 @@ public static class CommandDescriptorCollectionExtensions
         foreach (var descriptor in resolver.GetCommandDescriptors()) commandDescriptors.Add(descriptor.Verb, descriptor);
         return commandDescriptors;
     }
-
-    /* public static ICommandDescriptorCollection AddFunction(this ICommandDescriptorCollection commandDescriptors, 
-         [NotNull] Action<CommandLineArguments> func, string commandDescription = null)
-     {
-         commandDescriptors.Add(verb, () => new CommandWrapper(func), commandDescription));
-         return commandDescriptors;
-     }*/
 }
