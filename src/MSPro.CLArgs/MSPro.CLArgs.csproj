@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Remove="ConfigFileResolver.cs" />
     <Compile Remove="IConfigFileResolver.cs" />
+    <Compile Remove="v2\Parse\Arguments2.cs" />
   </ItemGroup>
 
   

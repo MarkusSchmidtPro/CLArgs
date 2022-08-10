@@ -5,7 +5,7 @@
 namespace MSPro.CLArgs;
 
 /// <summary>
-///     A command-line Option.
+///     A single command-line argument.
 /// </summary>
 [DebuggerDisplay("{Type}({Key})='{Value}'")]
 public class CommandlineArgument
@@ -27,5 +27,5 @@ public class CommandlineArgument
 
     public static CommandlineArgument Option(string tag, string value) => new(CommandlineArgumentType.Option, tag, value);
     public static CommandlineArgument Verb(string name) => new(CommandlineArgumentType.Verb, name, null);
-    public static CommandlineArgument Target(string value) => new(CommandlineArgumentType.Target, null, value);
+    public static CommandlineArgument Target(string value) => new(CommandlineArgumentType.Target, value, value);
 }

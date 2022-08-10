@@ -10,7 +10,11 @@ namespace MSPro.CLArgs;
 /// </summary>
 public class CommandDescriptorCollection : ICommandDescriptorCollection
 {
-    private readonly Dictionary<string, CommandDescriptor2> _data = new();
+    public CommandDescriptorCollection(Settings2 settings)
+    {
+        _data = new Dictionary<string, CommandDescriptor2>(settings.GetStringComparer());
+    }
+    private readonly Dictionary<string, CommandDescriptor2> _data ;
 
 
     public IEnumerator<KeyValuePair<string, CommandDescriptor2>> GetEnumerator() =>
