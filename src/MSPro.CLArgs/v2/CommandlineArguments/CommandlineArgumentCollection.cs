@@ -21,6 +21,7 @@ public class ArgumentCollection : IArgumentCollection
             .Where(arg => arg.Type == CommandlineArgumentType.Option)
             .Select(arg => new Option(arg.Key, arg.Value));
 
+    public string VerbPath => Verbs.Any() ? string.Join(".", Verbs) : null;
 
     private readonly List<CommandlineArgument> _list = new();
 

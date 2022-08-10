@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+
+
 namespace MSPro.CLArgs;
 
 /// <summary>
@@ -10,10 +12,12 @@ public class CommandlineArgument
 {
     private CommandlineArgument(CommandlineArgumentType type, string tag, string value)
     {
-        Type = type;
-        Value = value;
-        Key = tag;
+        this.Type = type;
+        this.Value = value;
+        this.Key = tag;
     }
+
+
 
     public CommandlineArgumentType Type { get; }
 
@@ -21,12 +25,7 @@ public class CommandlineArgument
 
     public string Value { get; set; }
 
-    public static CommandlineArgument Option(string tag, string value) =>
-        new(CommandlineArgumentType.Option, tag, value);
-
-    public static CommandlineArgument Option(string tag, bool value = true) =>
-        new(CommandlineArgumentType.Option, tag, value.ToString());
-
+    public static CommandlineArgument Option(string tag, string value) => new(CommandlineArgumentType.Option, tag, value);
     public static CommandlineArgument Verb(string name) => new(CommandlineArgumentType.Verb, name, null);
     public static CommandlineArgument Target(string value) => new(CommandlineArgumentType.Target, null, value);
 }

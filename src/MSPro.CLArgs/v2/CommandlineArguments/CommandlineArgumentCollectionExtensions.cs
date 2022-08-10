@@ -15,7 +15,7 @@ public static class CommandlineArgumentCollectionExtensions
             arguments.Add( CommandlineArgument.Verb( name));
         } 
         
-        foreach (var option in cp.Options)
+        foreach (var option in cp.Options.Values)
         {
             arguments.Add( CommandlineArgument.Option( option.Key, option.Value));
         }     

@@ -19,7 +19,7 @@ public class CommandLineParser2
     /// </remarks>
     public static CommandLineArguments2 Parse(string[] args, Settings2 settings)
     {
-        CommandLineArguments2 commandLineArguments = new( settings.StringComparison);
+        CommandLineArguments2 commandLineArguments = new( settings);
         CommandLineParser2 sp = new(settings.OptionsTags, settings.OptionValueTags);
         sp.Parse(args, commandLineArguments);
         return commandLineArguments;

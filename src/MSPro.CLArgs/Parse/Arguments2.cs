@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -15,28 +16,24 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public class CommandLineArguments2
 {
-    private readonly StringComparison _stringComparison;
-
-
-    internal CommandLineArguments2( StringComparison stringComparison)
+    internal CommandLineArguments2( Settings2 settings)
     {
-        _stringComparison = stringComparison;
-        this.Verbs        = new List<string>();
-        this.Targets      = new List<string>();
-        this.Options      = new List<Option>();
+        this.Verbs        = new HashSet<string>(settings.GetStringComparer());
+        this.Targets      = new HashSet<string>(settings.GetStringComparer());
+        this.Options      = new Dictionary<string,Option>(StringComparer.InvariantCulture);
     }
 
     /// <summary>
     ///     The list of verbs in the sequence order
     ///     as they were provided in the command-line.
     /// </summary>
-    public List<string> Verbs { get; }
+    public HashSet<string> Verbs { get; }
 
     /// <summary>
     ///     The list of Targets in the sequence order
     ///     as they were provided in the command-line.
     /// </summary>
-    public List<string> Targets { get; }
+    public HashSet<string> Targets { get; }
 
 
     /// <summary>
@@ -46,21 +43,8 @@ public class CommandLineArguments2
     ///     All option values are <c>strings</c> in the first instance.
     ///     Conversion may happen later.
     /// </remarks>
-    public List<Option> Options { get; }
+    public Dictionary<string,Option> Options { get; }
 
-    /// <summary>
-    /// Check if an option tag was provided in the command-line.
-    /// </summary>
-    /// <remarks>The function respects the <seealso cref="Settings.IgnoreCase"/>.</remarks>
-    public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _stringComparison));
-
-
-    /// <summary>
-    /// The user requested help in the command-line.
-    /// </summary>
-    public bool HelpRequested => OptionTagProvided("help") || OptionTagProvided("?");
-        
-        
     /// <summary>
     /// 
     /// </summary>
@@ -72,6 +56,16 @@ public class CommandLineArguments2
     /// <param name="target"></param>
     public void AddTarget(string target) => this.Targets.Add(target);
 
+
+
+
     /// <inheritdoc cref="AddOption(MSPro.CLArgs.Option)" />
-    public void AddOption(Option option) => this.Options.Add(option);
+    public void AddOption(Option option)
+    {
+        this.Options["abc"]= new Option("111");
+        this.Options["ABC"]= new Option("222");
+        this.Options["abc"]= new Option("333");
+        
+        this.Options.Add(option.Key, option);
+    }
 }
