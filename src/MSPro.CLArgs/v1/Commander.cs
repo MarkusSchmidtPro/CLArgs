@@ -9,12 +9,12 @@ namespace MSPro.CLArgs;
 ///     The top level class to easily use 'CLArgs'.
 /// </summary>
 [PublicAPI]
-[Obsolete("Use Commander2")]
 public class Commander
 {
     // Internally use a dictionary to make sure Verbs are unique
     private readonly Dictionary<string, CommandDescriptor> _commandDescriptors;
     private readonly Settings _settings;
+
 
 
     /// <summary>
@@ -23,17 +23,19 @@ public class Commander
     /// <param name="settings">Settings used to control CLArgs overall behaviour.</param>
     public Commander(Settings settings = null)
     {
-        _settings = settings ?? new Settings();
+        _settings           = settings ?? new Settings();
         _commandDescriptors = new Dictionary<string, CommandDescriptor>(_settings.GetStringComparer());
         // Resolve commands and register ICommand factories
         if (_settings.AutoResolveCommands) resolveCommandImplementations();
     }
 
 
+
     /// <summary>
     ///     Get a list of available CommandDescriptors.
     /// </summary>
     public List<CommandDescriptor> CommandDescriptors => _commandDescriptors.Values.ToList();
+
 
 
     /// <summary>
@@ -63,12 +65,14 @@ public class Commander
         => RegisterCommand(new CommandDescriptor(verb, factoryFunc, commandDescription));
 
 
+
     /// <summary>
     ///     Register a command.
     /// </summary>
     /// <param name="commandDescriptor"></param>
     public void RegisterCommand(CommandDescriptor commandDescriptor)
         => _commandDescriptors[commandDescriptor.Verb] = commandDescriptor;
+
 
 
     /// <summary>
@@ -102,6 +106,7 @@ public class Commander
     }
 
 
+
     /// <summary>
     ///     Resolve a Command implementation by Verb.
     /// </summary>
@@ -120,8 +125,8 @@ public class Commander
         if (_commandDescriptors == null || _commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered.");
 
-        if (string.IsNullOrEmpty(verb))
-            throw new ArgumentNullException(nameof(verb), "Cannot resolve a command if no verb is specified.");
+        if (string.IsNullOrEmpty(verb)) 
+            throw new ArgumentNullException(nameof(verb),"Cannot resolve a command if no verb is specified.");
 
         if (_commandDescriptors.ContainsKey(verb)) return _commandDescriptors[verb];
 
@@ -131,6 +136,7 @@ public class Commander
                 + "Check if upper/lower case is correct.");
         return null;
     }
+
 
 
     /// <summary>
@@ -143,45 +149,65 @@ public class Commander
 
         if (!commandLineArguments.Verbs.Any())
         {
-            if (!commandLineArguments.Targets.Any() &&
-                (commandLineArguments.Options.Count == 0 || commandLineArguments.HelpRequested))
+            if(  !commandLineArguments.Targets.Any() &&
+                 (commandLineArguments.Options.Count==0 || commandLineArguments.HelpRequested))
             {
-                _settings.DisplayAllCommandsDescription?.Invoke(CommandDescriptors);
+                _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
                 return;
             }
-
+                
             // No explicit Verb specified in command-line
             // set default verb
             commandLineArguments.AddVerb("DEFAULT");
         }
-
-        string verbPath = commandLineArguments.Verbs.Count == 0 ? null : string.Join(".", commandLineArguments.Verbs);
-        var commandDescriptor = ResolveCommand(verbPath);
+            
+            
+        var commandDescriptor = ResolveCommand(commandLineArguments.VerbPath, true);
 
         if (commandDescriptor == null
             && commandLineArguments.Verbs.Count > 0
             && commandLineArguments.Verbs[0].StartsWith("clargs", _settings.StringComparison))
+        {
             commandDescriptor = ResolveCommand(commandLineArguments.Verbs[0]);
+        }
 
         if (commandLineArguments.HelpRequested)
         {
             _settings?.DisplayCommandHelp(commandDescriptor);
             return;
         }
-
-        commandDescriptor.CreateCommand().Execute(commandLineArguments, _settings);
+         
+        commandDescriptor.CreateCommandInstance().Execute(commandLineArguments, _settings);
     }
+
+
+
+    /// <summary>
+    ///     Shortcut and preferred way to use Commander.
+    /// </summary>
+    /// <example>
+    ///     Full code:
+    ///     <code>
+    ///     new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args))
+    ///     </code>
+    /// </example>
+    public static void ExecuteCommand(string[] args, Settings settings = null) =>
+        new Commander(settings).ExecuteCommand(CommandLineParser.Parse(args, settings));
+
 
 
     private void resolveCommandImplementations()
     {
-        var commandDescriptors = _settings.CommandResolver.GetCommandDescriptors();
+        List<CommandDescriptor> commandDescriptors = _settings.CommandResolver.GetCommandDescriptors();
         if (!commandDescriptors.Any())
             throw new ApplicationException(
                 $"{nameof(_settings.AutoResolveCommands)} is {_settings.AutoResolveCommands} " +
                 $"however the resolver {_settings.CommandResolver.GetType()} did not find any ICommand implementation! " +
                 "Make sure the resolver can see/find the Commands.");
 
-        foreach (var commandDescriptor in commandDescriptors) RegisterCommand(commandDescriptor);
+        foreach (var commandDescriptor in commandDescriptors)
+        {
+            RegisterCommand(commandDescriptor);
+        }
     }
 }

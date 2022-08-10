@@ -14,7 +14,6 @@ public delegate void DisplayCommandHelp(CommandDescriptor commandDescriptor);
 
 
 [PublicAPI]
-[Obsolete("Use Settings2")]
 public class Settings
 {
     public Settings()

@@ -3,11 +3,10 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+[AttributeUsage(AttributeTargets.Property)]
+[PublicAPI]
+public class OptionSetAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    [PublicAPI]
-    public class OptionSetAttribute : Attribute
-    {
-    }
 }

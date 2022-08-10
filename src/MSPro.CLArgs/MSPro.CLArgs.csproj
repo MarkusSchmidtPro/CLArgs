@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Remove="ConfigFileResolver.cs" />
     <Compile Remove="IConfigFileResolver.cs" />
-    <Compile Remove="Parse\CommandLineParser.cs" />
   </ItemGroup>
 
   

@@ -9,13 +9,14 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public class CommandBuilder
 {
+    private readonly List<Action<Settings2>> _configureArgumentConvertersActions = new();
+
     private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions =
         new();
 
     private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = new();
     private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = new();
     private readonly List<Action<Settings2>> _configureSettingsActions = new();
-    private readonly List<Action<Settings2>> _configureArgumentConvertersActions = new();
 
 
     public static CommandBuilder Create() => new();
@@ -60,14 +61,14 @@ public class CommandBuilder
         foreach (var build in _configureSettingsActions) build(settings);
 
         // private ICommandResolver _commandResolver = new AssemblyCommandResolver(Assembly.GetEntryAssembly());
-        ICommandDescriptorCollection commandDescriptors = createDefaultCommandDescriptors();
+        var commandDescriptors = createDefaultCommandDescriptors();
         foreach (var build in _configureCommandsActions) build(commandDescriptors);
 
-        IArgumentCollection arguments = createDefaultArguments(settings);
+        var arguments = createDefaultArguments(settings);
         foreach (var build in _configureArgumentsActions) build(arguments, settings);
-     
-        IArgumentConverterCollection argumentConverters = createDefaultArgumentConverters();
-        foreach (var build in _configureArgumentConvertersActions) build( settings);
+
+        var argumentConverters = createDefaultArgumentConverters();
+        foreach (var build in _configureArgumentConvertersActions) build(settings);
 
         IServiceCollection services = new ServiceCollection();
         services.AddSingleton<OptionResolver2>();
@@ -80,7 +81,7 @@ public class CommandBuilder
         foreach (var commandDescriptor in commandDescriptors.Values)
             services.AddScoped(commandDescriptor.Type);
 
-        foreach (var action in _configureServicesActions) 
+        foreach (var action in _configureServicesActions)
             action(services, settings);
 
         return new Commander2(services.BuildServiceProvider());
@@ -106,7 +107,6 @@ public class CommandBuilder
         result.AddArguments(Environment.GetCommandLineArgs(), settings);
         return result;
     }
-
 
 
     private Settings2 createDefaultSettings() => new();

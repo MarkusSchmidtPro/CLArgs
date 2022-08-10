@@ -1,6 +1,5 @@
-﻿namespace MSPro.CLArgs.ListArgs
+﻿namespace MSPro.CLArgs.ListArgs;
+
+internal class CommandContext 
 {
-    internal class CommandContext 
-    {
-    }
 }

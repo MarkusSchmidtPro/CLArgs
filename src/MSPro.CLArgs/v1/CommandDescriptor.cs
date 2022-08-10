@@ -1,6 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
 
+
+
 namespace MSPro.CLArgs;
 
 /// <summary>
@@ -9,12 +11,16 @@ public class CommandDescriptor
 {
     /// <summary>
     /// </summary>
-    public CommandDescriptor([NotNull] string verb, [NotNull] Func<ICommand> hostFactory, string description = null)
+    /// <param name="verb"></param>
+    /// <param name="factoryFunc"></param>
+    /// <param name="description"></param>
+    public CommandDescriptor([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc, string description = null)
     {
-        Verb = verb;
-        CreateCommand = hostFactory;
-        Description = description;
+        this.Verb                  = verb;
+        this.CreateCommandInstance = factoryFunc;
+        this.Description           = description;
     }
+
 
 
     /// <summary>
@@ -23,7 +29,7 @@ public class CommandDescriptor
 
     /// <summary>
     /// </summary>
-    public Func<ICommand> CreateCommand { get; }
+    public Func<ICommand> CreateCommandInstance { get; }
 
     /// <summary>
     /// </summary>

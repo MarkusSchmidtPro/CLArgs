@@ -3,10 +3,9 @@
 #pragma warning disable CS1591
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+public interface ICommandResolver
 {
-    public interface ICommandResolver
-    {
-        List<CommandDescriptor> GetCommandDescriptors();
-    }
+    List<CommandDescriptor> GetCommandDescriptors();
 }

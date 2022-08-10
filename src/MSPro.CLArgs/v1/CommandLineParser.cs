@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace MSPro.CLArgs;
+namespace MSPro.CLArgs.v1;
 
 /// <summary>
 ///     Provides the functionality to parse a command-line.
 /// </summary>
-public class CommandLineParser2
+/// <see cref="CommandLineParser" />
+public class CommandLineParser
 {
     /// <summary>
     ///     Shortcut and preferred way to use CommandLineParser.
@@ -17,10 +18,10 @@ public class CommandLineParser2
     /// <remarks>
     ///     Same as <code>new CommandLineParser(settings).Run(args);</code>.
     /// </remarks>
-    public static CommandLineArguments2 Parse(string[] args, Settings2 settings)
+    public static CommandLineArguments Parse(string[] args, Settings2 settings)
     {
-        CommandLineArguments2 commandLineArguments = new( settings.StringComparison);
-        CommandLineParser2 sp = new(settings.OptionsTags, settings.OptionValueTags);
+        CommandLineArguments commandLineArguments = new(settings.StringComparison);
+        CommandLineParser sp = new(settings.OptionsTags, settings.OptionValueTags);
         sp.Parse(args, commandLineArguments);
         return commandLineArguments;
     }

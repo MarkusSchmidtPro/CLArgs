@@ -3,21 +3,20 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+[AttributeUsage(AttributeTargets.Class)]
+[PublicAPI]
+public class CommandAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    [PublicAPI]
-    public class CommandAttribute : Attribute
+    public string Verb { get; set; }
+    public string HelpText { get; set;}
+
+
+
+    public CommandAttribute(string verb, string helpText=null)
     {
-        public string Verb { get; set; }
-        public string HelpText { get; set;}
-
-
-
-        public CommandAttribute(string verb, string helpText=null)
-        {
-            this.Verb = verb;
-            this.HelpText = helpText;
-        }
+        this.Verb = verb;
+        this.HelpText = helpText;
     }
 }
