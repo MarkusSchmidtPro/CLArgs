@@ -44,7 +44,7 @@ public class CommandLineParser2
     /// <param name="optionValueTags">
     ///     <see cref="Settings.OptionValueTags" />
     /// </param>
-    private CommandLineParser(string[] optionsTags, string[] optionValueTags)
+    private CommandLineParser2(string[] optionsTags, string[] optionValueTags)
     {
         _optionsTags = optionsTags;
         _optionValueTags = optionValueTags;
@@ -59,7 +59,7 @@ public class CommandLineParser2
     /// <summary>
     ///     Parse a string containing arguments
     /// </summary>
-    private void Parse(IReadOnlyList<string> args, CommandLineArguments commandLineArguments)
+    private void Parse(IReadOnlyList<string> args, CommandLineArguments2 commandLineArguments)
     {
         int argNo = 0;
         while (argNo < args.Count && isVerb(args[argNo]))
@@ -148,7 +148,7 @@ public class CommandLineParser2
                             Helper.BinDir);
 
                         string[] fileArgs = readArgs(filePath).ToArray();
-                        CommandLineParser sp = new(_optionsTags, _optionValueTags);
+                        CommandLineParser2 sp = new(_optionsTags, _optionValueTags);
                         sp.Parse(fileArgs, commandLineArguments);
                     }
                     else

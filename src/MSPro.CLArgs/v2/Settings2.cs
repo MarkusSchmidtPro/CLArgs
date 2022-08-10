@@ -11,8 +11,8 @@ public class Settings2
     {
         HelpAlignColumn = 20;
         HelpFullWidth = 80;
-        DisplayAllCommandsDescription = displayAllCommandsDescription;
-        DisplayCommandHelp = displayCommandHelp;
+        //DisplayAllCommandsDescription = displayAllCommandsDescription;
+        //DisplayCommandHelp = displayCommandHelp;
     }
 
 
@@ -64,6 +64,7 @@ public class Settings2
     /// </summary>
     public int HelpAlignColumn { get; set; }
 
+    /*
     /// <summary>
     ///     Display a help text for all commands.
     /// </summary>
@@ -76,7 +77,7 @@ public class Settings2
 
 
 
-    private void displayAllCommandsDescription(List<CommandDescriptor> commandDescriptors)
+    private void displayAllCommandsDescription(List<CommandDescriptor2> commandDescriptors)
     {
         string insert = new(' ', HelpAlignColumn);
 
@@ -85,7 +86,7 @@ public class Settings2
         string v = "Verb".PadRight(HelpAlignColumn);
         Console.WriteLine($"{v}Description");
         Console.WriteLine($"---------------------------------------");
-        foreach (CommandDescriptor commandDescriptor in commandDescriptors)
+        foreach (CommandDescriptor2 commandDescriptor in commandDescriptors)
         {
             var wrapped = Helper.Wrap(commandDescriptor.Description, HelpFullWidth);
             string verbs = commandDescriptor.Verb.Replace('.', ' ');
@@ -112,7 +113,7 @@ public class Settings2
 
 
 
-    private void displayCommandHelp(CommandDescriptor commandDescriptor)
+    private void displayCommandHelp(CommandDescriptor2 commandDescriptor)
     {
         string insert = new(' ', HelpAlignColumn);
 
@@ -137,5 +138,5 @@ public class Settings2
             if (oda.Default != null) Console.WriteLine($"{insert}DEFAULT: '{oda.Default}'");
             Console.WriteLine();
         }
-    }
+    }*/
 }

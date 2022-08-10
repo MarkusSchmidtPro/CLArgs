@@ -9,7 +9,7 @@ public static class CommandlineArgumentCollectionExtensions
     public static IArgumentCollection AddArguments(this IArgumentCollection arguments,
         string[] args, Settings2 settings)
     {
-        var cp =  CommandLineParser.Parse(args.Skip(1).ToArray(),settings);
+        var cp =  CommandLineParser2.Parse(args.Skip(1).ToArray(),settings);
         foreach (string name in cp.Verbs)
         {
             arguments.Add( CommandlineArgument.Verb( name));
