@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+
 
 namespace MSPro.CLArgs;
 
@@ -11,16 +14,15 @@ namespace MSPro.CLArgs;
 public class CommandBuilder
 {
     private readonly List<Action<Settings2>> _configureArgumentConvertersActions = new();
-
-    private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions =
-        new();
-
+    private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions = new();
     private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = new();
     private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = new();
     private readonly List<Action<Settings2>> _configureSettingsActions = new();
 
 
     public static CommandBuilder Create() => new();
+
+
 
     #region Configure
 
@@ -30,10 +32,12 @@ public class CommandBuilder
     }
 
 
-    public void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandDescriptorsAction)
+
+    public void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
     {
-        _configureCommandsActions.Add(configureCommandDescriptorsAction);
+        _configureCommandsActions.Add(configureCommandsAction);
     }
+
 
 
     public void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
@@ -41,10 +45,13 @@ public class CommandBuilder
         _configureArgumentsActions.Add(action);
     }
 
-    public void ConfigureArgumentConverters(Action<Settings2> configureArgumentConvertersAction)
+
+
+    public void ConfigureArgumentConverters(Action<Settings2> action)
     {
-        _configureArgumentConvertersActions.Add(configureArgumentConvertersAction);
+        _configureArgumentConvertersActions.Add(action);
     }
+
 
 
     public void ConfigureServices(Action<IServiceCollection, Settings2> action)
@@ -53,6 +60,8 @@ public class CommandBuilder
     }
 
     #endregion
+
+
 
     #region Build
 
@@ -65,19 +74,19 @@ public class CommandBuilder
         var commandDescriptors = createDefaultCommandDescriptors(settings);
         foreach (var build in _configureCommandsActions) build(commandDescriptors);
 
-        var argumentConverters = createDefaultArgumentConverters();
-        foreach (var build in _configureArgumentConvertersActions) build(settings);
+    
+        IServiceCollection services = new ServiceCollection();
+        services.AddLogging(configure => configure.AddConsole());
+        services.AddScoped<ArgumentOptionMapper>();
+        services.AddScoped<ContextBuilder>();
+        services.AddScoped<CommandLineParser2>();
+        services.AddScoped<Commander2>();
+        services.AddScoped<IHelpBuilder, HelpBuilder>();
+        services.AddScoped(_ => settings);
+        services.AddScoped(_ => commandDescriptors);
 
         IArgumentCollection arguments = new ArgumentCollection();
-        
-        IServiceCollection services = new ServiceCollection();
-        services.AddSingleton<OptionResolver2>();
-        services.AddSingleton<ContextBuilder>();
-        services.AddSingleton<CommandLineParser2>();
-        services.AddSingleton(settings);
-        services.AddSingleton(arguments);
-        services.AddScoped(_ => commandDescriptors);
-        services.AddScoped(_ => argumentConverters);
+        services.AddScoped(_ => arguments);
 
         foreach (var commandDescriptor in commandDescriptors.Values)
             services.AddScoped(commandDescriptor.Type);
@@ -87,36 +96,39 @@ public class CommandBuilder
 
         ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-        CommandLineParser2 cp = serviceProvider.GetRequiredService<CommandLineParser2>();
-        cp.Parse(Environment.GetCommandLineArgs().Skip(1).ToArray(), arguments);
-        
+        createDefaultArguments(serviceProvider, arguments);
         foreach (var build in _configureArgumentsActions) build(arguments, settings);
 
-
-        return new Commander2(serviceProvider);
+        return serviceProvider.GetRequiredService<Commander2>();
     }
 
-    private IArgumentConverterCollection createDefaultArgumentConverters()
+
+
+    private void createDefaultArguments(ServiceProvider serviceProvider, IArgumentCollection arguments)
     {
-        var result = new ArgumentConverterCollection
-        {
-            { typeof(string), new StringArgumentConverter() },
-            { typeof(int), new IntArgumentConverter() },
-            { typeof(bool), new BoolArgumentConverter() },
-            { typeof(DateTime), new DateTimeArgumentConverter() },
-            { typeof(Enum), new EnumArgumentConverter() }
-        };
-        return result;
+        CommandLineParser2 cp = serviceProvider.GetRequiredService<CommandLineParser2>();
+        cp.Parse(Environment.GetCommandLineArgs().Skip(1).ToArray(), arguments);
     }
 
-    private Settings2 createDefaultSettings() => new () { IgnoreCase = true};
 
+
+    private Settings2 createDefaultSettings() => new() { IgnoreCase = true };
+
+
+
+    /// <summary>
+    ///     Query the current CLArgs Assembly for [out-of-the-box] ICommand2 implementations.
+    /// </summary>
     private ICommandDescriptorCollection createDefaultCommandDescriptors(Settings2 settings)
     {
         var result = new CommandDescriptorCollection(settings);
-        result.AddAssemblies(new AssemblyCommandResolver2(Assembly.GetExecutingAssembly()));
+        result.AddAssembly(Assembly.GetExecutingAssembly());
         return result;
     }
+
+
+
+  
 
     #endregion
 }

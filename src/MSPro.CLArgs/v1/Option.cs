@@ -38,6 +38,4 @@ public class Option
     public string Value { get; set; }
 
     public bool IsResolved => this.Value != null;
-
-    public override string ToString() => this.Value;
 }

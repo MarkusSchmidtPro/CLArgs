@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MSPro.CLArgs;
 
-public class ArgumentConverterCollection : IArgumentConverterCollection
+public class OptionValueConverterCollection : IOptionValueConverterCollection
 {
     private readonly Dictionary<Type, IArgumentConverter> _list = new();
     public IEnumerator<KeyValuePair<Type, IArgumentConverter>> GetEnumerator() => _list.GetEnumerator();

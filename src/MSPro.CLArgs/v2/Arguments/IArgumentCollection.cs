@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace MSPro.CLArgs;
 
-public interface IArgumentCollection : IList<CommandlineArgument>
+public interface IArgumentCollection : IList<Argument>
 {
     /// <summary>
     /// All verbs path: all verbs joined by '.'.
@@ -13,5 +13,5 @@ public interface IArgumentCollection : IList<CommandlineArgument>
     [CanBeNull] public string VerbPath { get; }
     public IEnumerable<string> Verbs { get; }
     public IEnumerable<string> Targets{ get; }
-    public IEnumerable<Option> Options { get; }
+    public IEnumerable<KeyValuePair<string,string>> Options { get; }
 }

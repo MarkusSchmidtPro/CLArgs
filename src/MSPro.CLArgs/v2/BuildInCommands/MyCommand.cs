@@ -8,22 +8,26 @@ namespace MSPro.CLArgs.BuildInCommands;
 [Command("VERB1")]
 public class MyCommand : ICommand2
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<MyCommand> _logger;
+    private readonly IServiceProvider _serviceProvider;
 
 
 
     public MyCommand(IServiceProvider serviceProvider, ILogger<MyCommand> logger)
     {
         _serviceProvider = serviceProvider;
-        _logger = logger;
+        _logger          = logger;
         _logger.LogInformation("Create Instance");
     }
 
 
 
-    public void Execute()
+    void ICommand2.Execute()
     {
         _logger.LogInformation("MyCommand execute!");
     }
+
+
+
+    IOptionCollection ICommand2.CommandOptions { get; } = new OptionCollection();
 }

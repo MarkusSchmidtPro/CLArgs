@@ -1,54 +1,78 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
+using Microsoft.Extensions.DependencyInjection;
 
 
 
 namespace MSPro.CLArgs;
 
 /// <summary>
-///     Turns Arguments into a parameter object of a specified type..
+///     Turns Arguments into a parameter object of a specified type.
 /// </summary>
+[PublicAPI]
 public class ContextBuilder
 {
-    private readonly IArgumentCollection _argumentCollection;
-    private readonly IArgumentConverterCollection _argumentConverterCollection;
-    private readonly OptionResolver2 _optionsResolver;
+    private readonly ArgumentOptionMapper _argumentOptionMapper;
+
+    private readonly List<Action<IOptionValueConverterCollection>> _configureOptionValueConvertersActions = new();
+    private readonly IServiceProvider _serviceProvider;
+    private readonly Settings2 _settings;
+    private IOptionValueConverterCollection _optionValueConverters;
 
 
 
-
-    public ContextBuilder(
-        IArgumentCollection argumentCollection
-        , IArgumentConverterCollection argumentConverterCollection
-        , OptionResolver2 optionsResolver)
+    public ContextBuilder(IServiceProvider serviceProvider, Settings2 settings)
     {
-        _argumentCollection = argumentCollection;
-        _argumentConverterCollection = argumentConverterCollection;
-        _optionsResolver = optionsResolver;
+        _serviceProvider = serviceProvider;
+        _settings        = settings;
     }
 
 
 
-    /// <summary>
-    ///     Execute the command that is resolved by the verbs passed in the command-line.
-    /// </summary>
-    public TContext Build<TContext>(
-        out HashSet<string> unresolvedPropertyNames,
-        out ErrorDetailList errors)
+    public void ConfigureConverters(Action<IOptionValueConverterCollection> action)
     {
-        errors = new();
-        unresolvedPropertyNames = new HashSet<string>();
+        _configureOptionValueConvertersActions.Add(action);
+    }
+
+
+
+    private IOptionValueConverterCollection createDefaultConverters()
+    {
+        var result = new OptionValueConverterCollection
+        {
+            { typeof(string), new StringConverter() },
+            { typeof(int), new IntConverter() },
+            { typeof(bool), new BoolConverter() },
+            { typeof(DateTime), new DateTimeConverter() },
+            { typeof(Enum), new EnumConverter() }
+        };
+        return result;
+    }
+
+
+
+    public TContext Build<TContext>(IArgumentCollection arguments,
+                                    IOptionCollection commandOptions,
+                                    out HashSet<string> unresolvedPropertyNames,
+                                    out ErrorDetailList errors)
+    {
+        _optionValueConverters = createDefaultConverters();
+        foreach (var build in _configureOptionValueConvertersActions) build(_optionValueConverters);
+
+        errors                  = new();
+        unresolvedPropertyNames = new();
 
         // contains all options for which a Property is defined
         // check .IsResolved flag if a value has been resolved
-        List<OptionDescriptorAttribute> optionDescriptors = getDescriptors(typeof(TContext));
-        List<Option> allOptions = _optionsResolver.Resolve(optionDescriptors, errors);
+        ArgumentOptionMapper argumentOptionMapper = _serviceProvider.GetRequiredService<ArgumentOptionMapper>();
+        argumentOptionMapper.SetOptionValues(arguments, commandOptions, errors);
         if (errors.HasErrors()) return default;
 
-        TContext context = createContext<TContext>(allOptions, unresolvedPropertyNames, errors);
+        TContext context = createContext<TContext>(commandOptions, unresolvedPropertyNames, errors);
         var contextProperties = context.GetType().GetProperties();
         // Find first property with a TargetAttribute 
         var targetsPropertyInfo = contextProperties.FirstOrDefault(pi => pi.GetFirst<TargetsAttribute>() != null);
@@ -57,16 +81,16 @@ public class ContextBuilder
             if (!typeof(IList<string>).IsAssignableFrom(targetsPropertyInfo.PropertyType))
             {
                 errors.AddError(targetsPropertyInfo.Name,
-                    $"The property {targetsPropertyInfo.Name} cannot be used for Targets because it does not inherit from type IList<string>");
+                                $"The property {targetsPropertyInfo.Name} cannot be used for Targets because it does not inherit from type IList<string>");
             }
             else
             {
                 var targetsList = (IList)targetsPropertyInfo.GetValue(context);
                 if (targetsList == null)
                     errors.AddError(targetsPropertyInfo.Name,
-                        $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; }} =new();");
+                                    $"The List property {targetsPropertyInfo.Name} must not be null. Use: public List<T> {targetsPropertyInfo.Name} {{ get; }} =new();");
                 else
-                    foreach (string target in _argumentCollection.Targets)
+                    foreach (string target in arguments.Targets)
                         targetsList.Add(target);
             }
         }
@@ -76,40 +100,19 @@ public class ContextBuilder
 
 
 
-    private List<OptionDescriptorAttribute> getDescriptors(Type contextType)
-    {
-        List<OptionDescriptorAttribute> result = new();
-        foreach (var pi in contextType.GetProperties())
-        {
-            if (pi.GetFirst<OptionSetAttribute>() != null)
-            {
-                result.AddRange(getDescriptors(pi.PropertyType));
-            }
-            else
-            {
-                var optionDescriptor = pi.GetFirst<OptionDescriptorAttribute>();
-                if (optionDescriptor != null) result.Add(optionDescriptor);
-            }
-        }
-
-        return result;
-    }
-
-
-
     #region Create instance and populate Command parameters
 
-    private TContext createContext<TContext>([NotNull] IReadOnlyCollection<Option> options,
-        [NotNull] ISet<string> unresolvedPropertyNames,
-        [NotNull] ErrorDetailList errors)
+    private TContext createContext<TContext>([NotNull] IOptionCollection options,
+                                             [NotNull] ISet<string> unresolvedPropertyNames,
+                                             [NotNull] ErrorDetailList errors)
         => (TContext)_createContext(typeof(TContext), options, unresolvedPropertyNames, errors);
 
 
 
     private object _createContext([NotNull] Type executionContextType,
-        [NotNull] IReadOnlyCollection<Option> options,
-        [NotNull] ISet<string> unresolvedPropertyNames,
-        [NotNull] ErrorDetailList errors)
+                                  [NotNull] IOptionCollection options,
+                                  [NotNull] ISet<string> unresolvedPropertyNames,
+                                  [NotNull] ErrorDetailList errors)
     {
         // The instance of the command parameters object.
         // This is where we set the values
@@ -129,10 +132,7 @@ public class ContextBuilder
                 var optionDescriptor = propInfo.GetFirst<OptionDescriptorAttribute>();
                 if (optionDescriptor == null) continue;
 
-
-                // the name of the Option that is bound to the property 
-                string boundOptionName = optionDescriptor.OptionName;
-                // the name and the of the property
+                string optionName = optionDescriptor.OptionName;
                 string targetPropertyName = propInfo.Name;
                 var targetType = propInfo.PropertyType;
 
@@ -140,8 +140,10 @@ public class ContextBuilder
                 // Check if the Option is defined. It is defined when it was in the
                 // OptionDescriptorList that was used to ResolveOptions. 
                 // With AllowMultiple, options can be specified more than once 
-                var providedOptions = options.Where(o => string.Equals(o.Key, boundOptionName)).ToList();
-                if (providedOptions.Count(o => o.IsResolved) == 0) //|| !providedOptions.IsResolved)
+                var commandOption = options.FirstOrDefault(opt
+                                                               => string.Equals(opt.OptionName, optionName, _settings.StringComparison));
+                Debug.Assert(commandOption != null);
+                if (!commandOption.HasValue) //|| !providedOptions.IsResolved)
                 {
                     // Should not happen because ResolveOptions should have added
                     // and Option for each item in the OptionDescriptorList.
@@ -150,10 +152,10 @@ public class ContextBuilder
                     // when there is no matching option.  
                     unresolvedPropertyNames.Add(targetPropertyName);
                 }
-                else if (!_argumentConverterCollection.ContainsKey(targetType))
+                else if (!_optionValueConverters.ContainsKey(targetType))
                 {
                     errors.AddError(targetPropertyName,
-                        $"No type converter found for type {targetType} of property {targetPropertyName} ");
+                                    $"No type converter found for type {targetType} of property {targetPropertyName} ");
                 }
                 // When an option has the allow multiple specified, only the first value is assigned to the property
                 // and all others are added to the property whose name is specified as 'AllowMultiple'.
@@ -173,7 +175,7 @@ public class ContextBuilder
                     if (collectionPropertyInfo == null)
                     {
                         errors.AddError(targetPropertyName,
-                            $"The property {collectionPropertyInfo.Name} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
+                                        $"The property {collectionPropertyInfo.Name} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
                         continue;
                     }
 
@@ -181,7 +183,7 @@ public class ContextBuilder
                     if (!typeof(IList<string>).IsAssignableFrom(collectionPropertyInfo.PropertyType))
                     {
                         errors.AddError(targetPropertyName,
-                            $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} is not of type IList<string>");
+                                        $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} is not of type IList<string>");
                         continue;
                     }
 
@@ -192,27 +194,26 @@ public class ContextBuilder
                     //    continue;
                     //}
                     // add options to the list
-                    foreach (var providedOption in providedOptions.Where(o => o.IsResolved))
+                    // In case of AllowMultipleSplit each option's value
+                    // will be probably split into n values
+                    // by using the AllowMultipleSplit token.
+                    var contextList = (IList)collectionPropertyInfo.GetValue(executionContext);
+                    if (contextList == null)
                     {
-                        // In case of AllowMultipleSplit each option's value
-                        // will be probably split into n values
-                        // by using the AllowMultipleSplit token.
-                        var contextList = (IList)collectionPropertyInfo.GetValue(executionContext);
-                        if (contextList == null)
-                        {
-                            errors.AddError(collectionPropertyInfo.Name,
-                                $"The List property {collectionPropertyInfo.Name} must not be null. Use: public List<T> {collectionPropertyInfo.Name} {{ get; }} =new();");
-                            continue;
-                        }
+                        errors.AddError(collectionPropertyInfo.Name,
+                                        $"The List property {collectionPropertyInfo.Name} must not be null. Use: public List<T> {collectionPropertyInfo.Name} {{ get; }} =new();");
+                        continue;
+                    }
 
-                        string providedOptionValue = providedOption.Value;
+                    foreach (string providedOptionValue in commandOption.Values)
+                    {
                         if (!string.IsNullOrWhiteSpace(optionDescriptor.AllowMultipleSplit))
                         {
                             string[] providedValuesString =
                                 providedOptionValue.Split(optionDescriptor.AllowMultipleSplit.ToCharArray());
                             foreach (string valueString in providedValuesString)
                                 contextList.Add(
-                                    _argumentConverterCollection[targetType].Convert(valueString, boundOptionName, errors, targetType));
+                                    _optionValueConverters[targetType].Convert(valueString, optionName, errors, targetType));
                         }
                         else
                         {
@@ -222,25 +223,25 @@ public class ContextBuilder
 
                     // the first list item will also be set at the current properties value
                     // there should be at least one resolved option 
-                    propInfo.SetValue(executionContext, providedOptions[0].Value);
+                    propInfo.SetValue(executionContext, commandOption.Values[0]);
                 }
                 else // AllowMultiple = false 
-                if (providedOptions.Count > 1)
+                if (commandOption.Values.Count > 1)
                 {
                     errors.AddError(targetPropertyName,
-                        $"'AllowMultiple' is not specified on property {targetPropertyName} however it was provided {providedOptions.Count} times.");
+                                    $"'AllowMultiple' is not specified on property {targetPropertyName} however it was provided {commandOption.Values.Count} times.");
                 }
                 else if (propInfo.SetMethod == null)
                 {
                     errors.AddError(propInfo.Name,
-                        $"There is no public setter on property {propInfo.Name}.");
+                                    $"There is no public setter on property {propInfo.Name}.");
                 }
                 else
                 {
                     // Convert the string from the command line into the correct type so that the value
                     // can be assigned to the property.
                     object propertyValue =
-                        _argumentConverterCollection[targetType].Convert(providedOptions[0].Value, boundOptionName, errors, targetType);
+                        _optionValueConverters[targetType].Convert(commandOption.Values[0], optionName, errors, targetType);
                     propInfo.SetValue(executionContext, propertyValue);
                 }
             }

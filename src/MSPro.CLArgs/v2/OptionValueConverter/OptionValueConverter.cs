@@ -2,13 +2,13 @@
 
 namespace MSPro.CLArgs;
 
-public class StringArgumentConverter : IArgumentConverter
+public class StringConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType) =>
         optionValue;
 }
 
-public class IntArgumentConverter : IArgumentConverter
+public class IntConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
@@ -19,7 +19,7 @@ public class IntArgumentConverter : IArgumentConverter
     }
 }
 
-public class BoolArgumentConverter : IArgumentConverter
+public class BoolConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)
     {
@@ -37,7 +37,7 @@ public class BoolArgumentConverter : IArgumentConverter
     }
 }
 
-public class DateTimeArgumentConverter : IArgumentConverter
+public class DateTimeConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
@@ -48,7 +48,7 @@ public class DateTimeArgumentConverter : IArgumentConverter
     }
 }
 
-public class EnumArgumentConverter : IArgumentConverter
+public class EnumConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {

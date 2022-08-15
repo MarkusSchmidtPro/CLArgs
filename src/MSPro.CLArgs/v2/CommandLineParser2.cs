@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Logging;
 
 
 
@@ -21,12 +20,10 @@ public class CommandLineParser2
 
     
     private readonly Settings2 _settings;
-    private readonly ILogger<CommandLineParser2> _logger;
 
-    public CommandLineParser2( Settings2 settings, ILogger<CommandLineParser2> logger)
+    public CommandLineParser2( Settings2 settings)
     {
         _settings    = settings;
-        _logger = logger;
     }
 
 
@@ -47,7 +44,7 @@ public class CommandLineParser2
         int argNo = 0;
         while (argNo < args.Count && isVerb(args[argNo]))
         {
-            argumentCollection.Add(CommandlineArgument.Verb(args[argNo]));
+            argumentCollection.Add(Argument.Verb(args[argNo]));
             argNo++;
         }
 
@@ -55,7 +52,7 @@ public class CommandLineParser2
         // Argument [argNo] is no longer a verb
         // Get options
         //
-        CommandlineArgument lastOption = null; // the last option that has been recognized
+        Argument lastOption = null; // the last option that has been recognized
 
         while (argNo < args.Count)
         {
@@ -79,7 +76,7 @@ public class CommandLineParser2
                 if (string.IsNullOrWhiteSpace(optionName))
                     throw new ApplicationException($"Unexpected Command-Line Argument: {args[argNo]}.");
 
-                lastOption = CommandlineArgument.Option(optionName, true.ToString());
+                lastOption = Argument.Option(optionName, true.ToString());
                 argumentCollection.Add(lastOption);
 
                 // skip Option name and continue parsing
@@ -136,7 +133,7 @@ public class CommandLineParser2
                     }
                     else
                     {
-                        argumentCollection.Add(CommandlineArgument.Target(args[argNo]));
+                        argumentCollection.Add(Argument.Target(args[argNo]));
                     }
                 }
             }

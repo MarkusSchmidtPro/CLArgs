@@ -1,6 +1,6 @@
 ﻿namespace MSPro.CLArgs;
 
-public enum CommandlineArgumentType
+public enum ArgumentType
 {
     Verb,
     Option,

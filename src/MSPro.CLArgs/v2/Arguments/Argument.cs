@@ -8,9 +8,9 @@ namespace MSPro.CLArgs;
 ///     A single command-line argument.
 /// </summary>
 [DebuggerDisplay("{Type}({Key})='{Value}'")]
-public class CommandlineArgument
+public class Argument
 {
-    private CommandlineArgument(CommandlineArgumentType type, string tag, string value)
+    private Argument(ArgumentType type, string tag, string value)
     {
         this.Type = type;
         this.Value = value;
@@ -19,13 +19,13 @@ public class CommandlineArgument
 
 
 
-    public CommandlineArgumentType Type { get; }
+    public ArgumentType Type { get; }
 
     public string Key { get; }
 
     public string Value { get; set; }
 
-    public static CommandlineArgument Option(string tag, string value) => new(CommandlineArgumentType.Option, tag, value);
-    public static CommandlineArgument Verb(string name) => new(CommandlineArgumentType.Verb, name, null);
-    public static CommandlineArgument Target(string value) => new(CommandlineArgumentType.Target, value, value);
+    public static Argument Option(string tag, string value) => new(ArgumentType.Option, tag, value);
+    public static Argument Verb(string name) => new(ArgumentType.Verb, name, null);
+    public static Argument Target(string value) => new(ArgumentType.Target, value, value);
 }

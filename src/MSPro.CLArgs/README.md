@@ -1,5 +1,20 @@
 # MSPro CLArgs Version History
 
+## 2022-08  - Release 2
+
+* Completely new concept based on .NET builder concepts.
+
+Command-Line( string[] args)
+--> CommandBuilder
+    --> Parser() -->  IArgumentCollection
+                      CommandlineArgument (verb, option, target)
+    --> fromAssemblies( CommandAttribute)
+        -->  ICommandDescriptorCollection: Verb/Type mapping
+                
+Command : ICommand2
+    Options <-- builder( AddContextType)
+
+
 
 ## 2021-12-11 - December 2021 Release
 

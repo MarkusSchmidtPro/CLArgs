@@ -31,7 +31,9 @@ public abstract class CommandBase<TContext> : ICommand where TContext : class, n
     /// </summary>
     /// <param name="commandLineArguments"></param>
     /// <param name="settings"></param>
-    public void Execute([NotNull] CommandLineArguments commandLineArguments, [CanBeNull] Settings settings = null)
+    public void Execute(
+        [NotNull] CommandLineArguments commandLineArguments, 
+        [CanBeNull] Settings settings = null)
     {
         this.Settings = settings ?? new Settings();
         BeforeArgumentConversion(commandLineArguments);
