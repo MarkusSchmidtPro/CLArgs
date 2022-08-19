@@ -12,7 +12,7 @@ namespace MSPro.CLArgs.BuildInCommands;
                "|Does not provide any kind of functionality but helps you to check what could be wrong with your commandline arguments." +
                " In many cases missing or invalid quotations, especially when using Batch files, can drive you nuts. Use this command" +
                " to 'debug' you arguments.")]
-internal class ListArgsCommand : ICommand2
+public class ListArgsCommand : ICommand2
 {
     private const string COMMAND_NAME = "clargs-list";
     private readonly IArgumentCollection _arguments;

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+<PropertyGroup>
       <AssemblyName>MSPro.CLArgs</AssemblyName>
       <RootNamespace>MSPro.CLArgs</RootNamespace>
       <Authors>Markus Schmidt (Pro)</Authors>
@@ -22,12 +22,9 @@
       <RepositoryType>GitHub</RepositoryType>
       <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
-      <TargetFrameworks>net472;net48;net5.0;net6.0;netstandard2.0;netstandard2.1</TargetFrameworks>
       <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
-      <ApplicationIcon></ApplicationIcon>
-      <PackageLicenseExpression></PackageLicenseExpression>
-      <PackageReleaseNotes></PackageReleaseNotes>
+      <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -52,6 +49,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="ConfigFileResolver.cs" />
     <Compile Remove="IConfigFileResolver.cs" />
     <Compile Remove="v2\Parse\Arguments2.cs" />
@@ -74,7 +77,6 @@
     <None Remove="push.bat" />
     <None Include="Images\CLArgs.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
@@ -83,19 +85,14 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Images\CLArgs.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

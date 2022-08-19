@@ -16,8 +16,6 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public class ContextBuilder
 {
-    private readonly ArgumentOptionMapper _argumentOptionMapper;
-
     private readonly List<Action<IOptionValueConverterCollection>> _configureOptionValueConvertersActions = new();
     private readonly IServiceProvider _serviceProvider;
     private readonly Settings2 _settings;

@@ -12,7 +12,7 @@ namespace MSPro.CLArgs;
 /// <remarks>
 ///     An option as it is parsed from command-line is of type <see cref="Option" />.<br />
 /// </remarks>
-internal class OptionResolver
+public class OptionResolver
 {
     /// <summary>
     ///     Options with any of these Tags will not be marked as unresolved.

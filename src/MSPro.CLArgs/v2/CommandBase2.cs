@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
-using MSPro.CLArgs;
+using Microsoft.Extensions.Logging;
 
 
+
+namespace MSPro.CLArgs;
 
 [PublicAPI]
 public abstract class CommandBase2<TContext> : ICommand2 where TContext : class, new()
 {
-    private readonly IServiceProvider _serviceProvider;
-
-
-
+    protected readonly ILogger Logger;
+    protected readonly IServiceProvider ServiceProvider;
     private IOptionCollection _commandOptions;
 
 
 
     protected CommandBase2(IServiceProvider serviceProvider)
     {
-        _serviceProvider = serviceProvider;
+        ServiceProvider = serviceProvider;
+        Logger = serviceProvider.GetRequiredService<ILogger>();
     }
 
 
 
     protected TContext Context { get; private set; }
-
 
 
     public IOptionCollection CommandOptions => _commandOptions ??= new OptionCollection().AddContextType<TContext>();
@@ -35,10 +35,10 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
 
     void ICommand2.Execute()
     {
-        var builder = _serviceProvider.GetRequiredService<ContextBuilder>();
+        var builder = ServiceProvider.GetRequiredService<ContextBuilder>();
         //builder.ConfigureConverters( (converters)=>{});
         this.Context = builder.Build<TContext>(
-            _serviceProvider.GetRequiredService<IArgumentCollection>(), this.CommandOptions,
+            ServiceProvider.GetRequiredService<IArgumentCollection>(), this.CommandOptions,
             out var unresolvedPropertyNames,
             out var errors);
 
@@ -63,6 +63,10 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
 
 
 
+    protected abstract void Execute();
+
+
+
     /// <summary>
     ///     Error handler in case of any error.
     /// </summary>
@@ -78,7 +82,7 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
         if (handled) return;
         if (errors.Details.Count > 1)
             throw new AggregateException(errors.Details.Select(
-                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
 
         throw new ArgumentException(errors.Details[0].ErrorMessages[0], errors.Details[0].AttributeName);
     }
@@ -90,8 +94,4 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
         ErrorDetailList errors)
     {
     }
-
-
-
-    protected abstract void Execute();
 }

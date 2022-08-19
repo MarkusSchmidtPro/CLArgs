@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MSPro.CLArgs;
 
-internal class CommandWrapper : ICommand
+public class CommandWrapper : ICommand
 {
     private readonly Action<CommandLineArguments> _func;
     public CommandWrapper(Action<CommandLineArguments> func) => _func = func;

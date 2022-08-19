@@ -74,7 +74,7 @@ public class CommandBuilder
         var commandDescriptors = createDefaultCommandDescriptors(settings);
         foreach (var build in _configureCommandsActions) build(commandDescriptors);
 
-    
+
         IServiceCollection services = new ServiceCollection();
         services.AddLogging(configure => configure.AddConsole());
         services.AddScoped<ArgumentOptionMapper>();
@@ -93,18 +93,16 @@ public class CommandBuilder
 
         foreach (var action in _configureServicesActions)
             action(services, settings);
-
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        IServiceProvider serviceProvider = services.BuildServiceProvider();
 
         createDefaultArguments(serviceProvider, arguments);
         foreach (var build in _configureArgumentsActions) build(arguments, settings);
 
+
         return serviceProvider.GetRequiredService<Commander2>();
     }
 
-
-
-    private void createDefaultArguments(ServiceProvider serviceProvider, IArgumentCollection arguments)
+    private void createDefaultArguments(IServiceProvider serviceProvider, IArgumentCollection arguments)
     {
         CommandLineParser2 cp = serviceProvider.GetRequiredService<CommandLineParser2>();
         cp.Parse(Environment.GetCommandLineArgs().Skip(1).ToArray(), arguments);
@@ -125,10 +123,6 @@ public class CommandBuilder
         result.AddAssembly(Assembly.GetExecutingAssembly());
         return result;
     }
-
-
-
-  
 
     #endregion
 }

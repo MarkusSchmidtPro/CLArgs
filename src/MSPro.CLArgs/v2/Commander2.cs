@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using JetBrains.Annotations;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -8,46 +8,60 @@ using Microsoft.Extensions.Logging;
 
 namespace MSPro.CLArgs;
 
-[PublicAPI]
 public class Commander2
 {
-    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<Commander2> _logger;
-
 
 
     public Commander2(IServiceProvider serviceProvider, ILogger<Commander2> logger)
     {
-        _scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
-        _logger     = logger;
+        this.ServiceProvider = serviceProvider;
+
+        //IServiceScope commandScope = serviceProvider.CreateScope();
+        //this.ServiceProvider = commandScope.ServiceProvider;
+        _logger = logger;
     }
+
+
+
+    private IServiceProvider ServiceProvider { get; }
 
 
 
     public void Execute()
     {
-        using IServiceScope commandScope = _scopeFactory.CreateScope();
-        IServiceProvider scopeServiceProvider =  commandScope.ServiceProvider;
-        
-        ICommandDescriptorCollection commandDescriptors = scopeServiceProvider.GetRequiredService<ICommandDescriptorCollection>();
+        ICommandDescriptorCollection commandDescriptors = this.ServiceProvider.GetRequiredService<ICommandDescriptorCollection>();
         if (commandDescriptors == null || commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered");
 
 
         foreach (var descriptor in commandDescriptors)
         {
-            _logger.LogDebug("'{Verb}' -> {Type}", descriptor.Key, descriptor.Value.Type);
+            _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
         }
-        
-        IArgumentCollection clArgs = scopeServiceProvider.GetRequiredService<IArgumentCollection>();
+
+        IArgumentCollection clArgs = this.ServiceProvider.GetRequiredService<IArgumentCollection>();
         foreach (var arg in clArgs)
         {
-            _logger.LogDebug("{Key}:{Value} ({Type})", arg.Key, arg.Value, arg.Type);
+            switch (arg.Type)
+            {
+                case ArgumentType.Verb:
+                    _logger.LogDebug($"{arg.Type}:{arg.Key}");
+                    break;
+                case ArgumentType.Option:
+                    _logger.LogDebug($"{arg.Type}:{arg.Key}={arg.Value}");
+                    break;
+                case ArgumentType.Target:
+                    _logger.LogDebug($"{arg.Type}:{arg.Value}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         if (clArgs.Count == 0)
         {
-            IHelpBuilder hb = scopeServiceProvider.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = this.ServiceProvider.GetRequiredService<IHelpBuilder>();
             hb.BuildAllCommandsHelp();
             return;
         }
@@ -59,15 +73,15 @@ public class Commander2
             throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
 
         CommandDescriptor2 commandDescriptor = commandDescriptors[clArgs.VerbPath];
-        
-        if (clArgs.Options.Any(o => o.Key.Equals( "?") || o.Key == "help"))
+
+        if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
-            IHelpBuilder hb = scopeServiceProvider.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = this.ServiceProvider.GetRequiredService<IHelpBuilder>();
             hb.BuildCommandHelp(commandDescriptor);
             return;
         }
-       
-        ICommand2 command = (ICommand2)scopeServiceProvider.GetRequiredService(commandDescriptor.Type);
+        
+        ICommand2 command = (ICommand2)this.ServiceProvider.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
 }

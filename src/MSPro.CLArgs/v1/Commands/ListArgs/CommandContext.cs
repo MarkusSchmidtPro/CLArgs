@@ -1,5 +1,5 @@
 ﻿namespace MSPro.CLArgs.ListArgs;
 
-internal class CommandContext 
+public class CommandContext 
 {
 }
