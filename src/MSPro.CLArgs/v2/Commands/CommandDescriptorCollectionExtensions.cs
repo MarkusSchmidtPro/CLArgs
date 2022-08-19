@@ -14,8 +14,9 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public static class CommandDescriptorCollectionExtensions
 {
-    public static ICommandDescriptorCollection AddDescriptor(this ICommandDescriptorCollection commandDescriptors,
-                                                             CommandDescriptor2 descriptor)
+    public static ICommandDescriptorCollection AddDescriptor(
+        this ICommandDescriptorCollection commandDescriptors,
+        CommandDescriptor2 descriptor)
     {
         commandDescriptors.Add(descriptor.Verb, descriptor);
         return commandDescriptors;
@@ -42,6 +43,7 @@ public static class CommandDescriptorCollectionExtensions
         {
             getTypesFromAssembly(assembly, commandDescriptors);
         }
+
         return commandDescriptors;
     }
 
@@ -58,9 +60,28 @@ public static class CommandDescriptorCollectionExtensions
             if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand2)))
                 throw new ApplicationException(
                     "Command " + commandAttribute.Verb + " does not implement the ICommand interface.");
+            if (dictionary.ContainsKey(commandAttribute.Verb))
+            {
+                // The command attribute refers to a known verb. It it refers to the same type,
+                // then the same Assembly has already been scanned and
+                // I assume the assembly was added twice by accident:
+                //  ConfigureCommands(commands => {
+                //      commands.AddAssembly(typeof(Class2).Assembly);
+                //      commands.AddAssembly(typeof(Class1).Assembly);
+                var existingType = dictionary[commandAttribute.Verb].Type;
+                var currentType = definedType;
+                // Assuming the Assembly has been scanned.
+                if (existingType.FullName == currentType.FullName) break;
 
-            dictionary[commandAttribute.Verb] =
-                new CommandDescriptor2(commandAttribute.Verb, definedType, commandAttribute.HelpText);
+                // It is a different Type that implements a known Verb
+                throw new IndexOutOfRangeException(
+                    $"Multiple different implementations for verb {commandAttribute.Verb} found!");
+            }
+
+
+
+            dictionary.Add(commandAttribute.Verb,
+                new CommandDescriptor2(commandAttribute.Verb, definedType, commandAttribute.HelpText));
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 
 
@@ -12,8 +11,9 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public abstract class CommandBase2<TContext> : ICommand2 where TContext : class, new()
 {
-    protected readonly ILogger Logger;
     protected readonly IServiceProvider ServiceProvider;
+    protected readonly IPrinter Print;
+
     private IOptionCollection _commandOptions;
 
 
@@ -21,7 +21,7 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
     protected CommandBase2(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        Logger = serviceProvider.GetRequiredService<ILogger>();
+        Print = serviceProvider.GetRequiredService<IPrinter>();
     }
 
 
