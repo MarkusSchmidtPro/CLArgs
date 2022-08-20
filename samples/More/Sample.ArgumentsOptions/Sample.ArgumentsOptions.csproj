@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>CLArgs.Sample.ArgumentsOptions</RootNamespace>
     <AssemblyName>CLArgs.Sample.ArgumentsOptions</AssemblyName>
   </PropertyGroup>
