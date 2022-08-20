@@ -42,16 +42,19 @@ public static class Helper
                 if (commandLine[i] == '\"') quotation = false;
                 else currentToken.Append(commandLine[i]);
             }
-            else if (commandLine[i] == ' ')
+            else switch (commandLine[i])
             {
-                result.Add(currentToken.ToString());
-                currentToken.Clear();
+                case ' ':
+                    result.Add(currentToken.ToString());
+                    currentToken.Clear();
+                    break;
+                case '\"':
+                    quotation = true;
+                    break;
+                default:
+                    currentToken.Append(commandLine[i]);
+                    break;
             }
-            else if (commandLine[i] == '\"')
-            {
-                quotation = true;
-            }
-            else currentToken.Append(commandLine[i]);
 
             i++;
         }

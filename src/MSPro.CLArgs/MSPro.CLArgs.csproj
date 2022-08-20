@@ -15,7 +15,7 @@
       <Description>Console application command-line support.</Description>
       <PackageIcon>CLArgs.png</PackageIcon>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>$(Version)</PackageVersion>
+      <PackageVersion>2.2208.02</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
       <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
       <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>

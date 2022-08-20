@@ -5,6 +5,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MSPro.CLArgs.Print;
 
 
 
@@ -74,17 +75,11 @@ public class CommandBuilder
         var commandDescriptors = createDefaultCommandDescriptors(settings);
         foreach (var build in _configureCommandsActions) build(commandDescriptors);
 
-
         IServiceCollection services = new ServiceCollection();
-        services.AddLogging(configure => configure.AddConsole());
-        services.AddScoped<ArgumentOptionMapper>();
-        services.AddScoped<ContextBuilder>();
-        services.AddScoped<CommandLineParser2>();
-        services.AddScoped<Commander2>();
-        services.AddScoped<IHelpBuilder, HelpBuilder>();
+        services.AddCLArgsServices();
         services.AddScoped(_ => settings);
         services.AddScoped(_ => commandDescriptors);
-
+        
         IArgumentCollection arguments = new ArgumentCollection();
         services.AddScoped(_ => arguments);
 
@@ -93,6 +88,7 @@ public class CommandBuilder
 
         foreach (var action in _configureServicesActions)
             action(services, settings);
+        
         IServiceProvider serviceProvider = services.BuildServiceProvider();
 
         createDefaultArguments(serviceProvider, arguments);
