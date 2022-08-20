@@ -3,6 +3,10 @@
     "ConsoleApp.NET": {
       "commandName": "Project",
       "commandLineArgs": "/n \"Markus Schmidt\""
+    },
+    "ConsoleApp.NET HELP": {
+      "commandName": "Project",
+      "commandLineArgs": "/?"
     }
   }
 }
