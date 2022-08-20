@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ConsoleApp.NET": {
+      "commandName": "Project",
+      "commandLineArgs": "/name 'Markus Schmidt"
+    }
+  }
+}

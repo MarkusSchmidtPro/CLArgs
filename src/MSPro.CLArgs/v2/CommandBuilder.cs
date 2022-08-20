@@ -116,7 +116,7 @@ public class CommandBuilder
     private ICommandDescriptorCollection createDefaultCommandDescriptors(Settings2 settings)
     {
         var result = new CommandDescriptorCollection(settings);
-        result.AddAssembly(Assembly.GetExecutingAssembly());
+        result.AddAssembly(Assembly.GetEntryAssembly());
         return result;
     }
 

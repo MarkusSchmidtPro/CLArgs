@@ -12,6 +12,7 @@ public class Commander2
     private readonly ILogger<Commander2> _logger;
 
 
+
     public Commander2(IServiceProvider serviceProvider, ILogger<Commander2> logger)
     {
         this.ServiceProvider = serviceProvider;
@@ -61,17 +62,25 @@ public class Commander2
         if (clArgs.Count == 0)
         {
             IHelpBuilder hb = this.ServiceProvider.GetRequiredService<IHelpBuilder>();
-            hb.BuildAllCommandsHelp();
+            Console.WriteLine(hb.BuildAllCommandsHelp());
             return;
         }
 
+        CommandDescriptor2 commandDescriptor;
         if (clArgs.VerbPath == null)
-            throw new ApplicationException("No Verb provided!");
+        {
+            if (commandDescriptors.Count > 1)
+                throw new ApplicationException("No Verb provided!");
 
-        if (!commandDescriptors.ContainsKey(clArgs.VerbPath))
-            throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
+            commandDescriptor = commandDescriptors.First().Value;
+        }
+        else
+        {
+            if (!commandDescriptors.ContainsKey(clArgs.VerbPath))
+                throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
 
-        CommandDescriptor2 commandDescriptor = commandDescriptors[clArgs.VerbPath];
+            commandDescriptor = commandDescriptors[clArgs.VerbPath];
+        }
 
         if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
@@ -79,7 +88,7 @@ public class Commander2
             hb.BuildCommandHelp(commandDescriptor);
             return;
         }
-        
+
         ICommand2 command = (ICommand2)this.ServiceProvider.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
