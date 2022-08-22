@@ -16,7 +16,7 @@ public class CommandHost : IHost
 
 
 
-    public CommandHost(IServiceProvider serviceProvider,ILogger<CommandHost> logger)
+    public CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> logger)
     {
         this.Services = serviceProvider;
         _logger       = logger;
@@ -26,15 +26,8 @@ public class CommandHost : IHost
 
     private void execute()
     {
-        CommandLineParser2 cp = Services.GetRequiredService<CommandLineParser2>();
-        IArgumentCollection arguments = Services.GetRequiredService<IArgumentCollection>();
-        cp.Parse(Environment.GetCommandLineArgs().Skip(1).ToArray(), arguments);
-        
-        
-        
-        
         ICommandDescriptorCollection commandDescriptors =
-            Services.GetRequiredService<ICommandDescriptorCollection>();
+            this.Services.GetRequiredService<ICommandDescriptorCollection>();
         if (commandDescriptors == null || commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered");
 
@@ -44,28 +37,11 @@ public class CommandHost : IHost
             _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
         }
 
-        IArgumentCollection clArgs = Services.GetRequiredService<IArgumentCollection>();
-        foreach (var arg in clArgs)
-        {
-            switch (arg.Type)
-            {
-                case ArgumentType.Verb:
-                    _logger.LogDebug($"{arg.Type}:{arg.Key}");
-                    break;
-                case ArgumentType.Option:
-                    _logger.LogDebug($"{arg.Type}:{arg.Key}={arg.Value}");
-                    break;
-                case ArgumentType.Target:
-                    _logger.LogDebug($"{arg.Type}:{arg.Value}");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
+        IArgumentCollection clArgs = this.Services.GetRequiredService<IArgumentCollection>();
+        _logArguments(clArgs);
         if (clArgs.Count == 0)
         {
-            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = this.Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
             return;
         }
@@ -88,13 +64,37 @@ public class CommandHost : IHost
 
         if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
-            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
-            hb.BuildCommandHelp(commandDescriptor);
+            IHelpBuilder hb = this.Services.GetRequiredService<IHelpBuilder>();
+            string buildCommandHelp = hb.BuildCommandHelp(commandDescriptor);
+            Console.WriteLine(buildCommandHelp);
             return;
         }
 
-        ICommand2 command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
+        ICommand2 command = (ICommand2)this.Services.GetRequiredService(commandDescriptor.Type);
         command.Execute();
+    }
+
+
+
+    private void _logArguments(IArgumentCollection clArgs)
+    {
+        foreach (var arg in clArgs)
+        {
+            switch (arg.Type)
+            {
+                case ArgumentType.Verb:
+                    _logger.LogDebug($"{arg.Type}:{arg.Key}");
+                    break;
+                case ArgumentType.Option:
+                    _logger.LogDebug($"{arg.Type}:{arg.Key}={arg.Value}");
+                    break;
+                case ArgumentType.Target:
+                    _logger.LogDebug($"{arg.Type}:{arg.Value}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 
 

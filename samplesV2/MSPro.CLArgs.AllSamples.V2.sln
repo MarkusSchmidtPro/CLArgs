@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SamplesV2", "SamplesV2", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.NET", "ConsoleApp.NET\ConsoleApp.NET.csproj", "{38C5BC4D-E45B-4B1F-B3FD-E7F7F3B9306C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo02", "Demo02\Demo02.csproj", "{20319E92-F9A7-4DFE-AA0A-30FE2791773A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{38C5BC4D-E45B-4B1F-B3FD-E7F7F3B9306C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38C5BC4D-E45B-4B1F-B3FD-E7F7F3B9306C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38C5BC4D-E45B-4B1F-B3FD-E7F7F3B9306C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20319E92-F9A7-4DFE-AA0A-30FE2791773A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20319E92-F9A7-4DFE-AA0A-30FE2791773A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20319E92-F9A7-4DFE-AA0A-30FE2791773A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20319E92-F9A7-4DFE-AA0A-30FE2791773A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{38C5BC4D-E45B-4B1F-B3FD-E7F7F3B9306C} = {FE8F599B-C9CA-427B-9FAC-74F16B0693BD}
+		{20319E92-F9A7-4DFE-AA0A-30FE2791773A} = {FE8F599B-C9CA-427B-9FAC-74F16B0693BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53069044-4047-46DA-82A5-398BD4D2A254}

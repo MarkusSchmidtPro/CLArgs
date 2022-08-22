@@ -11,7 +11,7 @@ namespace MSPro.CLArgs;
 /// <summary>
 ///     Provides the functionality to parse a command-line.
 /// </summary>
-public class CommandLineParser2
+internal class CommandLineParser2
 {
     private const string FIRST_CHAR_PATTERN = "^[A-Za-z]";
     private const string WORD_PATTERN = "[A-Za-z0-9_\\-]*";
@@ -21,7 +21,7 @@ public class CommandLineParser2
     
     private readonly Settings2 _settings;
 
-    public CommandLineParser2( Settings2 settings)
+    internal CommandLineParser2( Settings2 settings)
     {
         _settings    = settings;
     }

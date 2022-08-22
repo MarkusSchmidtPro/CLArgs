@@ -74,8 +74,16 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
     {
         _hostBuilder = Host.CreateDefaultBuilder();
     }
-    public static IHostBuilder Create(string[] args) 
-        => new CommandHostBuilder().ConfigureDefaults(args);
+    public static CommandHostBuilder Create(string[] args)
+    {
+        var builder = new CommandHostBuilder();
+        builder.ConfigureDefaults(args);
+        builder.ConfigureCommandlineArguments((arguments, settings2) =>
+        {
+            arguments.AddCommandLine(args, settings2);
+        });
+        return builder;
+    }
 
 
 
@@ -120,14 +128,14 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
 
 
 
-    public void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
+    void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
     {
         _configureCommandsActions.Add(configureCommandsAction);
     }
 
 
 
-    public void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
+    void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
     {
         _configureArgumentsActions.Add(action);
     }
@@ -141,10 +149,12 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
 
 
 
+    /*
     public void ConfigureServices(Action<IServiceCollection, Settings2> action)
     {
         _configureServicesActions.Add(action);
     }
+    */
 
     #endregion
 

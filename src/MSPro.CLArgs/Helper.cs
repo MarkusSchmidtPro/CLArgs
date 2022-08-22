@@ -93,12 +93,6 @@ public static class Helper
             throw new InvalidOperationException("Unexpected: Call to Process.GetCurrentProcess().MainModule returned null!");
 
         return Path.GetFullPath(processModule.FileName);
-
-        //string[] args = Environment.GetCommandLineArgs();
-        //if (args == null || args.Length == 0)
-        //    throw new InvalidOperationException("Unexpected: Environment.GetCommandLineArgs()[0] returned null!");
-
-        //return args[0];
     }
         
        
