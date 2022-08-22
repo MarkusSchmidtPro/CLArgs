@@ -138,8 +138,7 @@ public class ContextBuilder
                 // Check if the Option is defined. It is defined when it was in the
                 // OptionDescriptorList that was used to ResolveOptions. 
                 // With AllowMultiple, options can be specified more than once 
-                var commandOption = options.FirstOrDefault(opt
-                                                               => string.Equals(opt.OptionName, optionName, _settings.StringComparison));
+                var commandOption = options.FirstOrDefault(opt => _settings.Equals(opt.OptionName, optionName));
                 Debug.Assert(commandOption != null);
                 if (!commandOption.HasValue) //|| !providedOptions.IsResolved)
                 {
@@ -173,7 +172,7 @@ public class ContextBuilder
                     if (collectionPropertyInfo == null)
                     {
                         errors.AddError(targetPropertyName,
-                                        $"The property {collectionPropertyInfo.Name} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
+                                        $"The property {collectionPropertyName} specified as 'AllowMultiple' on property {targetPropertyName} does not exist.");
                         continue;
                     }
 

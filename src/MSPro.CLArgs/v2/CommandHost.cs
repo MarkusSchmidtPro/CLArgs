@@ -1,36 +1,40 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 
 
 namespace MSPro.CLArgs;
 
-public class Commander2
+public class CommandHost : IHost
 {
-    private readonly ILogger<Commander2> _logger;
+    private readonly ILogger<CommandHost> _logger;
 
 
 
-    public Commander2(IServiceProvider serviceProvider, ILogger<Commander2> logger)
+    public CommandHost(IServiceProvider serviceProvider,ILogger<CommandHost> logger)
     {
-        this.ServiceProvider = serviceProvider;
-
-        //IServiceScope commandScope = serviceProvider.CreateScope();
-        //this.ServiceProvider = commandScope.ServiceProvider;
-        _logger = logger;
+        this.Services = serviceProvider;
+        _logger       = logger;
     }
 
 
 
-    private IServiceProvider ServiceProvider { get; }
-
-
-
-    public void Execute()
+    private void execute()
     {
-        ICommandDescriptorCollection commandDescriptors = this.ServiceProvider.GetRequiredService<ICommandDescriptorCollection>();
+        CommandLineParser2 cp = Services.GetRequiredService<CommandLineParser2>();
+        IArgumentCollection arguments = Services.GetRequiredService<IArgumentCollection>();
+        cp.Parse(Environment.GetCommandLineArgs().Skip(1).ToArray(), arguments);
+        
+        
+        
+        
+        ICommandDescriptorCollection commandDescriptors =
+            Services.GetRequiredService<ICommandDescriptorCollection>();
         if (commandDescriptors == null || commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered");
 
@@ -40,7 +44,7 @@ public class Commander2
             _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
         }
 
-        IArgumentCollection clArgs = this.ServiceProvider.GetRequiredService<IArgumentCollection>();
+        IArgumentCollection clArgs = Services.GetRequiredService<IArgumentCollection>();
         foreach (var arg in clArgs)
         {
             switch (arg.Type)
@@ -61,7 +65,7 @@ public class Commander2
 
         if (clArgs.Count == 0)
         {
-            IHelpBuilder hb = this.ServiceProvider.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
             return;
         }
@@ -84,12 +88,55 @@ public class Commander2
 
         if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
-            IHelpBuilder hb = this.ServiceProvider.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
             hb.BuildCommandHelp(commandDescriptor);
             return;
         }
 
-        ICommand2 command = (ICommand2)this.ServiceProvider.GetRequiredService(commandDescriptor.Type);
+        ICommand2 command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
+
+
+
+    #region IHost Implementation
+
+    private Task _task;
+
+
+
+    public void Dispose()
+    {
+        if (_task == null) return;
+        if (_task.Status == TaskStatus.RanToCompletion
+            || _task.Status == TaskStatus.Faulted
+            || _task.Status == TaskStatus.Canceled) _task.Dispose();
+
+        _task = null;
+    }
+
+
+
+    public Task StartAsync(CancellationToken cancellationToken = new())
+    {
+        _task = Task.Run(() =>
+        {
+            execute();
+            return Task.CompletedTask;
+        }, cancellationToken);
+        return _task;
+    }
+
+
+
+    public Task StopAsync(CancellationToken cancellationToken = new())
+    {
+        return _task;
+    }
+
+
+
+    public IServiceProvider Services { get; }
+
+    #endregion
 }

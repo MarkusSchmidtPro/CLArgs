@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 
 
@@ -14,12 +12,15 @@ public class Settings2
     /// </summary>
     public string[] OptionValueTags { get; set; } = { ":", "=" };
 
+
+    /// <summary>
+    ///     Specify if CLArgs should ignore cases when comparing verbs or options.
+    /// </summary>
+    /// <summary>
+    ///     Default: <c>true</c>
+    /// </summary>
     public bool IgnoreCase { get; set; } = true;
 
-    public StringComparison StringComparison =>
-        this.IgnoreCase
-            ? StringComparison.InvariantCultureIgnoreCase
-            : StringComparison.InvariantCulture;
 
 
     /// <summary>
@@ -52,11 +53,4 @@ public class Settings2
     ///     First column where help text starts.
     /// </summary>
     public int HelpAlignColumn { get; set; } = 20;
-
-
-
-    public IEqualityComparer<string> GetStringComparer() =>
-        this.IgnoreCase
-            ? StringComparer.InvariantCultureIgnoreCase
-            : StringComparer.InvariantCulture;
 }

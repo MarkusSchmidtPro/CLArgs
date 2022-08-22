@@ -45,9 +45,9 @@ public class ArgumentOptionMapper
         foreach (var argumentOption in arguments.Options)
         {
             var knownOption = commandOptions.FirstOrDefault(
-                desc =>
-                    (desc.Tags != null && desc.Tags.Any(t => string.Equals(t, argumentOption.Key, _settings.StringComparison)))
-                    || string.Equals(desc.OptionName, argumentOption.Key, _settings.StringComparison));
+                desc => _settings.Equals(desc.OptionName, argumentOption.Key)
+                        || (desc.Tags != null && desc.Tags.Any(
+                            t => _settings.Equals(t, argumentOption.Key))));
 
             if (knownOption != null)
             {

@@ -18,7 +18,7 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
 
 
 
-    protected CommandBase2(IServiceProvider serviceProvider)
+    public CommandBase2(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
         Print = serviceProvider.GetRequiredService<IPrinter>();
