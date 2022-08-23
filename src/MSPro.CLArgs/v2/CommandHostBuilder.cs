@@ -15,7 +15,7 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public class CommandHostBuilder : IHostBuilder //CommandBuilder
 {
-    private readonly List<Action<Settings2>> _configureArgumentConvertersActions = new();
+    private readonly List<Action<IOptionValueConverterCollection, Settings2>> _configureArgumentConvertersActions = new();
     private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions = new();
     private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = new();
     private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = new();
@@ -23,6 +23,13 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
 
     private readonly IHostBuilder _hostBuilder;
 
+     
+    private CommandHostBuilder()
+    {
+        _hostBuilder = Host.CreateDefaultBuilder();
+    }
+    
+    
     #region IHostBuilder
     IDictionary<object, object> IHostBuilder.Properties => _hostBuilder.Properties;
 
@@ -69,11 +76,7 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
     }
 
     #endregion
-    
-    private CommandHostBuilder()
-    {
-        _hostBuilder = Host.CreateDefaultBuilder();
-    }
+   
     public static CommandHostBuilder Create(string[] args)
     {
         var builder = new CommandHostBuilder();
@@ -128,33 +131,24 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
 
 
 
-    void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
+    public void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
     {
         _configureCommandsActions.Add(configureCommandsAction);
     }
 
 
 
-    void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
+    public void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
     {
         _configureArgumentsActions.Add(action);
     }
 
 
 
-    public void ConfigureArgumentConverters(Action<Settings2> action)
+    public void ConfigureArgumentConverters(Action<IOptionValueConverterCollection, Settings2> action)
     {
         _configureArgumentConvertersActions.Add(action);
     }
-
-
-
-    /*
-    public void ConfigureServices(Action<IServiceCollection, Settings2> action)
-    {
-        _configureServicesActions.Add(action);
-    }
-    */
 
     #endregion
 

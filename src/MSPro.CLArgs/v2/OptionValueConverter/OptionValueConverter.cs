@@ -19,6 +19,17 @@ public class IntConverter : IArgumentConverter
     }
 }
 
+public class DecimalConverter : IArgumentConverter
+{
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+    {
+        if (!decimal.TryParse(optionValue, out decimal v))
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a decimal.");
+        return v;
+    }
+}
+
 public class BoolConverter : IArgumentConverter
 {
     public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)

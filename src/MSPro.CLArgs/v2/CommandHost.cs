@@ -70,7 +70,7 @@ public class CommandHost : IHost
             return;
         }
 
-        ICommand2 command = (ICommand2)this.Services.GetRequiredService(commandDescriptor.Type);
+        ICommand2 command = (ICommand2) this.Services.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
 

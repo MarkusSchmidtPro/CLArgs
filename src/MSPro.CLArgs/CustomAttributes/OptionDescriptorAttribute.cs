@@ -26,10 +26,7 @@ public class OptionDescriptorAttribute : Attribute
 
     public string AllowMultiple { get; set; }
     public bool Required { get; set; }
-
-
-
-    public Func<object, IArgumentCollection> DDefault { get; set; }
+    
     public object Default { get; set; }
 
 

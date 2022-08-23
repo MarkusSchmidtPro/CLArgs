@@ -4,6 +4,8 @@ using MSPro.CLArgs;
 
 
 
+namespace ConsoleApp.NET;
+
 internal class Program
 {
     public static void Main(string[] args)
@@ -15,7 +17,7 @@ internal class Program
 
 
 [Command("HelloWorld", "A simple command to print a name in the Console Window.")]
-internal class HelloWorldCommand : CommandBase2<HelloWorldContext>
+public class HelloWorldCommand : CommandBase2<HelloWorldContext>
 {
     public HelloWorldCommand(IServiceProvider serviceProvider) : base(serviceProvider)
     {
@@ -34,7 +36,7 @@ internal class HelloWorldCommand : CommandBase2<HelloWorldContext>
 /// <summary>
 ///     The context defines and describes the arguments supported by a Command.
 /// </summary>
-internal class HelloWorldContext
+public class HelloWorldContext
 {
     [OptionDescriptor("Name", new[] { "n" },
                       Default = "John Doe", Required = false,

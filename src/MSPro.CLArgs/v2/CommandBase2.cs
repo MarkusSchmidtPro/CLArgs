@@ -31,14 +31,13 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
 
     public IOptionCollection CommandOptions => _commandOptions ??= new OptionCollection().AddContextType<TContext>();
 
-
-
     void ICommand2.Execute()
     {
-        var builder = ServiceProvider.GetRequiredService<ContextBuilder>();
-        //builder.ConfigureConverters( (converters)=>{});
-        this.Context = builder.Build<TContext>(
-            ServiceProvider.GetRequiredService<IArgumentCollection>(), this.CommandOptions,
+        var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
+        ContextBuilder contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
+        this.Context = contextBuilder.Build<TContext>(
+            arguments,
+            this.CommandOptions,
             out var unresolvedPropertyNames,
             out var errors);
 
@@ -89,9 +88,7 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
 
 
 
-    protected virtual void BeforeExecute(
-        HashSet<string> unresolvedPropertyNames,
-        ErrorDetailList errors)
+    protected virtual void BeforeExecute(HashSet<string> unresolvedPropertyNames, ErrorDetailList errors)
     {
     }
 }

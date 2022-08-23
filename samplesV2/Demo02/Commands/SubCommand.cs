@@ -5,7 +5,7 @@ using MSPro.CLArgs;
 
 namespace CLArgs.Demo02;
 
-[Command("MATH.SUB", "Subtract two integer values.")]
+[Command("MATH SUB", "Subtract two integer values.")]
 public class SubCommand : CommandBase2<AdditionContext>
 {
     public SubCommand(IServiceProvider serviceProvider) : base(serviceProvider)

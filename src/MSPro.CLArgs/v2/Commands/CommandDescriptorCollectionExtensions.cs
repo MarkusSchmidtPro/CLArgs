@@ -26,6 +26,14 @@ public static class CommandDescriptorCollectionExtensions
 
     public static ICommandDescriptorCollection AddAssembly(
         this ICommandDescriptorCollection commandDescriptors,
+        Type type)
+    {
+        getTypesFromAssembly(type.Assembly, commandDescriptors);
+        return commandDescriptors;
+    }    
+    
+    public static ICommandDescriptorCollection AddAssembly(
+        this ICommandDescriptorCollection commandDescriptors,
         Assembly assembly)
     {
         getTypesFromAssembly(assembly, commandDescriptors);
