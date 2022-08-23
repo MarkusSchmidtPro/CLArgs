@@ -1,9 +1,9 @@
-﻿using CLArgs.Demo02;
+﻿using System;
 using MSPro.CLArgs;
 
 
 
-namespace Demo.ICommand2.NET5;
+namespace CLArgs.Demo02;
 
 [Command("MATH.SUB", "Subtract two integer values.")]
 public class SubCommand : CommandBase2<AdditionContext>
@@ -16,7 +16,7 @@ public class SubCommand : CommandBase2<AdditionContext>
 
     protected override void Execute()
     {
-        int result = Context.Value1 - Context.Value2;
-        Console.WriteLine($"{Context.Value1} - {Context.Value2} = {result}");
+        int result = this.Context.Value1 - this.Context.Value2;
+        Console.WriteLine($"{this.Context.Value1} - {this.Context.Value2} = {result}");
     }
 }

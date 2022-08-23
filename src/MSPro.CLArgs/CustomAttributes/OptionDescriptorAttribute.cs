@@ -29,6 +29,7 @@ public class OptionDescriptorAttribute : Attribute
 
 
 
+    public Func<object, IArgumentCollection> DDefault { get; set; }
     public object Default { get; set; }
 
 
