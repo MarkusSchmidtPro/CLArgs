@@ -10,11 +10,11 @@ namespace MSPro.CLArgs;
 [DebuggerDisplay("{Type}({Key})='{Value}'")]
 public class Argument
 {
-    private Argument(ArgumentType type, string tag, string value)
+    private Argument(ArgumentType type, string key, string value)
     {
-        this.Type = type;
+        this.Type  = type;
         this.Value = value;
-        this.Key = tag;
+        this.Key   = key;
     }
 
 

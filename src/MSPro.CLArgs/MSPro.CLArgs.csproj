@@ -24,7 +24,7 @@
       <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
       <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
-      <TargetFramework>net6.0</TargetFramework>
+      <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

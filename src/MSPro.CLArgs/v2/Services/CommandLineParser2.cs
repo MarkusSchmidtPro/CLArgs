@@ -29,14 +29,17 @@ internal class CommandLineParser2
 
     private bool isVerb(string arg) => _verbRegEx.Match(arg).Value == arg;
 
-    private string getOptionName(string arg) => _optionNameRegEx.Match(arg).Value;
+    /// <summary>
+    /// Get the option tag as it was specified in the command-line.
+    /// </summary>
+    private string getOptionTag(string arg) => _optionNameRegEx.Match(arg).Value;
 
 
 
     /// <summary>
-    ///     Parse a string containing arguments
+    ///     Parse command-line arguments into an argument collection.
     /// </summary>
-    public void Parse(IReadOnlyList<string> args, IArgumentCollection argumentCollection)
+    public void Parse(IReadOnlyList<string> args, IArgumentCollection arguments)
     {
         //
         // Get Verbs
@@ -44,7 +47,7 @@ internal class CommandLineParser2
         int argNo = 0;
         while (argNo < args.Count && isVerb(args[argNo]))
         {
-            argumentCollection.Add(Argument.Verb(args[argNo]));
+            arguments.Add(Argument.Verb(args[argNo]));
             argNo++;
         }
 
@@ -63,7 +66,7 @@ internal class CommandLineParser2
                 if (!arg.StartsWith(optionTag)) continue;
 
                 isOption = true;
-                arg      = arg.Substring(optionTag.Length);
+                arg      = arg[optionTag.Length..];
                 break;
             }
 
@@ -72,15 +75,15 @@ internal class CommandLineParser2
                 //
                 // current arg (args[argNo]) should be an option!
                 //
-                string optionName = getOptionName(arg);
-                if (string.IsNullOrWhiteSpace(optionName))
+                string optionTag  = getOptionTag(arg);
+                if (string.IsNullOrWhiteSpace(optionTag))
                     throw new ApplicationException($"Unexpected Command-Line Argument: {args[argNo]}.");
 
-                lastOption = Argument.Option(optionName, true.ToString());
-                argumentCollection.Add(lastOption);
+                lastOption = Argument.Option(optionTag, true.ToString());
+                arguments.Add(lastOption);
 
                 // skip Option name and continue parsing
-                arg = arg.Substring(optionName.Length).Trim();
+                arg = arg[optionTag.Length..].Trim();
                 if (arg.Length > 0)
                     // The current argument may continue (without any 'interrupt')
                     // with an optionValueTag and [optional] the option's value
@@ -129,11 +132,11 @@ internal class CommandLineParser2
                                                           Helper.BinDir);
 
                         string[] fileArgs = readArgs(filePath).ToArray();
-                        Parse(fileArgs, argumentCollection);
+                        Parse(fileArgs, arguments);
                     }
                     else
                     {
-                        argumentCollection.Add(Argument.Target(args[argNo]));
+                        arguments.Add(Argument.Target(args[argNo]));
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using MSPro.CLArgs;
 
 
@@ -27,28 +28,28 @@ public class Demo1Command : CommandBase2<Demo4Context>
     }
 
 
-
-    /*protected override void BeforeExecute(HashSet<string> unresolvedPropertyNames, ErrorDetailList errors)
+    protected override void BeforeExecute( ErrorDetailList errors)
     {
-        //Context.Validate(CommandOptions);
-        base.BeforeExecute(unresolvedPropertyNames, errors);
-    }*/
+        var notProvidedProperties = ContextProperties.Where(cp=> !cp.IsProvided).ToList();
+        if (notProvidedProperties.Count > 0)
+        {
+            Console.WriteLine($"{notProvidedProperties.Count} properties which were not provided in the command-line.");
+            foreach (var contextProperty in notProvidedProperties)
+            {
+                string defaultText = contextProperty.IsDefault ? " [Default]" : "";
+                var firstValue = contextProperty.HasValue ? contextProperty.ProvidedValues[0] : "null";
+                Console.WriteLine($"{contextProperty.OptionName}={firstValue}{defaultText}");
+            }
+        }
+        
+        base.BeforeExecute( errors);
+    }
 }
 
 
 
 public class Demo4Context
 {
-    /*public void Validate(IOptionCollection options)
-    {
-        if( options..Length!=3) 
-            errors.AddError(nameof(Context.ThreeChars), "Length must be exactly three characters!");
-        
-        var rx = new Regex("[A-Z]{3}");
-        if( !rx.IsMatch(Context.ThreeChars!))
-            errors.AddError(nameof(Context.ThreeChars), "Three characters are not three capital characters!");
-    }*/
-    
     /* There is no built-in converter to convert command-line arguments into
        a property of type DirectoryInfo, and we need to create and register (see program.cs)
        a custom converter,
@@ -63,7 +64,12 @@ public class Demo4Context
                       false,  helpText:"Specify three capital characters.")]
     public string? ThreeChars { get; set; } 
 
+    [OptionDescriptor("OptionalArgument", new[] { "o" }, 
+                        defaultValue : "my default",
+                        helpText:"You may provide this or leave it out.")]
+    public string? Optional { get; set; }
 }
+
 
 
 

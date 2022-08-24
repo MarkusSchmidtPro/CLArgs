@@ -23,11 +23,6 @@ public class ListArgsCommand : ICommand2
     }
 
 
-
-    IOptionCollection ICommand2.CommandOptions { get; } = new OptionCollection();
-
-
-
     public void Execute()
     {
         Console.WriteLine($"Executing command '{COMMAND_NAME}'");

@@ -22,6 +22,16 @@ public class OptionDescriptorAttribute : Attribute
         this.Required   = required;
     }
 
+    public OptionDescriptorAttribute(string optionName,
+                                     string[] tags,
+                                     object defaultValue,
+                                     string helpText = null)
+    {
+        this.OptionName = optionName;
+        this.Tags       = tags;
+        this.HelpText   = helpText;
+        this.Default    = defaultValue;
+    }
 
 
     public string AllowMultiple { get; set; }

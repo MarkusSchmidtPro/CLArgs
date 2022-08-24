@@ -61,8 +61,8 @@ public class HelpBuilder : IHelpBuilder
 
         sb.AppendLine($"{new string('-', _settings.HelpFullWidth)}");
 
-        ICommand2 command = (ICommand2)_serviceProvider.GetRequiredService(c.Type);
-        foreach (var option in command.CommandOptions)
+        CommandBase2<object> command = (CommandBase2<object>)_serviceProvider.GetRequiredService(c.Type);
+        foreach (var option in command.ContextProperties)
         {
             string tags = option.Tags != null ? $"Tags={string.Join(",", option.Tags)} " : string.Empty;
             string required = option.Required ? "required" : "optional" + " ";

@@ -19,7 +19,7 @@ public static class ServicesExtensions
         services.AddScoped<IPrinter, ConsolePrinter>();
         services.AddScoped<IHelpBuilder, HelpBuilder>();
 
-        services.AddScoped<ArgumentOptionMapper>();
+        services.AddScoped<ContextPropertyResolver>();
         services.AddScoped<ContextBuilder>();
         services.AddScoped<CommandLineParser2>();
         

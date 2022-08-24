@@ -16,6 +16,7 @@ public class ArgumentCollection : IArgumentCollection
 {
     private readonly List<Argument> _list = new ();
 
+    #region IArgumentCollection
 
     public IEnumerable<string> Verbs =>
         _list
@@ -34,17 +35,20 @@ public class ArgumentCollection : IArgumentCollection
 
     public string VerbPath => this.Verbs.Any() ? string.Join(".", this.Verbs) : null;
 
+    #endregion
+    
+    #region List implementation
     public IEnumerator<Argument> GetEnumerator() => _list.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_list).GetEnumerator();
 
-    public void Add([NotNull] Argument item) => _list.Add(item);
+    public void Add( Argument item) => _list.Add(item);
 
     public void Clear() => _list.Clear();
 
-    public bool Contains([NotNull]Argument item) => _list.Contains(item);
+    public bool Contains(Argument item) => _list.Contains(item);
 
-    public bool Remove([NotNull] Argument item) => _list.Remove(item);
+    public bool Remove( Argument item) => _list.Remove(item);
 
     public int Count => _list.Count;
 
@@ -61,4 +65,5 @@ public class ArgumentCollection : IArgumentCollection
         get => _list[index];
         set => _list[index]=value;
     }
+    #endregion
 }

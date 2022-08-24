@@ -1,32 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 
 namespace MSPro.CLArgs;
 
-public static class IOptionDescriptorCollectionExtension
+/// <summary>
+///     Represents all known arguments of type Verb, Option or target.
+/// </summary>
+public class ContextPropertyCollection : List<ContextProperty>
 {
-    public static IOptionCollection AddContextType<TContext>(this IOptionCollection optionCollection)
+    private ContextPropertyCollection() { }
+    
+    
+    public static ContextPropertyCollection FromType<TContext>()
     {
-         optionCollection.AddContextType(typeof(TContext));
-         return optionCollection;
+        var result = new ContextPropertyCollection();
+        result.parseType(typeof(TContext));
+        return result;
     }
 
 
-
-    public static void AddContextType(this IOptionCollection optionCollection, Type contextType)
+    private void parseType(Type t)
     {
-        foreach (var pi in contextType.GetProperties())
+        foreach (var pi in t.GetProperties())
         {
             if (pi.GetFirst<OptionSetAttribute>() != null)
             {
-                optionCollection.AddContextType(pi.PropertyType);
+                parseType(pi.PropertyType);
             }
             else
             {
                 var optionDescriptorAttribute = pi.GetFirst<OptionDescriptorAttribute>();
                 if (optionDescriptorAttribute != null)
-                    optionCollection.Add(new Option2
+                    this.Add(new ContextProperty
                     {
                         Default            = optionDescriptorAttribute.Default,
                         Required           = optionDescriptorAttribute.Required,

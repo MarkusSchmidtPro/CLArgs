@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,17 +10,15 @@ namespace MSPro.CLArgs;
 [PublicAPI]
 public abstract class CommandBase2<TContext> : ICommand2 where TContext : class, new()
 {
-    protected readonly IServiceProvider ServiceProvider;
     protected readonly IPrinter Print;
-
-    private IOptionCollection _commandOptions;
+    protected readonly IServiceProvider ServiceProvider;
 
 
 
     public CommandBase2(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        Print = serviceProvider.GetRequiredService<IPrinter>();
+        Print           = serviceProvider.GetRequiredService<IPrinter>();
     }
 
 
@@ -29,21 +26,22 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
     protected TContext Context { get; private set; }
 
 
-    public IOptionCollection CommandOptions => _commandOptions ??= new OptionCollection().AddContextType<TContext>();
+    public ContextPropertyCollection ContextProperties { get; private set; }
+
+
 
     void ICommand2.Execute()
     {
+        this.ContextProperties = ContextPropertyCollection.FromType<TContext>();
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
+        ErrorDetailList errors = new();
+        
         ContextBuilder contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
-        this.Context = contextBuilder.Build<TContext>(
-            arguments,
-            this.CommandOptions,
-            out var unresolvedPropertyNames,
-            out var errors);
+        this.Context = contextBuilder.Build<TContext>( arguments, this.ContextProperties, errors);
 
         if (!errors.HasErrors())
         {
-            BeforeExecute(unresolvedPropertyNames, errors);
+            BeforeExecute( errors);
             if (!errors.HasErrors())
             {
                 try
@@ -81,14 +79,14 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
         if (handled) return;
         if (errors.Details.Count > 1)
             throw new AggregateException(errors.Details.Select(
-                e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
+                                             e => new ArgumentException(e.ErrorMessages[0], e.AttributeName)));
 
         throw new ArgumentException(errors.Details[0].ErrorMessages[0], errors.Details[0].AttributeName);
     }
 
 
 
-    protected virtual void BeforeExecute(HashSet<string> unresolvedPropertyNames, ErrorDetailList errors)
+    protected virtual void BeforeExecute(ErrorDetailList errors)
     {
     }
 }

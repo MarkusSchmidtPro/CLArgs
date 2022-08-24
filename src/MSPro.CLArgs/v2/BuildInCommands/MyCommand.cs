@@ -26,8 +26,4 @@ public class MyCommand : ICommand2
     {
         _logger.LogInformation("MyCommand execute!");
     }
-
-
-
-    IOptionCollection ICommand2.CommandOptions { get; } = new OptionCollection();
 }
