@@ -13,7 +13,6 @@
       <Version>$(AssemblyVersion)</Version>
       <FileVersion>$(Version)</FileVersion>
       <Description>Console application command-line support.</Description>
-      <PackageIcon>CLArgs.png</PackageIcon>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <PackageVersion>2.2208.02</PackageVersion>
       <Title>CLArgs - Command Line Parser</Title>
@@ -25,6 +24,8 @@
       <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
       <LangVersion>default</LangVersion>
       <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
+      <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
+      <PackageIcon>CLArgs.png</PackageIcon>
     </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -67,18 +68,13 @@
 
   
   <ItemGroup>
-    <None Remove="CLArgs.png" />
-    <None Remove="command-line.ico" />
-    <None Remove="command-line.png" />
-    <None Remove="Images\CLArgs.png" />
     <None Remove="Schmidt_e-Services.snk" />
     <None Remove="MSPro.CLArgs.csproj.DotSettings" />
     <None Remove="MSPro.CLArgs.xml" />
     <None Remove="pack.bat" />
     <None Remove="push.bat" />
-    <None Include="Images\CLArgs.png">
-      <Pack>True</Pack>
-    </None>
+    <Content Include="Images\CLArgs.ico" />
+    <None Include="images\CLArgs.png" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>
@@ -95,6 +91,10 @@
   <ItemGroup>
     <None Update="Images\CLArgs.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\CLArgs.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
