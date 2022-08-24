@@ -25,7 +25,7 @@ SUB                 Subtract two integer values.
 ADD                 Add two integer values.
  */
 
-string[] commandline = "MATH ADD /?".Split(" ").ToArray(); // Verb: ADD --> Help on ADD
+string[] commandline = "MATH SUB /?".Split(" ").ToArray(); // Verb: ADD --> Help on ADD
 /*
 ADD                 Add two integer values.
 --------------------------------------------------------------------------------

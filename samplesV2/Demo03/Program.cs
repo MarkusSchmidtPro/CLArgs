@@ -13,6 +13,12 @@ string[] commandline = "MATH MULT /f1=5,43 /f2=7,54 ".Split(" ").ToArray();
 try
 {
     var builder = CommandHostBuilder.Create(commandline);
+    builder.Configure(settings =>
+    {
+
+        settings.IgnoreCase           = false;
+        settings.IgnoreUnknownOptions = true;
+    });
     // Add _all_ command implementations from Assembly
     builder.ConfigureCommands(commandDescriptors
                                   => commandDescriptors.AddAssembly(typeof(MultCommand)));

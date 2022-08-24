@@ -7,37 +7,52 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MSPro.CLArgs;
 
+
 [PublicAPI]
-public abstract class CommandBase2<TContext> : ICommand2 where TContext : class, new()
+public abstract class CommandWithContext
 {
-    protected readonly IPrinter Print;
-    protected readonly IServiceProvider ServiceProvider;
+    private readonly Type _contextType;
+    private ContextPropertyCollection _contextProperties;
 
 
 
-    public CommandBase2(IServiceProvider serviceProvider)
+    protected CommandWithContext(Type contextType)
     {
-        ServiceProvider = serviceProvider;
-        Print           = serviceProvider.GetRequiredService<IPrinter>();
+        _contextType      = contextType;
     }
 
-
-
-    protected TContext Context { get; private set; }
 
 
     /// <summary>
     /// Get all annotated Context properties.
     /// </summary>
-    public ContextPropertyCollection ContextProperties { get; private set; }
+    public ContextPropertyCollection ContextProperties 
+        => _contextProperties ??= ContextPropertyCollection.FromType(_contextType);
+}
 
+
+
+
+[PublicAPI]
+public abstract class CommandBase2<TContext> : CommandWithContext, ICommand2 where TContext : class, new()
+{
+    protected readonly IPrinter Print;
+    protected readonly IServiceProvider ServiceProvider;
+
+    
+    protected CommandBase2(IServiceProvider serviceProvider) : base(typeof(TContext))
+    {
+        ServiceProvider = serviceProvider;
+        Print           = serviceProvider.GetRequiredService<IPrinter>();
+    }
+
+    protected TContext Context { get; private set; }
 
 
     void ICommand2.Execute()
     {
         ErrorDetailList errors = new();
 
-        this.ContextProperties = ContextPropertyCollection.FromType<TContext>();
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
         
         ContextBuilder contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();

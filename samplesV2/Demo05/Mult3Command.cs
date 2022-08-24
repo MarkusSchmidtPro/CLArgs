@@ -7,6 +7,8 @@ using MSPro.CLArgs;
 /// <summary>
 /// MATH MULT2 is the same as MATH MULT, with the difference it uses printing.
 /// </summary>
+/// <see cref="IPrinter"/>
+/// <see cref="ConsolePrinter"/>
 [Command("MATH.MULT3", "Multiply two decimal values.")]
 public class Mult3Command : CommandBase2<Mult23Context>
 {

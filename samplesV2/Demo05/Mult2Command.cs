@@ -24,7 +24,7 @@ public class Mult2Command : CommandBase2<Mult23Context>
     protected override void Execute()
     {
         // As defined in nlog.config:
-        //   DEBUG messages go to the log file logs\demo5.log
+        //   DEBUG messages go to the log file "bin\logs\demo5.log"
         //   INFO  messages are printed on the Console
         _logger.LogDebug($"Serialized Context='{JsonSerializer.Serialize(this.Context)}'");
         decimal result = this.Context.Factor1 * this.Context.Factor2;

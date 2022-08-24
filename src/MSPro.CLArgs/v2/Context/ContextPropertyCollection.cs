@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 
 
@@ -11,15 +10,24 @@ namespace MSPro.CLArgs;
 /// </summary>
 public class ContextPropertyCollection : List<ContextProperty>
 {
-    private ContextPropertyCollection() { }
-    
-    
+    private ContextPropertyCollection()
+    {
+    }
+
+
+
     public static ContextPropertyCollection FromType<TContext>()
+        => FromType(typeof(TContext));
+
+
+
+    public static ContextPropertyCollection FromType(Type contextType)
     {
         var result = new ContextPropertyCollection();
-        result.parseType(typeof(TContext));
+        result.parseType(contextType);
         return result;
     }
+
 
 
     private void parseType(Type t)
@@ -34,7 +42,7 @@ public class ContextPropertyCollection : List<ContextProperty>
             {
                 var optionDescriptorAttribute = pi.GetFirst<OptionDescriptorAttribute>();
                 if (optionDescriptorAttribute != null)
-                    this.Add(new ContextProperty
+                    Add(new ContextProperty
                     {
                         Default            = optionDescriptorAttribute.Default,
                         Required           = optionDescriptorAttribute.Required,

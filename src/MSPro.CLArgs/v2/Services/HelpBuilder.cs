@@ -61,7 +61,8 @@ public class HelpBuilder : IHelpBuilder
 
         sb.AppendLine($"{new string('-', _settings.HelpFullWidth)}");
 
-        CommandBase2<object> command = (CommandBase2<object>)_serviceProvider.GetRequiredService(c.Type);
+        CommandWithContext  command = (CommandWithContext) _serviceProvider.GetRequiredService(c.Type);
+        
         foreach (var option in command.ContextProperties)
         {
             string tags = option.Tags != null ? $"Tags={string.Join(",", option.Tags)} " : string.Empty;
@@ -76,7 +77,6 @@ public class HelpBuilder : IHelpBuilder
             var wrapped = Helper.Wrap(option.HelpText, _settings.HelpFullWidth - _settings.HelpAlignColumn);
             foreach (string line in wrapped.AllLines) sb.AppendLine(insert + line);
             if (option.Default != null) sb.AppendLine($"{insert}DEFAULT: '{option.Default}'");
-            sb.AppendLine();
         }
         return sb.ToString();
     }
