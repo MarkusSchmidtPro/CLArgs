@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 
 
-namespace MSPro.CLArgs.Print;
+namespace MSPro.CLArgs;
 
 public class ConsolePrinter : IPrinter
 {
@@ -24,7 +24,7 @@ public class ConsolePrinter : IPrinter
 
     public void Debug(string message)
     {
-        _logger.LogDebug(message);
+        _logger?.LogDebug(message);
     }
 
 
@@ -32,7 +32,7 @@ public class ConsolePrinter : IPrinter
     public void Error(Exception e)
     {
         Error(e.Message);
-        _logger.Log(LogLevel.Critical, e, null);
+        _logger?.Log(LogLevel.Critical, e, null);
     }
 
 
@@ -53,7 +53,7 @@ public class ConsolePrinter : IPrinter
                 _sameLineMessages.Clear();
             }
 
-            _logger.LogInformation(message);
+            _logger?.LogInformation(message);
             Console.WriteLine(message);
         }
         else
@@ -67,7 +67,7 @@ public class ConsolePrinter : IPrinter
 
     public void Warn(string message)
     {
-        _logger.LogWarning(message);
+        _logger?.LogWarning(message);
         Console.WriteLine("WARN: " + message);
         _sameLineMessages.Clear();
     }
@@ -76,7 +76,7 @@ public class ConsolePrinter : IPrinter
 
     public void Error(string message)
     {
-        _logger.LogError(message);
+        _logger?.LogError(message);
         Console.WriteLine("ERROR: " + message);
         _sameLineMessages.Clear();
     }

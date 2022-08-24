@@ -13,7 +13,7 @@ public static class ArgumentCollectionExtensions
     public static IArgumentCollection AddCommandLine(this IArgumentCollection arguments, string[] args, Settings2 settings2)
     {
         CommandLineParser2 cp = new (settings2);
-        cp.Parse(args.Skip(1).ToArray(), arguments);
+        cp.Parse(args/*.Skip(1).ToArray()*/, arguments);
         return arguments;
     }
     

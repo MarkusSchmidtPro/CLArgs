@@ -109,11 +109,15 @@ public class CommandHostBuilder : IHostBuilder //CommandBuilder
             services.AddScoped(_ => arguments);
 
             foreach (var commandDescriptor in commandDescriptors.Values)
+            {
                 services.AddScoped(commandDescriptor.Type);
+            }
 
             foreach (var action in _configureServicesActions)
+            {
                 action(services, settings);
-     
+            }
+
             // HostBuild returns the IHost instance
             services.AddScoped<IHost,CommandHost>();
         });
