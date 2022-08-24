@@ -13,8 +13,8 @@ Console.WriteLine("Demo02 - Simple Math");
  */
 
 // Test command-lines - note: the first argument is the application's name
-//string[] commandline = "demo2App.exe MATH ADD /a=5 /b=7".Split(" ").ToArray(); // 5 + 7 = 12
-//string[] commandline = "demo2App.exe MATH SUB /a=7 /b=5".Split(" ").ToArray();  // 7 - 5 = 2
+//string[] commandline = "MATH ADD /a=5 /b=7".Split(" ").ToArray(); // 5 + 7 = 12
+//string[] commandline = "MATH SUB /a=7 /b=5".Split(" ").ToArray();  // 7 - 5 = 2
 //string[] commandline = "demo2App.exe".Split(" ").ToArray();  // No Argument --> Help
 /*
 2 Commands available:
@@ -25,7 +25,7 @@ SUB                 Subtract two integer values.
 ADD                 Add two integer values.
  */
 
-string[] commandline = "demo2App.exe MATH ADD /?".Split(" ").ToArray(); // Verb: ADD --> Help on ADD
+string[] commandline = "MATH ADD /?".Split(" ").ToArray(); // Verb: ADD --> Help on ADD
 /*
 ADD                 Add two integer values.
 --------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ ADD                 Add two integer values.
                     DEFAULT: '0'
  */
 
-//string[] commandline = "demo2App.exe MATH ADD /a=5 ".Split(" ").ToArray(); 
+//string[] commandline = "MATH ADD /a=5 ".Split(" ").ToArray(); 
 // Missing mandatory Option: 'Value2' (Parameter 'Value2')
 
 

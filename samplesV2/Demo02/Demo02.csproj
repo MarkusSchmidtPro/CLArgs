@@ -17,4 +17,8 @@
       <ProjectReference Include="..\SampleCommands\SampleCommands.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Demo02.csproj.DotSettings" />
+    </ItemGroup>
+
 </Project>

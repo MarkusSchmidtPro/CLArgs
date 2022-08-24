@@ -1,0 +1,30 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MSPro.CLArgs;
+using NLog.Extensions.Logging;
+
+
+
+Console.WriteLine("Demo05 - Logging and Printing");
+
+//string[] commandline = "MATH MULT2 /f1=5,43 /f2=7,54 ".Split(" ").ToArray();
+string[] commandline = "MATH MULT3 /f1=5,43 /f2=7,54 ".Split(" ").ToArray();
+
+try
+{
+    var builder = CommandHostBuilder.Create(commandline);
+    builder.ConfigureServices(services =>
+    {
+        services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.ClearProviders();
+            loggingBuilder.AddNLog();
+        });
+    });
+    builder.Start();
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}

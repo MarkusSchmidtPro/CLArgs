@@ -10,7 +10,7 @@ using MSPro.CLArgs;
 
 Console.WriteLine("Demo04 - Argument conversion and validation");
 
-string[] commandline = "demo4App.exe ARGS DEMO4 /d c:\\windows".Split(" ").ToArray();
+string[] commandline = "ARGS DEMO4 /d c:\\windows".Split(" ").ToArray();
 
 try
 {

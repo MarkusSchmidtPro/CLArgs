@@ -44,6 +44,7 @@ public class ContextBuilder
         {
             { typeof(string), new StringConverter() },
             { typeof(int), new IntConverter() },
+            { typeof(decimal), new DecimalConverter() },
             { typeof(bool), new BoolConverter() },
             { typeof(DateTime), new DateTimeConverter() },
             { typeof(Enum), new EnumConverter() }

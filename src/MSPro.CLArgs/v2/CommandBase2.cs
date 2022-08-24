@@ -26,15 +26,19 @@ public abstract class CommandBase2<TContext> : ICommand2 where TContext : class,
     protected TContext Context { get; private set; }
 
 
+    /// <summary>
+    /// Get all annotated Context properties.
+    /// </summary>
     public ContextPropertyCollection ContextProperties { get; private set; }
 
 
 
     void ICommand2.Execute()
     {
+        ErrorDetailList errors = new();
+
         this.ContextProperties = ContextPropertyCollection.FromType<TContext>();
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
-        ErrorDetailList errors = new();
         
         ContextBuilder contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
         this.Context = contextBuilder.Build<TContext>( arguments, this.ContextProperties, errors);
