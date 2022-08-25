@@ -3,17 +3,12 @@
 
 using Microsoft.Extensions.Hosting;
 using MSPro.CLArgs;
-using SampleCommands;
 using SampleCommands.Services;
 
 
 
 Console.WriteLine("Demo07 - How to use dependency injection in your commands");
 
-// string[] commandline = "API /url http://localhost /username markus /password schmidt".Split(" ").ToArray();
-
-// Use argument file
-//string[] commandline = "API /p1=p1111 @devsystem.profile".Split(" ").ToArray();
 string[] commandline = "HelloWorld /UserName Markus".Split(" ").ToArray();
 
 var builder = CommandHostBuilder.Create(commandline);
