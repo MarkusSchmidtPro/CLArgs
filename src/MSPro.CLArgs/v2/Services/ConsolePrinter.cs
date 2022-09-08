@@ -46,6 +46,12 @@ public class ConsolePrinter : IPrinter
     {
         if (writeLine)
         {
+            // Previous messages have been written to console already,
+            // so write only the latest message.
+            Console.WriteLine(message);
+            
+            // Previous messages have to be combined for logging,
+            // because they haven't been logged yet.
             if (_sameLineMessages.Length > 0)
             {
                 _sameLineMessages.Append(message);
@@ -54,7 +60,7 @@ public class ConsolePrinter : IPrinter
             }
 
             _logger?.LogInformation(message);
-            Console.WriteLine(message);
+            
         }
         else
         {
