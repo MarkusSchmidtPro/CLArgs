@@ -213,12 +213,12 @@ public static class Helper
     {
         public WrappedText(string allText = null, string defaultText = "---")
         {
-            this.AllText = allText ?? defaultText;
+            AllText = allText ?? defaultText;
 
-            int firstNewLine = this.AllText.IndexOf(Environment.NewLine, StringComparison.Ordinal);
-            this.AllLines = firstNewLine < 0
-                ? new[] {this.AllText}
-                : this.AllText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            int firstNewLine = AllText.IndexOf(Environment.NewLine, StringComparison.Ordinal);
+            AllLines = firstNewLine < 0
+                ? new[] {AllText}
+                : AllText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
 

@@ -35,25 +35,25 @@ public abstract class CommandBase<TContext> : ICommand where TContext : class, n
         [NotNull] CommandLineArguments commandLineArguments, 
         [CanBeNull] Settings settings = null)
     {
-        this.Settings = settings ?? new Settings();
+        Settings = settings ?? new Settings();
         BeforeArgumentConversion(commandLineArguments);
-        ArgumentConverter<TContext> c = new(this.Settings);
+        ArgumentConverter<TContext> c = new(Settings);
 
         // Convert command-line arguments and create the execution context
-        var errors = c.TryConvert(commandLineArguments, this.OptionDescriptors,
+        var errors = c.TryConvert(commandLineArguments, OptionDescriptors,
             out var executionContext,
             out var unresolvedPropertyNames);
 
-        this.ExecutionContext = executionContext;
+        ExecutionContext = executionContext;
 
         if (!errors.HasErrors())
         {
-            BeforeExecute(this.ExecutionContext, unresolvedPropertyNames, errors);
+            BeforeExecute(ExecutionContext, unresolvedPropertyNames, errors);
             if (!errors.HasErrors())
             {
                 try
                 {
-                    Execute(this.ExecutionContext);
+                    Execute(ExecutionContext);
                 }
                 catch (Exception exception)
                 {

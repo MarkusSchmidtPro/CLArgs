@@ -18,7 +18,7 @@ public class CommandHost : IHost
 
     public CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> logger)
     {
-        this.Services = serviceProvider;
+        Services = serviceProvider;
         _logger       = logger;
     }
 
@@ -27,7 +27,7 @@ public class CommandHost : IHost
     private void execute()
     {
         ICommandDescriptorCollection commandDescriptors =
-            this.Services.GetRequiredService<ICommandDescriptorCollection>();
+            Services.GetRequiredService<ICommandDescriptorCollection>();
         if (commandDescriptors == null || commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered");
 
@@ -37,11 +37,11 @@ public class CommandHost : IHost
             _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
         }
 
-        IArgumentCollection clArgs = this.Services.GetRequiredService<IArgumentCollection>();
+        IArgumentCollection clArgs = Services.GetRequiredService<IArgumentCollection>();
         _logArguments(clArgs);
         if (clArgs.Count == 0)
         {
-            IHelpBuilder hb = this.Services.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
             return;
         }
@@ -64,13 +64,13 @@ public class CommandHost : IHost
 
         if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
-            IHelpBuilder hb = this.Services.GetRequiredService<IHelpBuilder>();
+            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
             string buildCommandHelp = hb.BuildCommandHelp(commandDescriptor);
             Console.WriteLine(buildCommandHelp);
             return;
         }
 
-        ICommand2 command = (ICommand2) this.Services.GetRequiredService(commandDescriptor.Type);
+        ICommand2 command = (ICommand2) Services.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
 

@@ -23,12 +23,12 @@ namespace MSPro.CLArgs
 
         internal CommandLineArguments(string[] args, StringComparison stringComparison)
         {
-            this.Args         = args;
-            this.CommandLine  = string.Join(" ", args);
+            Args         = args;
+            CommandLine  = string.Join(" ", args);
             _stringComparison = stringComparison;
-            this.Verbs        = new List<string>();
-            this.Targets      = new List<string>();
-            this.Options      = new List<Option>();
+            Verbs        = new List<string>();
+            Targets      = new List<string>();
+            Options      = new List<Option>();
         }
 
 
@@ -59,7 +59,7 @@ namespace MSPro.CLArgs
         ///     All <see cref="Verbs" /> concatenated by '.', for example, 'HelloWorld.Germany'.<br />
         ///     <c>null</c> in case, no verb was provided in the command-line.
         /// </returns>
-        public string VerbPath => this.Verbs.Count == 0 ? null : string.Join(".", this.Verbs);
+        public string VerbPath => Verbs.Count == 0 ? null : string.Join(".", Verbs);
 
         /// <summary>
         ///     A key-value list of all options provided in the command-line.
@@ -74,7 +74,7 @@ namespace MSPro.CLArgs
         /// Check if an option tag was provided in the command-line.
         /// </summary>
         /// <remarks>The function respects the <seealso cref="Settings.IgnoreCase"/>.</remarks>
-        public bool OptionTagProvided(string optionTag) => this.Options.Any(o => o.Key.Equals(optionTag, _stringComparison));
+        public bool OptionTagProvided(string optionTag) => Options.Any(o => o.Key.Equals(optionTag, _stringComparison));
 
 
         /// <summary>
@@ -87,14 +87,14 @@ namespace MSPro.CLArgs
         /// 
         /// </summary>
         /// <param name="verb"></param>
-        public void AddVerb(string verb) => this.Verbs.Add(verb);
+        public void AddVerb(string verb) => Verbs.Add(verb);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="target"></param>
-        public void AddTarget(string target) => this.Targets.Add(target);
+        public void AddTarget(string target) => Targets.Add(target);
 
         /// <inheritdoc cref="AddOption(MSPro.CLArgs.Option)" />
-        public void AddOption(Option option) => this.Options.Add(option);
+        public void AddOption(Option option) => Options.Add(option);
     }
 }

@@ -152,7 +152,7 @@ public class Commander
             if(  !commandLineArguments.Targets.Any() &&
                  (commandLineArguments.Options.Count==0 || commandLineArguments.HelpRequested))
             {
-                _settings.DisplayAllCommandsDescription?.Invoke(this.CommandDescriptors);
+                _settings.DisplayAllCommandsDescription?.Invoke(CommandDescriptors);
                 return;
             }
                 

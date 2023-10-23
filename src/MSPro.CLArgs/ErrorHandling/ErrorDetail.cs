@@ -11,8 +11,8 @@ public class ErrorDetail
 {
     public ErrorDetail(string attributeName, IEnumerable<string> errors = null)
     {
-        this.AttributeName = attributeName;
-        this.ErrorMessages = errors != null ? errors.ToList() : new List<string>();
+        AttributeName = attributeName;
+        ErrorMessages = errors != null ? errors.ToList() : new List<string>();
     }
 
 

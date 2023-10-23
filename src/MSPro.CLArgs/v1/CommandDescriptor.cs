@@ -16,9 +16,9 @@ public class CommandDescriptor
     /// <param name="description"></param>
     public CommandDescriptor([NotNull] string verb, [NotNull] Func<ICommand> factoryFunc, string description = null)
     {
-        this.Verb                  = verb;
-        this.CreateCommandInstance = factoryFunc;
-        this.Description           = description;
+        Verb                  = verb;
+        CreateCommandInstance = factoryFunc;
+        Description           = description;
     }
 
 

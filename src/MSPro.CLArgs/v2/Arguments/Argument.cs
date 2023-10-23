@@ -12,9 +12,9 @@ public class Argument
 {
     private Argument(ArgumentType type, string key, string value)
     {
-        this.Type  = type;
-        this.Value = value;
-        this.Key   = key;
+        Type  = type;
+        Value = value;
+        Key   = key;
     }
 
 

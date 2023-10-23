@@ -19,10 +19,10 @@ namespace MSPro.CLArgs
     {
         public Settings()
         {
-            this.HelpAlignColumn = 20;
-            this.HelpFullWidth = 80;
-            this.DisplayAllCommandsDescription = displayAllCommandsDescription;
-            this.DisplayCommandHelp = displayCommandHelp;
+            HelpAlignColumn = 20;
+            HelpFullWidth = 80;
+            DisplayAllCommandsDescription = displayAllCommandsDescription;
+            DisplayCommandHelp = displayCommandHelp;
         }
 
 

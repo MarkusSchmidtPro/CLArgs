@@ -39,18 +39,18 @@ public class ContextProperty
     /// <summary>
     /// True if a value was provided in the command-line.
     /// </summary>
-    public bool HasValue => this.ProvidedValues.Count > 0;    
+    public bool HasValue => ProvidedValues.Count > 0;    
 
     public bool IsProvided { get; private set; }
     public bool IsDefault { get; private set; }
 
     public override string ToString() =>
-        $"{this.OptionName}: [{string.Join(",", this.Tags)}], required={this.Required}, Default={this.Default}";
+        $"{OptionName}: [{string.Join(",", Tags)}], required={Required}, Default={Default}";
 
 
     public void UseDefault()
     {
-        this.ProvidedValues.Add(this.Default.ToString());
+        ProvidedValues.Add(Default.ToString());
         IsDefault = true;
     }
 }

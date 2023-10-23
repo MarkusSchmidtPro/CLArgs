@@ -15,7 +15,7 @@ public class Option
     /// </summary>
     /// <param name="tag">The name of the option.</param>
     /// <param name="value"></param>
-    public Option(string tag, string value) : this(tag) => this.Value = value;
+    public Option(string tag, string value) : this(tag) => Value = value;
 
 
 
@@ -25,7 +25,7 @@ public class Option
     /// <remarks>
     ///     Unresolved means no value has been set.
     /// </remarks>
-    public Option(string tag) => this.Key = tag;
+    public Option(string tag) => Key = tag;
 
 
 
@@ -37,5 +37,5 @@ public class Option
 
     public string Value { get; set; }
 
-    public bool IsResolved => this.Value != null;
+    public bool IsResolved => Value != null;
 }

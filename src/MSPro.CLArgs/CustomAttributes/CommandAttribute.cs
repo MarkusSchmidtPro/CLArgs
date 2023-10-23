@@ -16,7 +16,7 @@ public class CommandAttribute : Attribute
 
     public CommandAttribute(string verb, string helpText=null)
     {
-        this.Verb = verb;
-        this.HelpText = helpText;
+        Verb = verb;
+        HelpText = helpText;
     }
 }

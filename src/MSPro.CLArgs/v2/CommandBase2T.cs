@@ -56,7 +56,7 @@ public abstract class CommandBase2<TContext> : CommandWithContext, ICommand2 whe
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
         
         ContextBuilder contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
-        this.Context = contextBuilder.Build<TContext>( arguments, this.ContextProperties, errors);
+        Context = contextBuilder.Build<TContext>( arguments, ContextProperties, errors);
 
         if (!errors.HasErrors())
         {

@@ -32,7 +32,7 @@ public class ArgumentCollection : IArgumentCollection
            .Where(arg => arg.Type == ArgumentType.Option)
            .Select(arg => new KeyValuePair<string, string>(arg.Key, arg.Value));
 
-    public string VerbPath => this.Verbs.Any() ? string.Join(".", this.Verbs) : null;
+    public string VerbPath => Verbs.Any() ? string.Join(".", Verbs) : null;
 
     #endregion
     

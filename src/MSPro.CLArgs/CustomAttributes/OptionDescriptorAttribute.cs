@@ -15,11 +15,11 @@ public class OptionDescriptorAttribute : Attribute
                                      object defaultValue = null,
                                      string helpText = null)
     {
-        this.OptionName = optionName;
-        this.Tags       = tags;
-        this.HelpText   = helpText;
-        this.Default    = defaultValue;
-        this.Required   = required;
+        OptionName = optionName;
+        Tags       = tags;
+        HelpText   = helpText;
+        Default    = defaultValue;
+        Required   = required;
     }
 
     public OptionDescriptorAttribute(string optionName,
@@ -27,10 +27,10 @@ public class OptionDescriptorAttribute : Attribute
                                      object defaultValue,
                                      string helpText = null)
     {
-        this.OptionName = optionName;
-        this.Tags       = tags;
-        this.HelpText   = helpText;
-        this.Default    = defaultValue;
+        OptionName = optionName;
+        Tags       = tags;
+        HelpText   = helpText;
+        Default    = defaultValue;
     }
 
 
