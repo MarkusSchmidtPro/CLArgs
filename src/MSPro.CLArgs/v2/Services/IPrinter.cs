@@ -2,6 +2,8 @@
 
 
 
+namespace MSPro.CLArgs;
+
 public interface IPrinter
 {
     /// <summary>
