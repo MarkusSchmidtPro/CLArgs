@@ -94,7 +94,7 @@ internal class CommandLineParser2
                     {
                         if (!arg.StartsWith(optionValueTag)) continue;
 
-                        string optionValue = arg.Substring(optionValueTag.Length);
+                        string optionValue = arg[optionValueTag.Length..];
                         //  if (optionValue.Length > 0) {
                         // 2021-12-02: Must allow zero string options (length=0): /dn=""
                         lastOption.Value = optionValue;
@@ -114,7 +114,7 @@ internal class CommandLineParser2
                     foreach (string optionValueTag in _settings.OptionValueTags)
                     {
                         if (!arg.StartsWith(optionValueTag)) continue;
-                        arg = arg.Substring(optionValueTag.Length);
+                        arg = arg[optionValueTag.Length..];
                         break;
                     }
 
