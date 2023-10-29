@@ -34,7 +34,7 @@ public abstract class CommandWithContext
 
 
 [PublicAPI]
-public abstract class CommandBase2<TContext> : CommandWithContext, ICommand2 where TContext : class, new()
+public abstract class CommandBase2<TContext> : CommandWithContext, ICommand2 where TContext : class
 {
     protected readonly IPrinter Print;
     protected readonly IServiceProvider ServiceProvider;

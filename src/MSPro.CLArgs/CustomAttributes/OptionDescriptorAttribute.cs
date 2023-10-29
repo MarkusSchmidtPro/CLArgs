@@ -36,19 +36,9 @@ public class OptionDescriptorAttribute : Attribute
 
     public string AllowMultiple { get; set; }
     public bool Required { get; set; }
-    
     public object Default { get; set; }
-
-
-
     public string HelpText { get; set; }
-
-
-
     public string[] Tags { get; set; }
-
-
-
     public string OptionName { get; set; }
     public string AllowMultipleSplit { get; set; }
 

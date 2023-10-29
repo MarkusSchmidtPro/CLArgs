@@ -68,7 +68,7 @@ public static class CommandDescriptorCollectionExtensions
             if (definedType.ImplementedInterfaces.All(i => i != typeof(ICommand2)))
                 throw new ApplicationException(
                     "Command " + commandAttribute.Verb + " does not implement the ICommand interface.");
-            if (dictionary.ContainsKey(commandAttribute.Verb))
+            if (dictionary.TryGetValue(commandAttribute.Verb, out CommandDescriptor2 value))
             {
                 // The command attribute refers to a known verb. It it refers to the same type,
                 // then the same Assembly has already been scanned and
@@ -76,7 +76,7 @@ public static class CommandDescriptorCollectionExtensions
                 //  ConfigureCommands(commands => {
                 //      commands.AddAssembly(typeof(Class2).Assembly);
                 //      commands.AddAssembly(typeof(Class1).Assembly);
-                var existingType = dictionary[commandAttribute.Verb].Type;
+                var existingType = value.Type;
                 var currentType = definedType;
                 // Assuming the Assembly has been scanned.
                 if (existingType.FullName == currentType.FullName) break;
@@ -85,7 +85,6 @@ public static class CommandDescriptorCollectionExtensions
                 throw new IndexOutOfRangeException(
                     $"Multiple different implementations for verb {commandAttribute.Verb} found!");
             }
-
 
 
             dictionary.Add(commandAttribute.Verb,

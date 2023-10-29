@@ -19,7 +19,7 @@ public class CommandHost : IHost
     public CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> logger)
     {
         Services = serviceProvider;
-        _logger       = logger;
+        _logger = logger;
     }
 
 
@@ -56,10 +56,11 @@ public class CommandHost : IHost
         }
         else
         {
-            if (!commandDescriptors.ContainsKey(clArgs.VerbPath))
-                throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
+            // Get the implementing type for a given command name
+            // by finding the name in the registered command descriptors.
 
-            commandDescriptor = commandDescriptors[clArgs.VerbPath];
+            if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out commandDescriptor))
+                throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
         }
 
         if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
@@ -70,7 +71,7 @@ public class CommandHost : IHost
             return;
         }
 
-        ICommand2 command = (ICommand2) Services.GetRequiredService(commandDescriptor.Type);
+        ICommand2 command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
         command.Execute();
     }
 
