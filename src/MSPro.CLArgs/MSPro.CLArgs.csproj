@@ -1,101 +1,100 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-<PropertyGroup>
-      <AssemblyName>MSPro.CLArgs</AssemblyName>
-      <RootNamespace>MSPro.CLArgs</RootNamespace>
-      <Authors>Markus Schmidt (Pro)</Authors>
-      <Company>Markus Schmidt (Pro)</Company>
-      <Product>CLArgs - Command Line Parser</Product>
-      <Copyright>(c) copyright 2022, Markus Schmidt (Pro)</Copyright>
-      <!--  -->
-      <Deterministic>false</Deterministic>
-      <AssemblyVersion>2.2208.01</AssemblyVersion>
-      <Version>$(AssemblyVersion)</Version>
-      <FileVersion>$(Version)</FileVersion>
-      <Description>Console application command-line support.</Description>
-      <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <PackageVersion>2.2208.02</PackageVersion>
-      <Title>CLArgs - Command Line Parser</Title>
-      <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
-      <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
-      <RepositoryType>GitHub</RepositoryType>
-      <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
-      <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
-      <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-      <LangVersion>default</LangVersion>
-      <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
-      <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
-      <PackageIcon>CLArgs.png</PackageIcon>
+    <PropertyGroup>
+        <AssemblyName>MSPro.CLArgs</AssemblyName>
+        <RootNamespace>MSPro.CLArgs</RootNamespace>
+        <Authors>Markus Schmidt (Pro)</Authors>
+        <Company>Markus Schmidt (Pro)</Company>
+        <Product>CLArgs - Command Line Parser</Product>
+        <Copyright>(c) copyright 2022, Markus Schmidt (Pro)</Copyright>
+        <!--  -->
+        <Deterministic>false</Deterministic>
+        <AssemblyVersion>2.2208.01</AssemblyVersion>
+        <Version>$(AssemblyVersion)</Version>
+        <FileVersion>$(Version)</FileVersion>
+        <Description>Console application command-line support.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageVersion>2.2208.02</PackageVersion>
+        <Title>CLArgs - Command Line Parser</Title>
+        <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
+        <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
+        <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
+        <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+        <LangVersion>default</LangVersion>
+        <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
+        <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
+        <PackageIcon>CLArgs.png</PackageIcon>
     </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <DocumentationFile></DocumentationFile>
-      <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile></DocumentationFile>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <WarningLevel>3</WarningLevel>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <WarningLevel>3</WarningLevel>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
-    <NoWarn>1701;1702;CS1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
+        <NoWarn>1701;1702;CS1591</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
-    <DocumentationFile />
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+        <DocumentationFile/>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Properties\**" />
-    <EmbeddedResource Remove="Properties\**" />
-    <None Remove="Properties\**" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Properties\**"/>
+        <EmbeddedResource Remove="Properties\**"/>
+        <None Remove="Properties\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="ConfigFileResolver.cs" />
-    <Compile Remove="IConfigFileResolver.cs" />
-    <Compile Remove="v2\Parse\Arguments2.cs" />
-    <Compile Update="v1\CommandLineParser.cs">
-      <DependentUpon>OptionDescriptorFromTypeProvider.cs</DependentUpon>
-    </Compile>
-    <Compile Remove="v2\OptionBuilder.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="ConfigFileResolver.cs"/>
+        <Compile Remove="IConfigFileResolver.cs"/>
+        <Compile Remove="v2\Parse\Arguments2.cs"/>
+        <Compile Update="v1\CommandLineParser.cs">
+            <DependentUpon>OptionDescriptorFromTypeProvider.cs</DependentUpon>
+        </Compile>
+        <Compile Remove="v2\OptionBuilder.cs"/>
+    </ItemGroup>
 
-  
-  <ItemGroup>
-    <None Remove="Schmidt_e-Services.snk" />
-    <None Remove="MSPro.CLArgs.csproj.DotSettings" />
-    <None Remove="MSPro.CLArgs.xml" />
-    <None Remove="pack.bat" />
-    <None Remove="push.bat" />
-    <Content Include="Images\CLArgs.ico" />
-    <None Include="images\CLArgs.png" Pack="true" PackagePath="" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Schmidt_e-Services.snk"/>
+        <None Remove="MSPro.CLArgs.csproj.DotSettings"/>
+        <None Remove="MSPro.CLArgs.xml"/>
+        <None Remove="pack.bat"/>
+        <None Remove="push.bat"/>
+        <Content Include="Images\CLArgs.ico"/>
+        <None Include="images\CLArgs.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Images\CLArgs.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Images\CLArgs.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="Images\CLArgs.ico">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="Images\CLArgs.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
 </Project>

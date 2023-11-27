@@ -13,18 +13,25 @@ public class ErrorDetailList
 {
     public List<ErrorDetail> Details { get; } = new();
 
-    public bool HasErrors() => Details.Count > 0;
+
+
+    public bool HasErrors()
+    {
+        return Details.Count > 0;
+    }
 
 
 
     public void AddError(string attributeName, string errorMessage)
-        => AddError(attributeName, new[] {errorMessage});
+    {
+        AddError(attributeName, new[] { errorMessage });
+    }
 
 
 
     public void AddError(string attributeName, IEnumerable<string> errorMessages)
     {
-        var err = Details.FirstOrDefault(
+        ErrorDetail err = Details.FirstOrDefault(
             d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
         if (err == null)
         {
@@ -59,7 +66,7 @@ public class ErrorDetailList
     public override string ToString()
     {
         StringBuilder msg = new($"{Details.Count} ERROR(s) occured.\n");
-        foreach (var detail in Details)
+        foreach (ErrorDetail detail in Details)
         {
             msg.AppendLine($"ERROR on {detail.AttributeName}");
             foreach (string errorMessage in detail.ErrorMessages)
@@ -67,6 +74,7 @@ public class ErrorDetailList
                 msg.AppendLine($"\t{errorMessage}");
             }
         }
+
         return msg.ToString();
     }
 }
