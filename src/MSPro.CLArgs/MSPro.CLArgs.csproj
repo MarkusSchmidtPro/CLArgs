@@ -22,7 +22,7 @@
         <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
         <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-        <LangVersion>default</LangVersion>
+        <LangVersion>preview</LangVersion>
         <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
         <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
         <PackageIcon>CLArgs.png</PackageIcon>
@@ -47,44 +47,44 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
-        <DocumentationFile/>
+        <DocumentationFile />
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="Properties\**"/>
-        <EmbeddedResource Remove="Properties\**"/>
-        <None Remove="Properties\**"/>
+        <Compile Remove="Properties\**" />
+        <EmbeddedResource Remove="Properties\**" />
+        <None Remove="Properties\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="ConfigFileResolver.cs"/>
-        <Compile Remove="IConfigFileResolver.cs"/>
-        <Compile Remove="v2\Parse\Arguments2.cs"/>
+        <Compile Remove="ConfigFileResolver.cs" />
+        <Compile Remove="IConfigFileResolver.cs" />
+        <Compile Remove="v2\Parse\Arguments2.cs" />
         <Compile Update="v1\CommandLineParser.cs">
             <DependentUpon>OptionDescriptorFromTypeProvider.cs</DependentUpon>
         </Compile>
-        <Compile Remove="v2\OptionBuilder.cs"/>
+        <Compile Remove="v2\OptionBuilder.cs" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <None Remove="Schmidt_e-Services.snk"/>
-        <None Remove="MSPro.CLArgs.csproj.DotSettings"/>
-        <None Remove="MSPro.CLArgs.xml"/>
-        <None Remove="pack.bat"/>
-        <None Remove="push.bat"/>
-        <Content Include="Images\CLArgs.ico"/>
-        <None Include="images\CLArgs.png" Pack="true" PackagePath=""/>
+        <None Remove="Schmidt_e-Services.snk" />
+        <None Remove="MSPro.CLArgs.csproj.DotSettings" />
+        <None Remove="MSPro.CLArgs.xml" />
+        <None Remove="pack.bat" />
+        <None Remove="push.bat" />
+        <Content Include="Images\CLArgs.ico" />
+        <None Include="images\CLArgs.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
