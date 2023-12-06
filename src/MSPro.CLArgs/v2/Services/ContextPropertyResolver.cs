@@ -59,7 +59,7 @@ public class ContextPropertyResolver
             }
             else
             {
-                errors.AddError(argumentOption.Key, $"Argument({argumentOption.Key}): not known!");
+                errors.AddError(argumentOption.Key, $"Unknown argument '{argumentOption.Key}'");
             }
         }
 
