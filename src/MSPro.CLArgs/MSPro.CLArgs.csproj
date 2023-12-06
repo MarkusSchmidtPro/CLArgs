@@ -22,8 +22,8 @@
         <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
         <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-        <LangVersion>preview</LangVersion>
-        <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1</TargetFrameworks>
+        <LangVersion>12.0</LangVersion>
         <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
         <PackageIcon>CLArgs.png</PackageIcon>
     </PropertyGroup>

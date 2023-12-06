@@ -1,6 +1,7 @@
-﻿namespace MSPro.CLArgs;
-
-public interface ICommand2
+﻿namespace MSPro.CLArgs
 {
-    void Execute();
+    public interface ICommand2
+    {
+        void Execute();
+    }
 }

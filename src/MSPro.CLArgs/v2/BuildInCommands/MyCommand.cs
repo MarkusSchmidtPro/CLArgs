@@ -3,27 +3,28 @@ using Microsoft.Extensions.Logging;
 
 
 
-namespace MSPro.CLArgs.BuildInCommands;
-
-[Command("VERB1")]
-public class MyCommand : ICommand2
+namespace MSPro.CLArgs.BuildInCommands
 {
-    private readonly ILogger<MyCommand> _logger;
-    private readonly IServiceProvider _serviceProvider;
-
-
-
-    public MyCommand(IServiceProvider serviceProvider, ILogger<MyCommand> logger)
+    [Command("VERB1")]
+    public class MyCommand : ICommand2
     {
-        _serviceProvider = serviceProvider;
-        _logger          = logger;
-        _logger.LogInformation("Create Instance");
-    }
+        private readonly ILogger<MyCommand> _logger;
+        private readonly IServiceProvider _serviceProvider;
 
 
 
-    void ICommand2.Execute()
-    {
-        _logger.LogInformation("MyCommand execute!");
+        public MyCommand(IServiceProvider serviceProvider, ILogger<MyCommand> logger)
+        {
+            _serviceProvider = serviceProvider;
+            _logger          = logger;
+            _logger.LogInformation("Create Instance");
+        }
+
+
+
+        void ICommand2.Execute()
+        {
+            _logger.LogInformation("MyCommand execute!");
+        }
     }
 }

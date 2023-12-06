@@ -3,24 +3,25 @@ using Microsoft.Extensions.DependencyInjection;
 
 
 
-namespace MSPro.CLArgs;
-
-[PublicAPI]
-public static class ServicesExtensions
+namespace MSPro.CLArgs
 {
-    public static IServiceCollection AddCLArgsServices(this IServiceCollection services)
+    [PublicAPI]
+    public static class ServicesExtensions
     {
-        // This is required to have a default logger,
-        // so that ILogger does not resolve to null
-        //services.AddLogging(configure => configure.AddConsole());
+        public static IServiceCollection AddCLArgsServices(this IServiceCollection services)
+        {
+            // This is required to have a default logger,
+            // so that ILogger does not resolve to null
+            //services.AddLogging(configure => configure.AddConsole());
         
-        services.AddScoped<IPrinter, ConsolePrinter>();
-        services.AddScoped<IHelpBuilder, HelpBuilder>();
+            services.AddScoped<IPrinter, ConsolePrinter>();
+            services.AddScoped<IHelpBuilder, HelpBuilder>();
 
-        services.AddScoped<ContextPropertyResolver>();
-        services.AddScoped<ContextBuilder>();
-        services.AddScoped<CommandLineParser2>();
+            services.AddScoped<ContextPropertyResolver>();
+            services.AddScoped<ContextBuilder>();
+            services.AddScoped<CommandLineParser2>();
         
-        return services;
+            return services;
+        }
     }
 } 

@@ -4,24 +4,25 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs;
-
-[PublicAPI]
-public static class ArgumentCollectionExtensions
+namespace MSPro.CLArgs
 {
-    public static IArgumentCollection AddCommandLine(this IArgumentCollection arguments, string[] args, Settings2 settings2)
+    [PublicAPI]
+    public static class ArgumentCollectionExtensions
     {
-        CommandLineParser2 cp = new (settings2);
-        cp.Parse(args/*.Skip(1).ToArray()*/, arguments);
-        return arguments;
-    }
-    
-    public static IArgumentCollection AddRange(this IArgumentCollection arguments, IEnumerable<Argument> range)
-    {
-        foreach (var item in range)
+        public static IArgumentCollection AddCommandLine(this IArgumentCollection arguments, string[] args, Settings2 settings2)
         {
-            arguments.Add(item);
+            CommandLineParser2 cp = new (settings2);
+            cp.Parse(args/*.Skip(1).ToArray()*/, arguments);
+            return arguments;
         }
-        return arguments;
+    
+        public static IArgumentCollection AddRange(this IArgumentCollection arguments, IEnumerable<Argument> range)
+        {
+            foreach (var item in range)
+            {
+                arguments.Add(item);
+            }
+            return arguments;
+        }
     }
 }

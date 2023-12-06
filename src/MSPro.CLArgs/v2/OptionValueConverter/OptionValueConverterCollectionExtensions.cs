@@ -3,16 +3,17 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs;
-
-[PublicAPI]
-public static class OptionValueConverterCollectionExtensions
+namespace MSPro.CLArgs
 {
-    public static IOptionValueConverterCollection AddCustomConverter(
-        this IOptionValueConverterCollection optionValueConverters, 
-        Type returnType, IArgumentConverter converter)
+    [PublicAPI]
+    public static class OptionValueConverterCollectionExtensions
     {
-        optionValueConverters.Add( returnType, converter );
-        return optionValueConverters;
+        public static IOptionValueConverterCollection AddCustomConverter(
+            this IOptionValueConverterCollection optionValueConverters, 
+            Type returnType, IArgumentConverter converter)
+        {
+            optionValueConverters.Add( returnType, converter );
+            return optionValueConverters;
+        }
     }
 }

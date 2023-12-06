@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 
 
-namespace MSPro.CLArgs;
-
-public interface IOptionValueConverterCollection : IDictionary<Type, IArgumentConverter>
+namespace MSPro.CLArgs
 {
+    public interface IOptionValueConverterCollection : IDictionary<Type, IArgumentConverter>
+    {
     
+    }
 }

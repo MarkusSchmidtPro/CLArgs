@@ -1,82 +1,83 @@
 ﻿using System;
 
-namespace MSPro.CLArgs;
-
-public class StringConverter : IArgumentConverter
+namespace MSPro.CLArgs
 {
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType) =>
-        optionValue;
-}
-
-public class IntConverter : IArgumentConverter
-{
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+    public class StringConverter : IArgumentConverter
     {
-        if (!int.TryParse(optionValue, out int v))
-            errors.AddError(optionName,
-                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
-        return v;
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType) =>
+            optionValue;
     }
-}
 
-public class DecimalConverter : IArgumentConverter
-{
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+    public class IntConverter : IArgumentConverter
     {
-        if (!decimal.TryParse(optionValue, out decimal v))
-            errors.AddError(optionName,
-                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a decimal.");
-        return v;
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        {
+            if (!int.TryParse(optionValue, out int v))
+                errors.AddError(optionName,
+                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
+            return v;
+        }
     }
-}
 
-public class BoolConverter : IArgumentConverter
-{
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)
+    public class DecimalConverter : IArgumentConverter
     {
-        if (bool.TryParse(optionValue, out bool boolValue)) return boolValue;
-
-        // boolean conversion failed, try int conversion on <>0
-        if (int.TryParse(optionValue, out int intValue))
-            // int conversion possible 
-            boolValue = intValue != 0;
-        else
-            errors.AddError(optionName,
-                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
-
-        return boolValue;
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        {
+            if (!decimal.TryParse(optionValue, out decimal v))
+                errors.AddError(optionName,
+                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a decimal.");
+            return v;
+        }
     }
-}
 
-public class DateTimeConverter : IArgumentConverter
-{
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+    public class BoolConverter : IArgumentConverter
     {
-        if (!DateTime.TryParse(optionValue, out var d))
-            errors.AddError(optionName,
-                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
-        return d;
-    }
-}
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)
+        {
+            if (bool.TryParse(optionValue, out bool boolValue)) return boolValue;
 
-public class EnumConverter : IArgumentConverter
-{
-    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+            // boolean conversion failed, try int conversion on <>0
+            if (int.TryParse(optionValue, out int intValue))
+                // int conversion possible 
+                boolValue = intValue != 0;
+            else
+                errors.AddError(optionName,
+                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
+
+            return boolValue;
+        }
+    }
+
+    public class DateTimeConverter : IArgumentConverter
     {
-        if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
-            throw new ArgumentException(
-                $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
-                nameof(targetType));
-
-        if (!Enum.IsDefined(targetType, optionValue))
-            errors.AddError(optionName,
-                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
-
-        return Enum.Parse(targetType, optionValue, false);
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        {
+            if (!DateTime.TryParse(optionValue, out var d))
+                errors.AddError(optionName,
+                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
+            return d;
+        }
     }
-}
 
-public interface IArgumentConverter
-{
-    object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType = null);
+    public class EnumConverter : IArgumentConverter
+    {
+        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
+        {
+            if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
+                throw new ArgumentException(
+                    $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
+                    nameof(targetType));
+
+            if (!Enum.IsDefined(targetType, optionValue))
+                errors.AddError(optionName,
+                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
+
+            return Enum.Parse(targetType, optionValue, false);
+        }
+    }
+
+    public interface IArgumentConverter
+    {
+        object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType = null);
+    }
 }

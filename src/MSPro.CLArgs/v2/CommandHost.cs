@@ -8,136 +8,137 @@ using Microsoft.Extensions.Logging;
 
 
 
-namespace MSPro.CLArgs;
-
-public class CommandHost : IHost
+namespace MSPro.CLArgs
 {
-    private readonly ILogger<CommandHost> _logger;
-
-
-
-    public CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> logger)
+    public class CommandHost : IHost
     {
-        Services = serviceProvider;
-        _logger = logger;
-    }
+        private readonly ILogger<CommandHost> _logger;
 
 
 
-    private void execute()
-    {
-        ICommandDescriptorCollection commandDescriptors =
-            Services.GetRequiredService<ICommandDescriptorCollection>();
-        if (commandDescriptors == null || commandDescriptors.Count == 0)
-            throw new ApplicationException("No Commands have been registered");
-
-
-        foreach (var descriptor in commandDescriptors)
+        public CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> logger)
         {
-            _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
+            Services = serviceProvider;
+            _logger = logger;
         }
 
-        IArgumentCollection clArgs = Services.GetRequiredService<IArgumentCollection>();
-        _logArguments(clArgs);
-        if (clArgs.Count == 0)
+
+
+        private void execute()
         {
-            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
-            Console.WriteLine(hb.BuildAllCommandsHelp());
-            return;
-        }
-
-        CommandDescriptor2 commandDescriptor;
-        if (clArgs.VerbPath == null)
-        {
-            if (commandDescriptors.Count > 1)
-                throw new ApplicationException("No Verb provided!");
-
-            commandDescriptor = commandDescriptors.First().Value;
-        }
-        else
-        {
-            // Get the implementing type for a given command name
-            // by finding the name in the registered command descriptors.
-
-            if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out commandDescriptor))
-                throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
-        }
-
-        if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
-        {
-            IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
-            string buildCommandHelp = hb.BuildCommandHelp(commandDescriptor);
-            Console.WriteLine(buildCommandHelp);
-            return;
-        }
-
-        ICommand2 command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
-        command.Execute();
-    }
+            ICommandDescriptorCollection commandDescriptors =
+                Services.GetRequiredService<ICommandDescriptorCollection>();
+            if (commandDescriptors == null || commandDescriptors.Count == 0)
+                throw new ApplicationException("No Commands have been registered");
 
 
-
-    private void _logArguments(IArgumentCollection clArgs)
-    {
-        foreach (var arg in clArgs)
-        {
-            switch (arg.Type)
+            foreach (var descriptor in commandDescriptors)
             {
-                case ArgumentType.Verb:
-                    _logger.LogDebug($"{arg.Type}:{arg.Key}");
-                    break;
-                case ArgumentType.Option:
-                    _logger.LogDebug($"{arg.Type}:{arg.Key}={arg.Value}");
-                    break;
-                case ArgumentType.Target:
-                    _logger.LogDebug($"{arg.Type}:{arg.Value}");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                _logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
+            }
+
+            IArgumentCollection clArgs = Services.GetRequiredService<IArgumentCollection>();
+            _logArguments(clArgs);
+            if (clArgs.Count == 0)
+            {
+                IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
+                Console.WriteLine(hb.BuildAllCommandsHelp());
+                return;
+            }
+
+            CommandDescriptor2 commandDescriptor;
+            if (clArgs.VerbPath == null)
+            {
+                if (commandDescriptors.Count > 1)
+                    throw new ApplicationException("No Verb provided!");
+
+                commandDescriptor = commandDescriptors.First().Value;
+            }
+            else
+            {
+                // Get the implementing type for a given command name
+                // by finding the name in the registered command descriptors.
+
+                if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out commandDescriptor))
+                    throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
+            }
+
+            if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
+            {
+                IHelpBuilder hb = Services.GetRequiredService<IHelpBuilder>();
+                string buildCommandHelp = hb.BuildCommandHelp(commandDescriptor);
+                Console.WriteLine(buildCommandHelp);
+                return;
+            }
+
+            ICommand2 command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
+            command.Execute();
+        }
+
+
+
+        private void _logArguments(IArgumentCollection clArgs)
+        {
+            foreach (var arg in clArgs)
+            {
+                switch (arg.Type)
+                {
+                    case ArgumentType.Verb:
+                        _logger.LogDebug($"{arg.Type}:{arg.Key}");
+                        break;
+                    case ArgumentType.Option:
+                        _logger.LogDebug($"{arg.Type}:{arg.Key}={arg.Value}");
+                        break;
+                    case ArgumentType.Target:
+                        _logger.LogDebug($"{arg.Type}:{arg.Value}");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
-    }
 
 
 
-    #region IHost Implementation
+        #region IHost Implementation
 
-    private Task _task;
-
-
-
-    public void Dispose()
-    {
-        if (_task == null) return;
-        if (_task.Status == TaskStatus.RanToCompletion
-            || _task.Status == TaskStatus.Faulted
-            || _task.Status == TaskStatus.Canceled) _task.Dispose();
-
-        _task = null;
-    }
+        private Task _task;
 
 
 
-    public Task StartAsync(CancellationToken cancellationToken = new())
-    {
-        _task = Task.Run(() =>
+        public void Dispose()
         {
-            execute();
-            return Task.CompletedTask;
-        }, cancellationToken);
-        return _task;
+            if (_task == null) return;
+            if (_task.Status == TaskStatus.RanToCompletion
+                || _task.Status == TaskStatus.Faulted
+                || _task.Status == TaskStatus.Canceled) _task.Dispose();
+
+            _task = null;
+        }
+
+
+
+        public Task StartAsync(CancellationToken cancellationToken = new())
+        {
+            _task = Task.Run(() =>
+            {
+                execute();
+                return Task.CompletedTask;
+            }, cancellationToken);
+            return _task;
+        }
+
+
+
+        public Task StopAsync(CancellationToken cancellationToken = new())
+        {
+            return _task;
+        }
+
+
+
+        public IServiceProvider Services { get; }
+
+        #endregion
     }
-
-
-
-    public Task StopAsync(CancellationToken cancellationToken = new())
-    {
-        return _task;
-    }
-
-
-
-    public IServiceProvider Services { get; }
-
-    #endregion
 }

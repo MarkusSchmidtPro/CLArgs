@@ -4,16 +4,17 @@ using System.Reflection;
 
 
 
-namespace MSPro.CLArgs;
-
-internal static class ExtensionMethods
+namespace MSPro.CLArgs
 {
-    public static TAttribute GetFirst<TAttribute>(this ICustomAttributeProvider pi) where TAttribute : Attribute
+    internal static class ExtensionMethods
     {
-        TAttribute[] customAttributeOfType = (TAttribute[])pi.GetCustomAttributes(typeof(TAttribute), true);
-        if (customAttributeOfType.Length == 0) return null;
+        public static TAttribute GetFirst<TAttribute>(this ICustomAttributeProvider pi) where TAttribute : Attribute
+        {
+            TAttribute[] customAttributeOfType = (TAttribute[])pi.GetCustomAttributes(typeof(TAttribute), true);
+            if (customAttributeOfType.Length == 0) return null;
 
-        Debug.Assert(customAttributeOfType.Length == 1);
-        return customAttributeOfType[0];
+            Debug.Assert(customAttributeOfType.Length == 1);
+            return customAttributeOfType[0];
+        }
     }
 }

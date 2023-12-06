@@ -6,75 +6,76 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs;
-
-[PublicAPI]
-public class ErrorDetailList
+namespace MSPro.CLArgs
 {
-    public List<ErrorDetail> Details { get; } = new();
-
-
-
-    public bool HasErrors()
+    [PublicAPI]
+    public class ErrorDetailList
     {
-        return Details.Count > 0;
-    }
+        public List<ErrorDetail> Details { get; } = new();
 
 
 
-    public void AddError(string attributeName, string errorMessage)
-    {
-        AddError(attributeName, new[] { errorMessage });
-    }
-
-
-
-    public void AddError(string attributeName, IEnumerable<string> errorMessages)
-    {
-        ErrorDetail err = Details.FirstOrDefault(
-            d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
-        if (err == null)
+        public bool HasErrors()
         {
-            err = new ErrorDetail(attributeName);
-            Details.Add(err);
+            return Details.Count > 0;
         }
 
-        foreach (string errorMessage in errorMessages)
+
+
+        public void AddError(string attributeName, string errorMessage)
         {
-            // prevent duplicate messages for the same item
-            if (err.ErrorMessages.Contains(errorMessage)) return;
-            err.ErrorMessages.Add(errorMessage);
+            AddError(attributeName, new[] { errorMessage });
         }
-    }
 
 
 
-    public void Add(ErrorDetailList childList)
-    {
-        foreach (ErrorDetail childListDetail in childList.Details)
+        public void AddError(string attributeName, IEnumerable<string> errorMessages)
         {
-            AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
-        }
-    }
-
-
-
-    /// <summary>
-    ///     Easy way to get one complete message for all errors
-    /// </summary>
-    /// <returns></returns>
-    public override string ToString()
-    {
-        StringBuilder msg = new($"{Details.Count} ERROR(s) occured.\n");
-        foreach (ErrorDetail detail in Details)
-        {
-            msg.AppendLine($"ERROR on {detail.AttributeName}");
-            foreach (string errorMessage in detail.ErrorMessages)
+            ErrorDetail err = Details.FirstOrDefault(
+                d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
+            if (err == null)
             {
-                msg.AppendLine($"\t{errorMessage}");
+                err = new ErrorDetail(attributeName);
+                Details.Add(err);
+            }
+
+            foreach (string errorMessage in errorMessages)
+            {
+                // prevent duplicate messages for the same item
+                if (err.ErrorMessages.Contains(errorMessage)) return;
+                err.ErrorMessages.Add(errorMessage);
             }
         }
 
-        return msg.ToString();
+
+
+        public void Add(ErrorDetailList childList)
+        {
+            foreach (ErrorDetail childListDetail in childList.Details)
+            {
+                AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
+            }
+        }
+
+
+
+        /// <summary>
+        ///     Easy way to get one complete message for all errors
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder msg = new($"{Details.Count} ERROR(s) occured.\n");
+            foreach (ErrorDetail detail in Details)
+            {
+                msg.AppendLine($"ERROR on {detail.AttributeName}");
+                foreach (string errorMessage in detail.ErrorMessages)
+                {
+                    msg.AppendLine($"\t{errorMessage}");
+                }
+            }
+
+            return msg.ToString();
+        }
     }
 }
