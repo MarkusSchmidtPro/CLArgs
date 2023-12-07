@@ -65,7 +65,7 @@ namespace MSPro.CLArgs
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder msg = new($"{Details.Count} ERROR(s) occured.\n");
+            StringBuilder msg = new($"{Details.Count} ERROR(s) occurred.\n");
             foreach (ErrorDetail detail in Details)
             {
                 msg.AppendLine($"ERROR on {detail.AttributeName}");
