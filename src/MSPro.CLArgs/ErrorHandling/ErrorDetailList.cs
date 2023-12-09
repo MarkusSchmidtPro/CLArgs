@@ -6,76 +6,85 @@ using JetBrains.Annotations;
 
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+[PublicAPI]
+public class ErrorDetailList
 {
-    [PublicAPI]
-    public class ErrorDetailList
+    public List<ErrorDetail> Details { get; } = new();
+
+
+    public bool HasErrors() => Details.Count > 0;
+
+
+
+    public void AddException(Exception ex)
     {
-        public List<ErrorDetail> Details { get; } = new();
+        AddError("General Exception", 
+            new[] { ex.Message, ex.InnerException != null ? ex.InnerException.Message : string.Empty }, 
+            ex.StackTrace);
+    }
 
 
 
-        public bool HasErrors()
+    public void AddError(string attributeName, string errorMessage)
+    {
+        AddError(attributeName, new[] { errorMessage });
+    }
+
+
+
+    public void AddError(string attributeName, IEnumerable<string> errorMessages, [CanBeNull] string stackTrace = null)
+    {
+        ErrorDetail attributeErr = Details.FirstOrDefault(
+            d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
+        
+        if (attributeErr == null)
         {
-            return Details.Count > 0;
-        }
-
-
-
-        public void AddError(string attributeName, string errorMessage)
-        {
-            AddError(attributeName, new[] { errorMessage });
-        }
-
-
-
-        public void AddError(string attributeName, IEnumerable<string> errorMessages)
-        {
-            ErrorDetail err = Details.FirstOrDefault(
-                d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
-            if (err == null)
+            // Create new entry for that attribute
+            attributeErr = new ErrorDetail(attributeName)
             {
-                err = new ErrorDetail(attributeName);
-                Details.Add(err);
-            }
-
-            foreach (string errorMessage in errorMessages)
-            {
-                // prevent duplicate messages for the same item
-                if (err.ErrorMessages.Contains(errorMessage)) return;
-                err.ErrorMessages.Add(errorMessage);
-            }
+                StackTrace = stackTrace
+            };
+            Details.Add(attributeErr);
         }
 
-
-
-        public void Add(ErrorDetailList childList)
+        foreach (string errorMessage in errorMessages)
         {
-            foreach (ErrorDetail childListDetail in childList.Details)
-            {
-                AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
-            }
+            // prevent duplicate messages for the same item
+            if (attributeErr.ErrorMessages.Contains(errorMessage)) return;
+            attributeErr.ErrorMessages.Add(errorMessage);
         }
+    }
 
 
 
-        /// <summary>
-        ///     Easy way to get one complete message for all errors
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+    public void Add(ErrorDetailList childList)
+    {
+        foreach (ErrorDetail childListDetail in childList.Details)
         {
-            StringBuilder msg = new($"{Details.Count} ERROR(s) occurred.\n");
-            foreach (ErrorDetail detail in Details)
-            {
-                msg.AppendLine($"ERROR on {detail.AttributeName}");
-                foreach (string errorMessage in detail.ErrorMessages)
-                {
-                    msg.AppendLine($"\t{errorMessage}");
-                }
-            }
-
-            return msg.ToString();
+            AddError(childListDetail.AttributeName, childListDetail.ErrorMessages);
         }
+    }
+
+
+
+    /// <summary>
+    ///     Easy way to get one complete message for all errors
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        StringBuilder msg = new($"{Details.Count} ERROR(s) occurred.\n");
+        foreach (ErrorDetail detail in Details)
+        {
+            msg.AppendLine($"ERROR on {detail.AttributeName}");
+            foreach (string errorMessage in detail.ErrorMessages)
+            {
+                msg.AppendLine($"\t{errorMessage}");
+            }
+        }
+
+        return msg.ToString();
     }
 }

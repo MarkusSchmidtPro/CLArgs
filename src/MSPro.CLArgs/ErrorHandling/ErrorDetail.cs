@@ -1,27 +1,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
     [DebuggerDisplay("{ErrorMessages[0]}")]
-    public class ErrorDetail
+    public class ErrorDetail(string attributeName, IEnumerable<string> errors = null, [CanBeNull] string stackTrace = null)
     {
-        public ErrorDetail(string attributeName, IEnumerable<string> errors = null)
-        {
-            AttributeName = attributeName;
-            ErrorMessages = errors != null ? errors.ToList() : new List<string>();
-        }
-
-
+        [CanBeNull]
+        public string StackTrace { get; set; } = stackTrace;
 
         //[JsonProperty("attributeName", Order = 10, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string AttributeName { get; set; }
+        public string AttributeName { get; set; } = attributeName;
 
 
         //[JsonProperty("errorMessages", Order = 20, Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<string> ErrorMessages { get; set; }
+        public List<string> ErrorMessages { get; set; } = errors != null ? errors.ToList() : [];
     }
 }

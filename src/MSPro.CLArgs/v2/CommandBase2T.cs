@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,9 +38,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     void ICommand2.Execute()
     {
         ErrorDetailList errors = new();
-
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
-
         var contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
         Context = contextBuilder.Build<TContext>(arguments, ContextProperties, errors);
 
@@ -54,9 +53,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
                 }
                 catch (Exception exception)
                 {
-                    errors.AddError("CommandExecution", exception.Message);
-                    if (exception.InnerException != null)
-                        errors.AddError("CommandExecution", exception.InnerException.Message);
+                    errors.AddException(exception);
                 }
             }
         }
@@ -68,7 +65,11 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
 
     protected virtual void AfterExecute(ErrorDetailList errors)
     {
-        if (errors.Details.Count>0) throw new ArgumentException(errors.ToString());
+        if (errors.Details.Count>0)
+        {
+            Debug.Assert(false, errors.ToString());
+            throw new ArgumentException(errors.ToString());
+        }
     }
 
 
