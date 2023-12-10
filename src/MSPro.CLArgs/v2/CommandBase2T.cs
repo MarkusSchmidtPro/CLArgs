@@ -68,7 +68,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
         if (errors.Details.Count>0)
         {
             Debug.Assert(false, errors.ToString());
-            throw new ArgumentException(errors.ToString());
+            throw new ApplicationException(errors.ToString());
         }
     }
 
