@@ -6,15 +6,15 @@
         <Authors>Markus Schmidt (Pro)</Authors>
         <Company>Markus Schmidt (Pro)</Company>
         <Product>CLArgs - Command Line Parser</Product>
-        <Copyright>(c) copyright 2022, Markus Schmidt (Pro)</Copyright>
+        <Copyright>(c) copyright 2023, Markus Schmidt (Pro)</Copyright>
         <!--  -->
         <Deterministic>false</Deterministic>
-        <AssemblyVersion>2.2208.01</AssemblyVersion>
+        <AssemblyVersion>2.2312.16</AssemblyVersion>
         <Version>$(AssemblyVersion)</Version>
         <FileVersion>$(Version)</FileVersion>
         <Description>Console application command-line support.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>2.2208.02</PackageVersion>
+        <PackageVersion>2.2312.16</PackageVersion>
         <Title>CLArgs - Command Line Parser</Title>
         <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
