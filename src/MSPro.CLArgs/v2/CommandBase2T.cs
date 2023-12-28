@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -65,7 +64,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
 
     protected virtual void AfterExecute(ErrorDetailList errors)
     {
-        if (errors.Details.Count>0)
+        if (errors.Details.Count > 0)
         {
             Debug.Assert(false, errors.ToString());
             throw new ApplicationException(errors.ToString());
