@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-<<<<<<< HEAD
-using JetBrains.Annotations;
-=======
->>>>>>> master
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -24,7 +20,6 @@ public abstract class CommandWithContext(Type contextType)
 
 
 
-[PublicAPI]
 public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) : CommandWithContext(typeof(TContext)), ICommand2
     where TContext : class
 {
