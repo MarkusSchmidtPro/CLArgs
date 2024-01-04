@@ -1,11 +1,9 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
-    [PublicAPI]
     public static class OptionValueConverterCollectionExtensions
     {
         public static IOptionValueConverterCollection AddCustomConverter(

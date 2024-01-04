@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,14 +9,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace MSPro.CLArgs
 {
-    [PublicAPI]
     public class CommandHostBuilder : IHostBuilder //CommandBuilder
     {
-        private readonly List<Action<IOptionValueConverterCollection, Settings2>> _configureArgumentConvertersActions = new();
-        private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions = new();
-        private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = new();
-        private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = new();
-        private readonly List<Action<Settings2>> _configureSettingsActions = new();
+        private readonly List<Action<IOptionValueConverterCollection, Settings2>> _configureArgumentConvertersActions = [];
+        private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions = [];
+        private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = [];
+        private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = [];
+        private readonly List<Action<Settings2>> _configureSettingsActions = [];
 
         private readonly IHostBuilder _hostBuilder;
 

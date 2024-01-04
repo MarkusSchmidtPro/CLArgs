@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs.BuildInCommands
 {
-    [UsedImplicitly]
     [Command(COMMAND_NAME,
         HelpText = "CLArgs built-in: Parse command-line and list all recognized arguments." +
                    "|Does not provide any kind of functionality but helps you to check what could be wrong with your commandline arguments." +

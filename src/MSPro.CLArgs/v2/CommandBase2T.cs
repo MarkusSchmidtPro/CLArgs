@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 
 
 namespace MSPro.CLArgs;
 
-[PublicAPI]
 public abstract class CommandWithContext(Type contextType)
 {
     private ContextPropertyCollection _contextProperties;
@@ -23,7 +20,6 @@ public abstract class CommandWithContext(Type contextType)
 
 
 
-[PublicAPI]
 public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) : CommandWithContext(typeof(TContext)), ICommand2
     where TContext : class
 {

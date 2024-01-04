@@ -1,4 +1,8 @@
-﻿namespace SampleCommands.Services;
+﻿using MSPro.CLArgs;
+
+
+
+namespace SampleCommands.Services;
 
 /// <summary>
 /// A service prepared for dependency injection.

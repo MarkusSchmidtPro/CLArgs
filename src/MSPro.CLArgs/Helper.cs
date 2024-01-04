@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using JetBrains.Annotations;
 
 
 
@@ -31,7 +31,7 @@ namespace MSPro.CLArgs
         /// </remarks>
         public static string[] SplitCommandLine(string commandLine)
         {
-            List<string> result = new();
+            List<string> result = [];
             int i = 0;
             bool quotation = false;
             StringBuilder currentToken = new (4096);
@@ -187,7 +187,7 @@ namespace MSPro.CLArgs
         /// </summary>
         private static string insertLineBreaks(string line, int lineBreakColumn)
         {
-            char[] lineBreaker = {' ', '-'};
+            char[] lineBreaker = [' ', '-'];
             StringBuilder sb = new();
             int pStartSegment = 0;
             do
@@ -217,7 +217,7 @@ namespace MSPro.CLArgs
 
                 int firstNewLine = AllText.IndexOf(Environment.NewLine, StringComparison.Ordinal);
                 AllLines = firstNewLine < 0
-                    ? new[] {AllText}
+                    ? [AllText]
                     : AllText.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
 
 
 
@@ -11,7 +10,6 @@ namespace MSPro.CLArgs
     /// <summary>
     ///     Extension methods to ADD descriptors.
     /// </summary>
-    [PublicAPI]
     public static class CommandDescriptorCollectionExtensions
     {
         public static ICommandDescriptorCollection AddDescriptor(

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 
 
 
@@ -14,7 +13,6 @@ namespace MSPro.CLArgs
     ///     An <c>Argument</c> is either a <see cref="Verbs" />
     ///     or an <see cref="Option" />.
     /// </remarks>
-    [PublicAPI]
     public class CommandLineArguments
     {
         public string[] Args { get; }
@@ -26,9 +24,9 @@ namespace MSPro.CLArgs
             Args         = args;
             CommandLine  = string.Join(" ", args);
             _stringComparison = stringComparison;
-            Verbs        = new List<string>();
-            Targets      = new List<string>();
-            Options      = new List<Option>();
+            Verbs        = [];
+            Targets      = [];
+            Options      = [];
         }
 
 

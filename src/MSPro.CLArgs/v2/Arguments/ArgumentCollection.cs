@@ -12,7 +12,7 @@ namespace MSPro.CLArgs
     /// </summary>
     public class ArgumentCollection : IArgumentCollection
     {
-        private readonly List<Argument> _list = new ();
+        private readonly List<Argument> _list = [];
 
         #region IArgumentCollection
 

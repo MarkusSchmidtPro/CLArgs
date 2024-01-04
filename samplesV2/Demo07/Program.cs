@@ -47,4 +47,9 @@ public class HelloWorldContext
 {
     [OptionDescriptor("Username", required: true, helpText: "Provide a username.")]
     public string Username { get; set; }
+
+    [OptionDescriptor("Color", helpText: "Chose a color.", required: false)]
+    public ColorType? Color { get; set; }
 }
+
+public enum ColorType { Red, Blue}

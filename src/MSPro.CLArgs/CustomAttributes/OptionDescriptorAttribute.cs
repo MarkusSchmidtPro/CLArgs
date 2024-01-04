@@ -1,12 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Property)]
-    [PublicAPI]
     public class OptionDescriptorAttribute : Attribute
     {
         public OptionDescriptorAttribute(string optionName,
@@ -43,7 +41,7 @@ namespace MSPro.CLArgs
             object defaultValue = null,
             string helpText = null)
             : this(optionName, tag != null
-                ? new[] { tag }
+                ? [tag]
                 : null, required, defaultValue, helpText)
         {
         }
@@ -55,7 +53,7 @@ namespace MSPro.CLArgs
             bool required = false,
             object defaultValue = null,
             string helpText = null)
-            : this(optionName, new[] { tag.ToString() }, required, defaultValue, helpText)
+            : this(optionName, [tag.ToString()], required, defaultValue, helpText)
         {
         }
 

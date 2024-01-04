@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
+
+
 
 namespace MSPro.CLArgs
 {
@@ -50,7 +52,7 @@ namespace MSPro.CLArgs
             }
             else
             {
-                unresolvedPropertyNames = new HashSet<string>();
+                unresolvedPropertyNames = [];
                 executionContext = (TExecutionContext)
                     resolvePropertyValue(typeof(TExecutionContext), _allOptions, unresolvedPropertyNames);
 

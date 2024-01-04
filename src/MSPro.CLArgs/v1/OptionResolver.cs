@@ -17,7 +17,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Options with any of these Tags will not be marked as unresolved.
         /// </summary>
-        private static readonly HashSet<string> _wellKnownOptions = new() {"clArgsTrace"};
+        private static readonly HashSet<string> _wellKnownOptions = ["clArgsTrace"];
 
         private readonly IEnumerable<OptionDescriptorAttribute> _descriptors;
 
@@ -53,7 +53,7 @@ namespace MSPro.CLArgs
             StringComparison stringComparison =
                 ignoreCase ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture;
             // With AllowMultiple options with the same name can occur more than once
-            List<Option> optionsByName = new();
+            List<Option> optionsByName = [];
 
             //
             // Collect options by tag (as provided in the command-line Arguments)
