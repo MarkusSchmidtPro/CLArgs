@@ -27,7 +27,7 @@ public class HelloWorldCommand : CommandBase2<HelloWorldContext>
 
     protected override void Execute()
     {
-        Console.WriteLine($"Hello {this.Context.Name}");
+        Console.WriteLine($"Hello {Context.Name}");
     }
 }
 
@@ -39,7 +39,7 @@ public class HelloWorldCommand : CommandBase2<HelloWorldContext>
 public class HelloWorldContext
 {
     [OptionDescriptor("Name", new[] { "n" },
-                      Default = "John Doe", Required = false,
-                      HelpText = "Specify the name of the person to say 'Hello'.")]
+        Default = "John Doe", Required = false,
+        HelpText = "Specify the name of the person to say 'Hello'.")]
     public string? Name { get; set; }
 }

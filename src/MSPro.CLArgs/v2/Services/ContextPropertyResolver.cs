@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
 
@@ -12,7 +12,7 @@ namespace MSPro.CLArgs
         /// <summary>
         ///     Options with any of these Tags will not be marked as unresolved.
         /// </summary>
-        private static readonly HashSet<string> _wellKnownOptions = new() { "clArgsTrace" };
+        private static readonly HashSet<string> _wellKnownOptions = ["clArgsTrace"];
 
         private readonly ILogger<ContextPropertyResolver> _logger;
         private readonly Settings2 _settings;

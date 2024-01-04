@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
+<<<<<<< HEAD
 using JetBrains.Annotations;
+=======
+>>>>>>> master
 using Microsoft.Extensions.DependencyInjection;
 
 
 
 namespace MSPro.CLArgs;
 
-[PublicAPI]
 public abstract class CommandWithContext(Type contextType)
 {
     private ContextPropertyCollection _contextProperties;

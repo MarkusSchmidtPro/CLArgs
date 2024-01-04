@@ -1,16 +1,12 @@
-﻿using JetBrains.Annotations;
-
-
-
-namespace MSPro.CLArgs
+﻿namespace MSPro.CLArgs
 {
-    [PublicAPI]
+    
     public class Settings2
     {
         /// <summary>
         ///     Get or set a list of characters that mark the end of an option's name.
         /// </summary>
-        public string[] OptionValueTags { get; set; } = { ":", "=" };
+        public string[] OptionValueTags { get; set; } = [":", "="];
 
 
         /// <summary>
@@ -41,7 +37,7 @@ namespace MSPro.CLArgs
         ///     A command-line argument that starts with any of these character
         ///     is considered to be an <c>Option</c>.
         /// </remarks>
-        public string[] OptionsTags { get; set; } = { "--", "-", "/" };
+        public string[] OptionsTags { get; set; } = ["--", "-", "/"];
 
 
         /// <summary>

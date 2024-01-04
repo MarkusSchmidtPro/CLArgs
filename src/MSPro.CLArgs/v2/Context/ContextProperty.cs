@@ -32,7 +32,7 @@ namespace MSPro.CLArgs
         /// <remarks>
         /// An Options can be provided multiple times.
         /// </remarks>
-        public List<string> ProvidedValues { get; } = new();
+        public List<string> ProvidedValues { get; } = [];
 
     
         /// <summary>

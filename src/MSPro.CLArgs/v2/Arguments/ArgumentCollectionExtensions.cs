@@ -1,12 +1,10 @@
 ﻿
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
-    [PublicAPI]
     public static class ArgumentCollectionExtensions
     {
         public static IArgumentCollection AddCommandLine(this IArgumentCollection arguments, string[] args, Settings2 settings2)

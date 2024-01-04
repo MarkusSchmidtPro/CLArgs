@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 
-
+#nullable enable
 
 namespace MSPro.CLArgs;
 
-[PublicAPI]
 public class ErrorDetailList
 {
-    public List<ErrorDetail> Details { get; } = new();
+    public List<ErrorDetail> Details { get; } = [];
 
 
     public bool HasErrors() => Details.Count > 0;
@@ -34,7 +32,7 @@ public class ErrorDetailList
 
 
 
-    public void AddError(string attributeName, IEnumerable<string> errorMessages, [CanBeNull] string stackTrace = null)
+    public void AddError(string attributeName, IEnumerable<string> errorMessages, string? stackTrace = null)
     {
         ErrorDetail attributeErr = Details.FirstOrDefault(
             d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));

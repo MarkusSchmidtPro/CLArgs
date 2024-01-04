@@ -17,13 +17,13 @@ try
     var builder = CommandHostBuilder.Create(commandline);
     builder.ConfigureCommands(
         commandDescriptors => commandDescriptors.AddAssembly(typeof(Demo1Command)));
-    var host = builder.Build();
+    IHost? host = builder.Build();
 
     // To build a Context from the provided commend-line arguments
     // it requires the ContextBuilder which we are going to extend
     ContextBuilder cb = host.Services.GetRequiredService<ContextBuilder>();
     cb.ConfigureConverters(converters =>
-                               converters.AddCustomConverter(typeof(DirectoryInfo), new DirectoryInfoConverter()));
+        converters.AddCustomConverter(typeof(DirectoryInfo), new DirectoryInfoConverter()));
     // The ContextBuilder.Build() is called implicitly 
     // right before the Command executes.
     host.Run();

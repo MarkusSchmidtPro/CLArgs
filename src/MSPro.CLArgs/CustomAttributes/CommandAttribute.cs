@@ -1,12 +1,10 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 
 
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Class)]
-    [PublicAPI]
     public class CommandAttribute : Attribute
     {
         public CommandAttribute(string verb, string helpText = null)

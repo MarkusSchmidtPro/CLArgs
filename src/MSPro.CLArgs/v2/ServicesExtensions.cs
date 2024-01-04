@@ -1,11 +1,10 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 
 
 namespace MSPro.CLArgs
 {
-    [PublicAPI]
+    
     public static class ServicesExtensions
     {
         public static IServiceCollection AddCLArgsServices(this IServiceCollection services)

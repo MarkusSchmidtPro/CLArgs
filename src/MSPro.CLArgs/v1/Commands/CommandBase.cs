@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
+
+#nullable enable
 
 namespace MSPro.CLArgs
 {
@@ -11,7 +13,6 @@ namespace MSPro.CLArgs
     /// <typeparam name="TContext">
     ///     The type of the parameter object that is passed to the command.
     /// </typeparam>
-    [PublicAPI]
     public abstract class CommandBase<TContext> : ICommand where TContext : class, new()
     {
         /// <summary>
@@ -33,7 +34,7 @@ namespace MSPro.CLArgs
         /// <param name="settings"></param>
         public void Execute(
             [NotNull] CommandLineArguments commandLineArguments, 
-            [CanBeNull] Settings settings = null)
+            Settings? settings = null)
         {
             Settings = settings ?? new Settings();
             BeforeArgumentConversion(commandLineArguments);

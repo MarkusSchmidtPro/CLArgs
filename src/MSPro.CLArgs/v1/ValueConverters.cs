@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+
+
 
 #pragma warning disable CS1591
 
 
 namespace MSPro.CLArgs
 {
-    [PublicAPI]
     public class ValueConverters
     {
         /// <summary>

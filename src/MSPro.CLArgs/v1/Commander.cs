@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
+
+
 
 namespace MSPro.CLArgs
 {
     /// <summary>
     ///     The top level class to easily use 'CLArgs'.
     /// </summary>
-    [PublicAPI]
     public class Commander
     {
         // Internally use a dictionary to make sure Verbs are unique
