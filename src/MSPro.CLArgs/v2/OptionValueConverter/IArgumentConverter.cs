@@ -1,4 +1,7 @@
 ﻿using System;
+using Microsoft.Extensions.Options;
+
+
 
 namespace MSPro.CLArgs
 {
@@ -68,11 +71,11 @@ namespace MSPro.CLArgs
                     $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
                     nameof(targetType));
 
-            if (!Enum.IsDefined(targetType, optionValue))
+            if (!Enum.TryParse(targetType, optionValue, true, out object value))
                 errors.AddError(optionName,
                     $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
 
-            return Enum.Parse(targetType, optionValue, false);
+            return value;
         }
     }
 

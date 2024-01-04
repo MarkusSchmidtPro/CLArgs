@@ -9,7 +9,7 @@ using SampleCommands.Services;
 
 Console.WriteLine("Demo07 - How to use dependency injection in your commands");
 
-string[] commandline = "HelloWorld /UserName Markus".Split(" ").ToArray();
+string[] commandline = "HelloWorld /UserName Markus /Color red".Split(" ").ToArray();
 
 var builder = CommandHostBuilder.Create(commandline);
 // Register the IHelloWorldService Assembly to look for commands
@@ -37,7 +37,7 @@ public class HelloWorldCommand : CommandBase2<HelloWorldContext>
 
     protected override void Execute()
     {
-        _helloWorldService.SayHello(this.Context.Username);
+        _helloWorldService.SayHello(this.Context.Username, this.Context.Color);
     }
 }
 
@@ -49,7 +49,6 @@ public class HelloWorldContext
     public string Username { get; set; }
 
     [OptionDescriptor("Color", helpText: "Chose a color.", required: false)]
-    public ColorType? Color { get; set; }
+    public ColorType Color { get; set; }
 }
 
-public enum ColorType { Red, Blue}

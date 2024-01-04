@@ -24,8 +24,9 @@ public class HelloWorldService : IHelloWorldService
 
 
 
-    public void SayHello(string username)
+    public void SayHello(string username, ColorType color)
     {
         _printer.Info($"Hello World, hello {username}");
+        _printer.Info($"Your color is: {color}");
     }
 }
