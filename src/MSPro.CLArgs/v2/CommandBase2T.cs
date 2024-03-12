@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -8,7 +7,7 @@ namespace MSPro.CLArgs;
 
 public abstract class CommandWithContext(Type contextType)
 {
-    private ContextPropertyCollection _contextProperties;
+    private ContextPropertyCollection? _contextProperties;
 
 
     /// <summary>
@@ -27,7 +26,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     protected readonly IServiceProvider ServiceProvider = serviceProvider;
 
 
-    protected TContext _context { get; private set; }
+    protected TContext _context { get; private set; } = null!;
 
 
 
@@ -62,10 +61,8 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     protected virtual void AfterExecute(ErrorDetailList errors)
     {
         if (errors.Details.Count > 0)
-        {
-            //Debug.Assert(false, errors.ToString());
-            throw new ApplicationException(errors.ToString());
-        }
+            Print.Info(errors.ToString());
+         //   throw new ApplicationException(errors.ToString());
     }
 
 
