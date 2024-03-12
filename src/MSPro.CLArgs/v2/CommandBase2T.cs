@@ -27,7 +27,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     protected readonly IServiceProvider ServiceProvider = serviceProvider;
 
 
-    protected TContext Context { get; private set; }
+    protected TContext _context { get; private set; }
 
 
 
@@ -36,7 +36,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
         ErrorDetailList errors = new();
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
         var contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
-        Context = contextBuilder.Build<TContext>(arguments, ContextProperties, errors);
+        _context = contextBuilder.Build<TContext>(arguments, ContextProperties, errors);
 
         if (!errors.HasErrors())
         {
@@ -63,7 +63,7 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     {
         if (errors.Details.Count > 0)
         {
-            Debug.Assert(false, errors.ToString());
+            //Debug.Assert(false, errors.ToString());
             throw new ApplicationException(errors.ToString());
         }
     }

@@ -5,16 +5,16 @@
         <RootNamespace>MSPro.CLArgs</RootNamespace>
         <Authors>Markus Schmidt (Pro)</Authors>
         <Company>Markus Schmidt (Pro)</Company>
-        <Product>CLArgs - Command Line Parser</Product>
+        <Product>CLArgs - Command Line Arguments Parser</Product>
         <Copyright>(c) copyright 2024, Markus Schmidt (Pro)</Copyright>
         <!--  -->
         <Deterministic>false</Deterministic>
-        <AssemblyVersion>2.2312.16</AssemblyVersion>
+        <AssemblyVersion>4.1.0</AssemblyVersion>
         <Version>$(AssemblyVersion)</Version>
-        <FileVersion>$(Version)</FileVersion>
+        <FileVersion>4.1.0</FileVersion>
         <Description>Console application command-line support.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>2.2401.04</PackageVersion>
+        <PackageVersion>4.1.0</PackageVersion>
         <Title>CLArgs - Command Line Parser</Title>
         <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -23,9 +23,11 @@
         <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
         <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1</TargetFrameworks>
-        <LangVersion>12.0</LangVersion>
+        <LangVersion>default</LangVersion>
         <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
         <PackageIcon>CLArgs.png</PackageIcon>
+        <Nullable>enable</Nullable>
+        <PackageReleaseNotes>Uses semantic versioning, uses C# 12, nullable aware</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
