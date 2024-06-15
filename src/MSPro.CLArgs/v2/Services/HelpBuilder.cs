@@ -51,7 +51,7 @@ public class HelpBuilder : IHelpBuilder
 
 
 
-    string IHelpBuilder.BuildCommandHelp(CommandDescriptor2 commandDescriptor)
+    string IHelpBuilder.BuildCommandHelp(CommandDescriptor2? commandDescriptor)
     {
         string insert = new(' ', _settings.HelpAlignColumn);
 

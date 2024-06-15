@@ -28,7 +28,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
         var clArgs = Services.GetRequiredService<IArgumentCollection>();
         _logArguments(clArgs);
-        if (clArgs.Count == 0 || clArgs.VerbPath == null )
+        if (clArgs.Count == 0  )
         {
             var hb = Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
