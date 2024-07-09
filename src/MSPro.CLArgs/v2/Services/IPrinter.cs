@@ -26,6 +26,6 @@ namespace MSPro.CLArgs
         /// <summary>
         /// Print a message without logging it.
         /// </summary>
-        public void WriteLine(string message=null);
+        public void WriteLine(string? message=null);
     }
 }
