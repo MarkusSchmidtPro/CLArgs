@@ -5,17 +5,9 @@
 namespace MSPro.CLArgs
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class CommandAttribute : Attribute
+    public class CommandAttribute(string verb, string? helpText = null) : Attribute
     {
-        public CommandAttribute(string verb, string helpText = null)
-        {
-            Verb = verb;
-            HelpText = helpText;
-        }
-
-
-
-        public string Verb { get; set; }
-        public string HelpText { get; set; }
+        public string Verb { get; set; } = verb;
+        public string? HelpText { get; set; } = helpText;
     }
 }
