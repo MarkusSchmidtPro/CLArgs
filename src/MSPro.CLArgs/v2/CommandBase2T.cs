@@ -22,7 +22,7 @@ public abstract class CommandWithContext(Type contextType)
 public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) : CommandWithContext(typeof(TContext)), ICommand2
     where TContext : class
 {
-    protected readonly IPrinter Print = serviceProvider.GetRequiredService<IPrinter>();
+    //protected readonly IPrinter Print = serviceProvider.GetRequiredService<IPrinter>();
     protected readonly IServiceProvider ServiceProvider = serviceProvider;
 
 
@@ -60,9 +60,8 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
 
     protected virtual void AfterExecute(ErrorDetailList errors)
     {
-        if (errors.Details.Count > 0)
-            Print.Info(errors.ToString());
-         //   throw new ApplicationException(errors.ToString());
+        //if (errors.Details.Count > 0) Print.Info(errors.ToString());
+        //   throw new ApplicationException(errors.ToString());
     }
 
 

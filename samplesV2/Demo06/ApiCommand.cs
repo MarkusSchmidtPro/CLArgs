@@ -5,19 +5,21 @@
 namespace Demo06;
 
 [Command("API", "An API Command.")]
-public class ApiCommand : CommandBase2<ApiContext>
+public class ApiCommand(IServiceProvider serviceProvider) : CommandBase2<ApiContext>(serviceProvider)
 {
-    public ApiCommand(IServiceProvider serviceProvider) : base(serviceProvider)
+    protected override void Execute()
     {
+        Console.WriteLine($"P1      ={_context.P1}");
+        Console.WriteLine($"Url     ={_context.Url}");
+        Console.WriteLine($"Username={_context.ConnectionParameters.Username}");
+        Console.WriteLine($"Password={_context.ConnectionParameters.Password}");
     }
 
 
 
-    protected override void Execute()
+    protected override void AfterExecute(ErrorDetailList errors)
     {
-        Print.Info($"P1      ={_context.P1}");
-        Print.Info($"Url     ={_context.Url}");
-        Print.Info($"Username={_context.ConnectionParameters.Username}");
-        Print.Info($"Password={_context.ConnectionParameters.Password}");
+        if (errors.Details.Count > 0) Console.WriteLine(errors.ToString());
+        base.AfterExecute(errors);
     }
 }

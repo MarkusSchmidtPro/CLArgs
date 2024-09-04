@@ -27,11 +27,6 @@ public static class HostApplicationBuilderExtensions //CommandBuilder
         configure?.Invoke( settings);
         builder.Services.AddScoped(_ =>settings);
 
-        //builder.ConfigureCommandlineArguments((arguments, settings2) =>
-        //{
-        //    arguments.AddCommandLine(args, settings2);
-
-
         //
         // Build the default collection and let the client add more descriptions.
         //
@@ -54,25 +49,7 @@ public static class HostApplicationBuilderExtensions //CommandBuilder
         builder.Services.AddScoped(_ => arguments);
 
 
-
         builder.Services.AddScoped<IHost, CommandHost>();
-
-
-        /*
-        builder.Services.AddScoped(_ => arguments);
-
-
-        foreach (Action<IServiceCollection, Settings2> action in _configureServicesActions)
-        {
-            action(services, settings);
-        }
-
-        // HostBuild returns the IHost instance
-        services.AddScoped<IHost, CommandHost>();
-
-
-        builder.Services.ConfigureDefaults(args);
-        */
         return builder;
     }
 }

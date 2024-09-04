@@ -10,23 +10,11 @@ namespace SampleCommands.Services;
 /// <remarks>
 /// Add all your assembly services to <see cref="AssemblyServices.AddSampleCommandServices"/>.
 /// </remarks>
-public class HelloWorldService : IHelloWorldService
+public class HelloWorldService() : IHelloWorldService
 {
-    private readonly IPrinter _printer;
-
-
-    // The services expects IPrinter to be injected.
-    
-    public HelloWorldService(IPrinter printer)
-    {
-        _printer = printer;
-    }
-
-
-
     public void SayHello(string username, ColorType color)
     {
-        _printer.Info($"Hello World, hello {username}");
-        _printer.Info($"Your color is: {color}");
+        Console.WriteLine($"Hello World, hello {username}");
+        Console.WriteLine($"Your color is: {color}");
     }
 }

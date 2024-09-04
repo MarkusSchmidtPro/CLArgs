@@ -71,7 +71,7 @@ public class ErrorDetailList
     ///     Easy way to get one complete message for all errors
     /// </summary>
     /// <returns></returns>
-    public override string ToString()
+    public override string? ToString()
     {
         StringBuilder msg = new($"{Details.Count} ERROR(s) occurred.\n");
         foreach (ErrorDetail detail in Details)
