@@ -14,7 +14,7 @@ public class MultCommand : CommandBase2<MultContext>
 
     protected override void Execute()
     {
-        decimal result = this.Context.Factor1 * this.Context.Factor2;
-        Console.WriteLine($"{this.Context.Factor1} * {this.Context.Factor2} = {result}");
+        decimal result = _context.Factor1 * _context.Factor2;
+        Console.WriteLine($"{_context.Factor1} * {_context.Factor2} = {result}");
     }
 }

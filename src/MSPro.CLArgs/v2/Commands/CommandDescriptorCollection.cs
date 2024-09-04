@@ -7,13 +7,9 @@ namespace MSPro.CLArgs
     /// <summary>
     /// Concrete implementation of a dictionary.
     /// </summary>
-    public class CommandDescriptorCollection : ICommandDescriptorCollection
+    public class CommandDescriptorCollection(Settings2 settings) : ICommandDescriptorCollection
     {
-        public CommandDescriptorCollection(Settings2 settings)
-        {
-            _data = new Dictionary<string, CommandDescriptor2>(settings.GetStringComparer());
-        }
-        private readonly Dictionary<string, CommandDescriptor2> _data ;
+        private readonly Dictionary<string, CommandDescriptor2> _data = new(settings.GetStringComparer());
 
 
         public IEnumerator<KeyValuePair<string, CommandDescriptor2>> GetEnumerator() =>
@@ -48,7 +44,7 @@ namespace MSPro.CLArgs
 
         public bool Remove(string key) => _data.Remove(key);
 
-        public bool TryGetValue(string key, out CommandDescriptor2 value) =>
+        public bool TryGetValue(string key, out CommandDescriptor2? value) =>
             _data.TryGetValue(key, out value);
 
         public CommandDescriptor2 this[string key]

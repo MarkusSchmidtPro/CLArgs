@@ -15,8 +15,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 {
     private void execute()
     {
-        var commandDescriptors =
-            Services.GetRequiredService<ICommandDescriptorCollection>();
+        var commandDescriptors = Services.GetRequiredService<ICommandDescriptorCollection>();
         if (commandDescriptors == null || commandDescriptors.Count == 0)
             throw new ApplicationException("No Commands have been registered");
 
@@ -28,7 +27,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
         var clArgs = Services.GetRequiredService<IArgumentCollection>();
         _logArguments(clArgs);
-        if (clArgs.Count == 0 || clArgs.VerbPath == null )
+        if (clArgs.Count == 0  )
         {
             var hb = Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
@@ -37,7 +36,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
         // Get the implementing type for a given command name
         // by finding the name in the registered command descriptors.
-        if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out CommandDescriptor2 commandDescriptor))
+        if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out CommandDescriptor2? commandDescriptor))
             throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
 
         if ( clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
@@ -79,16 +78,17 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
     #region IHost Implementation
 
-    private Task _task;
+    private Task? _task;
 
 
 
     public void Dispose()
     {
         if (_task == null) return;
-        if (_task.Status == TaskStatus.RanToCompletion
-            || _task.Status == TaskStatus.Faulted
-            || _task.Status == TaskStatus.Canceled) _task.Dispose();
+        if (_task.Status is 
+            TaskStatus.RanToCompletion or 
+            TaskStatus.Faulted or 
+            TaskStatus.Canceled) _task.Dispose();
 
         _task = null;
     }
@@ -107,7 +107,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
 
 
-    public Task StopAsync(CancellationToken cancellationToken = new()) => _task;
+    public Task StopAsync(CancellationToken cancellationToken = new()) => _task!;
 
 
     public IServiceProvider Services { get; } = serviceProvider;

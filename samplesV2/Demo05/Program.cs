@@ -13,16 +13,15 @@ string[] commandline = "MATH MULT3 /f1=5,43 /f2=7,54 ".Split(" ").ToArray();
 
 try
 {
-    var builder = CommandHostBuilder.Create(commandline);
-    builder.ConfigureServices(services =>
+    HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+    builder.ConfigureCommands(commandline);
+
+    builder.Services.AddLogging(loggingBuilder =>
     {
-        services.AddLogging(loggingBuilder =>
-        {
-            loggingBuilder.ClearProviders();
-            loggingBuilder.AddNLog();
-        });
+        loggingBuilder.ClearProviders();
+        loggingBuilder.AddNLog();
     });
-    builder.Start();
+    builder.Build().Start();
 }
 catch (Exception ex)
 {

@@ -10,24 +10,20 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        CommandHostBuilder.Create(args).Start();
+        HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+        builder.ConfigureCommands(args);
+        builder.Build().Start();
     }
 }
 
 
 
 [Command("HelloWorld", "A simple command to print a name in the Console Window.")]
-public class HelloWorldCommand : CommandBase2<HelloWorldContext>
+public class HelloWorldCommand(IServiceProvider serviceProvider) : CommandBase2<HelloWorldContext>(serviceProvider)
 {
-    public HelloWorldCommand(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
-
-
     protected override void Execute()
     {
-        Console.WriteLine($"Hello {Context.Name}");
+        Console.WriteLine($"Hello {_context.Name}");
     }
 }
 

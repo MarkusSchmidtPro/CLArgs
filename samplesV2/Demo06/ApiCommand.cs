@@ -15,9 +15,9 @@ public class ApiCommand : CommandBase2<ApiContext>
 
     protected override void Execute()
     {
-        Print.Info($"P1      ={this.Context.P1}");
-        Print.Info($"Url     ={this.Context.Url}");
-        Print.Info($"Username={this.Context.ConnectionParameters.Username}");
-        Print.Info($"Password={this.Context.ConnectionParameters.Password}");
+        Print.Info($"P1      ={_context.P1}");
+        Print.Info($"Url     ={_context.Url}");
+        Print.Info($"Username={_context.ConnectionParameters.Username}");
+        Print.Info($"Password={_context.ConnectionParameters.Password}");
     }
 }

@@ -16,8 +16,8 @@ public class Mult3Command : CommandBase2<Mult23Context>
 
     protected override void Execute()
     {
-        Print.Debug($"Serialized Context='{JsonSerializer.Serialize(this.Context)}'");
-        decimal result = this.Context.Factor1 * this.Context.Factor2;
-        Print.Info($"{this.Context.Factor1} * {this.Context.Factor2} = {result}");
+        Print.Debug($"Serialized Context='{JsonSerializer.Serialize(_context)}'");
+        decimal result = _context.Factor1 * _context.Factor2;
+        Print.Info($"{_context.Factor1} * {_context.Factor2} = {result}");
     }
 }

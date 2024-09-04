@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using MSPro.CLArgs;
 using Xunit;
 using Xunit.Abstractions;
@@ -79,14 +78,12 @@ namespace XUnitTest
             public bool Flag { get; set; }
 
             [OptionDescriptor("dst-env", AllowMultiple = nameof(DstEnvironments))]
-            [UsedImplicitly]
             public string DstEnvironment { get; set; }
 
 
             public List<string> DstEnvironments { get; } = new();
 
             [Targets]
-            [UsedImplicitly]
             public List<string> Targets { get;  }= new();
         }
     }

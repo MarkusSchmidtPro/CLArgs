@@ -18,8 +18,8 @@ public class ErrorDetailList
 
     public void AddException(Exception ex)
     {
-        AddError("General Exception", 
-            new[] { ex.Message, ex.InnerException != null ? ex.InnerException.Message : string.Empty }, 
+        AddError("General Exception",
+            [ex.Message, ex.InnerException != null ? ex.InnerException.Message : string.Empty], 
             ex.StackTrace);
     }
 
@@ -27,7 +27,7 @@ public class ErrorDetailList
 
     public void AddError(string attributeName, string errorMessage)
     {
-        AddError(attributeName, new[] { errorMessage });
+        AddError(attributeName, [errorMessage]);
     }
 
 

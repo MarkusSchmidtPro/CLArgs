@@ -6,25 +6,15 @@ using Microsoft.Extensions.Logging;
 
 namespace MSPro.CLArgs
 {
-    public class ConsolePrinter : IPrinter
+    public class ConsolePrinter(ILogger<ConsolePrinter> logger) : IPrinter
     {
-        private readonly ILogger<ConsolePrinter> _logger;
-
-
         private readonly StringBuilder _sameLineMessages = new();
-
-
-
-        public ConsolePrinter(ILogger<ConsolePrinter> logger)
-        {
-            _logger = logger;
-        }
 
 
 
         public void Debug(string message)
         {
-            _logger?.LogDebug(message);
+            logger?.LogDebug(message);
         }
 
 
@@ -32,13 +22,13 @@ namespace MSPro.CLArgs
         public void Error(Exception e)
         {
             Error(e.Message);
-            _logger?.Log(LogLevel.Critical, e, null);
+            logger?.Log(LogLevel.Critical, e, null);
         }
 
 
 
         public void Write(string message) => Console.Write(message);
-        public void WriteLine(string message = null) => Console.WriteLine(message);
+        public void WriteLine(string? message = null) => Console.WriteLine(message);
 
 
 
@@ -59,7 +49,7 @@ namespace MSPro.CLArgs
                     _sameLineMessages.Clear();
                 }
 
-                _logger?.LogInformation(message);
+                logger?.LogInformation(message);
             
             }
             else
@@ -73,7 +63,7 @@ namespace MSPro.CLArgs
 
         public void Warn(string message)
         {
-            _logger?.LogWarning(message);
+            logger?.LogWarning(message);
             Console.WriteLine("WARN: " + message);
             _sameLineMessages.Clear();
         }
@@ -82,7 +72,7 @@ namespace MSPro.CLArgs
 
         public void Error(string message)
         {
-            _logger?.LogError(message);
+            logger?.LogError(message);
             Console.WriteLine("ERROR: " + message);
             _sameLineMessages.Clear();
         }

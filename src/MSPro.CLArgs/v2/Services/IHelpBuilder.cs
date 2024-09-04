@@ -17,6 +17,6 @@
         ///     The <see cref="CommandDescriptor">Command's descriptor</see> is passed to the method (the Command is specified by
         ///     the Verb).
         /// </remarks>
-        public string BuildCommandHelp(CommandDescriptor2 c);
+        public string BuildCommandHelp(CommandDescriptor2? c);
     }
 }

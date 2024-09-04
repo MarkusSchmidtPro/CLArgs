@@ -1,86 +1,84 @@
 ﻿using System;
-using Microsoft.Extensions.Options;
 
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+public class StringConverter : IArgumentConverter
 {
-    public class StringConverter : IArgumentConverter
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType) =>
+        optionValue;
+}
+
+public class IntConverter : IArgumentConverter
+{
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType) =>
-            optionValue;
+        if (!int.TryParse(optionValue, out int v))
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
+        return v;
     }
+}
 
-    public class IntConverter : IArgumentConverter
+public class DecimalConverter : IArgumentConverter
+{
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
-        {
-            if (!int.TryParse(optionValue, out int v))
-                errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an integer.");
-            return v;
-        }
+        if (!decimal.TryParse(optionValue, out decimal v))
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a decimal.");
+        return v;
     }
+}
 
-    public class DecimalConverter : IArgumentConverter
+public class BoolConverter : IArgumentConverter
+{
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)
     {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
-        {
-            if (!decimal.TryParse(optionValue, out decimal v))
-                errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a decimal.");
-            return v;
-        }
-    }
+        if (bool.TryParse(optionValue, out bool boolValue)) return boolValue;
 
-    public class BoolConverter : IArgumentConverter
+        // boolean conversion failed, try int conversion on <>0
+        if (int.TryParse(optionValue, out int intValue))
+            // int conversion possible 
+            boolValue = intValue != 0;
+        else
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
+
+        return boolValue;
+    }
+}
+
+public class DateTimeConverter : IArgumentConverter
+{
+    public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetTypes)
-        {
-            if (bool.TryParse(optionValue, out bool boolValue)) return boolValue;
-
-            // boolean conversion failed, try int conversion on <>0
-            if (int.TryParse(optionValue, out int intValue))
-                // int conversion possible 
-                boolValue = intValue != 0;
-            else
-                errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into an boolean.");
-
-            return boolValue;
-        }
+        if (!DateTime.TryParse(optionValue, out var d))
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
+        return d;
     }
+}
 
-    public class DateTimeConverter : IArgumentConverter
+public class EnumConverter : IArgumentConverter
+{
+    public object? Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
     {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
-        {
-            if (!DateTime.TryParse(optionValue, out var d))
-                errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
-            return d;
-        }
+        if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
+            throw new ArgumentException(
+                $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
+                nameof(targetType));
+
+        if (!Enum.TryParse(targetType, optionValue, true, out object? value))
+            errors.AddError(optionName,
+                $"Cannot parse the value '{optionValue}' for Option '{optionName}' into {targetType.Name}.");
+
+        return value;
     }
+}
 
-    public class EnumConverter : IArgumentConverter
-    {
-        public object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType)
-        {
-            if (targetType != typeof(Enum) && targetType.BaseType != typeof(Enum))
-                throw new ArgumentException(
-                    $"Cannot use {GetType()} to convert a string into {targetType}. OptionName={optionName}, OptionValue={optionValue}",
-                    nameof(targetType));
-
-            if (!Enum.TryParse(targetType, optionValue, true, out object value))
-                errors.AddError(optionName,
-                    $"Cannot parse the value '{optionValue}' for Option '{optionName}' into a DateTime.");
-
-            return value;
-        }
-    }
-
-    public interface IArgumentConverter
-    {
-        object Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType = null);
-    }
+public interface IArgumentConverter
+{
+    object? Convert(string optionValue, string optionName, ErrorDetailList errors, Type targetType);
 }

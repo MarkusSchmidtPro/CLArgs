@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-#nullable enable
+
 
 namespace MSPro.CLArgs;
 
@@ -45,7 +45,7 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
 
     public TContext Build<TContext>(IArgumentCollection arguments,
         ContextPropertyCollection contextProperties,
-        ErrorDetailList errors)
+        ErrorDetailList errors) where TContext: notnull
     {
         _optionValueConverters = createDefaultConverters();
         foreach (Action<IOptionValueConverterCollection> build in _configureOptionValueConvertersActions) build(_optionValueConverters);
@@ -57,7 +57,7 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
         contextPropertyResolver.ResolvePropertyValues(contextProperties, arguments, errors);
         if (errors.HasErrors()) return default!;
 
-        TContext context = (TContext)createContext(typeof(TContext), contextProperties, errors)!;
+        var context = (TContext) createContext(typeof(TContext), contextProperties, errors);
         PropertyInfo[] targetPropertyInfos = context.GetType().GetProperties();
         // Find first property with a TargetAttribute 
         PropertyInfo? targetsPropertyInfo = targetPropertyInfos.FirstOrDefault(pi => pi.GetFirst<TargetsAttribute>() != null);
@@ -94,9 +94,9 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
     /// <param name="contextProperties">The options provided in the command-line</param>
     /// <param name="errors">The list of errors that occured during resolution.</param>
     /// <returns>An instance of <paramref name="contextType" />.</returns>
-    private object createContext( Type contextType,
-         ContextPropertyCollection contextProperties,
-         ErrorDetailList errors)
+    private object createContext(Type contextType,
+        ContextPropertyCollection contextProperties,
+        ErrorDetailList errors)
     {
         // The instance of the command parameters object.
         // This is where we set the values
@@ -222,7 +222,7 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
             }
             else
             {
-                if( !_optionValueConverters.TryGetValue(propertyType, out IArgumentConverter? converter))
+                if (!_optionValueConverters.TryGetValue(propertyType, out IArgumentConverter? converter))
                 {
                     if (propertyType.BaseType != null)
                         _optionValueConverters.TryGetValue(propertyType.BaseType, out converter);
@@ -238,7 +238,7 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
                 {
                     // Convert the string from the command line into the correct type so that the value
                     // can be assigned to the property.
-                    object propertyValue =
+                    object? propertyValue =
                         converter.Convert(contextProperty.ProvidedValues[0], optionName, errors, propertyType);
                     propInfo.SetValue(executionContext, propertyValue);
                 }

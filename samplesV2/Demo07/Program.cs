@@ -11,13 +11,17 @@ Console.WriteLine("Demo07 - How to use dependency injection in your commands");
 
 string[] commandline = "HelloWorld /UserName Markus /Color red".Split(" ").ToArray();
 
-var builder = CommandHostBuilder.Create(commandline);
+HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 // Register the IHelloWorldService Assembly to look for commands
-builder.ConfigureCommands(collection => collection.AddAssembly(typeof(IHelloWorldService)));
+builder.ConfigureCommands(
+    commandline,
+    collection => collection.AddAssembly(typeof(IHelloWorldService)));
+
+
 // Use the extension method to register all Assembly services
 // YOu can seamlessly use your services in all your Commands: see HelloWorldCommand
-builder.ConfigureServices(services => services.AddSampleCommandServices());
-builder.Start();
+builder.Services.AddSampleCommandServices();
+builder.Build().Start();
 
 
 
@@ -37,7 +41,7 @@ public class HelloWorldCommand : CommandBase2<HelloWorldContext>
 
     protected override void Execute()
     {
-        _helloWorldService.SayHello(this.Context.Username, this.Context.Color);
+        _helloWorldService.SayHello(_context.Username, _context.Color);
     }
 }
 
@@ -51,4 +55,3 @@ public class HelloWorldContext
     [OptionDescriptor("Color", helpText: "Chose a color.", required: false)]
     public ColorType Color { get; set; }
 }
-

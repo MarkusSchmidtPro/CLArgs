@@ -6,7 +6,7 @@ using MSPro.CLArgs;
 namespace SampleCommands.Math.Sum;
 
 [Command("MATH.ANALYZE", "Analyze any number of integer values.")]
-public class AnalyzeCommand : CommandBase2<SumContext>
+public class AnalyzeCommand(IServiceProvider serviceProvider) : CommandBase2<SumContext>(serviceProvider)
 {
     /* Alternative way of using DependencyInjection
     private readonly IArgumentCollection _argumentsAlternativeWayOfUsingThem;
@@ -15,12 +15,6 @@ public class AnalyzeCommand : CommandBase2<SumContext>
         _argumentsAlternativeWayOfUsingThem = argumentsAlternativeWayOfUsingThem;
     }
     */
-
-
-
-    public AnalyzeCommand(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 
 
 

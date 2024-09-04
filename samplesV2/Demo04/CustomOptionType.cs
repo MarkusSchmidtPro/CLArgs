@@ -13,18 +13,12 @@ namespace Demo04;
 
 
 [Command("ARGS.DEMO4", "Demo how to build and use custom option types.")]
-public class Demo1Command : CommandBase2<Demo4Context>
+public class Demo1Command(IServiceProvider serviceProvider) : CommandBase2<Demo4Context>(serviceProvider)
 {
-    public Demo1Command(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
-
-
     protected override void Execute()
     {
-        Console.WriteLine($"Directory full-name: {this.Context.Dir!.FullName}");
-        Console.WriteLine($"Directory parent: {this.Context.Dir!.Parent}");
+        Console.WriteLine($"Directory full-name: {_context.Dir!.FullName}");
+        Console.WriteLine($"Directory parent: {_context.Dir!.Parent}");
     }
 
 

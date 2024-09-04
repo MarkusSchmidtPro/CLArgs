@@ -14,10 +14,9 @@ string[] commandline = "ARGS DEMO4 /d c:\\windows".Split(" ").ToArray();
 
 try
 {
-    var builder = CommandHostBuilder.Create(commandline);
-    builder.ConfigureCommands(
-        commandDescriptors => commandDescriptors.AddAssembly(typeof(Demo1Command)));
-    IHost? host = builder.Build();
+    HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+    builder.ConfigureCommands(commandline, commandDescriptors => commandDescriptors.AddAssembly(typeof(Demo1Command)));
+    IHost host = builder.Build();
 
     // To build a Context from the provided commend-line arguments
     // it requires the ContextBuilder which we are going to extend

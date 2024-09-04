@@ -11,4 +11,6 @@ Console.WriteLine("Demo06 - Context Sets and argument files");
 //string[] commandline = "API /p1=p1111 @devsystem.profile".Split(" ").ToArray();
 string[] commandline = "API /?".Split(" ").ToArray();
 
-CommandHostBuilder.Create(commandline).Start();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+builder.ConfigureCommands(commandline);
+builder.Build().Start();

@@ -13,14 +13,14 @@ public class SumCommand : CommandBase2<SumContext>
 
     protected override void Execute()
     {
-        Console.WriteLine($"{this.Context.Values.Count} values specified:");
+        Console.WriteLine($"{_context.Values.Count} values specified:");
 
         int total = 0;
-        foreach (string sValue in this.Context.Values)
+        foreach (string sValue in _context.Values)
         {
             if( int.TryParse(sValue, out int value)) total += value;
         }
         
-        Console.WriteLine($"{string.Join("+", this.Context.Values)} = {total}");
+        Console.WriteLine($"{string.Join("+", _context.Values)} = {total}");
     }
 }

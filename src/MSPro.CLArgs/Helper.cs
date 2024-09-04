@@ -211,7 +211,7 @@ namespace MSPro.CLArgs
 
         public class WrappedText
         {
-            public WrappedText(string allText = null, string defaultText = "---")
+            public WrappedText(string? allText = null, string defaultText = "---")
             {
                 AllText = allText ?? defaultText;
 

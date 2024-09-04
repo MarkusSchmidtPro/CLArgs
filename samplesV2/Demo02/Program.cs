@@ -44,8 +44,9 @@ ADD                 Add two integer values.
 
 try
 {
-    var builder = CommandHostBuilder.Create(commandline);
-    builder.Start();
+    HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+    builder.ConfigureCommands(commandline);
+    builder.Build().Start();
 }
 catch (Exception ex)
 {

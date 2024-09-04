@@ -3,17 +3,13 @@ using MSPro.CLArgs;
 
 
 
-namespace CLArgs.Demo02;
+namespace CLArgs.Demo02.Commands;
 [Command("MATH.ADD", "Add two integer values.")]
-public class AddCommand : CommandBase2<AdditionContext>
+public class AddCommand(IServiceProvider serviceProvider) : CommandBase2<AdditionContext>(serviceProvider)
 {
-    public AddCommand(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
     protected override void Execute()
     {
-        int result = this.Context.Value1 + this.Context.Value2;
-        Console.WriteLine($"{this.Context.Value1} + {this.Context.Value2} = {result}");
+        int result = _context.Value1 + _context.Value2;
+        Console.WriteLine($"{_context.Value1} + {_context.Value2} = {result}");
     }
 }

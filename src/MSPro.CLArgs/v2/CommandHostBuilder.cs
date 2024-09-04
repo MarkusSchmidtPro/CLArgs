@@ -1,176 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
 
-namespace MSPro.CLArgs
+namespace MSPro.CLArgs;
+
+public static class HostApplicationBuilderExtensions //CommandBuilder
 {
-    public class CommandHostBuilder : IHostBuilder //CommandBuilder
+    public static HostApplicationBuilder ConfigureCommands(
+        this HostApplicationBuilder builder,
+        string[] args,
+        Action<ICommandDescriptorCollection>? addCommandDescriptors=null,
+        Action<Settings2>? configure=null,
+        Action<IArgumentCollection>? addArguments=null
+    )
     {
-        private readonly List<Action<IOptionValueConverterCollection, Settings2>> _configureArgumentConvertersActions = [];
-        private readonly List<Action<IArgumentCollection, Settings2>> _configureArgumentsActions = [];
-        private readonly List<Action<ICommandDescriptorCollection>> _configureCommandsActions = [];
-        private readonly List<Action<IServiceCollection, Settings2>> _configureServicesActions = [];
-        private readonly List<Action<Settings2>> _configureSettingsActions = [];
+        builder.Services.AddCLArgsServices();
+        
+        //
+        // Create default settings and let the client configure the settings object
+        // before we add it to the services collection.
+        //
+        var settings = new Settings2 { IgnoreCase = true };
+        configure?.Invoke( settings);
+        builder.Services.AddScoped(_ =>settings);
 
-        private readonly IHostBuilder _hostBuilder;
+        //builder.ConfigureCommandlineArguments((arguments, settings2) =>
+        //{
+        //    arguments.AddCommandLine(args, settings2);
 
-     
-        private CommandHostBuilder()
+
+        //
+        // Build the default collection and let the client add more descriptions.
+        //
+        ICommandDescriptorCollection commandDescriptors  = new CommandDescriptorCollection(settings);
+        commandDescriptors.AddAssembly(Assembly.GetEntryAssembly()!);
+        addCommandDescriptors?.Invoke(commandDescriptors);
+        builder.Services.AddScoped(_ => commandDescriptors);
+        foreach (CommandDescriptor2 commandDescriptor in commandDescriptors.Values)
         {
-            _hostBuilder = Host.CreateDefaultBuilder();
-        }
-    
-    
-        #region IHostBuilder
-        IDictionary<object, object> IHostBuilder.Properties => _hostBuilder.Properties;
-
-
-
-        IHostBuilder IHostBuilder.ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
-        {
-            return _hostBuilder.ConfigureHostConfiguration(configureDelegate);
-        }
-
-
-
-        IHostBuilder IHostBuilder.ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
-        {
-            return _hostBuilder.ConfigureAppConfiguration(configureDelegate);
+            builder.Services.AddScoped(commandDescriptor.Type);
         }
 
+        //
+        // Initialize argument collection and ask client to update as needed.
+        //
+        IArgumentCollection arguments = new ArgumentCollection();
+        CommandLineParser2 cp = new (settings);
+        cp.Parse(args/*.Skip(1).ToArray()*/, arguments);
+        addArguments?.Invoke(arguments);
+        builder.Services.AddScoped(_ => arguments);
 
 
-        IHostBuilder IHostBuilder.ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
+
+        builder.Services.AddScoped<IHost, CommandHost>();
+
+
+        /*
+        builder.Services.AddScoped(_ => arguments);
+
+
+        foreach (Action<IServiceCollection, Settings2> action in _configureServicesActions)
         {
-            return _hostBuilder.ConfigureServices(configureDelegate);
+            action(services, settings);
         }
 
+        // HostBuild returns the IHost instance
+        services.AddScoped<IHost, CommandHost>();
 
 
-        IHostBuilder IHostBuilder.UseServiceProviderFactory<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory)
-        {
-            return _hostBuilder.UseServiceProviderFactory(factory);
-        }
-
-
-
-        IHostBuilder IHostBuilder.UseServiceProviderFactory<TContainerBuilder>(Func<HostBuilderContext, IServiceProviderFactory<TContainerBuilder>> factory)
-        {
-            return _hostBuilder.UseServiceProviderFactory(factory);
-        }
-
-
-
-        IHostBuilder IHostBuilder.ConfigureContainer<TContainerBuilder>(Action<HostBuilderContext, TContainerBuilder> configureDelegate)
-        {
-            return _hostBuilder.ConfigureContainer(configureDelegate);
-        }
-
-        #endregion
-   
-        public static CommandHostBuilder Create(string[] args)
-        {
-            var builder = new CommandHostBuilder();
-            builder.ConfigureDefaults(args);
-            builder.ConfigureCommandlineArguments((arguments, settings2) =>
-            {
-                arguments.AddCommandLine(args, settings2);
-            });
-            return builder;
-        }
-
-
-
-        public IHost Build()
-        {
-            var settings = createDefaultSettings();
-            foreach (var build in _configureSettingsActions) build(settings);
-
-            var commandDescriptors = createDefaultCommandDescriptors(settings);
-            foreach (var build in _configureCommandsActions) build(commandDescriptors);
-
-            IArgumentCollection arguments = new ArgumentCollection();
-            foreach (var build in _configureArgumentsActions) build(arguments, settings);
-
-            _hostBuilder.ConfigureServices( services =>
-            {
-                services.AddCLArgsServices();
-                services.AddScoped(_ => settings);
-                services.AddScoped(_ => commandDescriptors);
-                services.AddScoped(_ => arguments);
-
-                foreach (var commandDescriptor in commandDescriptors.Values)
-                {
-                    services.AddScoped(commandDescriptor.Type);
-                }
-
-                foreach (var action in _configureServicesActions)
-                {
-                    action(services, settings);
-                }
-
-                // HostBuild returns the IHost instance
-                services.AddScoped<IHost,CommandHost>();
-            });
-
-            return _hostBuilder.Build();
-        }
-    
-
-        #region Configure
-
-        public void Configure(Action<Settings2> configureSettingsDelegate)
-        {
-            _configureSettingsActions.Add(configureSettingsDelegate);
-        }
-
-
-
-        public void ConfigureCommands(Action<ICommandDescriptorCollection> configureCommandsAction)
-        {
-            _configureCommandsActions.Add(configureCommandsAction);
-        }
-
-
-
-        public void ConfigureCommandlineArguments(Action<IArgumentCollection, Settings2> action)
-        {
-            _configureArgumentsActions.Add(action);
-        }
-
-
-
-        public void ConfigureArgumentConverters(Action<IOptionValueConverterCollection, Settings2> action)
-        {
-            _configureArgumentConvertersActions.Add(action);
-        }
-
-        #endregion
-
-
-
-        #region Defaults
-
-
-        private Settings2 createDefaultSettings() => new() { IgnoreCase = true };
-
-
-
-        /// <summary>
-        ///     Query the current CLArgs Assembly for [out-of-the-box] ICommand2 implementations.
-        /// </summary>
-        private ICommandDescriptorCollection createDefaultCommandDescriptors(Settings2 settings)
-        {
-            var result = new CommandDescriptorCollection(settings);
-            result.AddAssembly(Assembly.GetEntryAssembly());
-            return result;
-        }
-
-        #endregion
+        builder.Services.ConfigureDefaults(args);
+        */
+        return builder;
     }
 }
