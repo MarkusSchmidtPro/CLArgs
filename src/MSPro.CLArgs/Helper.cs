@@ -19,7 +19,7 @@ namespace MSPro.CLArgs
         ///     Uses <see cref="Process.GetCurrentProcess()" /> to get
         ///     the <see cref="Process.MainModule" />'s directory.
         /// </remarks>
-        public static string BinDir => Path.GetDirectoryName(GetExecutableFileName());
+        public static string BinDir => Path.GetDirectoryName(GetExecutableFileName())!;
 
 
 
@@ -88,7 +88,7 @@ namespace MSPro.CLArgs
         /// <seealso href="https://docs.microsoft.com/de-de/dotnet/core/deploying/single-file" />
         public static string GetExecutableFileName()
         {
-            ProcessModule processModule = Process.GetCurrentProcess().MainModule;
+            ProcessModule processModule = Process.GetCurrentProcess().MainModule!;
             if (processModule == null) 
                 throw new InvalidOperationException("Unexpected: Call to Process.GetCurrentProcess().MainModule returned null!");
 
@@ -118,10 +118,10 @@ namespace MSPro.CLArgs
         ///     Otherwise, <c>null</c> if the file wasn't found and if
         ///     <paramref name="throwIfNotFound" /> is set to <c>false</c>.
         /// </returns>
-        public static string FindFile(string fileName
-            , [NotNull] string workDir
-            , [NotNull] string binDir
-            , IEnumerable<string> addDirs = null
+        public static string? FindFile(string fileName
+            , string workDir
+            , string binDir
+            , IEnumerable<string>? addDirs = null
             , bool throwIfNotFound = true)
         {
             if (!string.IsNullOrWhiteSpace(fileName))
