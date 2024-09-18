@@ -22,11 +22,8 @@ namespace MSPro.CLArgs
         internal CommandLineArguments(string[] args, StringComparison stringComparison)
         {
             Args         = args;
-            CommandLine  = string.Join(" ", args);
+            CommandLine  = string.Join(" ", Args);
             _stringComparison = stringComparison;
-            Verbs        = [];
-            Targets      = [];
-            Options      = [];
         }
 
 
@@ -41,13 +38,14 @@ namespace MSPro.CLArgs
         ///     The list of verbs in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public List<string> Verbs { get; }
+        public List<string> Verbs { get; } = [];
 
         /// <summary>
         ///     The list of Targets in the sequence order
         ///     as they were provided in the command-line.
         /// </summary>
-        public List<string> Targets { get; }
+        // ReSharper disable once CollectionNeverQueried.Global
+        public List<string> Targets { get; } = [];
 
 
         /// <summary>
@@ -66,7 +64,9 @@ namespace MSPro.CLArgs
         ///     All option values are <c>strings</c> in the first instance.
         ///     Conversion may happen later.
         /// </remarks>
-        public List<Option> Options { get; }
+        public List<Option> Options { get; } = [];
+
+
 
         /// <summary>
         /// Check if an option tag was provided in the command-line.

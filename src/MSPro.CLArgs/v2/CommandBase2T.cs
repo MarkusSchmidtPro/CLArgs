@@ -60,8 +60,6 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
 
     protected virtual void AfterExecute(ErrorDetailList errors)
     {
-        //if (errors.Details.Count > 0) Print.Info(errors.ToString());
-        //   throw new ApplicationException(errors.ToString());
     }
 
 
