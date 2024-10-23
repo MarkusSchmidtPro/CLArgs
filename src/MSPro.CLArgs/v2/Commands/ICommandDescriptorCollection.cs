@@ -2,7 +2,7 @@
 
 namespace MSPro.CLArgs
 {
-    public interface ICommandDescriptorCollection : IDictionary<string, CommandDescriptor2?>
+    public interface ICommandDescriptorCollection : IDictionary<string, CommandDescriptor2>
     {
     }
 }

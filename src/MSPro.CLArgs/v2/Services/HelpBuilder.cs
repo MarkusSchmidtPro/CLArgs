@@ -19,9 +19,11 @@ public class HelpBuilder(IServiceProvider serviceProvider, Settings2 settings, I
         string v = "Verb".PadRight(settings.HelpAlignColumn);
         sb.AppendLine($"{v}Description");
         sb.AppendLine("---------------------------------------");
-        foreach (CommandDescriptor2 commandDescriptor in commands.Values.OrderBy( c=> c.Verb))
+        foreach (CommandDescriptor2 commandDescriptor in commands.Values
+                     .Where(d => d.Description!=null)
+                     .OrderBy( c=> c.Verb))
         {
-            Helper.WrappedText wrapped = Helper.Wrap(commandDescriptor.Description, settings.HelpFullWidth);
+            Helper.WrappedText wrapped = Helper.Wrap(commandDescriptor.Description!, settings.HelpFullWidth);
             string verbs = commandDescriptor.Verb.Replace('.', ' ');
             sb.AppendLine($"{verbs.PadRight(settings.HelpAlignColumn)}{wrapped.AllLines[0]}");
             for (var lineNo = 1; lineNo < wrapped.AllLines.Length; lineNo++)
@@ -37,13 +39,13 @@ public class HelpBuilder(IServiceProvider serviceProvider, Settings2 settings, I
 
 
 
-    string IHelpBuilder.BuildCommandHelp(CommandDescriptor2? commandDescriptor)
+    string IHelpBuilder.BuildCommandHelp(CommandDescriptor2 commandDescriptor)
     {
         string insert = new(' ', settings.HelpAlignColumn);
 
         StringBuilder sb = new();
         sb.AppendLine();
-        Helper.WrappedText wrappedDesc = Helper.Wrap(commandDescriptor.Description, settings.HelpFullWidth - settings.HelpAlignColumn);
+        Helper.WrappedText wrappedDesc = Helper.Wrap(commandDescriptor.Description??"", settings.HelpFullWidth - settings.HelpAlignColumn);
         string verbs = commandDescriptor.Verb.Replace('.', ' ');
         sb.AppendLine($"{verbs.PadRight(settings.HelpAlignColumn)}{wrappedDesc.AllLines[0]}");
         for (var lineNo = 1; lineNo < wrappedDesc.AllLines.Length; lineNo++) sb.AppendLine(insert + wrappedDesc.AllLines[lineNo]);

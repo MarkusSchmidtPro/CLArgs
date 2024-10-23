@@ -44,7 +44,7 @@ namespace MSPro.CLArgs
 
         public bool Remove(string key) => _data.Remove(key);
 
-        public bool TryGetValue(string key, out CommandDescriptor2? value) =>
+        public bool TryGetValue(string key, out CommandDescriptor2 value) =>
             _data.TryGetValue(key, out value);
 
         public CommandDescriptor2 this[string key]
