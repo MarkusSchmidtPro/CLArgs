@@ -53,12 +53,17 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
             }
         }
 
-        AfterExecute(errors);
+        //
+        // Ensure errors have been handled!
+        //
+        //bool errorsHandled = false;
+        AfterExecute(errors/*, ref errorsHandled*/);
+        //if (!errorsHandled) { }
     }
 
 
 
-    protected virtual void AfterExecute(ErrorDetailList errors)
+    protected virtual void AfterExecute(ErrorDetailList errors/*, ref bool errorsHandled*/)
     {
     }
 
