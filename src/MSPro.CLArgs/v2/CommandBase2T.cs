@@ -58,9 +58,13 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
 
 
 
-    protected virtual void AfterExecute(ErrorDetailList errors)
+    protected virtual void AfterExecute(ErrorDetailList errors /*, ref bool errorsHandled*/)
     {
-        //if (errors.Details.Count > 0) Print.Info(errors.ToString());
+        if (errors.Details.Count == 0) return;
+
+        Console.WriteLine();
+        Console.WriteLine("Unhandled Errors!");
+        Console.WriteLine(errors.ToString());
         //   throw new ApplicationException(errors.ToString());
     }
 

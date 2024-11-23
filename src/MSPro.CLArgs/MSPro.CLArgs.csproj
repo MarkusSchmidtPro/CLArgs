@@ -9,12 +9,12 @@
         <Copyright>(c) copyright 2024, Markus Schmidt (Pro)</Copyright>
         <!--  -->
         <Deterministic>false</Deterministic>
-        <AssemblyVersion>5.0.0</AssemblyVersion>
+        <AssemblyVersion>5.0.2</AssemblyVersion>
         <Version>$(AssemblyVersion)</Version>
-        <FileVersion>5.0.0</FileVersion>
+        <FileVersion>5.0.2.0</FileVersion>
         <Description>Console application command-line support.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>5.0.0</PackageVersion>
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
         <Title>CLArgs - Command Line Parser</Title>
         <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -22,12 +22,14 @@
         <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
         <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-        <TargetFrameworks>net8.0;net6.0;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
         <LangVersion>default</LangVersion>
         <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
         <PackageIcon>CLArgs.png</PackageIcon>
         <Nullable>enable</Nullable>
         <PackageReleaseNotes>Uses semantic versioning, uses C# 12, nullable aware</PackageReleaseNotes>
+        <PackageOutputPath>v:\VStudio\MSPro.Pub\MSPro.CLArgs\</PackageOutputPath>
+        <IncludeSymbols>False</IncludeSymbols>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -77,12 +79,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
     </ItemGroup>
 
     <ItemGroup>
