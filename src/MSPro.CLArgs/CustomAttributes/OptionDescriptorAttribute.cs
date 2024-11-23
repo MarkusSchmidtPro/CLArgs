@@ -49,8 +49,8 @@ public class OptionDescriptorAttribute : Attribute
     public OptionDescriptorAttribute(char tag,
         string optionName,
         bool required = false,
-        object defaultValue = null,
-        string helpText = null)
+        object? defaultValue = null,
+        string? helpText = null)
         : this(optionName, [tag.ToString()], required, defaultValue, helpText)
     {
     }

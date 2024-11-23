@@ -9,9 +9,17 @@
         <Copyright>(c) copyright 2024, Markus Schmidt (Pro)</Copyright>
         <!--  -->
         <Deterministic>false</Deterministic>
+<<<<<<< HEAD
         <AssemblyVersion>5.0.2</AssemblyVersion>
         <Version>$(AssemblyVersion)</Version>
         <FileVersion>5.0.2.0</FileVersion>
+=======
+
+        <Version>5.1.0</Version>
+        <AssemblyVersion>$(Version).0</AssemblyVersion>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+        
+>>>>>>> 7a30cf1096846a96bfb5c64ebfc168f948ad4ca4
         <Description>Console application command-line support.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageVersion>$(AssemblyVersion)</PackageVersion>
@@ -33,7 +41,6 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DocumentationFile></DocumentationFile>
         <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
@@ -58,6 +65,9 @@
         <Compile Remove="Properties\**" />
         <EmbeddedResource Remove="Properties\**" />
         <None Remove="Properties\**" />
+        <Compile Remove="v1\**" />
+        <EmbeddedResource Remove="v1\**" />
+        <None Remove="v1\**" />
     </ItemGroup>
 
     <ItemGroup>

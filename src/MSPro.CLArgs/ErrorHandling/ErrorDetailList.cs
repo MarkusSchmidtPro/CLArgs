@@ -34,7 +34,7 @@ public class ErrorDetailList
 
     public void AddError(string attributeName, IEnumerable<string> errorMessages, string? stackTrace = null)
     {
-        ErrorDetail attributeErr = Details.FirstOrDefault(
+        ErrorDetail? attributeErr = Details.FirstOrDefault(
             d => d.AttributeName.Equals(attributeName, StringComparison.InvariantCultureIgnoreCase));
         
         if (attributeErr == null)

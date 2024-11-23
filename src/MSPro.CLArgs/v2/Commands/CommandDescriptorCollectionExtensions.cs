@@ -74,7 +74,7 @@ public static class CommandDescriptorCollectionExtensions
                 //  ConfigureCommands(commands => {
                 //      commands.AddAssembly(typeof(Class2).Assembly);
                 //      commands.AddAssembly(typeof(Class1).Assembly);
-                var existingType = value.Type;
+                var existingType = value!.Type;
                 var currentType = definedType;
                 // Assuming the Assembly has been scanned.
                 if (existingType.FullName == currentType.FullName) break;

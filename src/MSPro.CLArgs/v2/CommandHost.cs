@@ -48,6 +48,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
         }
 
         var command = (ICommand2)Services.GetRequiredService(commandDescriptor.Type);
+        logger.LogDebug("Executing command '{t}'", command.GetType());
         command.Execute();
     }
 

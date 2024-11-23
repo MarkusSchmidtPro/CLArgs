@@ -53,11 +53,17 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
             }
         }
 
-        AfterExecute(errors);
+        //
+        // Ensure errors have been handled!
+        //
+        //bool errorsHandled = false;
+        AfterExecute(errors/*, ref errorsHandled*/);
+        //if (!errorsHandled) { }
     }
 
 
 
+<<<<<<< HEAD
     protected virtual void AfterExecute(ErrorDetailList errors /*, ref bool errorsHandled*/)
     {
         if (errors.Details.Count == 0) return;
@@ -66,6 +72,10 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
         Console.WriteLine("Unhandled Errors!");
         Console.WriteLine(errors.ToString());
         //   throw new ApplicationException(errors.ToString());
+=======
+    protected virtual void AfterExecute(ErrorDetailList errors/*, ref bool errorsHandled*/)
+    {
+>>>>>>> 7a30cf1096846a96bfb5c64ebfc168f948ad4ca4
     }
 
 
