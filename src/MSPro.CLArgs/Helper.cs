@@ -18,11 +18,7 @@ public static class Helper
     ///     Uses <see cref="Process.GetCurrentProcess()" /> to get
     ///     the <see cref="Process.MainModule" />'s directory.
     /// </remarks>
-<<<<<<< HEAD
-    public static string BinDir => Path.GetDirectoryName(GetExecutableFileName());
-=======
     public static string BinDir => Path.GetDirectoryName(GetExecutableFileName())!;
->>>>>>> 7a30cf1096846a96bfb5c64ebfc168f948ad4ca4
 
 
 
@@ -92,11 +88,7 @@ public static class Helper
     /// <seealso href="https://docs.microsoft.com/de-de/dotnet/core/deploying/single-file" />
     public static string GetExecutableFileName()
     {
-<<<<<<< HEAD
-        ProcessModule processModule = Process.GetCurrentProcess().MainModule;
-=======
         ProcessModule processModule = Process.GetCurrentProcess().MainModule!;
->>>>>>> 7a30cf1096846a96bfb5c64ebfc168f948ad4ca4
         if (processModule == null)
             throw new InvalidOperationException("Unexpected: Call to Process.GetCurrentProcess().MainModule returned null!");
 
@@ -125,17 +117,11 @@ public static class Helper
     ///     Otherwise, <c>null</c> if the file wasn't found and if
     ///     <paramref name="throwIfNotFound" /> is set to <c>false</c>.
     /// </returns>
-<<<<<<< HEAD
-    public static string FindFile(string fileName
-        , [NotNull] string workDir
-        , [NotNull] string binDir
-        , IEnumerable<string> addDirs = null
-=======
+
     public static string? FindFile(string fileName
         , string workDir
         , string binDir
         , IEnumerable<string>? addDirs = null
->>>>>>> 7a30cf1096846a96bfb5c64ebfc168f948ad4ca4
         , bool throwIfNotFound = true)
     {
         if (!string.IsNullOrWhiteSpace(fileName))
