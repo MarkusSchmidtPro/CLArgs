@@ -29,9 +29,9 @@ namespace XUnitTest
             //
             // Define CLArgs behavior
             //
-            Settings settings = new () {IgnoreCase=true };
+            Settings2 settings = new () {IgnoreCase=true };
 
-            var clArgs = CommandLineParser.Parse(args, settings);
+            var clArgs = CommandLineParser2.Parse(args, settings);
 
             //
             // A list of option descriptors is required to convert arguments.

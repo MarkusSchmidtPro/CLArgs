@@ -27,19 +27,22 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
         var clArgs = Services.GetRequiredService<IArgumentCollection>();
         _logArguments(clArgs);
-        if (clArgs.Count == 0  )
+        if (clArgs.Count == 0)
         {
             var hb = Services.GetRequiredService<IHelpBuilder>();
             Console.WriteLine(hb.BuildAllCommandsHelp());
             return;
         }
 
+        if (clArgs.VerbPath == null)
+            throw new ApplicationException("No Verb specified.");
+
         // Get the implementing type for a given command name
         // by finding the name in the registered command descriptors.
         if (!commandDescriptors.TryGetValue(clArgs.VerbPath, out CommandDescriptor2? commandDescriptor))
             throw new ApplicationException($"No command registered for Verb: '{clArgs.VerbPath}'");
 
-        if ( clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
+        if (clArgs.Options.Any(o => o.Key.Equals("?") || o.Key == "help"))
         {
             var hb = Services.GetRequiredService<IHelpBuilder>();
             string buildCommandHelp = hb.BuildCommandHelp(commandDescriptor);
@@ -86,9 +89,9 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
     public void Dispose()
     {
         if (_task == null) return;
-        if (_task.Status is 
-            TaskStatus.RanToCompletion or 
-            TaskStatus.Faulted or 
+        if (_task.Status is
+            TaskStatus.RanToCompletion or
+            TaskStatus.Faulted or
             TaskStatus.Canceled) _task.Dispose();
 
         _task = null;

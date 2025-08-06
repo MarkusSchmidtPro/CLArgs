@@ -101,9 +101,9 @@ public class ContextBuilder(IServiceProvider serviceProvider, Settings2 settings
         // The instance of the command parameters object.
         // This is where we set the values
         object executionContext = Activator.CreateInstance(contextType)!;
-
+        
         // Iterate over all properties of the command parameters type
-        foreach (PropertyInfo propInfo in contextType.GetProperties())
+        foreach (PropertyInfo propInfo in executionContext.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             // If a property is an OptionSet we must parse recursively
             if (propInfo.GetFirst<OptionSetAttribute>() != null)

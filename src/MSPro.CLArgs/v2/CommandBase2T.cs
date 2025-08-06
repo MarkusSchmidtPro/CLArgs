@@ -19,10 +19,9 @@ public abstract class CommandWithContext(Type contextType)
 
 
 
-public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) : CommandWithContext(typeof(TContext)), ICommand2
-    where TContext : class
+public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) 
+    : CommandWithContext(typeof(TContext)), ICommand2 where TContext : class
 {
-    //protected readonly IPrinter Print = serviceProvider.GetRequiredService<IPrinter>();
     protected readonly IServiceProvider ServiceProvider = serviceProvider;
 
 
@@ -34,6 +33,8 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
     {
         ErrorDetailList errors = new();
         var arguments = ServiceProvider.GetRequiredService<IArgumentCollection>();
+        BeforeBuildContext(arguments, ContextProperties, errors);
+
         var contextBuilder = ServiceProvider.GetRequiredService<ContextBuilder>();
         _context = contextBuilder.Build<TContext>(arguments, ContextProperties, errors);
 
@@ -59,6 +60,17 @@ public abstract class CommandBase2<TContext>(IServiceProvider serviceProvider) :
         //bool errorsHandled = false;
         AfterExecute(errors/*, ref errorsHandled*/);
         //if (!errorsHandled) { }
+    }
+
+
+    /// <summary>
+    /// Modify contextProperties and/or Arguments before the Command Context is built.
+    /// </summary>
+    protected virtual void BeforeBuildContext(
+        IArgumentCollection arguments,
+        ContextPropertyCollection contextProperties,
+        ErrorDetailList errors)
+    {
     }
 
 

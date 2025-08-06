@@ -15,7 +15,7 @@ public class ParserTest(ITestOutputHelper log)
     {
         const string CMD_LINE = "DEPLOY /Package=\"Sprint 03\" --dst-env 01-DEV --DST-env 02-DEV /dn:\"Fixed API\" \"  Another target\"";
         string[] args = Win32.CommandLineToArgs(CMD_LINE);
-        CommandLineArguments clArgs = CommandLineParser.Parse(args);
+        CommandLineArguments clArgs = CommandLineParser2.Parse(args);
 
         log.WriteLine($"Verb-Count: {clArgs.Verbs.Count}");
         for (var i = 0; i < clArgs.Verbs.Count; i++)

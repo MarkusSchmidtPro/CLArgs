@@ -12,7 +12,7 @@ namespace MSPro.CLArgs
         /// <summary>
         /// All verbs path: all verbs joined by '.'.
         /// </summary>
-        public string VerbPath { get; }
+        public string? VerbPath { get; }
         public IEnumerable<string> Verbs { get; }
         public IEnumerable<string> Targets{ get; }
     

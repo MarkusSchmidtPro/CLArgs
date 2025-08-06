@@ -6,17 +6,17 @@
         <Authors>Markus Schmidt (Pro)</Authors>
         <Company>Markus Schmidt (Pro)</Company>
         <Product>CLArgs - Command Line Arguments Parser</Product>
-        <Copyright>(c) copyright 2024, Markus Schmidt (Pro)</Copyright>
+        <Copyright>(c) copyright 2025, Markus Schmidt (Pro)</Copyright>
         <!--  -->
         <Deterministic>false</Deterministic>
-        <Version>5.2.0</Version>
-        <AssemblyVersion>$(Version).0</AssemblyVersion>
-        <FileVersion>$(AssemblyVersion)</FileVersion>
+        <Version>5.2.1</Version>
+        <AssemblyVersion>5.2.1.0</AssemblyVersion>
+        <FileVersion>5.2.1.0</FileVersion>
         <PackageVersion>$(Version)</PackageVersion>
         
         <Description>Console application command-line support.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        <PackageVersion>5.2.1.0</PackageVersion>
         <Title>CLArgs - Command Line Parser</Title>
         <PackageProjectUrl>https://github.com/msc4266/CLArgs</PackageProjectUrl>
         <RepositoryUrl>https://github.com/msc4266/CLArgs</RepositoryUrl>
@@ -24,7 +24,6 @@
         <PackageTags>C#, Console, Command Line, Command Line Parser</PackageTags>
         <AssemblyOriginatorKeyFile>Schmidt_e-Services.snk</AssemblyOriginatorKeyFile>
         <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-        <TargetFrameworks>net8.0;netstandard2.1</TargetFrameworks>
         <LangVersion>default</LangVersion>
         <ApplicationIcon>Images\CLArgs.ico</ApplicationIcon>
         <PackageIcon>CLArgs.png</PackageIcon>
@@ -32,6 +31,7 @@
         <PackageReleaseNotes>Uses semantic versioning, uses C# 12, nullable aware</PackageReleaseNotes>
         <PackageOutputPath>v:\VStudio\MSPro.Pub\MSPro.CLArgs\</PackageOutputPath>
         <IncludeSymbols>False</IncludeSymbols>
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -83,12 +83,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.7" />
     </ItemGroup>
 
     <ItemGroup>
