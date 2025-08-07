@@ -126,10 +126,10 @@ internal class CommandLineParser2
                     if (arg.StartsWith("@"))
                     {
                         // file
-                        string fileName = arg.Substring("@".Length);
+                        string fileName = arg["@".Length..];
                         string filePath = Helper.FindFile(fileName,
                             Environment.CurrentDirectory,
-                            Helper.BinDir, throwIfNotFound:true)!;
+                            Helper.BinDir, throwIfNotFound: true)!;
 
                         string[] fileArgs = readArgs(filePath).ToArray();
                         Parse(fileArgs, arguments);

@@ -104,9 +104,9 @@ public static class Helper
     ///     Tries to find and existing file by probing certain directories.<br />.
     /// </remarks>
     /// <param name="fileName">The name of the file that should be found.</param>
+    /// <param name="addDirs">An optional list of additional directories where to look for the file.</param>
     /// <param name="workDir">The current working directory, which is normally <see cref="Environment.CurrentDirectory" />.</param>
     /// <param name="binDir">The directory of the executable, which is normally, <see cref="BinDir" />.</param>
-    /// <param name="addDirs">An optional list of additional directories where to look for the file.</param>
     /// <param name="throwIfNotFound">
     ///     Set to <c>true</c> [Default] when you want a <see cref="FileNotFoundException" />
     ///     to be thrown when the file is not found. Set to <c>false</c> when you want to have
@@ -117,25 +117,19 @@ public static class Helper
     ///     Otherwise, <c>null</c> if the file wasn't found and if
     ///     <paramref name="throwIfNotFound" /> is set to <c>false</c>.
     /// </returns>
-
     public static string? FindFile(string fileName
+        , IEnumerable<string>? addDirs = null
         , string workDir
         , string binDir
-        , IEnumerable<string>? addDirs = null
         , bool throwIfNotFound = true)
     {
         if (!string.IsNullOrWhiteSpace(fileName))
         {
             fileName = Environment.ExpandEnvironmentVariables(fileName);
             if (Path.IsPathRooted(fileName)) return Path.GetFullPath(fileName);
+            string fullPath;
 
-            // 0. PreferredDir
-            Debug.Assert(Path.IsPathRooted(workDir));
-            // Search in preferred directory
-            string fullPath = Path.Combine(Environment.ExpandEnvironmentVariables(workDir), fileName);
-            if (File.Exists(fullPath)) return Path.GetFullPath(fullPath);
-
-            // 2. addDirs
+            // 1. addDirs
             if (addDirs != null)
             {
                 foreach (string addDir in addDirs)
@@ -145,6 +139,14 @@ public static class Helper
                     if (File.Exists(fullPath)) return Path.GetFullPath(fullPath);
                 }
             }
+
+
+            // 2. PreferredDir
+            Debug.Assert(Path.IsPathRooted(workDir));
+            // Search in preferred directory
+            fullPath = Path.Combine(Environment.ExpandEnvironmentVariables(workDir), fileName);
+            if (File.Exists(fullPath)) return Path.GetFullPath(fullPath);
+
 
             // 3. BinDir
             fullPath = Path.Combine(binDir, fileName);
