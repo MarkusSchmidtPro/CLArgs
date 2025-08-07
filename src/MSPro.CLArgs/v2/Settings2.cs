@@ -24,7 +24,7 @@
         /// </summary>
         /// <remarks>
         ///     If set to <c>true</c> unknown options are ignored.<br />
-        ///     Otherwise an error is added to the <see cref="ErrorDetailList">error collection</see>.
+        ///     Otherwise, an error is added to the <see cref="ErrorDetailList">error collection</see>.
         /// </remarks>
         public bool IgnoreUnknownOptions { get; set; }
 
