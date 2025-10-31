@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -7,14 +8,12 @@ namespace MSPro.CLArgs;
 
 public abstract class CommandWithContext(Type contextType)
 {
-    private ContextPropertyCollection? _contextProperties;
-
-
     /// <summary>
     ///     Get all annotated Context properties.
     /// </summary>
+    [field: AllowNull, MaybeNull]
     public ContextPropertyCollection ContextProperties
-        => _contextProperties ??= ContextPropertyCollection.FromType(contextType);
+        => field ??= ContextPropertyCollection.FromType(contextType);
 }
 
 
