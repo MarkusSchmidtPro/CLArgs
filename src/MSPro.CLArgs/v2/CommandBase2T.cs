@@ -8,12 +8,14 @@ namespace MSPro.CLArgs;
 
 public abstract class CommandWithContext(Type contextType)
 {
+    private ContextPropertyCollection? _contextProperties;
+
+
     /// <summary>
     ///     Get all annotated Context properties.
     /// </summary>
-    [field: AllowNull, MaybeNull]
     public ContextPropertyCollection ContextProperties
-        => field ??= ContextPropertyCollection.FromType(contextType);
+        => _contextProperties ??= ContextPropertyCollection.FromType(contextType);
 }
 
 
