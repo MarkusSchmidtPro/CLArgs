@@ -31,7 +31,7 @@
         <PackageReleaseNotes>Uses semantic versioning, uses C# 12, nullable aware</PackageReleaseNotes>
         <PackageOutputPath>v:\VStudio\MSPro.Pub\MSPro.CLArgs\</PackageOutputPath>
         <IncludeSymbols>False</IncludeSymbols>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
