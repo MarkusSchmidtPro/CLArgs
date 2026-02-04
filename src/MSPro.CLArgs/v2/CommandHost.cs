@@ -21,9 +21,7 @@ public class CommandHost(IServiceProvider serviceProvider, ILogger<CommandHost> 
 
 
         foreach (KeyValuePair<string, CommandDescriptor2> descriptor in commandDescriptors)
-        {
             logger.LogDebug("'{Verb}'->{Type}", descriptor.Key, descriptor.Value.Type);
-        }
 
         var clArgs = Services.GetRequiredService<IArgumentCollection>();
         _logArguments(clArgs);
